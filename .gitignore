@@ -157,3 +157,8 @@ cython_debug/
 **/Dockerfile.*
 
 *.lock
+
+# VScode
+.vscode/
+
+backend/.python-version
