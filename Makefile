@@ -1,47 +1,63 @@
-# Variables
+# --- Variables --------------------------------------------------------------------------------------------------------
 BACKEND_DIR = ./backend
 FRONTEND_DIR = ./frontend
 BACKEND_IMAGE = marketplace-backend:latest
 FRONTEND_IMAGE = marketplace-frontend:latest
 
-# Build the backend and frontend Docker images
+
+# --- Docker -----------------------------------------------------------------------------------------------------------
 .PHONY: build
-build: build-backend #build-frontend  <-------------------- uncomment when frontend/docker-compose.yml will be exist
+build: build-backend #build-frontend  <-- uncomment when frontend/docker-compose.yml will be exist
+
+.PHONY: rebuild
+rebuild: down build up
 
 .PHONY: build-backend
 build-backend:
-	@echo "Building backend image..."
 	docker build -t $(BACKEND_IMAGE) $(BACKEND_DIR)
 
 .PHONY: build-frontend
 build-frontend:
-	@echo "Building frontend image..."
 	docker build -t $(FRONTEND_IMAGE) $(FRONTEND_DIR)
 
-# Start services using docker-compose
 .PHONY: up
 up:
-	@echo "Starting services..."
 	docker compose up -d
 
-# Stop the services
 .PHONY: stop
 stop:
-	@echo "Stopping services..."
 	docker compose stop
 
-# Down the services
 .PHONY: down
 down:
-	@echo "Stopping services..."
 	docker compose down
 
-# Rebuild the images and restart the primary services
-.PHONY: rebuild
-rebuild: down build up
-
-# View logs
 .PHONY: logs
 logs:
-	@echo "Viewing logs..."
 	docker compose logs -f
+
+
+# --- Code Linters -----------------------------------------------------------------------------------------------------
+.PHONY: lint
+lint: flake8
+
+.PHONY: flake8
+flake8:
+	@echo Starting flake8...
+	cd $(BACKEND_DIR) && poetry run flake8 --toml-config=pyproject.toml .
+	@echo All done! ✨ 🍰 ✨
+
+
+# --- Code Formatters --------------------------------------------------------------------------------------------------
+.PHONY: reformat
+reformat: isort black
+
+.PHONY: isort
+isort:
+	@echo Starting isort...
+	cd $(BACKEND_DIR) && poetry run isort --settings=pyproject.toml .
+
+.PHONY: black
+black:
+	@echo Starting black...
+	cd $(BACKEND_DIR) && poetry run black --config=pyproject.toml .
