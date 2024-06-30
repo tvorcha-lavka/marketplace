@@ -11,47 +11,58 @@
 ## Setup and Usage
 ### Environment Setup
 
-1. **Environment Variables**: Copy `.env-example` to `.env` and configure the necessary environment variables.
+1. Environment Variables**: Copy `.env-example` to `.env` and configure the necessary environment variables.
+2. **Execute command**: `pre-commit install --install-hooks`
 
 ---
-## Make commands:
-### **To execute command, you need to install `GNU make`**
+## Commands GNU make
+### To execute command, you need to install `GNU make`
+- ### Docker:
+  - To build Docker Images for frontend & backend, execute:
+    ```bash
+    make build
+    ```
 
+  - To build Docker Image for frontend or backend, execute:
+    ```bash
+    make build-frontend
+    ```
+    ```bash
+    make build-beckend
+    ```
 
-**1. To build Docker Images for frontend & backend, execute:**
-```bash
-make build
-```
+  - To run previously created Docker Images, execute:
+    ```bash
+    make up
+    ```
 
-**2. To build Docker Image for frontend or backend, execute:**
-```bash
-make build-frontend
-```
-```bash
-make build-beckend
-```
+  - To stop a project, execute:
+    ```bash
+    make stop
+    ```
 
-**3. To run previously created Docker Images, execute:**
-```bash
-make up
-```
+  - To stop a project & destroy Doker Containers, execute:
+    ```bash
+    make down
+    ```
 
-**4. To stop a project, execute:**
-```bash
-make stop
-```
+  - To rebuild project, execute:
+    ```bash
+    make rebuild
+    ```
 
-**5. To stop a project & destroy Doker Containers, execute:**
-```bash
-make down
-```
+  - To open Docker logs, execute:
+    ```bash
+    make logs
+    ```
 
-**6. To rebuild project, execute:**
-```bash
-make rebuild
-```
+- ### Linters & Code Formatters:
+  - To start linting code, execute:
+    ```bash
+    make lint
+    ```
 
-**7. To open Docker logs, execute:**
-```bash
-make logs
-```
+  - To reformat code, execute:
+    ```bash
+    make reformat
+    ```

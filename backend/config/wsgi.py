@@ -15,7 +15,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-environment = os.getenv('MODE', 'dev')
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', f'config.settings.{environment}')
+environment = os.getenv("MODE", "dev")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", f"config.settings.{environment}")
 
 application = get_wsgi_application()
