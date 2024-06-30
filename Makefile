@@ -22,19 +22,19 @@ build-frontend:
 .PHONY: up
 up:
 	@echo "Starting services..."
-	docker-compose up -d
+	docker compose up -d
 
 # Stop the services
 .PHONY: stop
 stop:
 	@echo "Stopping services..."
-	docker-compose stop
+	docker compose stop
 
 # Down the services
 .PHONY: down
 down:
 	@echo "Stopping services..."
-	docker-compose down
+	docker compose down
 
 # Rebuild the images and restart the primary services
 .PHONY: rebuild
@@ -44,4 +44,4 @@ rebuild: down build up
 .PHONY: logs
 logs:
 	@echo "Viewing logs..."
-	docker-compose logs -f
+	docker compose logs -f
