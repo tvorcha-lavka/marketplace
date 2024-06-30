@@ -1,7 +1,7 @@
 from .base import *  # noqa: F403
 
 DEBUG = False
-ALLOWED_HOSTS += os.getenv("ALLOWED_HOSTS", "localhost").split(",")  # noqa: F405
+ALLOWED_HOSTS += eval(os.getenv("ALLOWED_PROD_HOSTS"))  # noqa: F405
 
 # Security settings
 SECURE_BROWSER_XSS_FILTER = True
@@ -16,6 +16,11 @@ LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
     "handlers": {
+        "file": {
+            "level": "ERROR",
+            "class": "logging.FileHandler",
+            "filename": os.path.join(BASE_DIR, "logs", "django_error.log"),  # noqa: F405
+        },
         "console": {
             "class": "logging.StreamHandler",
             "formatter": "verbose",
@@ -29,7 +34,7 @@ LOGGING = {
     },
     "loggers": {
         "django": {
-            "handlers": ["console"],
+            "handlers": ["file", "console"],
             "level": "ERROR",
             "propagate": True,
         },
