@@ -10,7 +10,6 @@ class User(AbstractUser):
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username"]
 
-    phone_number = models.CharField("Телефон", max_length=20, unique=True)
     email = models.EmailField("Електронна пошта", unique=True)
 
     def __str__(self):
