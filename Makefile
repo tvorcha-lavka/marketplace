@@ -45,8 +45,9 @@ logs:
 
 migrations:
 	cd $(BACKEND_DIR) && poetry run python manage.py makemigrations
+
 migrate:
-	cd $(BACKEND_DIR) && poetry run python manage.py migrate
+	docker compose run --rm backend python manage.py migrate
 
 # --- Code Linters -----------------------------------------------------------------------------------------------------
 .PHONY: lint flake8
