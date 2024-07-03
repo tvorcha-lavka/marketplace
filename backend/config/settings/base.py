@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "apps.user.apps.UserConfig",
 ]
 
 MIDDLEWARE = [
@@ -79,7 +80,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LANGUAGE_CODE = "uk"
+AUTH_USER_MODEL = "user.User"
+
+LANGUAGE_CODE = "en-US"
 
 TIME_ZONE = "Europe/Kyiv"
 
