@@ -56,6 +56,14 @@
     make logs
     ```
 
+
+- ### Django:
+  - To make new django migrations
+    ```bash
+    make migrations
+    ```
+
+
 - ### Linters & Code Formatters:
   - To start linting code, execute:
     ```bash
