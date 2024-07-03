@@ -82,7 +82,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTH_USER_MODEL = "user.User"
 
-LANGUAGE_CODE = "uk"
+LANGUAGE_CODE = "en-US"
 
 TIME_ZONE = "Europe/Kyiv"
 

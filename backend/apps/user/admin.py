@@ -7,4 +7,4 @@ User = get_user_model()
 
 @admin.register(User)
 class CustomUserAdmin(UserAdmin):
-    list_display = ("username", "email", "is_staff")
+    list_display = ("username", "phone_number", "email", "is_staff")
