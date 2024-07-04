@@ -1,0 +1,34 @@
+services:
+  postgres:
+    extends:
+      file: ./backend/docker-compose.yml
+      service: postgres
+
+  redis:
+    extends:
+      file: ./backend/docker-compose.yml
+      service: redis
+
+  backend:
+    extends:
+      file: ./backend/docker-compose.yml
+      service: backend
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+#  frontend:
+#    extends:
+#      file: ./frontend/docker-compose.yml
+#      service: frontend
+#    depends_on:
+#      backend:
+#        condition: service_healthy
+
+volumes:
+  postgres-data: { }
+  postgres-logs: { }
+  backend-logs: { }
+  redis-data: { }
