@@ -1,0 +1,12 @@
+services:
+  frontend:
+    image: marketplace-frontend:latest
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - frontend-logs:/app/logs
+    environment:
+      - VITE_API_URL=${API_URL}
+    ports:
+      - "8080:8080"
+    command: npm run dev
