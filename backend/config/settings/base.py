@@ -73,12 +73,15 @@ INSTALLED_APPS = [
     # --- Configs ----------------
     "rest_framework",
     "rest_framework_simplejwt",
+    "silk",
+    "drf_spectacular",
     # --- Apps --------------------------
     "apps.user.apps.UserConfig",
     "apps.user_auth.apps.UserAuthConfig",
 ]
 
 MIDDLEWARE = [
+    # --- Django defaults --------
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -86,6 +89,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    # --- Configs ----------------
+    "silk.middleware.SilkyMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -196,6 +201,7 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
     ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 # JSON Web Token
@@ -205,4 +211,30 @@ SIMPLE_JWT = {
     "ALGORITHM": "HS256",
     "SIGNING_KEY": SECRET_KEY,
     "AUTH_HEADER_TYPES": ["Bearer"],
+}
+
+# DRF SPECTACULAR
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Marketplace",
+    "DESCRIPTION": "Marketplace",
+    "VERSION": "1.0.0",
+    "SERVE_PERMISSIONS": [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
+    "SERVE_AUTHENTICATION": [
+        "rest_framework.authentication.BasicAuthentication",
+    ],
+    "SWAGGER_UI_SETTINGS": {
+        "deepLinking": True,
+        "displayOperationId": True,
+        "syntaxHighlight.active": True,
+        "syntaxHighlight.theme": "arta",
+        "defaultModelsExpandDepth": -1,
+        "displayRequestDuration": True,
+        "filter": True,
+        "requestSnippetsEnabled": True,
+    },
+    "COMPONENT_SPLIT_REQUEST": True,
+    "SORT_OPERATIONS": False,
+    "DISABLE_ERRORS_AND_WARNINGS": True,
 }
