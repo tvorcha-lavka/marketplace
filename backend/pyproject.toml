@@ -51,11 +51,16 @@ ignore = []
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
-#[tool.pytest.ini_options]
-#django_find_project = false
-#python_files = [tests.py test_*.py *_tests.py]
-#
-#[tool.coverage.run]
-#branch = true
-#source =
-#    your_project_name
+[tool.pytest.ini_options]
+addopts = "--reuse-db --nomigrations"
+DJANGO_SETTINGS_MODULE = "config.settings.dev"
+pythonpath = "backend"
+python_classes = ["*Test", "Test*", "*Suite"]
+python_files = ["tests.py", "test_*.py", "*_test.py"]
+python_functions = ["test_*", "*test.py",  "check_*"]
+filterwarnings = "error"
+xfail_strict = true
+
+[tool.coverage.run]
+branch = true
+source = ["backend"]
