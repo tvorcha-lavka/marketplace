@@ -11,7 +11,7 @@
 ## Setup and Usage
 ### Environment Setup
 
-1. Environment Variables**: Copy `.env-example` to `.env` and configure the necessary environment variables.
+1. **Environment Variables**: Copy `.env-example` to `.env` and configure the necessary environment variables.
 2. **Execute command**: `pre-commit install --install-hooks`
 
 ---
