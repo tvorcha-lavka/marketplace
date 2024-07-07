@@ -13,3 +13,11 @@ SIMPLE_JWT.update(  # noqa: F405
         "REFRESH_TOKEN_LIFETIME": timedelta(days=30),
     }
 )
+
+INSTALLED_APPS += [  # noqa: F405
+    "silk",
+]
+
+MIDDLEWARE += [  # noqa: F405
+    "silk.middleware.SilkyMiddleware",
+]

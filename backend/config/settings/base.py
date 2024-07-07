@@ -73,7 +73,6 @@ INSTALLED_APPS = [
     # --- Configs ----------------
     "rest_framework",
     "rest_framework_simplejwt",
-    "silk",
     "drf_spectacular",
     # --- Apps --------------------------
     "apps.user.apps.UserConfig",
@@ -89,8 +88,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    # --- Configs ----------------
-    "silk.middleware.SilkyMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -215,14 +212,14 @@ SIMPLE_JWT = {
 
 # DRF SPECTACULAR
 SPECTACULAR_SETTINGS = {
-    "TITLE": "Marketplace",
-    "DESCRIPTION": "Marketplace",
+    "TITLE": "TvorchaLavka",
+    "DESCRIPTION": "API TvorchaLavka",
     "VERSION": "1.0.0",
     "SERVE_PERMISSIONS": [
         "rest_framework.permissions.IsAuthenticated",
     ],
     "SERVE_AUTHENTICATION": [
-        "rest_framework.authentication.BasicAuthentication",
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
     "SWAGGER_UI_SETTINGS": {
         "deepLinking": True,
