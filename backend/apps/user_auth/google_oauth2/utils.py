@@ -27,10 +27,10 @@ class GoogleOAuth2Service:
 
     def get_access_token(self, request) -> str:
         data = {
-            "code": request.GET.get("code"),
+            "code": request.data.get("code"),
             "client_id": settings.SOCIAL_AUTH_GOOGLE_OAUTH2_KEY,
             "client_secret": settings.SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET,
-            "redirect_uri": request.build_absolute_uri(reverse("google-oauth2-complete")),
+            "redirect_uri": request.build_absolute_uri(reverse("google-callback")),
             "grant_type": "authorization_code",
         }
         try:
