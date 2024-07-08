@@ -43,6 +43,8 @@ __all__ = [
     "MEDIA_ROOT",
     "DEFAULT_AUTO_FIELD",
     "REST_FRAMEWORK",
+    "SPECTACULAR_SETTINGS",
+    "BASE_FRONTEND_URL",
 ]
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -210,10 +212,6 @@ SPECTACULAR_SETTINGS = {
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
     "SWAGGER_UI_SETTINGS": {
-        "deepLinking": True,
-        "displayOperationId": True,
-        "syntaxHighlight.active": True,
-        "syntaxHighlight.theme": "arta",
         "defaultModelsExpandDepth": -1,
         "displayRequestDuration": True,
         "filter": True,
@@ -222,4 +220,8 @@ SPECTACULAR_SETTINGS = {
     "COMPONENT_SPLIT_REQUEST": True,
     "SORT_OPERATIONS": False,
     "DISABLE_ERRORS_AND_WARNINGS": True,
+    "SERVE_INCLUDE_SCHEMA": False,
 }
+
+
+BASE_FRONTEND_URL = os.getenv("PROD_FRONTEND_URL")

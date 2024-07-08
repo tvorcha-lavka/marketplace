@@ -1,25 +1,29 @@
+from django.conf import settings
+from rest_framework.generics import CreateAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-from rest_framework.views import APIView
 
 from apps.user_auth.helpers import OAuth2Redirect, get_token_pair
-from apps.user_auth.serializers import SignupSerializer
 
+from .serializers import GoogleOAuth2Serializer
 from .utils import GoogleOAuth2Service
 
 
 class GoogleOAuth2Redirect(OAuth2Redirect):
-    reverse_url_name = "google-oauth2-complete"
-    service_name = "google-oauth2"
+    redirect_uri = settings.GOOGLE_OAUTH2_REDIRECT_URI
+    service_name = settings.GOOGLE_OAUTH2_SERVICE_NAME
 
 
-class GoogleOAuth2TokenView(APIView, GoogleOAuth2Service):
+class GoogleOAuth2TokenView(CreateAPIView, GoogleOAuth2Service):
     permission_classes = [AllowAny]
-    serializer_class = SignupSerializer
+    serializer_class = GoogleOAuth2Serializer
 
-    def get(self, request):
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
         user = self.get_user(request)
-        serializer = self.serializer_class(user)
         token_pair = get_token_pair(user)
 
-        return Response({"user": serializer.data, **token_pair})
+        serializer = self.get_serializer({"user": user, **token_pair})
+        return Response(serializer.data)

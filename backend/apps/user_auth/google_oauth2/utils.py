@@ -1,7 +1,6 @@
 import requests
 from django.conf import settings
 from rest_framework.exceptions import ValidationError
-from rest_framework.reverse import reverse
 
 from apps.user.models import User
 
@@ -27,10 +26,10 @@ class GoogleOAuth2Service:
 
     def get_access_token(self, request) -> str:
         data = {
-            "code": request.GET.get("code"),
+            "code": request.data.get("code"),
             "client_id": settings.SOCIAL_AUTH_GOOGLE_OAUTH2_KEY,
             "client_secret": settings.SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET,
-            "redirect_uri": request.build_absolute_uri(reverse("google-oauth2-complete")),
+            "redirect_uri": settings.BASE_FRONTEND_URL + settings.GOOGLE_OAUTH2_REDIRECT_URI,
             "grant_type": "authorization_code",
         }
         try:
