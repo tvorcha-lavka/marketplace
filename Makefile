@@ -41,13 +41,16 @@ logs:
 
 
 # --- Django -----------------------------------------------------------------------------------------------------
-.PHONY: migrations
+.PHONY: migrations create-superuser
 
 migrations:
 	cd $(BACKEND_DIR) && poetry run python manage.py makemigrations
 
 migrate:
 	docker compose run --rm backend python manage.py migrate
+
+create-superuser: up
+	docker exec -it backend python manage.py createsuperuser
 
 # --- Code Linters -----------------------------------------------------------------------------------------------------
 .PHONY: lint flake8
