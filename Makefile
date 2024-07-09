@@ -72,3 +72,15 @@ isort:
 black:
 	@echo Starting black...
 	cd $(BACKEND_DIR) && poetry run black --config=pyproject.toml .
+
+
+# --- Pytest -----------------------------------------------------------------------------------------------------------
+.PHONY: pytest pytest-cov
+
+pytest:
+	@echo Starting pytest...
+	docker compose run --rm backend pytest
+
+pytest-cov:
+	@echo Starting pytest with coverage...
+	docker compose run --rm backend pytest --cov=. --cov-report=html
