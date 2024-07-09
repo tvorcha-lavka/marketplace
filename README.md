@@ -8,11 +8,62 @@
 - [Poetry](https://python-poetry.org/docs/)
 
 ---
-## Setup and Usage
-### Environment Setup
+## Install GNU make:
+### For Windows users:
+1. **Install archive**: [GNU make](https://sourceforge.net/projects/ezwinports/files/make-4.4.1-without-guile-w32-bin.zip/download)
+2. **Unzip to folder**: `C:\Program Files\GnuWin32`
+3. **Add to PATH environment**:
+    ```shell
+    [System.Environment]::SetEnvironmentVariable("Path", $Env:Path + ";C:\Program Files\GnuWin32\bin", [System.EnvironmentVariableTarget]::Machine)
+    ```
+4. **Test command**:
+    ```shell
+    make --version
+    ```
 
-1. **Environment Variables**: Copy `.env-example` to `.env` and configure the necessary environment variables.
-2. **Execute command**: `pre-commit install --install-hooks`
+---
+## Setup and Usage
+### Environment Setup: `Frontend`
+
+1. **Environment Variables**:
+   - Copy `.env-example` to `.env`
+   - Configure the necessary environment variables.
+
+2. **Build project**:
+    - ```bash
+      make build
+      ```
+
+3. **Create superuser**:
+    - ```bash
+      make create-superuser
+      ```
+
+4. **Get access token**:
+   - Open endpoint: `localhost:8000/api/auth/token/` and login with your superuser credentials
+
+5. **Add access token to your headers**:
+   - Install Google Chrome extension `ModHeader`
+   - Put your access token to `Authorization` with value `Bearer <your_token>`
+
+6. **Now you have access to docs endpoints**:
+   - `localhost:8000/api/docs`
+   - `localhost:8000/api/redoc`
+
+---
+### Environment Setup: `Backend`
+1. **Environment Variables**:
+   - Copy `.env-example` to `.env`
+   - Configure the necessary environment variables.
+
+2. **Install poetry dependencies**: 
+    - ```bash
+      cd backend && poetry install --no-root
+      ```
+3. **Setup pre-commit hook**:
+    - ```bash
+      cd backend && poetry run pre-commit install --install-hooks
+      ```
 
 ---
 ## Commands GNU make
@@ -23,7 +74,12 @@
     make build
     ```
 
-  - To build Docker Image for frontend or backend, execute:
+  - To rebuild Docker Images for frontend & backend, execute:
+    ```bash
+    make rebuild
+    ```
+
+  - To build Docker Image separate for frontend & backend, execute:
     ```bash
     make build-frontend
     ```
@@ -31,7 +87,15 @@
     make build-beckend
     ```
 
-  - To run previously created Docker Images, execute:
+  - To rebuild Docker Image separate for frontend & backend, execute:
+    ```bash
+    make rebuild-frontend
+    ```
+    ```bash
+    make rebuild-beckend
+    ```
+
+  - To run a project, execute:
     ```bash
     make up
     ```
@@ -46,11 +110,6 @@
     make down
     ```
 
-  - To rebuild project, execute:
-    ```bash
-    make rebuild
-    ```
-
   - To open Docker logs, execute:
     ```bash
     make logs
@@ -61,6 +120,11 @@
   - To make new django migrations
     ```bash
     make migrations
+    ```
+  
+  - To create django superuser
+    ```bash
+    make create-superuser
     ```
 
 
@@ -74,3 +138,15 @@
     ```bash
     make reformat
     ```
+
+- ### Pytest:
+  - To run pytest, execute:
+    ```bash
+    make pytest
+    ```
+
+  - To run pytest with coverage, execute:
+    ```bash
+    make pytest-cov
+    ```
+    
