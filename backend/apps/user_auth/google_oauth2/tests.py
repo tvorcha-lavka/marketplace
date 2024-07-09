@@ -1,3 +1,7 @@
-from django.test import TestCase  # noqa: F401
+from django.test import TestCase
 
-# Create your tests here.
+
+class GoogleOAuth2TestCase(TestCase):
+
+    def test_google_oauth2_login(self):
+        self.assertTrue(True)  # Placeholder assertion

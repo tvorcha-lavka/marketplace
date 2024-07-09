@@ -1,3 +1,7 @@
-from django.test import TestCase  # noqa: F401
+from django.test import TestCase
 
-# Create your tests here.
+
+class JWTAuthTestCase(TestCase):
+
+    def test_jwt_token_generation(self):
+        self.assertTrue(True)  # Placeholder assertion

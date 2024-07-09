@@ -41,13 +41,16 @@ logs:
 
 
 # --- Django -----------------------------------------------------------------------------------------------------
-.PHONY: migrations
+.PHONY: migrations create-superuser
 
 migrations:
 	cd $(BACKEND_DIR) && poetry run python manage.py makemigrations
 
 migrate:
 	docker compose run --rm backend python manage.py migrate
+
+create-superuser: up
+	docker exec -it backend python manage.py createsuperuser
 
 # --- Code Linters -----------------------------------------------------------------------------------------------------
 .PHONY: lint flake8
@@ -72,3 +75,15 @@ isort:
 black:
 	@echo Starting black...
 	cd $(BACKEND_DIR) && poetry run black --config=pyproject.toml .
+
+
+# --- Pytest -----------------------------------------------------------------------------------------------------------
+.PHONY: pytest pytest-cov
+
+pytest:
+	@echo Starting pytest...
+	docker compose run --rm backend pytest
+
+pytest-cov:
+	@echo Starting pytest with coverage...
+	docker compose run --rm backend pytest --cov=. --cov-report=html

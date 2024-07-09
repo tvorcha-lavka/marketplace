@@ -1,6 +1,5 @@
 from django.conf import settings
 from rest_framework.generics import CreateAPIView
-from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
 from apps.user_auth.helpers import OAuth2Redirect, get_token_pair
@@ -15,7 +14,6 @@ class GoogleOAuth2Redirect(OAuth2Redirect):
 
 
 class GoogleOAuth2TokenView(CreateAPIView, GoogleOAuth2Service):
-    permission_classes = [AllowAny]
     serializer_class = GoogleOAuth2Serializer
 
     def post(self, request, *args, **kwargs):

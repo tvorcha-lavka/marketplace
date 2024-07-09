@@ -7,7 +7,7 @@ COPY pyproject.toml /code/
 
 # Updating and installing necessary packages
 RUN apt-get update \
-    && apt-get install -y build-essential libpq-dev \
+    && apt-get install -y build-essential libpq-dev netcat-openbsd \
     && rm -rf /var/lib/apt/lists/*
 
 # Add local non-root user to avoid issue with files
