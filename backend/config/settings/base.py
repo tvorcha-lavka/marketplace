@@ -190,11 +190,11 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Django Rest Framework
 REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAdminUser",
+    ],
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
-    ],
-    "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.IsAuthenticated",
     ],
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
@@ -206,7 +206,7 @@ SPECTACULAR_SETTINGS = {
     "DESCRIPTION": "API TvorchaLavka",
     "VERSION": "1.0.0",
     "SERVE_PERMISSIONS": [
-        "rest_framework.permissions.IsAuthenticated",
+        "rest_framework.permissions.IsAdminUser",
     ],
     "SERVE_AUTHENTICATION": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
