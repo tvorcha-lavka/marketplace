@@ -8,10 +8,12 @@ from apps.user.models import User
 class SignupSerializer(ModelSerializer):
     class Meta:
         model = User
-        fields = ["email", "password", "password2"]
+        fields = ["email", "password", "password2", "refresh", "access"]
 
     password = CharField(write_only=True, required=True, validators=[validate_password])
     password2 = CharField(write_only=True, required=True)
+    refresh = CharField(read_only=True)
+    access = CharField(read_only=True)
 
     def validate(self, attrs: dict):
         password = attrs.get("password")

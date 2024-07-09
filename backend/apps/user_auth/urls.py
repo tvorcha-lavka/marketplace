@@ -1,10 +1,9 @@
-from django.urls import path
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from django.urls import include, path
 
-from .views import SignupAPIView
+from .google_oauth2.urls import urlpatterns as google_oauth2
+from .jwt_auth.urls import urlpatterns as jwt_auth
 
 urlpatterns = [
-    path("sign-up/", SignupAPIView.as_view(), name="sign-up"),
-    path("sign-in/", TokenObtainPairView.as_view(), name="sign-in"),
-    path("token-refresh/", TokenRefreshView.as_view(), name="token-refresh"),
+    path("", include(jwt_auth), name="jwt_auth"),
+    path("", include(google_oauth2), name="google_oauth2"),
 ]
