@@ -6,6 +6,8 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from social_django.utils import load_backend, load_strategy
 
+from apps.user_auth.serializers import OAuth2RedirectSerializer
+
 
 def get_token_pair(user):
     token_pair = RefreshToken.for_user(user)
@@ -16,8 +18,13 @@ def get_token_pair(user):
 
 
 class OAuth2Redirect(APIView):
-    redirect_uri = None
-    service_name = None
+    """
+    Returns the authorization URL (`auth_url`) and
+    the redirection endpoint (`redirect_uri`) after successful authorization.
+    """
+
+    serializer_class = OAuth2RedirectSerializer
+    redirect_uri, service_name = None, None
 
     @method_decorator(cache_page(300))  # cache for 5 minutes
     def get(self, request):
