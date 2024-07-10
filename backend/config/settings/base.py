@@ -75,6 +75,7 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "drf_spectacular",
     # --- Apps --------------------------
+    "apps.utils",
     "apps.user",
     "apps.user_auth",
 ]
