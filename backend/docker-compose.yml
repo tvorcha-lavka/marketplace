@@ -32,6 +32,30 @@ services:
     volumes:
       - redis-data:/data
 
+  celery-worker:
+    image: marketplace-backend:latest
+    container_name: celery-worker
+    env_file: ../.env
+    command: /bin/bash -c "celery -A config worker --loglevel=info"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  celery-beat:
+    image: marketplace-backend:latest
+    container_name: celery-beat
+    env_file: ../.env
+    command: /bin/bash -c "celery -A config beat --loglevel=info"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - celery-beat-schedule:/app/celerybeat-schedule
+
   backend:
     image: marketplace-backend:latest
     container_name: backend
@@ -59,3 +83,4 @@ volumes:
   postgres-logs: { }
   backend-logs: { }
   redis-data: { }
+  celery-beat-schedule: { }

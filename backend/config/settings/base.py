@@ -73,6 +73,7 @@ INSTALLED_APPS = [
     # --- Configs ----------------
     "rest_framework",
     "drf_spectacular",
+    "django_celery_beat",
     # --- Apps --------------------------
     "apps.utils",
     "apps.user",
