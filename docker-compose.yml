@@ -14,9 +14,7 @@ services:
       file: ./backend/docker-compose.yml
       service: celery-worker
     depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
+      backend:
         condition: service_healthy
 
   celery-beat:
@@ -24,9 +22,7 @@ services:
       file: ./backend/docker-compose.yml
       service: celery-beat
     depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
+      backend:
         condition: service_healthy
 
   backend:
@@ -52,4 +48,4 @@ volumes:
   postgres-logs: { }
   backend-logs: { }
   redis-data: { }
-  celery-beat-schedule: { }
+  celery-data: { }

@@ -1,4 +1,7 @@
 # --- Variables --------------------------------------------------------------------------------------------------------
+include .env
+export MODE
+
 BACKEND_DIR = ./backend
 FRONTEND_DIR = ./frontend
 BACKEND_IMAGE = marketplace-backend:latest
@@ -13,10 +16,10 @@ destroy: destroy-backend #destroy-frontend  # <--------	same
 rebuild: down destroy build
 
 build-backend:
-	docker build -t $(BACKEND_IMAGE) $(BACKEND_DIR)
+	docker build -t $(BACKEND_IMAGE) $(BACKEND_DIR) --target $(MODE)
 
 build-frontend:
-	docker build -t $(FRONTEND_IMAGE) $(FRONTEND_DIR)
+	docker build -t $(FRONTEND_IMAGE) $(FRONTEND_DIR) --target $(MODE)
 
 destroy-backend:
 	docker rmi -f $(BACKEND_IMAGE)
