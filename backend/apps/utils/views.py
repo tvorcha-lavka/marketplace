@@ -12,10 +12,11 @@ from .serializers import RouteSerializer
 class RouteListView(ListAPIView):
     """Return list of all API routes."""
 
+    queryset = RouteSerializer
     serializer_class = RouteSerializer
 
     @method_decorator(cache_page(3600))  # cache for 1 hour
-    def get(self, _request):
+    def get(self, request, *args, **kwargs):
         resolver = get_resolver()
         url_patterns = resolver.reverse_dict.items()
         exclude = ["schema", "docs", "redoc", "route-list"]
