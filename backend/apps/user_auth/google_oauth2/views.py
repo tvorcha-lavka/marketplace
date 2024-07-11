@@ -14,6 +14,8 @@ class GoogleOAuth2Redirect(OAuth2Redirect):
 
 
 class GoogleOAuth2TokenView(CreateAPIView, GoogleOAuth2Service):
+    """Exchange google code for user data and JSON web token pair."""
+
     serializer_class = GoogleOAuth2Serializer
 
     def post(self, request, *args, **kwargs):
