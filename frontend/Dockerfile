@@ -1,13 +1,13 @@
-FROM node:18-alpine as BUILD_IMAGE
+FROM node:18-alpine 
 
 ENV NODE_ENV=development
 
 WORKDIR /app
 
-COPY ./package.json ./package-lock.json ./
+COPY ./package.json /app/
 
 RUN npm install
 
-COPY . .
+COPY . /app/
 
 EXPOSE 8080
