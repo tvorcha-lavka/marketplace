@@ -8,7 +8,7 @@ SchemaTag = "JWT Authentication"
 
 LoginAPIView = extend_schema(tags=[SchemaTag])(LoginAPIView)
 LogoutAPIView = extend_schema(tags=[SchemaTag])(LogoutAPIView)
-SignupAPIView = extend_schema(tags=[SchemaTag])(SignupAPIView)
+SignupAPIView = extend_schema(tags=[SchemaTag], auth=[])(SignupAPIView)
 TokenObtainPairView = extend_schema(tags=[SchemaTag])(TokenObtainPairView)
 TokenRefreshView = extend_schema(tags=[SchemaTag])(TokenRefreshView)
 
