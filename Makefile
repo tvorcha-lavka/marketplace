@@ -2,6 +2,7 @@
 include .env
 export MODE
 
+MODE := $(MODE:"%"=%)
 BACKEND_DIR = ./backend
 FRONTEND_DIR = ./frontend
 BACKEND_IMAGE = marketplace-backend:latest
