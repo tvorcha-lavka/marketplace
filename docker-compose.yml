@@ -9,6 +9,22 @@ services:
       file: ./backend/docker-compose.yml
       service: redis
 
+  celery-worker:
+    extends:
+      file: ./backend/docker-compose.yml
+      service: celery-worker
+    depends_on:
+      backend:
+        condition: service_healthy
+
+  celery-beat:
+    extends:
+      file: ./backend/docker-compose.yml
+      service: celery-beat
+    depends_on:
+      backend:
+        condition: service_healthy
+
   backend:
     extends:
       file: ./backend/docker-compose.yml
@@ -33,3 +49,4 @@ volumes:
   backend-logs: { }
   frontend-logs: { }
   redis-data: { }
+  celery-data: { }
