@@ -39,9 +39,9 @@ services:
     extends:
       file: ./frontend/docker-compose.yml
       service: frontend
-      depends_on:
-        backend:
-          condition: service_healthy
+    depends_on:
+      backend:
+        condition: service_healthy
 
 volumes:
   postgres-data: { }

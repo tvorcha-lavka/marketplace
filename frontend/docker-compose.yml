@@ -2,15 +2,14 @@ services:
   frontend:
     image: marketplace-frontend:latest
     container_name: frontend
+    restart: always
+    env_file: ../.env
     volumes:
       - ./:/app
       - /app/node_modules
       - frontend-logs:/app/logs
-    environment:
-      - API_URL=${API_URL}
     ports:
-      - "8080:8080"
-    command: npm run dev
+      - ${FRONTEND_PORT}:8080
 
 volumes:
   frontend-logs: {}
