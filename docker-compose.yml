@@ -35,17 +35,18 @@ services:
       redis:
         condition: service_healthy
 
-#  frontend:
-#    extends:
-#      file: ./frontend/docker-compose.yml
-#      service: frontend
-#    depends_on:
-#      backend:
-#        condition: service_healthy
+  frontend:
+    extends:
+      file: ./frontend/docker-compose.yml
+      service: frontend
+    depends_on:
+      backend:
+        condition: service_healthy
 
 volumes:
   postgres-data: { }
   postgres-logs: { }
   backend-logs: { }
+  frontend-logs: { }
   redis-data: { }
   celery-data: { }

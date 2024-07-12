@@ -12,8 +12,8 @@ FRONTEND_IMAGE = marketplace-frontend:latest
 # --- Docker -----------------------------------------------------------------------------------------------------------
 .PHONY: build rebuild build-backend build-frontend destroy destroy-backend destroy-frontend up stop down down-v logs
 
-build: build-backend #build-frontend  # <--------------	uncomment when frontend/docker-compose.yml will be exist
-destroy: destroy-backend #destroy-frontend  # <--------	same
+build: build-backend build-frontend
+destroy: destroy-backend destroy-frontend
 rebuild: down destroy build
 
 build-backend:
