@@ -32,4 +32,3 @@ class SignupSerializer(ModelSerializer):
 
 class OAuth2RedirectSerializer(Serializer):
     auth_url = URLField()
-    redirect_uri = URLField()
