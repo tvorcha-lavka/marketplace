@@ -3,6 +3,7 @@ import os
 from django.conf import settings
 
 settings.INSTALLED_APPS += [
+    "social_django",
     "apps.user_auth.google_oauth2",
 ]
 
