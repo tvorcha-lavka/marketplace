@@ -44,9 +44,6 @@ services:
         condition: service_healthy
 
 volumes:
-  postgres-data: { }
-  postgres-logs: { }
-  backend-logs: { }
-  frontend-logs: { }
-  redis-data: { }
-  celery-data: { }
+  postgres_data: { }
+  redis_data: { }
+  logs: { }

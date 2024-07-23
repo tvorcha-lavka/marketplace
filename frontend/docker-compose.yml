@@ -7,9 +7,9 @@ services:
     volumes:
       - ./:/app
       - /app/node_modules
-      - frontend-logs:/app/logs
+      - logs:/var/log/frontend
     ports:
       - ${FRONTEND_PORT}:8080
 
 volumes:
-  frontend-logs: {}
+  logs: { }

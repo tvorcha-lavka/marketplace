@@ -1,4 +1,4 @@
-FROM node:18-alpine as base
+FROM node:18-alpine AS base
 
 WORKDIR /app
 
@@ -9,7 +9,7 @@ RUN npm install
 COPY . /app/
 
 
-FROM base as dev
+FROM base AS dev
 
 ENV NODE_ENV=development
 

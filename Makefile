@@ -17,7 +17,7 @@ destroy: destroy-backend destroy-frontend
 rebuild: down destroy build
 
 build-backend:
-	docker build -t $(BACKEND_IMAGE) $(BACKEND_DIR) --target $(MODE)
+	docker build --build-arg MODE=$(MODE) -t $(BACKEND_IMAGE) $(BACKEND_DIR)
 
 build-frontend:
 	docker build -t $(FRONTEND_IMAGE) $(FRONTEND_DIR) --target $(MODE)
@@ -44,7 +44,7 @@ logs:
 	docker compose logs -f
 
 
-# --- Django -----------------------------------------------------------------------------------------------------
+# --- Django -----------------------------------------------------------------------------------------------------------
 .PHONY: migrations create-superuser
 
 migrations:
