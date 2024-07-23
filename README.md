@@ -40,7 +40,7 @@
       ```
 
 4. **Get access token**:
-   - Open endpoint: `localhost:8000/api/auth/token/` and login with your superuser credentials
+   - Open endpoint: `localhost:8000/api/auth/login/` and login with your superuser credentials
 
 5. **Add access token to your headers**:
    - Install Google Chrome extension `ModHeader`

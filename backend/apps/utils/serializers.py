@@ -1,6 +1,5 @@
-from rest_framework.serializers import CharField, Serializer, URLField
+from rest_framework.serializers import CharField, Serializer
 
 
 class RouteSerializer(Serializer):
-    url = URLField()
     reverse_name = CharField()
