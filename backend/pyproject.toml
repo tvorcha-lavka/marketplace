@@ -57,7 +57,7 @@ build-backend = "poetry.core.masonry.api"
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "config.settings.dev"
 python_files = ["tests.py", "test_*.py", "*_test.py"]
-addopts = ["-x", "--ff", "--nf", "--color=yes", "--reuse-db", "--nomigrations"]
+addopts = ["-x", "--ff", "--nf", "--color=yes"]
 
 [tool.coverage.run]
 branch = true
