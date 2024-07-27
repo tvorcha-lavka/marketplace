@@ -2,9 +2,9 @@ from __future__ import absolute_import, unicode_literals
 
 import logging.config
 import os
-from datetime import timedelta
 
 from celery import Celery
+from celery.schedules import crontab
 from django.conf import settings
 from dotenv import load_dotenv
 
@@ -29,7 +29,28 @@ celery_beat_logger = logging.getLogger("celery.beat")
 # Exporting loggers
 __all__ = ["celery_worker_logger", "celery_beat_logger"]
 
+app.conf.task_queues = {
+    "low_priority": {
+        "exchange": "low_priority",
+        "exchange_type": "direct",
+        "routing_key": "low_priority",
+    },
+    "high_priority": {
+        "exchange": "high_priority",
+        "exchange_type": "direct",
+        "routing_key": "high_priority",
+    },
+}
+
+app.conf.task_routes = {
+    "apps.user_auth.jwt_auth.tasks.send_password_reset_email": {"queue": "high_priority"},
+}
+
 # Defining celery beat schedule
 app.conf.beat_schedule = {
-    "clean_blacklist": {"task": "apps.user_auth.jwt_auth.tasks.clean_blacklist", "schedule": timedelta(days=1)},
+    "remove_expired_tokens": {
+        "task": "apps.user_auth.jwt_auth.tasks.remove_expired_tokens",
+        "schedule": crontab(hour="0", minute="0"),
+        "options": {"queue": "low_priority"},
+    }
 }
