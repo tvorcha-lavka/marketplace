@@ -3,8 +3,6 @@ x-base-config: &x-base-config
   image: marketplace-backend:latest
   env_file: ../.env
   restart: always
-  volumes:
-    - ./:/code/
 
 
 # ----- Healthcheck ----------------------------------------------------------------------------------------------------
@@ -67,6 +65,7 @@ services:
     ports:
       - ${DJANGO_PORT}:8000
     volumes:
+      - ./:/code/
       - logs:/var/log/backend/django
 
 
@@ -76,6 +75,7 @@ services:
     container_name: celery-beat
     command: celery -A config beat --loglevel=info
     volumes:
+      - ./:/code/
       - logs:/var/log/backend/celery/beat
 
   celery-worker-low-priority:
@@ -83,6 +83,7 @@ services:
     container_name: celery-worker-low-priority
     command: celery -A config worker --loglevel=info --autoscale=4,0 --max-tasks-per-child=10 --queues=low_priority
     volumes:
+      - ./:/code/
       - logs:/var/log/backend/celery/worker
 
   celery-worker-high-priority:
@@ -90,4 +91,5 @@ services:
     container_name: celery-worker-high-priority
     command: celery -A config worker --loglevel=info --autoscale=10,1 --max-tasks-per-child=50 --queues=high_priority
     volumes:
+      - ./:/code/
       - logs:/var/log/backend/celery/worker
