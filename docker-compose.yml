@@ -1,49 +1,71 @@
+# ----- Dependencies ---------------------------------------------------------------------------------------------------
+x-depends-on-backend: &x-depends-on-backend
+  backend:
+    condition: service_healthy
+
+x-depends-on-postgres-redis: &x-depends-on-postgres-redis
+  postgres:
+    condition: service_healthy
+  redis:
+    condition: service_healthy
+
+
+# ----- Services -------------------------------------------------------------------------------------------------------
 services:
+
+  # --- Postgres -------------------------------------------------------------------------------------------------------
   postgres:
     extends:
       file: ./backend/docker-compose.yml
       service: postgres
 
+
+  # --- Redis ----------------------------------------------------------------------------------------------------------
   redis:
     extends:
       file: ./backend/docker-compose.yml
       service: redis
 
-  celery-worker:
+
+  # --- Backend --------------------------------------------------------------------------------------------------------
+  backend:
     extends:
       file: ./backend/docker-compose.yml
-      service: celery-worker
-    depends_on:
-      backend:
-        condition: service_healthy
+      service: backend
+    depends_on: *x-depends-on-postgres-redis
+
+
+  # --- Celery ---------------------------------------------------------------------------------------------------------
+  celery-worker-low-priority:
+    extends:
+      file: ./backend/docker-compose.yml
+      service: celery-worker-low-priority
+    depends_on: *x-depends-on-backend
+
+  celery-worker-high-priority:
+    extends:
+      file: ./backend/docker-compose.yml
+      service: celery-worker-high-priority
+    depends_on: *x-depends-on-backend
 
   celery-beat:
     extends:
       file: ./backend/docker-compose.yml
       service: celery-beat
-    depends_on:
-      backend:
-        condition: service_healthy
+    depends_on: *x-depends-on-backend
 
-  backend:
-    extends:
-      file: ./backend/docker-compose.yml
-      service: backend
-    depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
 
+  # --- Frontend -------------------------------------------------------------------------------------------------------
   frontend:
     extends:
       file: ./frontend/docker-compose.yml
       service: frontend
-    depends_on:
-      backend:
-        condition: service_healthy
+    depends_on: *x-depends-on-backend
 
+
+# ----- Volumes --------------------------------------------------------------------------------------------------------
 volumes:
-  postgres_data: { }
-  redis_data: { }
-  logs: { }
+  postgres_data:
+  node_modules:
+  redis_data:
+  logs:

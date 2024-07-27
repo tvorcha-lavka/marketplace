@@ -1,5 +1,3 @@
-import os
-
 from .base import *  # noqa: F403
 
 DEBUG = True
@@ -14,4 +12,4 @@ MIDDLEWARE += [  # noqa: F405
     "silk.middleware.SilkyMiddleware",
 ]
 
-BASE_FRONTEND_URL = os.getenv("DEV_FRONTEND_URL")
+BASE_FRONTEND_URL = os.getenv("DEV_FRONTEND_URL")  # noqa: F405
