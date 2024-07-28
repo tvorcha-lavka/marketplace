@@ -17,36 +17,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-__all__ = [
-    "BASE_DIR",
-    "SECRET_KEY",
-    "DEBUG",
-    "ALLOWED_HOSTS",
-    "INSTALLED_APPS",
-    "MIDDLEWARE",
-    "ROOT_URLCONF",
-    "DATABASES",
-    "CACHES",
-    "SESSION_ENGINE",
-    "SESSION_CACHE_ALIAS",
-    "TEMPLATES",
-    "WSGI_APPLICATION",
-    "AUTH_PASSWORD_VALIDATORS",
-    "AUTH_USER_MODEL",
-    "LANGUAGE_CODE",
-    "TIME_ZONE",
-    "USE_I18N",
-    "USE_TZ",
-    "STATIC_URL",
-    "STATIC_ROOT",
-    "MEDIA_URL",
-    "MEDIA_ROOT",
-    "DEFAULT_AUTO_FIELD",
-    "REST_FRAMEWORK",
-    "SPECTACULAR_SETTINGS",
-    "BASE_FRONTEND_URL",
-]
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -226,3 +196,11 @@ SPECTACULAR_SETTINGS = {
 
 
 BASE_FRONTEND_URL = os.getenv("PROD_FRONTEND_URL")
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

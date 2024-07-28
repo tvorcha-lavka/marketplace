@@ -1,4 +1,33 @@
+# ----- Base -----------------------------------------------------------------------------------------------------------
+x-base-config: &x-base-config
+  image: marketplace-backend:latest
+  env_file: ../.env
+  restart: always
+
+
+# ----- Healthcheck ----------------------------------------------------------------------------------------------------
+x-healthcheck: &x-healthcheck
+  interval: 5s
+  timeout: 5s
+  retries: 5
+
+x-postgres-healthcheck: &x-postgres-healthcheck
+  test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -h postgres -p 5432" ]
+  <<: *x-healthcheck
+
+x-redis-healthcheck: &x-redis-healthcheck
+  test: [ "CMD-SHELL", "redis-cli", "ping" ]
+  <<: *x-healthcheck
+
+x-backend-healthcheck: &x-backend-healthcheck
+  test: [ "CMD-SHELL", "python", "manage.py", "check" ]
+  <<: *x-healthcheck
+
+
+# ----- Services -------------------------------------------------------------------------------------------------------
 services:
+
+  # --- Postgres -------------------------------------------------------------------------------------------------------
   postgres:
     image: postgres:latest
     container_name: postgres
@@ -7,80 +36,60 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    healthcheck: *x-postgres-healthcheck
     ports:
       - ${POSTGRES_PORT}:5432
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -h postgres -p 5432" ]
-      interval: 5s
-      timeout: 5s
-      retries: 5
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - logs:/var/log/postgresql
 
+
+  # --- Redis ----------------------------------------------------------------------------------------------------------
   redis:
     image: redis:latest
     container_name: redis
     restart: always
+    healthcheck: *x-redis-healthcheck
     ports:
       - ${REDIS_PORT}:6379
-    healthcheck:
-      test: [ "CMD", "redis-cli", "ping" ]
-      interval: 5s
-      timeout: 5s
-      retries: 5
     volumes:
       - redis_data:/data
 
-  celery-worker:
-    image: marketplace-backend:latest
-    container_name: celery-worker
-    env_file: ../.env
-    restart: always
-    command: /bin/bash -c "celery -A config worker --loglevel=info"
-    depends_on:
-      backend:
-        condition: service_healthy
-    volumes:
-      - ./:/code/
-      - logs:/var/log/backend/celery/worker
 
-  celery-beat:
-    image: marketplace-backend:latest
-    container_name: celery-beat
-    env_file: ../.env
-    restart: always
-    command: /bin/bash -c "celery -A config beat --loglevel=info"
-    depends_on:
-      backend:
-        condition: service_healthy
-    volumes:
-      - ./:/code/
-      - logs:/var/log/backend/celery/beat
-
+  # --- Backend --------------------------------------------------------------------------------------------------------
   backend:
-    image: marketplace-backend:latest
+    <<: *x-base-config
     container_name: backend
-    env_file: ../.env
-    restart: always
     command: /bin/bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    healthcheck: *x-backend-healthcheck
     ports:
       - ${DJANGO_PORT}:8000
-    depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD", "python", "manage.py", "check"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
     volumes:
       - ./:/code/
       - logs:/var/log/backend/django
 
-volumes:
-  postgres_data: { }
-  redis_data: { }
-  logs: { }
+
+  # --- Celery ---------------------------------------------------------------------------------------------------------
+  celery-beat:
+    <<: *x-base-config
+    container_name: celery-beat
+    command: celery -A config beat --loglevel=info
+    volumes:
+      - ./:/code/
+      - logs:/var/log/backend/celery/beat
+
+  celery-worker-low-priority:
+    <<: *x-base-config
+    container_name: celery-worker-low-priority
+    command: celery -A config worker --loglevel=info --autoscale=4,0 --max-tasks-per-child=10 --queues=low_priority
+    volumes:
+      - ./:/code/
+      - logs:/var/log/backend/celery/worker
+
+  celery-worker-high-priority:
+    <<: *x-base-config
+    container_name: celery-worker-high-priority
+    command: celery -A config worker --loglevel=info --autoscale=10,1 --max-tasks-per-child=50 --queues=high_priority
+    volumes:
+      - ./:/code/
+      - logs:/var/log/backend/celery/worker
