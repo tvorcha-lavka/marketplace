@@ -67,6 +67,7 @@ services:
     container_name: backend
     command: /bin/bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     healthcheck: *x-backend-healthcheck
+    user: root
     ports:
       - ${DJANGO_PORT}:8000
     volumes:
