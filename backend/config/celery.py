@@ -14,7 +14,9 @@ environment = os.getenv("MODE", "dev")
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", f"config.settings.{environment}")
 settings.CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 
-app = Celery("backend", broker="redis://redis:6379/0", backend="redis://redis:6379/0")
+broker_url = os.getenv("RABBITMQ_BROKER_URL")
+
+app = Celery("backend", broker=broker_url, backend="rpc://")
 app.config_from_object("django.conf:settings", namespace="CELERY")
 app.conf.broker_connection_retry_on_startup = True
 app.autodiscover_tasks()
@@ -40,10 +42,6 @@ app.conf.task_queues = {
         "exchange_type": "direct",
         "routing_key": "high_priority",
     },
-}
-
-app.conf.task_routes = {
-    "apps.user_auth.jwt_auth.tasks.send_password_reset_email": {"queue": "high_priority"},
 }
 
 # Defining celery beat schedule

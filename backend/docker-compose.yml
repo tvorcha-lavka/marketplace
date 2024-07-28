@@ -7,8 +7,9 @@ x-base-config: &x-base-config
 
 # ----- Healthcheck ----------------------------------------------------------------------------------------------------
 x-healthcheck: &x-healthcheck
-  interval: 5s
-  timeout: 5s
+  start_period: 30s
+  interval: 30s
+  timeout: 10s
   retries: 5
 
 x-postgres-healthcheck: &x-postgres-healthcheck
@@ -21,6 +22,10 @@ x-redis-healthcheck: &x-redis-healthcheck
 
 x-backend-healthcheck: &x-backend-healthcheck
   test: [ "CMD-SHELL", "python", "manage.py", "check" ]
+  <<: *x-healthcheck
+
+x-rabbitmq-healthcheck: &x-rabbitmq-healthcheck
+  test: [ "CMD", "rabbitmq-diagnostics", "ping" ]
   <<: *x-healthcheck
 
 
@@ -67,6 +72,21 @@ services:
     volumes:
       - ./:/code/
       - logs:/var/log/backend/django
+
+
+  # --- RabbitMQ -------------------------------------------------------------------------------------------------------
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    healthcheck: *x-rabbitmq-healthcheck
+    ports:
+      - "5672:5672"
+      - "15672:15672"  # For the web administration panel
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
 
 
   # --- Celery ---------------------------------------------------------------------------------------------------------
