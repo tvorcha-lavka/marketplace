@@ -1,12 +1,16 @@
 # ----- Dependencies ---------------------------------------------------------------------------------------------------
-x-depends-on-backend: &x-depends-on-backend
-  backend:
-    condition: service_healthy
-
 x-depends-on-postgres-redis: &x-depends-on-postgres-redis
   postgres:
     condition: service_healthy
   redis:
+    condition: service_healthy
+
+x-depends-on-backend: &x-depends-on-backend
+  backend:
+    condition: service_healthy
+
+x-depends-on-rabbitmq: &x-depends-on-rabbitmq
+  rabbitmq:
     condition: service_healthy
 
 
@@ -35,24 +39,32 @@ services:
     depends_on: *x-depends-on-postgres-redis
 
 
+  # --- RabbitMQ -------------------------------------------------------------------------------------------------------
+  rabbitmq:
+    extends:
+      file: ./backend/docker-compose.yml
+      service: rabbitmq
+    depends_on: *x-depends-on-backend
+
+
   # --- Celery ---------------------------------------------------------------------------------------------------------
   celery-worker-low-priority:
     extends:
       file: ./backend/docker-compose.yml
       service: celery-worker-low-priority
-    depends_on: *x-depends-on-backend
+    depends_on: *x-depends-on-rabbitmq
 
   celery-worker-high-priority:
     extends:
       file: ./backend/docker-compose.yml
       service: celery-worker-high-priority
-    depends_on: *x-depends-on-backend
+    depends_on: *x-depends-on-rabbitmq
 
   celery-beat:
     extends:
       file: ./backend/docker-compose.yml
       service: celery-beat
-    depends_on: *x-depends-on-backend
+    depends_on: *x-depends-on-rabbitmq
 
 
   # --- Frontend -------------------------------------------------------------------------------------------------------
@@ -60,12 +72,15 @@ services:
     extends:
       file: ./frontend/docker-compose.yml
       service: frontend
-    depends_on: *x-depends-on-backend
+    depends_on:
+      - celery-worker-low-priority
+      - celery-worker-high-priority
 
 
 # ----- Volumes --------------------------------------------------------------------------------------------------------
 volumes:
   postgres_data:
+  rabbitmq_data:
   node_modules:
   redis_data:
   logs:
