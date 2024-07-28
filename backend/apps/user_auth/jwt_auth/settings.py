@@ -5,7 +5,6 @@ from django.conf import settings
 settings.INSTALLED_APPS += [
     "rest_framework_simplejwt",
     "rest_framework_simplejwt.token_blacklist",
-    "apps.user_auth.jwt_auth",
 ]
 
 settings.SIMPLE_JWT = {

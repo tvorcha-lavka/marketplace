@@ -3,12 +3,21 @@ from django.core.validators import validate_email
 from rest_framework.serializers import CharField, EmailField, ModelSerializer, Serializer, URLField
 
 from apps.user.models import User
+from apps.user.serializers import UserSerializer
 
 from .validators import password_validator, token_validator
 
 
-class OAuth2RedirectSerializer(Serializer):
+class SocialOAuth2RedirectSerializer(Serializer):
     auth_url = URLField()
+
+
+class SocialCallbackOAuth2Serializer(Serializer):
+    state = CharField(write_only=True, required=True)
+    code = CharField(write_only=True, required=True)
+    user = UserSerializer(read_only=True)
+    refresh = CharField(read_only=True)
+    access = CharField(read_only=True)
 
 
 class SignupSerializer(ModelSerializer):

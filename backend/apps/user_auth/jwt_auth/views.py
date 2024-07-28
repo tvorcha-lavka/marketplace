@@ -6,13 +6,13 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenBlacklistView, TokenObtainPairView
 
 from apps.user.models import User
-from apps.user_auth.helpers import get_token_pair
+from apps.user_auth.mixins import TokenMixin
 from apps.user_auth.serializers import PasswordResetConfirmSerializer, PasswordResetSerializer, SignupSerializer
 
 from .tasks import send_password_reset_email
 
 
-class SignupAPIView(CreateAPIView):
+class SignupAPIView(CreateAPIView, TokenMixin):
     permission_classes = [AllowAny]
     serializer_class = SignupSerializer
 
@@ -20,7 +20,7 @@ class SignupAPIView(CreateAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
-        token_pair = get_token_pair(user)
+        token_pair = self.get_token_pair(user)
 
         response_data = {"user": serializer.data, **token_pair}
         return Response(response_data, status=status.HTTP_201_CREATED)
