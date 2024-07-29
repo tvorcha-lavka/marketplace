@@ -3,9 +3,10 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from social_django.utils import load_backend, load_strategy
 
 
-class TokenMixin(RefreshToken):
-    def get_token_pair(self, user):
-        token_pair = self.for_user(user)
+class TokenMixin:
+    @staticmethod
+    def get_token_pair(user):
+        token_pair = RefreshToken.for_user(user)
         return {
             "refresh": str(token_pair),
             "access": str(token_pair.access_token),  # type: ignore
