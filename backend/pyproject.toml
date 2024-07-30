@@ -62,3 +62,4 @@ addopts = ["-x", "--ff", "--nf", "-W error", "--color=yes"]
 [tool.coverage.run]
 branch = true
 data_file = "htmlcov/.coverage"
+omit = ["manage.py", "config/*"]
