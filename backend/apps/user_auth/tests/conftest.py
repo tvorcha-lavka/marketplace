@@ -13,6 +13,10 @@ def user_data():
     password = "TestPassword123"
 
     return {
+        "social_oauth2": DataType(
+            {"state": "valid_state", "code": "valid_code"},
+            {"state": "valid_state", "code": "invalid_code"},
+        ),
         "password_reset": DataType(
             {"email": "user1@gmail.com"},
             {"email": "nonexistent@gmail.com"},
