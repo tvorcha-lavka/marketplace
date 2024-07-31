@@ -33,11 +33,11 @@ class SocialOAuth2CallbackView(CreateAPIView, TokenMixin, BackendMixin):
         try:
             user = backend.complete()
         except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
         if user and user.is_active:
             token_pair = self.get_token_pair(user)
             serializer = self.get_serializer({"user": user, **token_pair})
             return Response(serializer.data)
 
-        return Response({"error": "Authentication failed"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"detail": "Authentication failed"}, status=status.HTTP_403_FORBIDDEN)

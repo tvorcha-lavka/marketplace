@@ -49,7 +49,8 @@ def is_db_data():
 
 
 def create_users():
-    admin = UserModel.objects.create_superuser("admin", "admin@gmail.com", "TestPassword123")
-    user1 = UserModel.objects.create_user("user1", "user1@gmail.com", "TestPassword123")
-    user2 = UserModel.objects.create_user("user2", "user2@gmail.com", "TestPassword123")
+    extra_fields = {"first_name": "John", "last_name": "Doe"}
+    admin = UserModel.objects.create_superuser("admin", "admin@gmail.com", "TestPassword123", **extra_fields)
+    user1 = UserModel.objects.create_user("user1", "user1@gmail.com", "TestPassword123", **extra_fields)
+    user2 = UserModel.objects.create_user("user2", "user2@gmail.com", "TestPassword123", **extra_fields)
     return UserSchema(None, admin, user1, user2)

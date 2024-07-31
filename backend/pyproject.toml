@@ -55,10 +55,11 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.pytest.ini_options]
-DJANGO_SETTINGS_MODULE = "config.settings.dev"
+DJANGO_SETTINGS_MODULE = "core.settings.dev"
 python_files = ["tests.py", "test_*.py", "*_test.py"]
-addopts = ["-x", "--ff", "--nf", "--color=yes"]
+addopts = ["-x", "--ff", "--nf", "-W error", "--color=yes"]
 
 [tool.coverage.run]
 branch = true
 data_file = "htmlcov/.coverage"
+omit = ["manage.py", "core/*"]

@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 environment = os.getenv("MODE", "dev")
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", f"config.settings.{environment}")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", f"core.settings.{environment}")
 settings.CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 
 broker_url = os.getenv("RABBITMQ_BROKER_URL")
