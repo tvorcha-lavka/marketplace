@@ -94,7 +94,7 @@ services:
   celery-beat:
     <<: *x-base-config
     container_name: celery-beat
-    command: celery -A config beat --loglevel=info
+    command: celery -A core beat --loglevel=info
     volumes:
       - ./:/code/
       - logs:/var/log/backend/celery/beat
@@ -102,7 +102,7 @@ services:
   celery-worker-low-priority:
     <<: *x-base-config
     container_name: celery-worker-low-priority
-    command: celery -A config worker --loglevel=info --autoscale=4,0 --max-tasks-per-child=10 --queues=low_priority
+    command: celery -A core worker --loglevel=info --autoscale=4,0 --max-tasks-per-child=10 --queues=low_priority
     volumes:
       - ./:/code/
       - logs:/var/log/backend/celery/worker
@@ -110,7 +110,7 @@ services:
   celery-worker-high-priority:
     <<: *x-base-config
     container_name: celery-worker-high-priority
-    command: celery -A config worker --loglevel=info --autoscale=10,1 --max-tasks-per-child=50 --queues=high_priority
+    command: celery -A core worker --loglevel=info --autoscale=10,1 --max-tasks-per-child=50 --queues=high_priority
     volumes:
       - ./:/code/
       - logs:/var/log/backend/celery/worker

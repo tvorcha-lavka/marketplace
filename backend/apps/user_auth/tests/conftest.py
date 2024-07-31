@@ -2,7 +2,7 @@ from collections import namedtuple
 
 import pytest
 
-from config.conftest import UserSchema, api_client, auth_client, django_db_setup, users  # noqa: F401
+from core.conftest import UserSchema, api_client, auth_client, django_db_setup, users  # noqa: F401
 
 # ----- Data Fixtures --------------------------------------------------------------------------------------------------
 DataType = namedtuple("DataType", ["valid_data", "invalid_data"])
