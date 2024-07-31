@@ -57,39 +57,38 @@ create-superuser: up
 	docker exec -it backend python manage.py createsuperuser
 
 # --- Code Linters -----------------------------------------------------------------------------------------------------
-.PHONY: lint flake8 eslint
+.PHONY: lint-b flake8 lint-f eslint
 
-lint: flake8 eslint
+lint-b: flake8 
+lint-f: eslint
 
 flake8:
 	@echo Starting flake8...
-	cd $(BACKEND_DIR) && poetry run flake8 --toml-config=pyproject.toml . || true
-	@echo "flake8 completed with errors, but continuing... ✨ 🍰 ✨"
+	cd $(BACKEND_DIR) && poetry run flake8 --toml-config=pyproject.toml .
+	@echo All done! ✨ 🍰 ✨
 
 eslint:
 	@echo Starting eslint...
-	cd $(FRONTEND_DIR) && npx eslint . --config .eslintrc.cjs || true
-	@echo "eslint completed with errors, but continuing... ✨ 🍰 ✨"
+	cd $(FRONTEND_DIR) && npx eslint --config=.eslintrc.cjs --fix .
+	@echo All done! ✨ 🍰 ✨
 
 # --- Code Formatters --------------------------------------------------------------------------------------------------
-.PHONY: reformat isort black prettier
+.PHONY: reformat-b isort black reformat-f prettier
 
-reformat: isort black prettier
+reformat-b: isort black 
+reformat-f: prettier
 
 isort:
 	@echo Starting isort...
-	cd $(BACKEND_DIR) && poetry run isort --settings=pyproject.toml . || true
-	@echo "isort completed with errors, but continuing..."
+	cd $(BACKEND_DIR) && poetry run isort --settings=pyproject.toml .
 
 black:
 	@echo Starting black...
-	cd $(BACKEND_DIR) && poetry run black --config=pyproject.toml . || true
-	@echo "black completed with errors, but continuing..."
+	cd $(BACKEND_DIR) && poetry run black --config=pyproject.toml .
 
 prettier:
 	@echo Starting prettier...
-	cd $(FRONTEND_DIR) && npx prettier --config .prettierrc.cjs --write . || true
-	@echo "prettier completed with errors, but continuing..."
+	cd $(FRONTEND_DIR) && npx prettier --config=.prettierrc.cjs --write .
 
 # --- Pytest -----------------------------------------------------------------------------------------------------------
 .PHONY: pytest pytest-cov
