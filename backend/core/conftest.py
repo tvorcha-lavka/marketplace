@@ -5,6 +5,8 @@ from rest_framework.test import APIClient
 
 from apps.user.models import User as UserModel
 
+from .celery import app
+
 # ----- Schemas --------------------------------------------------------------------------------------------------------
 UserSchema = namedtuple("Users", ["not_auth", "admin", "user1", "user2"])
 
@@ -54,3 +56,8 @@ def create_users():
     user1 = UserModel.objects.create_user("user1", "user1@gmail.com", "TestPassword123", **extra_fields)
     user2 = UserModel.objects.create_user("user2", "user2@gmail.com", "TestPassword123", **extra_fields)
     return UserSchema(None, admin, user1, user2)
+
+
+# ----- Celery ---------------------------------------------------------------------------------------------------------
+# Configure to use async celery tasks in tests
+app.conf.update(task_always_eager=True, task_eager_propagates=True)

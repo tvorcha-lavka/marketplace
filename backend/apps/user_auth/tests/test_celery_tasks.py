@@ -54,19 +54,23 @@ def test_remove_expired_tokens(users):
 @pytest.mark.django_db
 @patch("apps.user_auth.jwt_auth.tasks.send_mail")
 @pytest.mark.parametrize("test_case", password_reset_test_case)
-def test_send_reset_password_email(mock_send_mail, users, test_case: PasswordReset):
+def test_send_password_reset_email(mock_send_mail, users, test_case: PasswordReset):
+    user = users.user1
+
     def create_reset_token():
-        reset_token = PasswordResetToken.objects.create(user=users.user1)
+        reset_token = PasswordResetToken.objects.create(user=user)
         reset_token.expires_at = test_case.created_at + timedelta(minutes=15)
         reset_token.save()
 
     create_reset_token()
 
-    send_password_reset_email.apply(args=[users.user1.id])
+    result = send_password_reset_email.apply_async((user.email,), queue="high_priority", priority=0)
+    result.get()
+
     mock_send_mail.assert_called_once()
     mail_kwargs = mock_send_mail.call_args.kwargs
 
-    token = PasswordResetToken.objects.filter(user=users.user1).first()
+    token = PasswordResetToken.objects.filter(user=user).first()
     verification_link = f"{settings.BASE_FRONTEND_URL}/password/reset/{token.token}/"
 
     assert "Confirming the password reset" in mail_kwargs["subject"]

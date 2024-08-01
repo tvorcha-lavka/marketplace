@@ -48,7 +48,7 @@ class PasswordResetAPIView(APIView):
         user = get_object_or_404(User, email=serializer.validated_data["email"])
 
         # Starting a Celery task
-        send_password_reset_email.apply_async((user.id,), queue="high_priority", priority=0)
+        send_password_reset_email.apply_async((user.email,), queue="high_priority", priority=0)
 
         message = "A password reset email has been sent to your email address."
         return Response({"message": message}, status=status.HTTP_200_OK)

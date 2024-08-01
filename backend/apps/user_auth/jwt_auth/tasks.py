@@ -24,8 +24,8 @@ def remove_expired_tokens():
 
 
 @shared_task
-def send_password_reset_email(user_id: int):
-    user = User.objects.get(id=user_id)
+def send_password_reset_email(email: str):
+    user = User.objects.get(email=email)
     token, created = PasswordResetToken.objects.get_or_create(user=user)
 
     if token.is_expired():

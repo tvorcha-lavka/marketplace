@@ -29,7 +29,7 @@ celery_worker_logger = logging.getLogger("celery.worker")
 celery_beat_logger = logging.getLogger("celery.beat")
 
 # Exporting loggers
-__all__ = ["celery_worker_logger", "celery_beat_logger"]
+__all__ = ["app", "celery_worker_logger", "celery_beat_logger"]
 
 app.conf.task_queues = {
     "low_priority": {
