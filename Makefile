@@ -57,20 +57,26 @@ create-superuser: up
 	docker exec -it backend python manage.py createsuperuser
 
 # --- Code Linters -----------------------------------------------------------------------------------------------------
-.PHONY: lint flake8
+.PHONY: lint-b flake8 lint-f eslint
 
-lint: flake8
+lint-b: flake8 
+lint-f: eslint
 
 flake8:
 	@echo Starting flake8...
 	cd $(BACKEND_DIR) && poetry run flake8 --toml-config=pyproject.toml .
 	@echo All done! ✨ 🍰 ✨
 
+eslint:
+	@echo Starting eslint...
+	cd $(FRONTEND_DIR) && npx eslint --config=.eslintrc.cjs --fix .
+	@echo All done! ✨ 🍰 ✨
 
 # --- Code Formatters --------------------------------------------------------------------------------------------------
-.PHONY: reformat isort black
+.PHONY: reformat-b isort black reformat-f prettier
 
-reformat: isort black
+reformat-b: isort black 
+reformat-f: prettier
 
 isort:
 	@echo Starting isort...
@@ -80,6 +86,9 @@ black:
 	@echo Starting black...
 	cd $(BACKEND_DIR) && poetry run black --config=pyproject.toml .
 
+prettier:
+	@echo Starting prettier...
+	cd $(FRONTEND_DIR) && npx prettier --config=.prettierrc.cjs --write .
 
 # --- Pytest -----------------------------------------------------------------------------------------------------------
 .PHONY: pytest pytest-cov
