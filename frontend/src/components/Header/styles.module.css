@@ -1,0 +1,17 @@
+.section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px;
+}
+
+.section div {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.catalogBtn {
+  background-color: transparent;
+  border: none;
+}
