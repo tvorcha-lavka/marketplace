@@ -1,0 +1,43 @@
+@import url(https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&family=Mulish:wght@200..1000&family=Public+Sans:wght@100..900&display=swap);
+
+:root {
+  --main-color: #000;
+  --grey-color: #949494;
+  --accent-color: red;
+
+  --font-family: Mulish, sans-serif;
+  --second-family: Public Sans, sans-serif;
+  --third-family: 'Inter', sans-serif;
+}
+
+body {
+  font-family: var(--font-family);
+  font-weight: 400;
+  color: var(--main-color);
+}
+
+a {
+  color: currentColor;
+  text-decoration: none;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+}

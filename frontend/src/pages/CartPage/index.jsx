@@ -1,14 +1,12 @@
 import Header from '../../components/Header';
-import Hero from '../../components/Hero';
 import Footer from '../../components/Footer';
 
 import styles from './styles.module.css';
 
-export default function HomePage() {
+export default function CartPage() {
   return (
     <>
       <Header />
-      <Hero />
       <Footer />
     </>
   );
