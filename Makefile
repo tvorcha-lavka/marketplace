@@ -62,9 +62,9 @@ create-superuser: up
 lint: flake8
 
 flake8:
-	@echo Starting flake8...
+	@echo "Starting flake8..."
 	cd $(BACKEND_DIR) && poetry run flake8 --toml-config=pyproject.toml .
-	@echo All done! ✨ 🍰 ✨
+	@echo "All done! ✨ 🍰 ✨"
 
 
 # --- Code Formatters --------------------------------------------------------------------------------------------------
@@ -73,11 +73,11 @@ flake8:
 reformat: isort black
 
 isort:
-	@echo Starting isort...
+	@echo "Starting isort..."
 	cd $(BACKEND_DIR) && poetry run isort --settings=pyproject.toml .
 
 black:
-	@echo Starting black...
+	@echo "Starting black..."
 	cd $(BACKEND_DIR) && poetry run black --config=pyproject.toml .
 
 
@@ -85,9 +85,9 @@ black:
 .PHONY: pytest pytest-cov
 
 pytest:
-	@echo Starting pytest...
+	@echo "Starting pytest..."
 	docker compose run --rm backend pytest
 
 pytest-cov:
-	@echo Starting pytest with coverage...
+	@echo "Starting pytest with coverage..."
 	docker compose run --rm backend pytest --cov=. --cov-report=html

@@ -2,7 +2,14 @@ from django.urls import path
 from drf_spectacular.utils import extend_schema
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
-from .views import LoginAPIView, LogoutAPIView, PasswordResetAPIView, PasswordResetConfirmAPIView, SignupAPIView
+from .views import (
+    LoginAPIView,
+    LogoutAPIView,
+    PasswordResetAPIView,
+    PasswordResetConfirmAPIView,
+    SignupAPIView,
+    VerifyEmailAPIView,
+)
 
 SchemaTag = "JWT Authentication"
 LoginAPIView = extend_schema(tags=[SchemaTag])(LoginAPIView)
@@ -23,4 +30,5 @@ urlpatterns = [
     path("token/refresh/", TokenRefreshView.as_view(), name="token-refresh"),
     path("password/reset/", PasswordResetAPIView.as_view(), name="password-reset"),
     path("password/reset/confirm/", PasswordResetConfirmAPIView.as_view(), name="password-reset-confirm"),
+    path("verify-email/", VerifyEmailAPIView.as_view(), name="verify-email"),
 ]

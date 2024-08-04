@@ -3,6 +3,7 @@ from rest_framework.generics import CreateAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from apps.user_auth.jwt_auth.tasks import send_welcome_email
 from apps.user_auth.mixins import BackendMixin, TokenMixin
 
 from .serializers import SocialCallbackOAuth2Serializer, SocialOAuth2RedirectSerializer
@@ -34,6 +35,11 @@ class SocialOAuth2CallbackView(CreateAPIView, TokenMixin, BackendMixin):
             user = backend.complete()
         except Exception as e:
             return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+        if not user.is_email_verified:
+            user.is_email_verified = True
+            user.save()
+            send_welcome_email.apply_async((user.email,), queue="default", priority=0)
 
         if user and user.is_active:
             token_pair = self.get_token_pair(user)

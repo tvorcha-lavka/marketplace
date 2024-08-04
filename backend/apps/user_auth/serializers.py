@@ -1,6 +1,6 @@
 from django.contrib.auth.hashers import make_password
 from django.core.validators import validate_email
-from rest_framework.serializers import CharField, EmailField, ModelSerializer, Serializer, URLField
+from rest_framework.serializers import CharField, EmailField, ModelSerializer, Serializer, URLField, UUIDField
 
 from apps.user.models import User
 from apps.user.serializers import UserSerializer
@@ -47,7 +47,7 @@ class PasswordResetSerializer(Serializer):
 
 
 class PasswordResetConfirmSerializer(Serializer):
-    token = CharField(write_only=True, required=True)
+    token = UUIDField(write_only=True, required=True)
     password = CharField(write_only=True, required=True)
     password2 = CharField(write_only=True, required=True)
     default_validators = [password_validator, token_validator]
@@ -66,3 +66,7 @@ class PasswordResetConfirmSerializer(Serializer):
 
         token_obj.delete()
         return user
+
+
+class VerifyEmailSerializer(Serializer):
+    token = UUIDField(write_only=True, required=True)

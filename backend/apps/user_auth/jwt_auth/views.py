@@ -1,4 +1,5 @@
 from rest_framework import status
+from rest_framework.exceptions import PermissionDenied, ValidationError
 from rest_framework.generics import CreateAPIView, get_object_or_404
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
@@ -7,9 +8,15 @@ from rest_framework_simplejwt.views import TokenBlacklistView, TokenObtainPairVi
 
 from apps.user.models import User
 from apps.user_auth.mixins import TokenMixin
-from apps.user_auth.serializers import PasswordResetConfirmSerializer, PasswordResetSerializer, SignupSerializer
+from apps.user_auth.models import EmailVerificationToken
+from apps.user_auth.serializers import (
+    PasswordResetConfirmSerializer,
+    PasswordResetSerializer,
+    SignupSerializer,
+    VerifyEmailSerializer,
+)
 
-from .tasks import send_password_reset_email
+from .tasks import send_password_reset_email, send_verification_email
 
 
 class SignupAPIView(CreateAPIView, TokenMixin):
@@ -20,6 +27,8 @@ class SignupAPIView(CreateAPIView, TokenMixin):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
+
+        send_verification_email.apply_async((user.email,), queue="high_priority", priority=0)
         token_pair = self.get_token_pair(user)
 
         response_data = {"user": serializer.data, **token_pair}
@@ -28,6 +37,15 @@ class SignupAPIView(CreateAPIView, TokenMixin):
 
 class LoginAPIView(TokenObtainPairView):
     permission_classes = [AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        if not serializer.user.is_email_verified:
+            raise PermissionDenied("Email is not verified.")
+
+        return Response(serializer.validated_data, status=status.HTTP_200_OK)
 
 
 class LogoutAPIView(TokenBlacklistView):
@@ -68,3 +86,27 @@ class PasswordResetConfirmAPIView(APIView):
         serializer.save()
 
         return Response({"detail": "Password has been reset successfully."}, status=status.HTTP_200_OK)
+
+
+class VerifyEmailAPIView(APIView, TokenMixin):
+    serializer_class = VerifyEmailSerializer
+    model = EmailVerificationToken
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        token = serializer.validated_data["token"]
+        token_obj = get_object_or_404(self.model, token=token)
+
+        if token_obj.is_expired():
+            raise ValidationError({"detail": "Token is expired."})
+
+        user = token_obj.user
+        user.is_email_verified = True
+        user.save()
+        token_obj.delete()
+
+        token_pair = self.get_token_pair(user)
+        response_data = {"detail": "Email verified successfully.", "user": user, **token_pair}
+        return Response(response_data, status=status.HTTP_200_OK)

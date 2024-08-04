@@ -2,7 +2,7 @@ from datetime import timedelta
 
 import pytest
 
-from apps.user_auth.models import BaseToken, PasswordResetToken
+from apps.user_auth.models import BaseToken, EmailVerificationToken, PasswordResetToken
 
 
 @pytest.mark.django_db
@@ -29,3 +29,10 @@ class TestPasswordResetToken:
     def test_default_expiry(self, users):
         token = PasswordResetToken(user=users.user1)
         assert token.default_expiry() == timedelta(minutes=15)
+
+
+@pytest.mark.django_db
+class TestVerifyEmailToken:
+    def test_default_expiry(self, users):
+        token = EmailVerificationToken(user=users.user1)
+        assert token.default_expiry() == timedelta(days=1)
