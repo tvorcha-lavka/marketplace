@@ -1,3 +1,4 @@
+import AddItemButton from '../AddItemButton';
 import styles from './styles.module.css';
 
 export default function Hero() {
@@ -9,6 +10,7 @@ export default function Hero() {
       <p className={styles.caption}>
         Перший український маркетплейс handmade товарів
       </p>
+      {/* <AddItemButton className={styles.button} /> */}
       <button className={styles.button}>Додати товар</button>
     </section>
   );
