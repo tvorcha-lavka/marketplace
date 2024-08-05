@@ -46,9 +46,9 @@ module.exports = {
       'error',
       {
         // Require the use of arrow functions for named components
-        namedComponents: 'arrow-function',
+        namedComponents: 'function-declaration',
         // Require the use of arrow functions for unnamed components
-        unnamedComponents: 'arrow-function',
+        unnamedComponents: 'function-declaration',
       },
     ],
     // Enforce newline at the end of file, with no multiple empty lines
