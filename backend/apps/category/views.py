@@ -11,9 +11,8 @@ class CategoryListAPIView(ListAPIView):
     pagination_class = None
 
     def get_queryset(self):
-        return Category.objects.prefetch_related("subcategories__subcategories__subcategories").filter(
-            parents=None, active=True
-        )
+        subcategories = "__".join(["subcategories"] * 5)
+        return Category.objects.prefetch_related(subcategories).filter(parents=None, active=True)
 
     @method_decorator(cache_page(3600))  # cache for 1 hour
     def get(self, request, *args, **kwargs):
