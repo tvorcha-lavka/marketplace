@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "apps.utils",
     "apps.user",
     "apps.user_auth",
+    "apps.category",
 ]
 
 MIDDLEWARE = [
