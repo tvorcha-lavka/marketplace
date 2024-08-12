@@ -20,4 +20,4 @@ class Category(models.Model):
     subcategories = models.ManyToManyField("self", blank=True, related_name="subcategory_set", symmetrical=False)
 
     def __str__(self):
-        return f"{self.pk}: {self.name}"
+        return f"[{self.pk}] {self.name}"
