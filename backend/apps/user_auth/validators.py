@@ -7,13 +7,8 @@ from apps.user_auth.models import PasswordResetToken
 
 def password_validator(attrs):
     password = attrs.get("password")
-    password2 = attrs.pop("password2")
-
-    if password == password2:
-        validate_password(password)
-        return attrs
-
-    raise ValidationError({"password": "Password fields didn't match."})
+    validate_password(password)
+    return attrs
 
 
 def token_validator(attrs):

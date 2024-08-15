@@ -23,10 +23,9 @@ class SocialCallbackOAuth2Serializer(Serializer):
 class SignupSerializer(ModelSerializer):
     class Meta:
         model = User
-        fields = ["email", "password", "password2", "refresh", "access"]
+        fields = ["email", "password", "refresh", "access"]
 
     password = CharField(write_only=True, required=True)
-    password2 = CharField(write_only=True, required=True)
     default_validators = [password_validator]
 
     refresh = CharField(read_only=True)
@@ -49,7 +48,6 @@ class PasswordResetSerializer(Serializer):
 class PasswordResetConfirmSerializer(Serializer):
     token = CharField(write_only=True, required=True)
     password = CharField(write_only=True, required=True)
-    password2 = CharField(write_only=True, required=True)
     default_validators = [password_validator, token_validator]
 
     def validate(self, attrs):
