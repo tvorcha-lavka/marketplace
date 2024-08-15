@@ -22,7 +22,7 @@ def user_data():
             {"email": "nonexistent@gmail.com"},
         ),
         "password_reset_confirm": DataType(
-            {"token": "valid_token", "password": password, "password2": password},
-            {"token": "invalid_token", "password": password, "password2": password},
+            {"token": "valid_token", "password": password},
+            {"token": "invalid_token", "password": password},
         ),
     }
