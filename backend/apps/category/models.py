@@ -4,8 +4,9 @@ from django.utils.translation import gettext_lazy as _
 
 class Category(models.Model):
     class Meta:
-        verbose_name = "Category"
-        verbose_name_plural = "Categories"
+        db_table = "category"
+        verbose_name = _("Category")
+        verbose_name_plural = _("Categories")
         ordering = ["id", "order"]
 
     name = models.CharField(_("name"), max_length=255)

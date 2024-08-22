@@ -29,6 +29,7 @@ class Migration(migrations.Migration):
             options={
                 "verbose_name": "Category",
                 "verbose_name_plural": "Categories",
+                "db_table": "category",
                 "ordering": ["id", "order"],
             },
         ),
