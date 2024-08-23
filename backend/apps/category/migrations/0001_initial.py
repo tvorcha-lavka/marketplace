@@ -20,10 +20,13 @@ class Migration(migrations.Migration):
                 ("url", models.URLField(blank=True, verbose_name="url")),
                 ("order", models.PositiveSmallIntegerField(verbose_name="order")),
                 ("active", models.BooleanField(default=True, verbose_name="active")),
-                ("parents", models.ManyToManyField(blank=True, related_name="parent_set", to="category.category")),
+                (
+                    "parents",
+                    models.ManyToManyField(blank=True, related_name="child_categories", to="category.category"),
+                ),
                 (
                     "subcategories",
-                    models.ManyToManyField(blank=True, related_name="subcategory_set", to="category.category"),
+                    models.ManyToManyField(blank=True, related_name="parent_categories", to="category.category"),
                 ),
             ],
             options={
