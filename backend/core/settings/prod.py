@@ -1,7 +1,7 @@
-from .base import *  # noqa: F403
+from .base import *
 
 DEBUG = False
-ALLOWED_HOSTS += eval(os.getenv("ALLOWED_PROD_HOSTS"))  # noqa: F405
+ALLOWED_HOSTS += eval(os.getenv("ALLOWED_PROD_HOSTS"))
 
 # Security settings
 SECURE_BROWSER_XSS_FILTER = True
