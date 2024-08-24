@@ -7,6 +7,7 @@ BACKEND_DIR = ./backend
 FRONTEND_DIR = ./frontend
 BACKEND_IMAGE = marketplace-backend:latest
 FRONTEND_IMAGE = marketplace-frontend:latest
+TEST_COMPOSE_FILE = $(BACKEND_DIR)/docker-compose.test.yml
 
 
 # --- Docker -----------------------------------------------------------------------------------------------------------
@@ -95,8 +96,10 @@ prettier:
 
 pytest:
 	@echo Starting pytest...
-	docker compose run --rm backend pytest
+	docker compose -f $(TEST_COMPOSE_FILE) run --rm backend pytest
+	docker compose -f $(TEST_COMPOSE_FILE) down
 
 pytest-cov:
 	@echo Starting pytest with coverage...
-	docker compose run --rm backend pytest --cov=. --cov-report=html
+	docker compose -f $(TEST_COMPOSE_FILE) run --rm backend pytest --cov=. --cov-report=html
+	docker compose -f $(TEST_COMPOSE_FILE) down
