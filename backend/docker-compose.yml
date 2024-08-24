@@ -12,10 +12,6 @@ x-healthcheck: &x-healthcheck
   timeout: 10s
   retries: 5
 
-x-postgres-healthcheck: &x-postgres-healthcheck
-  test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -h postgres -p 5432" ]
-  <<: *x-healthcheck
-
 x-redis-healthcheck: &x-redis-healthcheck
   test: [ "CMD-SHELL", "redis-cli", "ping" ]
   <<: *x-healthcheck
@@ -31,23 +27,6 @@ x-rabbitmq-healthcheck: &x-rabbitmq-healthcheck
 
 # ----- Services -------------------------------------------------------------------------------------------------------
 services:
-
-  # --- Postgres -------------------------------------------------------------------------------------------------------
-  postgres:
-    image: postgres:latest
-    container_name: postgres
-    restart: always
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    healthcheck: *x-postgres-healthcheck
-    ports:
-      - ${POSTGRES_PORT}:5432
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-      - logs:/var/log/postgresql
-
 
   # --- Redis ----------------------------------------------------------------------------------------------------------
   redis:

@@ -1,15 +1,15 @@
-from .base import *  # noqa: F403
+from .base import *
 
 DEBUG = True
 
-ALLOWED_HOSTS += ["localhost", "127.0.0.1"] + eval(os.getenv("ALLOWED_DEV_HOSTS"))  # noqa: F405
+ALLOWED_HOSTS += ["localhost", "127.0.0.1"] + eval(os.getenv("ALLOWED_DEV_HOSTS"))
 
-INSTALLED_APPS += [  # noqa: F405
+INSTALLED_APPS += [
     "silk",
 ]
 
-MIDDLEWARE += [  # noqa: F405
+MIDDLEWARE += [
     "silk.middleware.SilkyMiddleware",
 ]
 
-BASE_FRONTEND_URL = os.getenv("DEV_FRONTEND_URL")  # noqa: F405
+BASE_FRONTEND_URL = os.getenv("DEV_FRONTEND_URL")
