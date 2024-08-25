@@ -45,10 +45,10 @@ module.exports = {
     'react/function-component-definition': [
       'error',
       {
-        // Require the use of arrow functions for named components
+        // Require the use of function declaration for named components
         namedComponents: 'function-declaration',
         // Require the use of arrow functions for unnamed components
-        unnamedComponents: 'function-declaration',
+        unnamedComponents: 'arrow-function',
       },
     ],
     // Enforce newline at the end of file, with no multiple empty lines
