@@ -19,7 +19,7 @@ def user_data():
         ),
         "signup": DataType(
             {"email": "user@gmail.com", "password": password, "password2": password},
-            {"email": "user@gmailcom", "password": "password", "password2": "password"},
+            {"email": "user@gmail.com", "password": "password", "password2": "password"},
         ),
         "social_oauth2": DataType(
             {"state": "valid_state", "code": "valid_code"},

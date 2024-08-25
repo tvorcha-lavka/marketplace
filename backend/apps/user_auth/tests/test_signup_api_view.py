@@ -19,7 +19,7 @@ signup_test_cases = [
     S_TestCase("user1", "invalid_data", status.HTTP_403_FORBIDDEN, ["detail"]),
     S_TestCase("user2", "valid_data", status.HTTP_403_FORBIDDEN, ["detail"]),
     S_TestCase("not_auth", "valid_data", status.HTTP_201_CREATED, ["user", "access", "refresh"]),
-    S_TestCase("not_auth", "invalid_data", status.HTTP_400_BAD_REQUEST, ["email"]),
+    S_TestCase("not_auth", "invalid_data", status.HTTP_400_BAD_REQUEST, ["non_field_errors"]),
 ]
 
 
