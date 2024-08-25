@@ -11,7 +11,10 @@ from .conftest import DataType, UserSchema
 
 # ----- SocialOAuth2 Test Case Schemas ---------------------------------------------------------------------------------
 R_TestCase = nt("RedirectView", ["auth_user", "social", "expected_status", "expected_data"])
-C_TestCase = nt("CallbackView", ["auth_user", "social", "user_data", "is_active", "expected_status", "expected_data"])
+C_TestCase = nt(
+    "CallbackView",
+    ["auth_user", "social", "user_data", "is_active", "is_email_verified", "expected_status", "expected_data"],
+)
 
 # ----- SocialOAuth2 Test Cases ----------------------------------------------------------------------------------------
 social_oauth2_redirect_test_cases = [
@@ -22,15 +25,15 @@ social_oauth2_redirect_test_cases = [
     R_TestCase("user1", "facebook", status.HTTP_403_FORBIDDEN, ["detail"]),
 ]
 social_oauth2_callback_test_cases = [
-    # "auth_user", "social", "user_data", "expected_status", "expected_data"
-    C_TestCase("admin", "google", "valid_data", True, status.HTTP_200_OK, ["user", "access", "refresh"]),
-    C_TestCase("admin", "google", "invalid_data", True, status.HTTP_400_BAD_REQUEST, ["detail"]),
-    C_TestCase("admin", "google", "valid_data", False, status.HTTP_403_FORBIDDEN, ["detail"]),
-    C_TestCase("user1", "google", "valid_data", True, status.HTTP_403_FORBIDDEN, ["detail"]),
-    C_TestCase("admin", "facebook", "valid_data", True, status.HTTP_200_OK, ["user", "access", "refresh"]),
-    C_TestCase("admin", "facebook", "invalid_data", True, status.HTTP_400_BAD_REQUEST, ["detail"]),
-    C_TestCase("admin", "facebook", "valid_data", False, status.HTTP_403_FORBIDDEN, ["detail"]),
-    C_TestCase("user1", "facebook", "valid_data", True, status.HTTP_403_FORBIDDEN, ["detail"]),
+    # "auth_user", "social", "user_data", "is_active", "is_email_verified", "expected_status", "expected_data"
+    C_TestCase("admin", "google", "valid_data", True, True, status.HTTP_200_OK, ["user", "access", "refresh"]),
+    C_TestCase("admin", "google", "invalid_data", True, True, status.HTTP_400_BAD_REQUEST, ["detail"]),
+    C_TestCase("admin", "google", "valid_data", False, False, status.HTTP_403_FORBIDDEN, ["detail"]),
+    C_TestCase("user1", "google", "valid_data", True, True, status.HTTP_403_FORBIDDEN, ["detail"]),
+    C_TestCase("admin", "facebook", "valid_data", True, True, status.HTTP_200_OK, ["user", "access", "refresh"]),
+    C_TestCase("admin", "facebook", "invalid_data", True, True, status.HTTP_400_BAD_REQUEST, ["detail"]),
+    C_TestCase("admin", "facebook", "valid_data", False, False, status.HTTP_403_FORBIDDEN, ["detail"]),
+    C_TestCase("user1", "facebook", "valid_data", True, True, status.HTTP_403_FORBIDDEN, ["detail"]),
 ]
 
 
@@ -79,4 +82,6 @@ class TestSocialOAuth2:
     def mock_complete(self, testcase):
         if testcase.user_data == "invalid_data":
             raise Exception("Authentication failed")
-        return self.model.objects.create(email="user@example.com", is_active=testcase.is_active)
+        return self.model.objects.create(
+            email="user@example.com", is_active=testcase.is_active, is_email_verified=testcase.is_email_verified
+        )

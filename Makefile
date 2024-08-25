@@ -63,46 +63,46 @@ create-superuser: up
 # --- Code Linters -----------------------------------------------------------------------------------------------------
 .PHONY: lint-b flake8 lint-f eslint
 
-lint-b: flake8 
+lint-b: flake8
 lint-f: eslint
 
 flake8:
-	@echo Starting flake8...
+	@echo "Starting flake8..."
 	cd $(BACKEND_DIR) && poetry run flake8 --toml-config=pyproject.toml .
-	@echo All done! ✨ 🍰 ✨
+	@echo "All done! ✨ 🍰 ✨"
 
 eslint:
-	@echo Starting eslint...
+	@echo "Starting eslint..."
 	cd $(FRONTEND_DIR) && npx eslint --config=.eslintrc.cjs --fix .
-	@echo All done! ✨ 🍰 ✨
+	@echo "All done! ✨ 🍰 ✨"
 
 # --- Code Formatters --------------------------------------------------------------------------------------------------
 .PHONY: reformat-b isort black reformat-f prettier
 
-reformat-b: isort black 
+reformat-b: isort black
 reformat-f: prettier
 
 isort:
-	@echo Starting isort...
+	@echo "Starting isort..."
 	cd $(BACKEND_DIR) && poetry run isort --settings=pyproject.toml .
 
 black:
-	@echo Starting black...
+	@echo "Starting black..."
 	cd $(BACKEND_DIR) && poetry run black --config=pyproject.toml .
 
 prettier:
-	@echo Starting prettier...
+	@echo "Starting prettier..."
 	cd $(FRONTEND_DIR) && npx prettier --config=.prettierrc.cjs --write .
 
 # --- Pytest -----------------------------------------------------------------------------------------------------------
 .PHONY: pytest pytest-cov
 
 pytest:
-	@echo Starting pytest...
+	@echo "Starting pytest..."
 	docker compose -f $(TEST_COMPOSE_FILE) run --rm backend pytest
 	docker compose -f $(TEST_COMPOSE_FILE) down -v
 
 pytest-cov:
-	@echo Starting pytest with coverage...
+	@echo "Starting pytest with coverage..."
 	docker compose -f $(TEST_COMPOSE_FILE) run --rm backend pytest --cov=. --cov-report=html
 	docker compose -f $(TEST_COMPOSE_FILE) down -v
