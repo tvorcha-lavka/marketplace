@@ -36,3 +36,8 @@ class BaseToken(models.Model):
 class PasswordResetToken(BaseToken):
     def default_expiry(self):
         return timedelta(minutes=15)
+
+
+class EmailVerificationToken(BaseToken):
+    def default_expiry(self):
+        return timedelta(days=1)

@@ -7,6 +7,7 @@ from .validators import validate_email, validate_name, validate_phone_number, va
 
 class User(AbstractUser):
     class Meta:
+        db_table = 'user'
         verbose_name = "User"
         verbose_name_plural = "Users"
 
@@ -20,6 +21,7 @@ class User(AbstractUser):
     phone_number = models.CharField(
         _("phone number"), unique=True, max_length=20, null=True, validators=[validate_phone_number]
     )
+    is_email_verified = models.BooleanField(_("is email verified"), default=False)
 
     def __str__(self):
         return self.get_full_name()
