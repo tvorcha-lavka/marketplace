@@ -13,6 +13,14 @@ def user_data():
     password = "TestPassword123"
 
     return {
+        "login": DataType(
+            {"email": "user1@gmail.com", "password": password},
+            {"email": "user1@gmailcom", "password": password},
+        ),
+        "signup": DataType(
+            {"email": "user@gmail.com", "password": password, "password2": password},
+            {"email": "user@gmailcom", "password": "password", "password2": "password"},
+        ),
         "social_oauth2": DataType(
             {"state": "valid_state", "code": "valid_code"},
             {"state": "valid_state", "code": "invalid_code"},

@@ -7,8 +7,10 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenBlacklistView, TokenObtainPairView
 
 from apps.user.models import User
+from apps.user.serializers import UserSerializer
 from apps.user_auth.mixins import TokenMixin
 from apps.user_auth.models import EmailVerificationToken
+from apps.user_auth.permissions import IsAnonymousOrAdmin
 from apps.user_auth.serializers import (
     PasswordResetConfirmSerializer,
     PasswordResetSerializer,
@@ -20,7 +22,7 @@ from .tasks import send_password_reset_email, send_verification_email
 
 
 class SignupAPIView(CreateAPIView, TokenMixin):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAnonymousOrAdmin]
     serializer_class = SignupSerializer
 
     def create(self, request, *args, **kwargs):
@@ -108,5 +110,6 @@ class VerifyEmailAPIView(APIView, TokenMixin):
         token_obj.delete()
 
         token_pair = self.get_token_pair(user)
+        user = UserSerializer(user).data
         response_data = {"detail": "Email verified successfully.", "user": user, **token_pair}
         return Response(response_data, status=status.HTTP_200_OK)
