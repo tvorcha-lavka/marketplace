@@ -28,24 +28,28 @@ services:
   # --- Postgres -------------------------------------------------------------------------------------------------------
   postgres:
     image: postgres:latest
-    container_name: postgres
+    container_name: postgres_test
     env_file: ../.env
     healthcheck: *x-postgres-healthcheck
     ports:
       - "5432:5432"
+    volumes:
+      - test_postgres_data:/var/lib/postgresql/data
 
   # --- Redis ----------------------------------------------------------------------------------------------------------
   redis:
     image: redis:latest
-    container_name: redis
+    container_name: redis_test
     healthcheck: *x-redis-healthcheck
     ports:
       - "6379:6379"
+    volumes:
+      - test_redis_data:/data
 
   # --- Backend --------------------------------------------------------------------------------------------------------
   backend:
     image: marketplace-backend:latest
-    container_name: backend
+    container_name: backend_test
     env_file: ../.env
     environment:
       POSTGRES_HOST: postgres
@@ -56,3 +60,9 @@ services:
       - "8000:8000"
     volumes:
       - ./:/code/
+
+
+# ----- Volumes --------------------------------------------------------------------------------------------------------
+volumes:
+  test_postgres_data:
+  test_redis_data:
