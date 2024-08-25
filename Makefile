@@ -97,9 +97,9 @@ prettier:
 pytest:
 	@echo Starting pytest...
 	docker compose -f $(TEST_COMPOSE_FILE) run --rm backend pytest
-	docker compose -f $(TEST_COMPOSE_FILE) down
+	docker compose -f $(TEST_COMPOSE_FILE) down -v
 
 pytest-cov:
 	@echo Starting pytest with coverage...
 	docker compose -f $(TEST_COMPOSE_FILE) run --rm backend pytest --cov=. --cov-report=html
-	docker compose -f $(TEST_COMPOSE_FILE) down
+	docker compose -f $(TEST_COMPOSE_FILE) down -v
