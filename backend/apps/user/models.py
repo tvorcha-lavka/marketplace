@@ -7,6 +7,7 @@ from .validators import validate_email, validate_name, validate_phone_number, va
 
 class User(AbstractUser):
     class Meta:
+        db_table = 'user'
         verbose_name = "User"
         verbose_name_plural = "Users"
 
