@@ -1,5 +1,7 @@
+from celery import current_app
+from drf_spectacular.utils import extend_schema
 from rest_framework import status
-from rest_framework.exceptions import PermissionDenied, ValidationError
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.generics import CreateAPIView, get_object_or_404
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
@@ -7,21 +9,21 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenBlacklistView, TokenObtainPairView
 
 from apps.user.models import User
-from apps.user.serializers import UserSerializer
 from apps.user_auth.mixins import TokenMixin
-from apps.user_auth.models import EmailVerificationToken
 from apps.user_auth.permissions import IsAnonymousOrAdmin
 from apps.user_auth.serializers import (
     PasswordResetConfirmSerializer,
     PasswordResetSerializer,
     SignupSerializer,
+    UserAuthSerializer,
+    UserSerializer,
     VerifyEmailSerializer,
 )
 
 from .tasks import send_password_reset_email, send_verification_email
 
 
-class SignupAPIView(CreateAPIView, TokenMixin):
+class SignupAPIView(CreateAPIView):
     permission_classes = [IsAnonymousOrAdmin]
     serializer_class = SignupSerializer
 
@@ -31,10 +33,9 @@ class SignupAPIView(CreateAPIView, TokenMixin):
         user = serializer.save()
 
         send_verification_email.apply_async((user.email,), queue="high_priority", priority=0)
-        token_pair = self.get_token_pair(user)
 
-        response_data = {"user": serializer.data, **token_pair}
-        return Response(response_data, status=status.HTTP_201_CREATED)
+        message = "Please check your email to verify your account."
+        return Response({"email": user.email, "message": message}, status=status.HTTP_201_CREATED)
 
 
 class LoginAPIView(TokenObtainPairView):
@@ -91,25 +92,24 @@ class PasswordResetConfirmAPIView(APIView):
 
 
 class VerifyEmailAPIView(APIView, TokenMixin):
-    serializer_class = VerifyEmailSerializer
-    model = EmailVerificationToken
+    request_serializer = VerifyEmailSerializer
+    response_serializer = UserAuthSerializer
 
+    @extend_schema(request=request_serializer, responses=response_serializer)
     def post(self, request):
-        serializer = self.serializer_class(data=request.data)
+        serializer = self.request_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        token = serializer.validated_data["token"]
-        token_obj = get_object_or_404(self.model, token=token)
-
-        if token_obj.is_expired():
-            raise ValidationError({"detail": "Token is expired."})
-
-        user = token_obj.user
+        user = serializer.validated_data["user"]
         user.is_email_verified = True
         user.save()
-        token_obj.delete()
 
-        token_pair = self.get_token_pair(user)
-        user = UserSerializer(user).data
-        response_data = {"detail": "Email verified successfully.", "user": user, **token_pair}
-        return Response(response_data, status=status.HTTP_200_OK)
+        code_obj = serializer.validated_data["code_obj"]
+        current_app.control.revoke(task_id=str(code_obj.uuid), terminate=True)
+        code_obj.delete()
+
+        response_data = {"user": UserSerializer(user).data, "token": {**self.get_token_pair(user)}}
+        serializer = self.response_serializer(data=response_data)
+        serializer.is_valid(raise_exception=True)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)

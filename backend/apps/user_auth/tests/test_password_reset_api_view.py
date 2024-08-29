@@ -66,7 +66,7 @@ class TestPasswordResetAPIView:
 
         url = reverse("password-reset-confirm")
         data = getattr(self.confirm_data, test_case.user_data)
-        data.update({"token": token.token})
+        data.update({"token": str(token)})
         response = client.post(url, data=data)
 
         assert response.status_code == test_case.expected_status

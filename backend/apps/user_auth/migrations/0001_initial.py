@@ -29,7 +29,9 @@ class Migration(migrations.Migration):
                 ),
             ],
             options={
-                "abstract": False,
+                "verbose_name": "Password Reset Token",
+                "verbose_name_plural": "Password Reset Tokens",
+                "db_table": "user_auth_password_reset_token",
             },
         ),
     ]

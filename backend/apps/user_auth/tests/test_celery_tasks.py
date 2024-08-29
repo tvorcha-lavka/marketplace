@@ -1,19 +1,26 @@
 import uuid
 from collections import namedtuple
 from datetime import timedelta
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 import pytest
 from django.conf import settings
 from django.utils import timezone
 from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken, OutstandingToken
 
-from apps.user_auth.jwt_auth.tasks import remove_expired_tokens, send_password_reset_email, send_verification_email
-from apps.user_auth.models import EmailVerificationToken, PasswordResetToken
+from apps.user.models import User
+from apps.user_auth.jwt_auth.tasks import (
+    delete_non_verified_user,
+    remove_expired_tokens,
+    send_password_reset_email,
+    send_verification_email,
+)
+from apps.user_auth.models import PasswordResetToken, VerificationCode
 
 # ----- Test Case Schemas ----------------------------------------------------------------------------------------------
 PasswordReset = namedtuple("PasswordResetTestCaseSchema", ["created_at", "expected_token_count"])
-VerifyEmail = namedtuple("VerifyEmailTestCaseSchema", ["created_at", "expected_token_count"])
+VerifyEmail = namedtuple("VerifyEmailTestCaseSchema", ["valid_code", "expected_token_count"])
+VerifiedUser = namedtuple("VerifiedUserTestCaseSchema", ["user", "is_email_verified"])
 
 
 # ----- Test Cases -----------------------------------------------------------------------------------------------------
@@ -24,9 +31,15 @@ password_reset_test_case = [
 ]
 
 verify_email_test_case = [
-    # "created_at", "expected_token_count"
-    VerifyEmail(timezone.now(), 1),
-    VerifyEmail(timezone.now() - timedelta(days=1), 1),
+    # "valid_code", "expected_token_count"
+    VerifyEmail(True, 1),
+    VerifyEmail(False, 1),
+]
+
+delete_non_verified_user_test_case = [
+    # "user", "is_email_verified"
+    VerifiedUser("user1", True),
+    VerifiedUser("user1", False),
 ]
 
 
@@ -78,7 +91,7 @@ def test_send_password_reset_email(mock_send_mail, users, test_case: PasswordRes
     mail_kwargs = mock_send_mail.call_args.kwargs
 
     token = PasswordResetToken.objects.filter(user=user).first()
-    verification_link = f"{settings.BASE_FRONTEND_URL}/password/reset/{token.token}/"
+    verification_link = f"{settings.BASE_FRONTEND_URL}/password/reset/{str(token)}/"
 
     assert "Confirming the password reset" in mail_kwargs["subject"]
     assert verification_link in mail_kwargs["message"]
@@ -88,28 +101,55 @@ def test_send_password_reset_email(mock_send_mail, users, test_case: PasswordRes
 
 # ----- Test Send Verify Email ---------------------------------------------------------------------------------
 @pytest.mark.django_db
-@patch("apps.user_auth.jwt_auth.tasks.send_mail")
 @pytest.mark.parametrize("test_case", verify_email_test_case)
-def test_send_verify_email(mock_send_mail, users, test_case: VerifyEmail):
-    user = users.user1
+@patch("apps.user_auth.jwt_auth.tasks.EmailMultiAlternatives", name="email_class")
+@patch("apps.user_auth.signals.delete_non_verified_user.apply_async", name="delete_non_verified_user")
+def test_send_verify_email(mock_delete_non_verified_user, mock_email_class, users, test_case: VerifyEmail):
+    # Create email object moc
+    mock_email_instance = MagicMock()
+    mock_email_class.return_value = mock_email_instance
 
-    def create_verify_token():
-        verify_token = EmailVerificationToken.objects.create(user=user)
-        verify_token.expires_at = test_case.created_at + timedelta(days=1)
-        verify_token.save()
+    # Preparing data for the call
+    mock_delete_non_verified_user.return_value.id = uuid.uuid4()
+    VerificationCode.objects.create(user=users.user1)
 
-    create_verify_token()
+    if not test_case.valid_code:
+        VerificationCode.objects.filter(user=users.user1).update(expires_at=timezone.now() - timedelta(minutes=15))
 
-    result = send_verification_email.apply_async((user.email,), queue="high_priority", priority=0)
+    # Call the function
+    result = send_verification_email.apply_async((users.user1.email,), queue="high_priority", priority=0)
     result.get()
 
-    mock_send_mail.assert_called_once()
-    mail_kwargs = mock_send_mail.call_args.kwargs
+    # Check that sending the email was triggered
+    mock_email_instance.attach_alternative.assert_called_once()
+    mock_email_instance.send.assert_called_once()
 
-    token = EmailVerificationToken.objects.filter(user=user).first()
-    verification_link = f"{settings.BASE_FRONTEND_URL}/verify-email/{token.token}"
+    # Check that the email object was created with the correct parameters
+    code = VerificationCode.objects.filter(user=users.user1).first()
+    mock_email_class.assert_called_once_with(
+        subject="Підтвердження електронної пошти",
+        body=f"Вітаю, {users.user1.username}! Ваш код підтвердження: {str(code)}",
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        to=[users.user1.email],
+    )
 
-    assert "Email Confirmation" in mail_kwargs["subject"]
-    assert verification_link in mail_kwargs["message"]
+    attach_args, attach_kwargs = mock_email_instance.attach_alternative.call_args
+    html_content = attach_args[0]
 
-    assert EmailVerificationToken.objects.filter(user=users.user1).count() == test_case.expected_token_count
+    assert str(code) in html_content
+    assert VerificationCode.objects.filter(user=users.user1).count() == test_case.expected_token_count
+
+
+# ----- Test Delete Non Verified User ----------------------------------------------------------------------------------
+@pytest.mark.django_db
+@pytest.mark.parametrize("test_case", delete_non_verified_user_test_case)
+def test_delete_non_verified_user(users, test_case: VerifiedUser):
+    user = getattr(users, test_case.user)
+    user.is_email_verified = test_case.is_email_verified
+    user.save()
+
+    result = delete_non_verified_user.apply_async((user.id,), queue="low_priority", priority=0)
+    result.get()
+
+    query = User.objects.filter(id=user.id)
+    assert query.exists() if user.is_email_verified else not query.exists()

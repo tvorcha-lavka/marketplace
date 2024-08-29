@@ -26,12 +26,14 @@ social_oauth2_redirect_test_cases = [
 ]
 social_oauth2_callback_test_cases = [
     # "auth_user", "social", "user_data", "is_active", "is_email_verified", "expected_status", "expected_data"
-    C_TestCase("admin", "google", "valid_data", True, True, status.HTTP_200_OK, ["user", "access", "refresh"]),
-    C_TestCase("admin", "google", "invalid_data", True, True, status.HTTP_400_BAD_REQUEST, ["detail"]),
-    C_TestCase("admin", "google", "valid_data", False, False, status.HTTP_403_FORBIDDEN, ["detail"]),
+    C_TestCase("admin", "google", "valid_data", True, True, status.HTTP_200_OK, ["user", "token"]),
+    C_TestCase("admin", "google", "valid_data", True, False, status.HTTP_200_OK, ["user", "token"]),
+    C_TestCase("admin", "google", "invalid_data", None, None, status.HTTP_400_BAD_REQUEST, ["detail"]),
+    C_TestCase("admin", "google", "valid_data", False, True, status.HTTP_403_FORBIDDEN, ["detail"]),
     C_TestCase("user1", "google", "valid_data", True, True, status.HTTP_403_FORBIDDEN, ["detail"]),
-    C_TestCase("admin", "facebook", "valid_data", True, True, status.HTTP_200_OK, ["user", "access", "refresh"]),
-    C_TestCase("admin", "facebook", "invalid_data", True, True, status.HTTP_400_BAD_REQUEST, ["detail"]),
+    C_TestCase("admin", "facebook", "valid_data", True, True, status.HTTP_200_OK, ["user", "token"]),
+    C_TestCase("admin", "facebook", "valid_data", True, False, status.HTTP_200_OK, ["user", "token"]),
+    C_TestCase("admin", "facebook", "invalid_data", None, None, status.HTTP_400_BAD_REQUEST, ["detail"]),
     C_TestCase("admin", "facebook", "valid_data", False, False, status.HTTP_403_FORBIDDEN, ["detail"]),
     C_TestCase("user1", "facebook", "valid_data", True, True, status.HTTP_403_FORBIDDEN, ["detail"]),
 ]
@@ -61,8 +63,9 @@ class TestSocialOAuth2:
 
     # ----- Social OAuth2 Callback View --------------------------------------------------------------------------------
     @patch("apps.user_auth.mixins.load_backend")
+    @patch("apps.user_auth.jwt_auth.tasks.send_mail")
     @pytest.mark.parametrize("test_case", social_oauth2_callback_test_cases)
-    def test_social_oauth2_callback_view(self, mock_load_backend, test_case: C_TestCase):
+    def test_social_oauth2_callback_view(self, mock_send_email, mock_load_backend, test_case: C_TestCase):
         mock_load_backend.return_value.complete.side_effect = lambda: self.mock_complete(test_case)
 
         url = reverse(f"{test_case.social}-login-complete")
@@ -70,6 +73,9 @@ class TestSocialOAuth2:
         client = self.get_testcase_client(test_case.auth_user)
 
         response = client.post(url, data=data)
+
+        if test_case.is_email_verified is False:
+            mock_send_email.assert_called_once()
 
         assert response.status_code == test_case.expected_status
         for key in test_case.expected_data:
@@ -82,6 +88,11 @@ class TestSocialOAuth2:
     def mock_complete(self, testcase):
         if testcase.user_data == "invalid_data":
             raise Exception("Authentication failed")
+
         return self.model.objects.create(
-            email="user@example.com", is_active=testcase.is_active, is_email_verified=testcase.is_email_verified
+            email="user@example.com",
+            username="test_user",
+            password="#TestPassword123",
+            is_active=testcase.is_active,
+            is_email_verified=testcase.is_email_verified,
         )
