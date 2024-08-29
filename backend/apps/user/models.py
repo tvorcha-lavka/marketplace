@@ -1,15 +1,21 @@
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, UserManager
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from .validators import validate_email, validate_name, validate_phone_number, validate_username
 
 
+class CustomUserManager(UserManager):
+    def create_superuser(self, username, email=None, password=None, **extra_fields):
+        extra_fields.setdefault("is_email_verified", True)
+        return super().create_superuser(username, email, password, **extra_fields)
+
+
 class User(AbstractUser):
     class Meta:
-        db_table = 'user'
-        verbose_name = "User"
-        verbose_name_plural = "Users"
+        db_table = "user"
+        verbose_name = _("User")
+        verbose_name_plural = _("Users")
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username"]
@@ -23,5 +29,7 @@ class User(AbstractUser):
     )
     is_email_verified = models.BooleanField(_("is email verified"), default=False)
 
+    objects = CustomUserManager()
+
     def __str__(self):
-        return self.get_full_name()
+        return self.username
