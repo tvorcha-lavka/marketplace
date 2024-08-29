@@ -54,6 +54,6 @@ class SocialOAuth2CallbackView(CreateAPIView, TokenMixin, BackendMixin):
             serializer = self.response_serializer(data=response_data)
             serializer.is_valid(raise_exception=True)
 
-            return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_200_OK)
 
         return Response({"detail": "Authentication failed"}, status=status.HTTP_403_FORBIDDEN)

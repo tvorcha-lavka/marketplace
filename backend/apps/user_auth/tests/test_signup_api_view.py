@@ -34,7 +34,7 @@ class TestSignupAPIView:
 
     @pytest.mark.parametrize("test_case", signup_test_cases)
     @patch("apps.user_auth.jwt_auth.views.send_verification_email.apply_async")
-    def test_signup_view(self, send_verification_email, test_case: S_TestCase):
+    def test_signup_view(self, mock_send_email, test_case: S_TestCase):
         client = self.get_testcase_client(test_case)
 
         url = reverse("sign-up")
@@ -47,7 +47,7 @@ class TestSignupAPIView:
             assert key in response.data
 
         if test_case.expected_status == status.HTTP_201_CREATED:
-            send_verification_email.assert_called_once_with((data.get("email"),), queue="high_priority", priority=0)
+            mock_send_email.assert_called_once_with((data.get("email"),), queue="high_priority", priority=0)
             assert User.objects.filter(email=data.get("email")).exists()
 
     # ----- Helper Methods ---------------------------------------------------------------------------------------------
