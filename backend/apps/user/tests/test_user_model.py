@@ -5,4 +5,4 @@ import pytest
 class TestUserModel:
     def test_str_method(self, users):
         user = users.user1
-        assert str(user) == user.get_full_name()
+        assert str(user) == user.username

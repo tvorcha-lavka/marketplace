@@ -17,6 +17,7 @@ LogoutAPIView = extend_schema(tags=[SchemaTag])(LogoutAPIView)
 SignupAPIView = extend_schema(tags=[SchemaTag], auth=[])(SignupAPIView)
 TokenObtainPairView = extend_schema(tags=[SchemaTag])(TokenObtainPairView)
 TokenRefreshView = extend_schema(tags=[SchemaTag])(TokenRefreshView)
+VerifyEmailAPIView = extend_schema(tags=[SchemaTag])(VerifyEmailAPIView)
 
 SchemaTag = "Reset Password"
 PasswordResetAPIView = extend_schema(tags=[SchemaTag])(PasswordResetAPIView)

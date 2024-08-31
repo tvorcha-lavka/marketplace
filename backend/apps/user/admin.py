@@ -1,10 +1,9 @@
 from django.contrib import admin
-from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
 
-User = get_user_model()
+from .models import User
 
 
 @admin.register(User)
 class CustomUserAdmin(UserAdmin):
-    list_display = ("username", "phone_number", "email", "is_staff")
+    list_display = ("username", "email", "is_email_verified", "is_staff")
