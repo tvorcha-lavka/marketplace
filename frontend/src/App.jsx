@@ -1,9 +1,7 @@
-import ReactDOM from 'react-dom/client';
-
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import HomePage from '../src/pages/HomePage';
-import CartPage from '../src/pages/CartPage';
+import HomePage from '../src/pages/HomePage/HomePage';
+import CartPage from '../src/pages/CartPage/CartPage';
 import LoginPage from '../src/pages/LoginPage';
 import RegisterPage from '../src/pages/RegisterPage';
 
@@ -21,5 +19,3 @@ export default function App() {
   );
 }
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<App />);
