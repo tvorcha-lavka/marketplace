@@ -4,18 +4,19 @@ import HomePage from '../src/pages/HomePage/HomePage';
 import CartPage from '../src/pages/CartPage/CartPage';
 import LoginPage from '../src/pages/LoginPage';
 import RegisterPage from '../src/pages/RegisterPage';
+import SharedLayout from './components/SharedLayout/SharedLayout';
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
+    <Routes>
+      <Route path="/" element={<SharedLayout />}>
+        <Route index element={<HomePage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="login" element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />
         {/* <Route path="*" element={<NotFoundPage />} /> */}
-      </Routes>
-    </BrowserRouter>
+      </Route>
+    </Routes>
   );
 }
 

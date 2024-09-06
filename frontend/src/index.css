@@ -4,10 +4,23 @@
   --main-color: #000;
   --grey-color: #949494;
   --accent-color: red;
+  --bg-page-color: #fffcf7;
 
   --font-family: Mulish, sans-serif;
   --second-family: Public Sans, sans-serif;
   --third-family: 'Inter', sans-serif;
+}
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
@@ -22,8 +35,8 @@ a {
 }
 
 ul {
-  margin: 0;
-  padding: 0;
+  /* margin: 0;
+  padding: 0; */
   list-style: none;
 }
 
@@ -33,7 +46,7 @@ button {
   padding: 0;
 }
 
-h1,
+/* h1,
 h2,
 h3,
 h4,
@@ -41,4 +54,4 @@ h5,
 h6,
 p {
   margin: 0;
-}
+} */
