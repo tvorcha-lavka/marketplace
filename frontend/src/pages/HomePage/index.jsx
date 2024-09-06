@@ -1,15 +1,15 @@
-import Header from '../../components/Header';
-import Hero from '../../components/Hero';
-import Footer from '../../components/Footer';
 
-import styles from './styles.module.css';
+import Hero from '../../components/Hero';
+import PopularCategories from '../../components/PopularCategories/PopularCategories';
+import AdvertList from '../../components/AdvertList/AdvertList';
+// import styles from './styles.module.css';
 
 export default function HomePage() {
   return (
     <>
-      <Header />
       <Hero />
-      <Footer />
+      <PopularCategories />
+      <AdvertList />
     </>
   );
 }
