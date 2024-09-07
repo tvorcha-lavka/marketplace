@@ -1,6 +1,7 @@
 from collections import namedtuple as nt
 
 import pytest
+from django.conf import settings
 from django.core.cache import cache
 from django.urls import reverse
 from rest_framework import status
@@ -12,6 +13,8 @@ from .conftest import UserSchema
 # ----- Test Case Schemas ----------------------------------------------------------------------------------------------
 L_TestCase = nt("List", ["auth_user", "expected_status"])
 R_TestCase = nt("Retrieve", ["auth_user", "expected_status"])
+V_TestCase = nt("ViewsCount", ["auth_user", "expected_count", "expected_status"])
+P_TestCase = nt("PurchasesCount", ["auth_user", "expected_count", "expected_status"])
 
 # ----- Test Cases -----------------------------------------------------------------------------------------------------
 list_category_test_cases = [
@@ -25,6 +28,18 @@ retrieve_category_test_cases = [
     R_TestCase("not_auth", status.HTTP_401_UNAUTHORIZED),
     R_TestCase("admin", status.HTTP_200_OK),
     R_TestCase("user1", status.HTTP_403_FORBIDDEN),
+]
+update_views_count_test_cases = [
+    # "auth_user", "expected_count", "expected_status"
+    V_TestCase("not_auth", None, status.HTTP_401_UNAUTHORIZED),
+    V_TestCase("admin", 0.001, status.HTTP_200_OK),
+    V_TestCase("user1", None, status.HTTP_403_FORBIDDEN),
+]
+update_purchases_count_test_cases = [
+    # "auth_user", "expected_count", "expected_status"
+    P_TestCase("not_auth", None, status.HTTP_401_UNAUTHORIZED),
+    P_TestCase("admin", 0.001, status.HTTP_200_OK),
+    P_TestCase("user1", None, status.HTTP_403_FORBIDDEN),
 ]
 
 
@@ -51,7 +66,6 @@ class TestCategory:
         assert response.status_code == test_case.expected_status
         if response.status_code == status.HTTP_200_OK:
             assert isinstance(response.data, list)
-            assert len(response.data) == self.initial_category_parents_count()
 
     # ----- Retrieve Categories ----------------------------------------------------------------------------------------
     @pytest.mark.parametrize("test_case", retrieve_category_test_cases)
@@ -59,22 +73,43 @@ class TestCategory:
         client = self.get_testcase_client(test_case)
 
         cache.clear()
-
         category = self.model.objects.first()
         url = reverse("category-detail", kwargs={"pk": category.pk})
-        response = client.get(url)
+
+        languages = [language[0] for language in settings.LANGUAGES]
+        responses = {lang: client.get(url, HTTP_ACCEPT_LANGUAGE=lang) for lang in languages}
+
+        for lang, response in responses.items():
+            assert response.status_code == test_case.expected_status
+
+            if response.status_code == status.HTTP_200_OK:
+                assert isinstance(response.data, dict)
+                assert response.data.get("title") == category.get_translated_title(lang)
+
+    @pytest.mark.parametrize("test_case", update_views_count_test_cases)
+    def test_update_views_count(self, test_case: V_TestCase):
+        client = self.get_testcase_client(test_case)
+        category = Category.objects.first()
+
+        url = reverse("update-category-views", kwargs={"pk": category.pk})
+        response = client.post(url)
 
         assert response.status_code == test_case.expected_status
         if response.status_code == status.HTTP_200_OK:
-            assert isinstance(response.data, dict)
+            assert category.statistics.views_count == test_case.expected_count
 
-            for key, value in response.data.items():
-                if key not in ["parents", "subcategories"]:
-                    assert getattr(category, key) == value
+    @pytest.mark.parametrize("test_case", update_purchases_count_test_cases)
+    def test_update_purchases_count(self, test_case: P_TestCase):
+        client = self.get_testcase_client(test_case)
+        category = Category.objects.first()
+
+        url = reverse("update-category-purchases", kwargs={"pk": category.pk})
+        response = client.post(url)
+
+        assert response.status_code == test_case.expected_status
+        if response.status_code == status.HTTP_200_OK:
+            assert category.statistics.purchases_count == test_case.expected_count
 
     # ----- Helper Methods ---------------------------------------------------------------------------------------------
     def get_testcase_client(self, test_case):
         return self.client(getattr(self.users, test_case.auth_user))
-
-    def initial_category_parents_count(self):
-        return self.model.objects.filter(parents=None).count()

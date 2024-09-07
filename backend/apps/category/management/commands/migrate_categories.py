@@ -1,46 +1,82 @@
 import copy
+import json
+import sys
+from pathlib import Path
 
+from django.core.cache import cache
 from django.core.management.base import BaseCommand
 from django.db import transaction
 
-from apps.category.category_set.__base__ import CATEGORIES
 from apps.category.models import Category
+
+app_dir = Path(__file__).resolve().parent.parent.parent
+default_file_path = app_dir / "data" / "categories.json"
 
 
 class Command(BaseCommand):
-    subcategories = []
+    total_categories = 0
+    processed_count = 0
     model = Category
 
-    def handle(self, *args, **kwargs):
-        with transaction.atomic():
-            self.migrate_categories()
+    @staticmethod
+    def extract_categories_form_json(file_path=None):
+        json_file_path = default_file_path if not file_path else file_path
+        with open(json_file_path, "r", encoding="utf-8") as file:
+            return json.load(file)
 
-        message = "Categories updated successfully!"
+    def add_arguments(self, parser):
+        help_message = 'default path: "app/categories/data/categories.json"'
+        parser.add_argument("--file", type=str, help=help_message)
+
+    def handle(self, *args, **kwargs):
+        cache.clear()
+        # Step 1: Extract list of categories
+        file_path = kwargs.get("file")
+        categories = self.extract_categories_form_json(file_path)
+
+        # Step 2: Count categories and writing to the console
+        self.count_categories(copy.deepcopy(categories))
+        message = "Total categories to process: "
+        self.stdout.write(message + str(self.total_categories))
+
+        # Step 3: Writing to the database
+        with transaction.atomic():
+            self.migrate_categories(copy.deepcopy(categories))
+
+        # Step 4: Writing status to the console
+        message = "\nCategories updated successfully!"
         self.stdout.write(self.style.SUCCESS(message))
 
-    def migrate_categories(self):
-        self.process_subcategories(copy.deepcopy(CATEGORIES))
+    def migrate_categories(self, categories: list, parent=None):
+        for category in categories:
+            category["parent"] = parent
+            children_categories = category.pop("children", [])
 
-        while self.subcategories:
-            subcategories = self.subcategories
-            self.subcategories = []
+            # Step 1: Create or Update a category by its href
+            href = f"{parent.href}/{category.get('name')}" if parent else f"/{category.get('name')}"
+            category_obj, created = self.model.objects.update_or_create(href=href, defaults=category)
 
-            for parent, categories in subcategories:
-                self.process_subcategories(categories, main_parent=parent)
+            # Step 2: Writing progress to the console
+            self.print_progress()
 
-    def process_subcategories(self, subcategories: list, main_parent: Category = None):
-        for category in subcategories:
-            subcategories = category.pop("subcategories", [])
-            category_obj, created = self.model.objects.update_or_create(category, slug=category.get("slug"))
+            # Step 3: Recursive create child categories
+            if children_categories:
+                self.migrate_categories(children_categories, category_obj)
 
-            if main_parent:
-                main_parent.subcategories.add(category_obj)
+    def count_categories(self, categories):
+        while categories:
+            self.total_categories += 1
+            current = categories.pop()
+            children = current.get("children", [])
 
-                parents = [main_parent]
-                while parents:
-                    for parent in parents:
-                        category_obj.parents.add(parent)
-                        parents = list(parent.parents.all())
+            if children:
+                categories.extend(children)
 
-            if subcategories:
-                self.subcategories.append((category_obj, subcategories))
+    def print_progress(self):
+        self.processed_count += 1
+        count = f"{self.processed_count}/{self.total_categories}"
+        percent = eval(count) * 100
+
+        message = f"\rProgress: {count} [{percent:.1f}%]"
+        sys.stdout.write(message)
+        sys.stdout.flush()

@@ -1,42 +1,32 @@
 from rest_framework import serializers
 
-from .models import Category
-
-__all__ = [
-    "CategorySerializer",
-    "CategoryDetailSerializer",
-]
-
-
-class TopLevelSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Category
-        fields = ["id", "order", "name", "slug", "url"]
-
-
-class RecursiveSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Category
-        fields = ["id", "order", "name", "slug", "url", "subcategories"]
-
-    subcategories = serializers.SerializerMethodField()
-
-    def get_subcategories(self, obj):
-        return self.__class__(obj.subcategories.all(), many=True).data
+from .models import BASE_LANGUAGE, Category, TitlePosition
 
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ["id", "order", "name", "slug", "url", "subcategories"]
+        # fmt: off
+        fields = [
+            "id", "name", "title", "title_pos", "score", "parent_id",
+            "order", "lft", "rght", "level", "active", "href", "image",
+        ]
+        # fmt: on
 
-    subcategories = RecursiveSerializer(many=True, read_only=True)
+    title = serializers.SerializerMethodField()
+    title_pos = serializers.ChoiceField(source="get_image_title_position", choices=TitlePosition)
+    href = serializers.URLField(source="absolute_url")
+    score = serializers.FloatField(source="get_popularity_score")
+
+    def get_title(self, obj):
+        lang = self.context.get("lang", BASE_LANGUAGE)
+        return obj.get_translated_title(lang)
 
 
-class CategoryDetailSerializer(serializers.ModelSerializer):
+class CategoryDetailSerializer(CategorySerializer):
     class Meta:
         model = Category
-        fields = ["id", "order", "name", "description", "slug", "url", "active", "parents", "subcategories"]
+        fields = CategorySerializer.Meta.fields + ["parents", "children"]
 
-    parents = TopLevelSerializer(many=True, read_only=True)
-    subcategories = TopLevelSerializer(many=True, read_only=True)
+    parents = serializers.ListField(child=CategorySerializer(), source="get_ancestors")
+    children = serializers.ListField(child=CategorySerializer(), source="get_children")

@@ -45,7 +45,9 @@ INSTALLED_APPS = [
     "django_filters",
     "drf_spectacular",
     "django_celery_beat",
-    # --- Apps --------------------------
+    "mptt",
+    "parler",
+    # --- Apps -----------
     "apps.utils",
     "apps.user",
     "apps.user_auth",
@@ -61,6 +63,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    # --- Custom -----------------------------------
+    "django.middleware.locale.LocaleMiddleware",
 ]
 
 ROOT_URLCONF = "core.urls"
@@ -140,11 +144,33 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTH_USER_MODEL = "user.User"
 
-LANGUAGE_CODE = "en-US"
+LANGUAGE_CODE = "uk"
+
+LANGUAGES = [
+    ("uk", "Ukrainian"),
+    ("ru", "Russian"),
+    ("en", "English"),
+    ("pl", "Polish"),
+]
+
+PARLER_LANGUAGES = {
+    None: (
+        {"code": "uk"},
+        {"code": "ru"},
+        {"code": "en"},
+        {"code": "pl"},
+    ),
+    "default": {
+        "fallbacks": ["en"],
+        "hide_untranslated": False,
+    },
+}
 
 TIME_ZONE = "Europe/Kyiv"
 
 USE_I18N = True
+
+USE_L10N = True
 
 USE_TZ = True
 

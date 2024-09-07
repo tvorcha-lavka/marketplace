@@ -1,17 +1,30 @@
 import pytest
-from django.contrib.admin.sites import site
+from django import forms
 
+from apps.category.admin import CategoryAdminForm
 from apps.category.models import Category
 
 
 @pytest.mark.django_db
-class TestAdminPanel:
-    def test_get_parents(self):
-        category = Category.objects.create(name="Test Category", slug="test-category", order=1)
-        parent_category = Category.objects.create(name="Parent Category", slug="parent-category", order=1)
-        category.parents.add(parent_category)
+class TestCategoryAdminForm:
+    def test_name_field_hidden_when_name_is_none(self):
+        form = CategoryAdminForm(data={}, instance=Category(name=None))
+        assert isinstance(form.fields["name"].widget, forms.HiddenInput)
 
-        admin_instance = site._registry[Category]
-        result = admin_instance.get_parents(category)
+    def test_name_field_help_text_when_href_is_set(self, settings):
+        settings.BASE_FRONTEND_URL = "https://example.com"
 
-        assert result == f"[{parent_category.pk}] {parent_category.name}"
+        category = Category(name="Test", href="/test-url")
+        form = CategoryAdminForm(instance=category)
+
+        assert form.fields["name"].help_text == "https://example.com/test-url"
+
+    def test_order_field_help_text(self):
+        form = CategoryAdminForm(instance=Category(name="Test"))
+
+        expected_help_text = (
+            "This parameter is responsible for the location of the category.\n"
+            "The smaller the number, the higher the category in the list.\n"
+            "Sorting occurs by [order] and tree [level]."
+        )
+        assert form.fields["order"].help_text == expected_help_text
