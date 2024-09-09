@@ -1,5 +1,6 @@
 from collections import namedtuple as nt
 from datetime import timedelta
+from unittest.mock import patch
 
 import pytest
 from django.urls import reverse
@@ -41,7 +42,8 @@ class TestPasswordResetAPIView:
 
     # ----- Reset ------------------------------------------------------------------------------------------------------
     @pytest.mark.parametrize("test_case", password_reset_test_cases)
-    def test_password_reset_view(self, test_case: R_TestCase):
+    @patch("apps.user_auth.jwt_auth.views.send_password_reset_email.apply_async")
+    def test_password_reset_view(self, mock_send_password_reset_email, test_case: R_TestCase):
         client = self.get_testcase_client(test_case)
 
         url = reverse("password-reset")
@@ -51,6 +53,9 @@ class TestPasswordResetAPIView:
         assert response.status_code == test_case.expected_status
         for key in test_case.expected_data:
             assert key in response.data
+
+        if response.status_code == status.HTTP_200_OK:
+            mock_send_password_reset_email.assert_called_once()
 
     # ----- Confirm ----------------------------------------------------------------------------------------------------
     @pytest.mark.parametrize("test_case", password_reset_confirm_test_cases)

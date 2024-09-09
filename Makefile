@@ -54,6 +54,9 @@ migrations:
 migrate:
 	docker compose run --rm backend python manage.py migrate
 
+migrate-categories:
+	docker compose run --rm backend python manage.py migrate_categories
+
 create-superuser: up
 	docker exec -it backend python manage.py createsuperuser
 
