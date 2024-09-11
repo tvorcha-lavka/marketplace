@@ -11,17 +11,18 @@ from apps.category.models import Category
 from .conftest import UserSchema
 
 # ----- Test Case Schemas ----------------------------------------------------------------------------------------------
-L_TestCase = nt("List", ["auth_user", "expected_status"])
+L_TestCase = nt("List", ["auth_user", "get_popular", "expected_status"])
 R_TestCase = nt("Retrieve", ["auth_user", "expected_status"])
 V_TestCase = nt("ViewsCount", ["auth_user", "expected_count", "expected_status"])
 P_TestCase = nt("PurchasesCount", ["auth_user", "expected_count", "expected_status"])
 
 # ----- Test Cases -----------------------------------------------------------------------------------------------------
 list_category_test_cases = [
-    # "auth_user", "expected_status"
-    L_TestCase("not_auth", status.HTTP_401_UNAUTHORIZED),
-    L_TestCase("admin", status.HTTP_200_OK),
-    L_TestCase("user1", status.HTTP_403_FORBIDDEN),
+    # "auth_user", "get_popular", "expected_status"
+    L_TestCase("not_auth", False, status.HTTP_401_UNAUTHORIZED),
+    L_TestCase("admin", True, status.HTTP_200_OK),
+    L_TestCase("admin", False, status.HTTP_200_OK),
+    L_TestCase("user1", True, status.HTTP_403_FORBIDDEN),
 ]
 retrieve_category_test_cases = [
     # "auth_user", "expected_status"
@@ -61,7 +62,8 @@ class TestCategory:
 
         cache.clear()
         url = reverse("category-list")
-        response = client.get(url)
+        query_params = {"popular": test_case.get_popular}
+        response = client.get(url, data=query_params)
 
         assert response.status_code == test_case.expected_status
         if response.status_code == status.HTTP_200_OK:

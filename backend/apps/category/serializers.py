@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import BASE_LANGUAGE, Category, TitlePosition
+from .models import Category, TitlePosition
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -19,8 +19,9 @@ class CategorySerializer(serializers.ModelSerializer):
     score = serializers.FloatField(source="get_popularity_score")
 
     def get_title(self, obj):
-        lang = self.context.get("lang", BASE_LANGUAGE)
-        return obj.get_translated_title(lang)
+        request = self.context.get("request")
+        language = request.GET.get("lang", None)  # if lang in query params
+        return obj.get_translated_title(language) if language else obj.title
 
 
 class CategoryDetailSerializer(CategorySerializer):
