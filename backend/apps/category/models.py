@@ -53,8 +53,8 @@ class Category(MPTTModel, TranslatableModel):
         return settings.BASE_FRONTEND_URL + self.href
 
     @property
-    def get_image_title_position(self) -> Union[str, None]:
-        return self.image.title_position if hasattr(self, "image") else None
+    def get_image_title_position(self) -> str:
+        return self.image.title_position if hasattr(self, "image") else TitlePosition.TOP_LEFT
 
     @property
     def get_popularity_score(self) -> Union[int, float]:
@@ -119,12 +119,12 @@ class Category(MPTTModel, TranslatableModel):
 
 
 class TitlePosition(models.TextChoices):
-    TOP_LEFT = "top left", _("top left")
-    TOP_RIGHT = "top right", _("top right")
-    TOP_MIDDLE = "top middle", _("top middle")
-    BOTTOM_LEFT = "bottom left", _("bottom left")
-    BOTTOM_RIGHT = "bottom right", _("bottom right")
-    BOTTOM_MIDDLE = "bottom middle", _("bottom middle")
+    TOP_LEFT = "top-left", _("top left")
+    TOP_RIGHT = "top-right", _("top right")
+    TOP_MIDDLE = "top-middle", _("top middle")
+    BOTTOM_LEFT = "bottom-left", _("bottom left")
+    BOTTOM_RIGHT = "bottom-right", _("bottom right")
+    BOTTOM_MIDDLE = "bottom-middle", _("bottom middle")
 
 
 class CategoryImage(models.Model):
