@@ -9,8 +9,7 @@ class TestCategoryModel:
     @pytest.mark.usefixtures("migrate_categories")
     def test_str_method(self):
         category = Category.objects.first()
-        expected_result = category.safe_translation_getter("title", any_language=True)
-        assert str(category) == expected_result
+        assert str(category) == category.name
 
     def test_save_method(self, mock_translator):
         initial_category_count = Category.objects.count()

@@ -1,5 +1,5 @@
 import re
-from typing import Tuple
+from typing import Tuple, Union
 
 from deep_translator import DeeplTranslator
 from django.conf import settings
@@ -32,10 +32,10 @@ class Category(MPTTModel, TranslatableModel):
     parent = TreeForeignKey("self", on_delete=models.PROTECT, null=True, blank=True, related_name="children")
 
     def __str__(self):
-        return self.safe_translation_getter("title", any_language=True)
+        return self.name
 
     def save(self, *args, **kwargs):
-        db_title, current_title = self.get_db_and_current_title()
+        db_title, current_title = self.__get_db_and_current_title()
         force_insert = kwargs.get("force_insert", False)
         super().save(*args, **kwargs)
 
@@ -54,24 +54,22 @@ class Category(MPTTModel, TranslatableModel):
 
     @property
     def get_image_title_position(self) -> str:
-        return self.image.title_position  # type: ignore
+        return self.image.title_position if hasattr(self, "image") else TitlePosition.TOP_LEFT
 
     @property
-    def get_popularity_score(self) -> int:
-        return self.statistics.popularity_score  # type: ignore
+    def get_popularity_score(self) -> Union[int, float]:
+        return self.statistics.popularity_score if hasattr(self, "statistics") else 0
 
     def get_translated_title(self, lang=BASE_LANGUAGE) -> str:
         return self.safe_translation_getter("title", language_code=lang, any_language=True)
 
-    def get_db_and_current_title(self) -> Tuple[str, str]:
+    def __get_db_and_current_title(self) -> Tuple[str, str]:
         """Gets the title from the database and the current title for comparison."""
         db_title = self.__class__.objects.language(BASE_LANGUAGE).get(pk=self.pk).title if self.pk else None
         current_title = self.title  # type: ignore
         return db_title, current_title
 
     def __title_translate(self, db_title: str, current_title: str) -> None:
-        languages = [lang[0] for lang in settings.LANGUAGES if lang[0] != BASE_LANGUAGE]
-
         def create_translation(lang) -> None:
             self.create_translation(lang, title=translate(lang))
 
@@ -84,6 +82,7 @@ class Category(MPTTModel, TranslatableModel):
             translator = DeeplTranslator(source=BASE_LANGUAGE, target=lang)
             return translator.translate(current_title)
 
+        languages = [lang[0] for lang in settings.LANGUAGES if lang[0] != BASE_LANGUAGE]
         list(map(create_translation if db_title is None else update_translation, languages))
 
     def __set_name(self) -> str:
@@ -92,11 +91,11 @@ class Category(MPTTModel, TranslatableModel):
         step_1 = re.sub(r"\s*[(\[{<][^>)\]}]*[>)\]}]", "", self.title)  # type: ignore
 
         # Step 2: Splits on specific delimiters such as hyphens, pipes, and slashes.
-        result = re.split(r" - | — |[,.:|/\\]", step_1)
+        result = re.split(r" - | — |[,.:|/\\]", step_1)[0]
 
         # Step 3: Translate and return first segment
         translator = DeeplTranslator(source=BASE_LANGUAGE, target="en")
-        return slugify(translator.translate(result[0]))
+        return slugify(translator.translate(result))
 
     def __set_href(self, force_insert=False) -> str:
         """Sets the href for the category based on the name and parent category."""
@@ -120,12 +119,12 @@ class Category(MPTTModel, TranslatableModel):
 
 
 class TitlePosition(models.TextChoices):
-    TOP_LEFT = "top left", _("top left")
-    TOP_RIGHT = "top right", _("top right")
-    TOP_MIDDLE = "top middle", _("top middle")
-    BOTTOM_LEFT = "bottom left", _("bottom left")
-    BOTTOM_RIGHT = "bottom right", _("bottom right")
-    BOTTOM_MIDDLE = "bottom middle", _("bottom middle")
+    TOP_LEFT = "top-left", _("top left")
+    TOP_RIGHT = "top-right", _("top right")
+    TOP_MIDDLE = "top-middle", _("top middle")
+    BOTTOM_LEFT = "bottom-left", _("bottom left")
+    BOTTOM_RIGHT = "bottom-right", _("bottom right")
+    BOTTOM_MIDDLE = "bottom-middle", _("bottom middle")
 
 
 class CategoryImage(models.Model):

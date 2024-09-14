@@ -16,6 +16,8 @@ TEST_COMPOSE_FILE = $(BACKEND_DIR)/docker-compose.test.yml
 build: build-backend build-frontend
 destroy: destroy-backend destroy-frontend
 rebuild: down destroy build
+rebuild-backend: down destroy-backend build-backend
+rebuild-frontend: down destroy-frontend build-frontend
 
 build-backend:
 	docker build --build-arg MODE=$(MODE) -t $(BACKEND_IMAGE) $(BACKEND_DIR)

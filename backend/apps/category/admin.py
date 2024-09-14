@@ -1,6 +1,7 @@
 from django import forms
 from django.conf import settings
 from django.contrib import admin
+from django.utils.translation import get_language_from_request
 from django.utils.translation import gettext_lazy as _
 from mptt.admin import MPTTModelAdmin
 from mptt.forms import MPTTAdminForm  # noqa
@@ -44,11 +45,30 @@ class ImageInline(admin.StackedInline):
 class CategoryAdmin(TranslatableAdmin, MPTTModelAdmin):
     form = CategoryAdminForm
 
-    list_display = ("id", "title", "parent_id", "parent", "order", "active")
-    list_display_links = ("title", "parent")
+    list_display = ("id", "title_display", "parent_id", "parent_display", "order", "active")
+    list_display_links = ("title_display", "parent_display")
     list_filter = ("level", "active", "parent")
     search_fields = ("translations__title", "name")
     list_per_page = 25
 
     fieldsets = [(None, {"fields": ("title", "name", "parent", "active", "order")})]
     inlines = [ImageInline]
+
+    @staticmethod
+    @admin.display(description="Category")
+    def title_display(obj):
+        return obj.title
+
+    @staticmethod
+    @admin.display(description="Parent")
+    def parent_display(obj):
+        return obj.parent.title if obj.parent else None
+
+    def get_queryset(self, request):
+        return (
+            super()
+            .get_queryset(request)
+            .select_related("parent")
+            .prefetch_related("translations", "parent__translations")
+            .language(get_language_from_request(request))
+        )
