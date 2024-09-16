@@ -6,30 +6,44 @@ from .views import (
     LoginAPIView,
     LogoutAPIView,
     PasswordResetAPIView,
-    PasswordResetConfirmAPIView,
+    SendEmailVerificationAPIView,
+    SendPasswordResetAPIView,
     SignupAPIView,
-    VerifyEmailAPIView,
+    VerifyCodeAPIView,
+    VerifyEmailAddressAPIView,
 )
 
 SchemaTag = "JWT Authentication"
 LoginAPIView = extend_schema(tags=[SchemaTag])(LoginAPIView)
 LogoutAPIView = extend_schema(tags=[SchemaTag])(LogoutAPIView)
 SignupAPIView = extend_schema(tags=[SchemaTag], auth=[])(SignupAPIView)
+
+SchemaTag = "JWT Token Obtain Pair"
 TokenObtainPairView = extend_schema(tags=[SchemaTag])(TokenObtainPairView)
 TokenRefreshView = extend_schema(tags=[SchemaTag])(TokenRefreshView)
-VerifyEmailAPIView = extend_schema(tags=[SchemaTag])(VerifyEmailAPIView)
 
-SchemaTag = "Reset Password"
-PasswordResetAPIView = extend_schema(tags=[SchemaTag])(PasswordResetAPIView)
-PasswordResetConfirmAPIView = extend_schema(tags=[SchemaTag])(PasswordResetConfirmAPIView)
+SchemaTag = "Verification"
+VerifyCodeAPIView = extend_schema(tags=[SchemaTag])(VerifyCodeAPIView)
+VerifyEmailAddressAPIView = extend_schema(tags=[SchemaTag])(VerifyEmailAddressAPIView)
+
+SchemaTag1, SchemaTag2 = "Reset Password", "Send Email"
+SendEmailVerificationAPIView = extend_schema(tags=[SchemaTag2])(SendEmailVerificationAPIView)
+SendPasswordResetAPIView = extend_schema(tags=[SchemaTag1, SchemaTag2])(SendPasswordResetAPIView)
+PasswordResetAPIView = extend_schema(tags=[SchemaTag1])(PasswordResetAPIView)
 
 urlpatterns = [
     path("login/", LoginAPIView.as_view(), name="login"),
     path("logout/", LogoutAPIView.as_view(), name="logout"),
     path("sign-up/", SignupAPIView.as_view(), name="sign-up"),
+    # ------------------------------------------------------------------------
     path("token/obtain/", TokenObtainPairView.as_view(), name="token-obtain"),
     path("token/refresh/", TokenRefreshView.as_view(), name="token-refresh"),
-    path("password/reset/", PasswordResetAPIView.as_view(), name="password-reset"),
-    path("password/reset/confirm/", PasswordResetConfirmAPIView.as_view(), name="password-reset-confirm"),
-    path("verify-email/", VerifyEmailAPIView.as_view(), name="verify-email"),
+    # -----------------------------------------------------------------------------------------------------------------
+    path("send-mail/email-verification/", SendEmailVerificationAPIView.as_view(), name="send-email-verification-code"),
+    path("send-mail/reset-password/", SendPasswordResetAPIView.as_view(), name="send-reset-password-code"),
+    # --------------------------------------------------------------------------------------
+    path("verify-email/", VerifyEmailAddressAPIView.as_view(), name="verify-email-address"),
+    path("verify-code/", VerifyCodeAPIView.as_view(), name="verify-code"),
+    # -----------------------------------------------------------------------------
+    path("reset/password/", PasswordResetAPIView.as_view(), name="reset-password"),
 ]
