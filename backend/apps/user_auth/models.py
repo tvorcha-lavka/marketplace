@@ -1,12 +1,20 @@
-import uuid
 from datetime import timedelta
 from random import randint
 
 from django.db import models
+from django.db.models.signals import ModelSignal
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from apps.user.models import User
+
+email_verification_signal = ModelSignal(use_caching=True)
+reset_password_signal = ModelSignal(use_caching=True)
+
+
+class CodeType(models.TextChoices):
+    EMAIL_VERIFICATION = "email_verification", _("Email Verification")
+    RESET_PASSWORD = "reset_password", _("Reset Password")
 
 
 class VerificationCode(models.Model):
@@ -16,6 +24,7 @@ class VerificationCode(models.Model):
         verbose_name_plural = _("Verification Codes")
 
     code = models.IntegerField()
+    code_type = models.CharField(max_length=20, choices=CodeType)
     expires_at = models.DateTimeField()
     uuid = models.UUIDField(null=True, blank=True)
 
@@ -29,6 +38,7 @@ class VerificationCode(models.Model):
         self.code = randint(100000, 999999)
         self.expires_at = timezone.now() + self.default_expire
         super().save(*args, **kwargs)
+        self.post_save()
 
     @property
     def default_expire(self):
@@ -41,34 +51,16 @@ class VerificationCode(models.Model):
     def is_expired(self):
         return timezone.now() > self.expires_at
 
+    def post_save(self):
+        signal_map = {
+            CodeType.EMAIL_VERIFICATION: email_verification_signal,
+            CodeType.RESET_PASSWORD: reset_password_signal,
+        }
+        signal_map[self.code_type].send(sender=self.__class__, instance=self)  # type: ignore
+
+    def re_create(self) -> object:
+        self.delete()  # Send a signal to revoke a Celery task, then delete the active code.
+        return self.__class__.objects.create(user=self.user, code_type=self.code_type)
+
     def __int__(self):
         return self.code
-
-
-class PasswordResetToken(models.Model):
-    class Meta:
-        db_table = "user_auth_password_reset_token"
-        verbose_name = _("Password Reset Token")
-        verbose_name_plural = _("Password Reset Tokens")
-
-    token = models.UUIDField(default=uuid.uuid4, unique=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    expires_at = models.DateTimeField()
-
-    objects = models.Manager()
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f"{self.token}"
-
-    def save(self, *args, **kwargs):
-        if not self.pk:
-            self.expires_at = timezone.now() + self.default_expiry
-        super().save(*args, **kwargs)
-
-    @property
-    def default_expiry(self):
-        return timedelta(minutes=15)
-
-    def is_expired(self):
-        return timezone.now() > self.expires_at

@@ -204,8 +204,8 @@ REST_FRAMEWORK = {
 
 # DRF SPECTACULAR
 SPECTACULAR_SETTINGS = {
-    "TITLE": "TvorchaLavka",
-    "DESCRIPTION": "API TvorchaLavka",
+    "TITLE": "Tvorcha Lavka",
+    "DESCRIPTION": "API Tvorcha Lavka",
     "VERSION": "1.0.0",
     "SERVE_PERMISSIONS": [
         "rest_framework.permissions.IsAdminUser",
