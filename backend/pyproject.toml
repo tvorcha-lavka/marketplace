@@ -19,6 +19,12 @@ redis = "^5.0.7"
 celery = "^5.4.0"
 django-celery-beat = "^2.6.0"
 django-filter = "^24.3"
+django-mptt = "^0.16.0"
+django-parler = "^2.3"
+django-parler-rest = "^2.2"
+deep-translator = "^1.11.4"
+django-storages = "^1.14.4"
+pillow = "^10.4.0"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^3.7.1"

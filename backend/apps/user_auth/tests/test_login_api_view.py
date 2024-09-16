@@ -30,8 +30,9 @@ class TestLoginAPIView:
     @pytest.mark.parametrize("test_case", login_test_cases)
     def test_login_api_view(self, test_case: L_TestCase):
         user = getattr(self.users, test_case.auth_user)
-        user.is_email_verified = test_case.is_email_verified
-        user.save()
+
+        if test_case.is_email_verified:
+            user.verify_email()
 
         client = self.get_testcase_client(test_case)
 
