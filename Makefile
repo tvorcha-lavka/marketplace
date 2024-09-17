@@ -16,6 +16,8 @@ TEST_COMPOSE_FILE = $(BACKEND_DIR)/docker-compose.test.yml
 build: build-backend build-frontend
 destroy: destroy-backend destroy-frontend
 rebuild: down destroy build
+rebuild-backend: down destroy-backend build-backend
+rebuild-frontend: down destroy-frontend build-frontend
 
 build-backend:
 	docker build --build-arg MODE=$(MODE) -t $(BACKEND_IMAGE) $(BACKEND_DIR)
@@ -53,6 +55,9 @@ migrations:
 
 migrate:
 	docker compose run --rm backend python manage.py migrate
+
+migrate-categories:
+	docker compose run --rm backend python manage.py migrate_categories
 
 create-superuser: up
 	docker exec -it backend python manage.py createsuperuser

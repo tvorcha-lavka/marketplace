@@ -1,5 +1,5 @@
 import Header from '../../components/Header/Header';
-import Footer from '../../components/Footer/Footer';
+import Footer from '../../components/Footer';
 
 import styles from './CartPage.module.css';
 

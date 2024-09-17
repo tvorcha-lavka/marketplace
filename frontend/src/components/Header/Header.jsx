@@ -24,7 +24,7 @@ export default function Header() {
         </div>
         <div className={styles.rightPart}>
           <Link to="/cart">
-            <svg width={24} height={24}>
+            <svg width={24} height={24} >
               <use href={`${sprite}#icon-cart`} />
             </svg>
           </Link>

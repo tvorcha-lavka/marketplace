@@ -1,6 +1,8 @@
-import { Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import HomePage from '../src/pages/HomePage/HomePage';
 import CartPage from '../src/pages/CartPage/CartPage';
+import LoginPage from '../src/pages/LoginPage';
+import RegisterPage from '../src/pages/RegisterPage';
 import SharedLayout from './components/SharedLayout/SharedLayout';
 
 export default function App() {

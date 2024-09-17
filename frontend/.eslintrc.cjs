@@ -36,7 +36,7 @@ module.exports = {
     // Enforce 2-space indentation
     indent: ['error', 2],
     // Enforce Unix line endings (LF)
-    'linebreak-style': ['unix'],
+    'linebreak-style': ['error', 'unix'],
     // Enforce the use of single quotes for strings
     quotes: ['error', 'single'],
     // Enforce the use of semicolons at the end of statements
