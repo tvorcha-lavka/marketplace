@@ -33,11 +33,3 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.username
-
-    def verify_email(self):
-        self.is_email_verified = True
-        self.save(force_update=True, update_fields=["is_email_verified"])
-
-    def set_new_password(self, raw_password):
-        super().set_password(raw_password)
-        self.save(force_update=True, update_fields=["password"])

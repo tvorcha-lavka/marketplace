@@ -14,10 +14,9 @@ environment = os.getenv("MODE", "dev")
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", f"core.settings.{environment}")
 settings.CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 
-broker_url = os.getenv("CELERY_BROKER_URL")
-backend_url = os.getenv("CELERY_RESULT_BACKEND", "rpc://")
+broker_url = os.getenv("RABBITMQ_BROKER_URL")
 
-app = Celery("backend", broker=broker_url, backend=backend_url)
+app = Celery("backend", broker=broker_url, backend="rpc://")
 app.config_from_object("django.conf:settings", namespace="CELERY")
 app.conf.broker_connection_retry_on_startup = True
 app.autodiscover_tasks()

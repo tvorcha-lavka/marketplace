@@ -45,7 +45,8 @@ class SocialOAuth2CallbackView(CreateAPIView, TokenMixin, BackendMixin):
             return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
         if not user.is_email_verified:
-            user.verify_email()
+            user.is_email_verified = True
+            user.save()
             send_welcome_email.apply_async((user.email,), queue="low_priority", priority=0)
 
         if user and user.is_active:

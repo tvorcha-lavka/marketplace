@@ -45,13 +45,10 @@ INSTALLED_APPS = [
     "django_filters",
     "drf_spectacular",
     "django_celery_beat",
-    "mptt",
-    "parler",
-    # --- Apps -----------
+    # --- Apps --------------------------
     "apps.utils",
     "apps.user",
     "apps.user_auth",
-    "apps.category",
 ]
 
 MIDDLEWARE = [
@@ -63,8 +60,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    # --- Custom -----------------------------------
-    "django.middleware.locale.LocaleMiddleware",
 ]
 
 ROOT_URLCONF = "core.urls"
@@ -89,7 +84,7 @@ DATABASES = {
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": os.getenv("REDIS_BROKER_URL", "redis://redis:6379/1"),
+        "LOCATION": "redis://redis:6379/1",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         },
@@ -144,33 +139,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTH_USER_MODEL = "user.User"
 
-LANGUAGE_CODE = "uk"
-
-LANGUAGES = [
-    ("uk", "Ukrainian"),
-    ("ru", "Russian"),
-    ("en", "English"),
-    ("pl", "Polish"),
-]
-
-PARLER_LANGUAGES = {
-    None: (
-        {"code": "uk"},
-        {"code": "ru"},
-        {"code": "en"},
-        {"code": "pl"},
-    ),
-    "default": {
-        "fallbacks": ["en"],
-        "hide_untranslated": False,
-    },
-}
+LANGUAGE_CODE = "en-US"
 
 TIME_ZONE = "Europe/Kyiv"
 
 USE_I18N = True
-
-USE_L10N = True
 
 USE_TZ = True
 
@@ -204,8 +177,8 @@ REST_FRAMEWORK = {
 
 # DRF SPECTACULAR
 SPECTACULAR_SETTINGS = {
-    "TITLE": "Tvorcha Lavka",
-    "DESCRIPTION": "API Tvorcha Lavka",
+    "TITLE": "TvorchaLavka",
+    "DESCRIPTION": "API TvorchaLavka",
     "VERSION": "1.0.0",
     "SERVE_PERMISSIONS": [
         "rest_framework.permissions.IsAdminUser",

@@ -15,9 +15,9 @@ S_TestCase = nt("SignupTestCase", ["auth_user", "data", "expected_status", "expe
 # ----- SignupAPIView Test Cases ---------------------------------------------------------------------------------------
 signup_test_cases = [
     # "auth_user", "data", "expected_status", "expected_data"
-    S_TestCase("admin", "valid_data", status.HTTP_201_CREATED, ["message"]),
-    S_TestCase("not_auth", "valid_data", status.HTTP_201_CREATED, ["message"]),
-    S_TestCase("not_auth", "invalid_data", status.HTTP_400_BAD_REQUEST, ["password"]),
+    S_TestCase("admin", "valid_data", status.HTTP_201_CREATED, ["email", "message"]),
+    S_TestCase("not_auth", "valid_data", status.HTTP_201_CREATED, ["email", "message"]),
+    S_TestCase("not_auth", "invalid_data", status.HTTP_400_BAD_REQUEST, ["non_field_errors"]),
     S_TestCase("user1", "invalid_data", status.HTTP_403_FORBIDDEN, ["detail"]),
     S_TestCase("user2", "valid_data", status.HTTP_403_FORBIDDEN, ["detail"]),
 ]
@@ -33,8 +33,8 @@ class TestSignupAPIView:
         self.data = user_data.get("signup")
 
     @pytest.mark.parametrize("test_case", signup_test_cases)
-    @patch("apps.user_auth.jwt_auth.tasks.send_verification_code.apply_async")
-    def test_signup_view(self, mock_email_task, test_case: S_TestCase):
+    @patch("apps.user_auth.jwt_auth.views.send_verification_email.apply_async")
+    def test_signup_view(self, mock_send_email, test_case: S_TestCase):
         client = self.get_testcase_client(test_case)
 
         url = reverse("sign-up")
@@ -42,11 +42,12 @@ class TestSignupAPIView:
         response = client.post(url, data=data)
 
         assert response.status_code == test_case.expected_status
+
         for key in test_case.expected_data:
             assert key in response.data
 
         if test_case.expected_status == status.HTTP_201_CREATED:
-            mock_email_task.assert_called_once()
+            mock_send_email.assert_called_once_with((data.get("email"),), queue="high_priority", priority=0)
             assert User.objects.filter(email=data.get("email")).exists()
 
     # ----- Helper Methods ---------------------------------------------------------------------------------------------

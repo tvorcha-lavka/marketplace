@@ -1,8 +1,9 @@
+
 // import { FaRegHeart } from 'react-icons/fa';
 import styles from './AdvertList.module.css';
 import { adverts } from './adverts.js';
 import photoAlternate from '../../images/not-found.png';
-import heart from '../../images/icon-heart.svg';
+import heart from '../../images/icon-heart.svg'
 
 export default function AdvertList() {
   return (
@@ -19,7 +20,7 @@ export default function AdvertList() {
             />
             <button className={styles.heart_btn} type="button">
               {/* <FaRegHeart color="#000" className={styles.icon}/> */}
-              <img src={heart} alt="" />
+             <img src={heart} alt="" />
             </button>
             <div className={styles.box_text}>
               <p className={styles.span}>
