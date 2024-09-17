@@ -1,5 +1,5 @@
-import AddItemButton from '../AddItemButton';
-import styles from './styles.module.css';
+//import AddItemButton from '../../components/AddItemButton/AddItemButton';
+import styles from './Hero.module.css';
 
 export default function Hero() {
   return (
