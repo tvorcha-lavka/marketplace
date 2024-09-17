@@ -43,6 +43,7 @@ ul {
 button {
   font-family: inherit;
   cursor: pointer;
+  padding: 0;
 }
 
 /* h1,

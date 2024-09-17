@@ -1,4 +1,4 @@
-import styles from './styles.module.css';
+import styles from './AddItemButton.module.css';
 
 export default function AddItemButton() {
   return (
