@@ -1,0 +1,35 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 777;
+}
+
+.modal {
+  width: 816px;
+  display: flex;
+  border-radius: 16px;
+  background-color: #fffdf9;
+  position: relative;
+}
+
+.crossBtn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.crossIcon {
+  width: 16px;
+  height: 16px;
+  color: #000;
+}

@@ -1,11 +1,11 @@
-.section{
-    width: 1230px;
+.section {
+  width: 1230px;
   padding: 0 15px;
   margin-left: auto;
   margin-right: auto;
 }
 
-.section svg{
+.section svg {
   stroke: black;
   fill: transparent;
 }
@@ -17,7 +17,8 @@
   padding: 22px 0;
 }
 
-.leftPart, .rightPart {
+.leftPart,
+.rightPart {
   display: flex;
   align-items: center;
   gap: 20px;
@@ -32,8 +33,12 @@
   border: none;
 }
 
-.burgerIcon{
+.burgerIcon {
   fill: black;
   stroke: black;
 }
 
+.loginButton {
+	background-color: transparent;
+	border: none;
+}
