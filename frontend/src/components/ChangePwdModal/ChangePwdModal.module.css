@@ -100,32 +100,6 @@
   stroke: #414141;
 }
 
-.pwdStrengthContainer {
-  display: flex;
-  justify-content: start;
-  align-items: center;
-  margin: 4px 0px;
-}
-
-.strengthLengthWrap {
-  display: flex;
-  width: 100%;
-}
-
-.pwdStrengthLength {
-  display: flex;
-  height: 4px;
-  border-radius: 2px;
-  width: 56px;
-  margin-right: 4px;
-}
-
-.strengthLabel {
-  font-size: 12px;
-  font-weight: 400;
-  color: #0c0600;
-}
-
 .info {
   width: 358px;
   font-size: 12px;

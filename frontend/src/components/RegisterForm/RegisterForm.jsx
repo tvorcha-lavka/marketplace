@@ -3,43 +3,17 @@ import { useState, useId } from 'react';
 //import { register } from '../../redux/auth/operations';
 import { Formik, Form, Field } from 'formik';
 import clsx from 'clsx';
-import * as Yup from 'yup';
 import { useModal } from '../../hooks/useModal';
 import FormImgComponent from '../../components/FormImgComponent/FormImgComponent';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { FaCheck } from 'react-icons/fa6';
-import { FaFacebook } from 'react-icons/fa';
-import { FcGoogle } from 'react-icons/fc';
+import SocialAuthComponent from '../SocialAuthComponent/SocialAuthComponent';
+import {
+  PwdStrengthLength,
+  getStrengthLabel,
+} from '../PwdStrengthLength/PwdStrengthLength';
+import { schema } from '../../utils/formSchema';
 import css from '../RegisterForm/RegisterForm.module.css';
-import { styled } from '@mui/material/styles';
-
-export const StrengthLength = styled('div')(({ bgcolor }) => ({
-  backgroundColor: bgcolor,
-}));
-
-const schema = Yup.object({
-  emailOrPhone: Yup.string()
-    .required()
-    .test(function (value) {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      const uaPhoneRegex = /^\+380[0-9]{9}$/; 
-      const plPhoneRegex = /^\+48[0-9]{9}$/; 
-      const dePhoneRegex = /^\+49[1-9][0-9]{1,14}$/; 
-      const nlPhoneRegex = /^\+31[0-9]{9}$/; 
-      const gbPhoneRegex = /^\+44[1-9][0-9]{9,10}$/; 
-
-      return (
-        emailRegex.test(value) ||
-        uaPhoneRegex.test(value) ||
-        plPhoneRegex.test(value) ||
-        dePhoneRegex.test(value) ||
-        nlPhoneRegex.test(value) ||
-        gbPhoneRegex.test(value)
-      );
-    }),
-  password: Yup.string().min(8).max(30).required(),
-  userRemember: Yup.boolean(),
-});
 
 export default function RegisterForm() {
   const [showPassword, setShowPassword] = useState(true);
@@ -74,17 +48,7 @@ export default function RegisterForm() {
     // });
   };
 
-  const getStrengthLabel = (password) => {
-    const length = password.length;
-    if (length < 8)
-      return { label: 'Слабкий пароль', color: '#EA1119', lines: 1 };
-    if (length < 12)
-      return { label: 'Помірно складний пароль', color: '#E77034', lines: 2 };
-    return { label: 'Надійний пароль', color: '#4D9C63', lines: 3 };
-  };
-
-	const id = useId();
-	
+  const id = useId();
 
   const togglePassInput = () => {
     setType(showPassword ? 'text' : 'password');
@@ -99,8 +63,8 @@ export default function RegisterForm() {
           <li className={css.headerWrapLogin}>
             <button
               type="button"
-              className={css.headerBtn}
               onClick={() => openModal('login')}
+              className={css.headerBtn}
             >
               Вхід
             </button>
@@ -115,22 +79,7 @@ export default function RegisterForm() {
             </button>
           </li>
         </ul>
-        <ul className={css.socialButtons}>
-          <li>
-            <button type="button" className={css.socialButton}>
-              <FaFacebook className={css.facebookIcon} />
-              Facebook
-            </button>
-          </li>
-          <li>
-            <button type="button" className={css.socialButton}>
-              <FcGoogle className={css.googleIcon} />
-              Google
-            </button>
-          </li>
-        </ul>
-        <span className={css.divider}>або</span>
-
+        <SocialAuthComponent />
         <Formik
           initialValues={{
             emailOrPhone: '',
@@ -211,24 +160,7 @@ export default function RegisterForm() {
                 </div>
 
                 {showInfo && (
-                  <div className={css.pwdStrengthContainer}>
-                    <div>
-                      <div className={css.strengthLengthWrap}>
-                        {Array.from({ length: strengthLabel.lines }).map(
-                          (_, index) => (
-                            <StrengthLength
-                              className={css.pwdStrengthLength}
-                              key={index}
-                              bgcolor={strengthLabel.color}
-                            />
-                          )
-                        )}
-                      </div>
-                    </div>
-                    <span className={css.strengthLabel}>
-                      {strengthLabel.label}
-                    </span>
-                  </div>
+                  <PwdStrengthLength strengthLabel={strengthLabel} />
                 )}
               </div>
               {showInfo && (
@@ -277,4 +209,3 @@ export default function RegisterForm() {
     </div>
   );
 }
-

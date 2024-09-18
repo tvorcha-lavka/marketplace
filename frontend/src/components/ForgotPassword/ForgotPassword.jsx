@@ -1,34 +1,12 @@
 import { useId } from 'react';
 import { Link } from 'react-router-dom';
-import * as Yup from 'yup';
 import clsx from 'clsx';
 import { Formik, Form, Field } from 'formik';
 import { useModal } from '../../hooks/useModal';
 import FormImgComponent from '../../components/FormImgComponent/FormImgComponent';
+import { forgotPasswordSchema } from '../../utils/formSchema';
 import { LuArrowLeft } from 'react-icons/lu';
 import css from './ForgotPassword.module.css';
-
-const schema = Yup.object({
-  emailOrPhone: Yup.string()
-    .required()
-    .test(function (value) {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      const uaPhoneRegex = /^\+380[0-9]{9}$/;
-      const plPhoneRegex = /^\+48[0-9]{9}$/;
-      const dePhoneRegex = /^\+49[1-9][0-9]{1,14}$/;
-      const nlPhoneRegex = /^\+31[0-9]{9}$/;
-      const gbPhoneRegex = /^\+44[1-9][0-9]{9,10}$/;
-
-      return (
-        emailRegex.test(value) ||
-        uaPhoneRegex.test(value) ||
-        plPhoneRegex.test(value) ||
-        dePhoneRegex.test(value) ||
-        nlPhoneRegex.test(value) ||
-        gbPhoneRegex.test(value)
-      );
-    }),
-});
 
 export default function ForgotPassword() {
   const onSubmit = (values, actions) => {
@@ -51,10 +29,7 @@ export default function ForgotPassword() {
       <FormImgComponent />
       <div className={css.pageContent}>
         <div className={css.backLinkWrap}>
-          <button
-            onClick={() => openModal('login')}
-            className={css.backLink}
-          >
+          <button onClick={() => openModal('login')} className={css.backLink}>
             <LuArrowLeft className={css.arrowIcon} /> Повернутись назад
           </button>
         </div>
@@ -67,7 +42,7 @@ export default function ForgotPassword() {
             emailOrPhone: '',
           }}
           onSubmit={onSubmit}
-          validationSchema={schema}
+          validationSchema={forgotPasswordSchema}
         >
           {({ isValid, dirty, values }) => (
             <Form className={css.form}>
@@ -105,4 +80,3 @@ export default function ForgotPassword() {
     </div>
   );
 }
-

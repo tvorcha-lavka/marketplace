@@ -1,46 +1,24 @@
 import { useState, useId } from 'react';
 import { Link } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
-import * as Yup from 'yup';
 import clsx from 'clsx';
 import { useModal } from '../../hooks/useModal';
 import FormImgComponent from '../../components/FormImgComponent/FormImgComponent';
+import {
+  PwdStrengthLength,
+  getStrengthLabel,
+} from '../PwdStrengthLength/PwdStrengthLength';
+import { passwordSchema } from '../../utils/formSchema';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import css from './ChangePwdModal.module.css';
-import { styled } from '@mui/material/styles';
-
-export const StrengthLength = styled('div')(({ bgcolor }) => ({
-  backgroundColor: bgcolor,
-}));
-
-const schema = Yup.object({
-  password: Yup.string().min(8).max(30).required(),
-});
 
 export default function ChangePwdModal() {
   const [showPassword, setShowPassword] = useState(true);
   const [types, setType] = useState('password');
   const [strengthLabel, setStrengthLabel] = useState('');
-  const [showInfo, setShowInfo] = useState(false);
+	const [showInfo, setShowInfo] = useState(false);	
 
-  const onSubmit = (values, actions) => {
-    const newUser = {
-      password: values.password,
-    };
-
-    if (!newUser.password) {
-      console.error('Missing required fields');
-      return;
-    }
-
-    openModal('confirmation-modal', { type: 'verification-reset' });
-    setShowInfo(false);
-    setStrengthLabel({ label: '', color: '', lines: 0 });
-    actions.resetForm();
-  };
-
-  const { openModal } = useModal();
-
+	const { openModal } = useModal();
   const id = useId();
 
   const togglePassInput = () => {
@@ -48,13 +26,18 @@ export default function ChangePwdModal() {
     setShowPassword(!showPassword);
   };
 
-  const getStrengthLabel = (password) => {
-    const length = password.length;
-    if (length < 8)
-      return { label: 'Слабкий пароль', color: '#EA1119', lines: 1 };
-    if (length < 12)
-      return { label: 'Помірно складний пароль', color: '#E77034', lines: 2 };
-    return { label: 'Надійний пароль', color: '#4D9C63', lines: 3 };
+	const onSubmit = (values, actions) => {
+    const newUser = {
+      password: values.password,
+    };
+    if (!newUser.password) {
+      console.error('Missing required fields');
+      return;
+    }
+    openModal('confirmation-modal', { type: 'verification-reset' });
+    setShowInfo(false);
+    setStrengthLabel({ label: '', color: '', lines: 0 });
+    actions.resetForm();
   };
 
   return (
@@ -71,7 +54,7 @@ export default function ChangePwdModal() {
             password: '',
           }}
           onSubmit={onSubmit}
-          validationSchema={schema}
+          validationSchema={passwordSchema}
         >
           {({ setFieldValue, isValid, dirty, values }) => (
             <Form className={css.form}>
@@ -124,24 +107,7 @@ export default function ChangePwdModal() {
                 </div>
 
                 {showInfo && (
-                  <div className={css.pwdStrengthContainer}>
-                    <div>
-                      <div className={css.strengthLengthWrap}>
-                        {Array.from({ length: strengthLabel.lines }).map(
-                          (_, index) => (
-                            <StrengthLength
-                              className={css.pwdStrengthLength}
-                              key={index}
-                              bgcolor={strengthLabel.color}
-                            />
-                          )
-                        )}
-                      </div>
-                    </div>
-                    <span className={css.strengthLabel}>
-                      {strengthLabel.label}
-                    </span>
-                  </div>
+                  <PwdStrengthLength strengthLabel={strengthLabel} />
                 )}
               </div>
               {showInfo && (
@@ -169,4 +135,3 @@ export default function ChangePwdModal() {
     </div>
   );
 }
-

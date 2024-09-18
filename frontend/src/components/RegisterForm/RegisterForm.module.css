@@ -2,10 +2,6 @@
   display: flex;
 }
 
-.formWrapper {
-  padding: 12px 20px;
-}
-
 .headerWrapper {
   display: flex;
   margin-bottom: 24px;
@@ -21,7 +17,7 @@
 }
 
 .headerBtnActive {
-	text-align: center;
+  text-align: center;
   font-size: 18px;
   font-weight: 700;
   border: none;
@@ -50,71 +46,8 @@
   content: '';
 }
 
-.socialButtons {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  column-gap: 8px;
-  margin-bottom: 12px;
-}
-
-.socialButton {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 8px 0px;
-  width: 180px;
-  height: 44px;
-  border-radius: 8px;
-  border: 1px solid #b1b1b1;
-  font-size: 14px;
-  font-weight: 400;
-  background-color: transparent;
-  color: #0c0600;
-}
-
-.facebookIcon {
-  margin-right: 8px;
-  width: 32px;
-  height: 32px;
-  fill: #0062e0;
-}
-
-.googleIcon {
-  margin-right: 8px;
-  width: 32px;
-  height: 32px;
-}
-
-.divider {
-  display: flex;
-  position: relative;
-  justify-content: center;
-  align-items: center;
-  font-size: 14px;
-  font-weight: 400;
-  margin-bottom: 12px;
-  color: #000;
-}
-
-.divider::before {
-  position: absolute;
-  width: 163.5px;
-  height: 1px;
-  right: 106px;
-  transform: translateX(-60%);
-  content: '';
-  background-color: #d2d2d2;
-}
-
-.divider::after {
-  position: absolute;
-  width: 163.5px;
-  height: 1px;
-  left: 106px;
-  transform: translateX(60%);
-  content: '';
-  background-color: #d2d2d2;
+.formWrapper {
+  padding: 12px 20px;
 }
 
 .formInput {
@@ -176,14 +109,6 @@
 /*=========END EMAIL INPUT=========*/
 
 /*=========START INPUT PWD=========*/
-.resetPwd {
-  font-size: 14px;
-  font-weight: 400;
-  border: none;
-  background-color: transparent;
-  color: #0c0600;
-}
-
 .pwdInput {
   position: relative;
 }
@@ -210,39 +135,6 @@
   width: 24px;
   height: 24px;
   stroke: #414141;
-}
-
-.pwdStrengthContainer {
-  display: flex;
-  justify-content: start;
-  align-items: center;
-  margin-top: 4px;
-}
-
-.strengthLengthWrap {
-  display: flex;
-  width: 100%;
-}
-
-.pwdStrengthLength {
-  display: flex;
-  height: 4px;
-  border-radius: 2px;
-  width: 56px;
-  margin-right: 4px;
-}
-
-.strengthLabel {
-  font-size: 12px;
-  font-weight: 400;
-  color: #0c0600;
-}
-
-.pwdIsValidError {
-  margin-top: 4px;
-  font-size: 12px;
-  font-weight: 400;
-  color: #949494;
 }
 /*=========END INPUT PWD=========*/
 
@@ -345,13 +237,13 @@ input[type='checkbox']:focus
   border-radius: 8px;
   font-size: 16px;
   font-weight: 700;
-  color: #0C0600;
-  background-color: #FCBC5A;
+  color: #0c0600;
+  background-color: #fcbc5a;
   cursor: pointer;
 }
 
 .styledButton:disabled {
-  background-color: #D2D2D2;
+  background-color: #d2d2d2;
   color: #fff;
   cursor: not-allowed;
 }

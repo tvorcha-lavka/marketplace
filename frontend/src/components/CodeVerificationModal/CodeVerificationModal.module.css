@@ -59,8 +59,12 @@
 	appearance: none;
 }
 
-.inputError {
-  border: 1px solid #d33232;
+.container .input.inputError {
+  border-color: #d33232;
+}
+
+.container .input.inputError:focus {
+  border-color: #d33232;
 }
 
 .input.filled {
@@ -72,7 +76,7 @@
 }
 
 .input:focus {
-  outline: 1px solid #fcbc5a;
+  outline: 1px solid transparent;
   border-color: #fcbc5a;
 }
 

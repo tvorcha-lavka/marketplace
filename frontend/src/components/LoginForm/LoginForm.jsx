@@ -3,57 +3,22 @@ import { useState, useId } from 'react';
 //import { logIn } from '../../redux/auth/operations';
 import { Formik, Form, Field } from 'formik';
 import clsx from 'clsx';
-import * as Yup from 'yup';
 import { useModal } from '../../hooks/useModal';
 import FormImgComponent from '../FormImgComponent/FormImgComponent';
+import SocialAuthComponent from '../SocialAuthComponent/SocialAuthComponent';
+import { schema } from '../../utils/formSchema';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { FaCheck } from 'react-icons/fa6';
-import { FaFacebook } from 'react-icons/fa';
-import { FcGoogle } from 'react-icons/fc';
 import css from '../LoginForm/LoginForm.module.css';
-
-export const getIconEyeOnStyle = (authError) => ({
-  stroke: authError ? '#D33232' : '#b1b1b1',
-  width: '24px',
-  height: '24px',
-  cursor: 'pointer',
-});
-
-export const getIconEyeOffStyle = (authError) => ({
-  stroke: authError ? '#D33232' : '#414141',
-  width: '24px',
-  height: '24px',
-  cursor: 'pointer',
-});
-
-const schema = Yup.object({
-  emailOrPhone: Yup.string()
-    .required()
-    .test(function (value) {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      const uaPhoneRegex = /^\+380[0-9]{9}$/; 
-      const plPhoneRegex = /^\+48[0-9]{9}$/; 
-      const dePhoneRegex = /^\+49[1-9][0-9]{1,14}$/; 
-      const nlPhoneRegex = /^\+31[0-9]{9}$/; 
-      const gbPhoneRegex = /^\+44[1-9][0-9]{9,10}$/; 
-
-      return (
-        emailRegex.test(value) ||
-        uaPhoneRegex.test(value) ||
-        plPhoneRegex.test(value) ||
-        dePhoneRegex.test(value) ||
-        nlPhoneRegex.test(value) ||
-        gbPhoneRegex.test(value)
-      );
-    }),
-  password: Yup.string().min(8).max(30).required(),
-  userRemember: Yup.boolean(),
-});
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [type, setType] = useState('password');
   const [authError, setAuthError] = useState(false);
+  const [invalidFields, setInvalidFields] = useState({
+    emailOrPhone: false,
+    password: false,
+  });
 
   const { openModal } = useModal();
   const id = useId();
@@ -67,26 +32,36 @@ export default function LoginForm() {
     );
   };
 
+  const togglePassInput = () => {
+    setType(showPassword ? 'password' : 'text');
+    setShowPassword(!showPassword);
+  };
+
   const onSubmit = async (values, actions) => {
     console.log('Form Submitted:', values);
+
     const isAuthenticated = await fakeAuthCheck(
       values.emailOrPhone,
-      values.password,
-      values.userRemember
+      values.password
     );
 
-    if (!isAuthenticated) {
+    const emailOrPhoneValid =
+      values.emailOrPhone === 'registered@example.com' ||
+      values.emailOrPhone === '+380999999999';
+    const passwordValid = values.password === 'password123';
+
+    if (!emailOrPhoneValid || !passwordValid) {
       setAuthError(true);
+      setInvalidFields({
+        emailOrPhone: !emailOrPhoneValid,
+        password: !passwordValid,
+      });
       return;
     }
 
     setAuthError(false);
     actions.resetForm();
-  };
-
-  const togglePassInput = () => {
-    setType(showPassword ? 'password' : 'text');
-    setShowPassword(!showPassword);
+    setInvalidFields({ emailOrPhone: false, password: false });
   };
 
   return (
@@ -114,21 +89,8 @@ export default function LoginForm() {
             </button>
           </li>
         </ul>
-        <ul className={css.socialButtons}>
-          <li>
-            <button type="button" className={css.socialButton}>
-              <FaFacebook className={css.facebookIcon} />
-              Facebook
-            </button>
-          </li>
-          <li>
-            <button type="button" className={css.socialButton}>
-              <FcGoogle className={css.googleIcon} />
-              Google
-            </button>
-          </li>
-        </ul>
-        <span className={css.divider}>або</span>
+
+        <SocialAuthComponent />
 
         <Formik
           initialValues={{
@@ -156,7 +118,7 @@ export default function LoginForm() {
                   className={clsx(
                     css.formInput,
                     values.emailOrPhone && css.filled,
-                    authError && css.formInputError
+                    invalidFields.emailOrPhone && css.formInputError
                   )}
                   placeholder="нп.dianasetter@gmail.com"
                   autoComplete="off"
@@ -183,29 +145,27 @@ export default function LoginForm() {
                     className={clsx(
                       css.formInput,
                       values.password && css.filled,
-                      authError && css.formInputError
+                      invalidFields.password && css.formInputError
                     )}
                     type={type}
                     placeholder="нп.dianasetter"
                   />
 
-                  <div className={css.positionPwdIconEye}>
-                    {showPassword ? (
-                      <FiEye
-                        name="password"
-                        id={`${id}-password`}
-                        onClick={togglePassInput}
-                        style={getIconEyeOffStyle(authError)}
-                      />
-                    ) : (
-                      <FiEyeOff
-                        name="password"
-                        id={`${id}-password`}
-                        onClick={togglePassInput}
-                        style={getIconEyeOnStyle(authError)}
-                      />
-                    )}
-                  </div>
+                  {showPassword ? (
+                    <FiEye
+                      name="password"
+                      id={`${id}-password`}
+                      onClick={togglePassInput}
+                      className={clsx(css.fiEye, authError && css.iconError)}
+                    />
+                  ) : (
+                    <FiEyeOff
+                      name="password"
+                      id={`${id}-password`}
+                      onClick={togglePassInput}
+                      className={clsx(css.fiEyeOff, authError && css.iconError)}
+                    />
+                  )}
                 </div>
 
                 {authError && (
@@ -254,4 +214,3 @@ export default function LoginForm() {
     </div>
   );
 }
-

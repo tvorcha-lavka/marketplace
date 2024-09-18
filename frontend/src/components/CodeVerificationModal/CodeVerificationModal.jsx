@@ -1,25 +1,20 @@
 import { Link } from 'react-router-dom';
-import * as Yup from 'yup';
 import { useId, useState } from 'react';
 import { Formik, Field, Form } from 'formik';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { useModal } from '../../hooks/useModal';
 import FormImgComponent from '../FormImgComponent/FormImgComponent';
+import { codeSchema } from '../../utils/formSchema';
 import { LuArrowLeft } from 'react-icons/lu';
 import css from './CodeVerificationModal.module.css';
-
-const schema = Yup.object({
-  code: Yup.array()
-    .of(Yup.string().matches(/^\d$/).required())
-    .min(6)
-    .required(),
-});
 
 const CodeVerificationModal = ({ type }) => {
   const [otp, setOtp] = useState(Array(6).fill(''));
   const [authError, setAuthError] = useState(false);
+
   const { openModal } = useModal();
+  const id = useId();
 
   const getDescription = () => {
     if (type === 'verification-register') {
@@ -48,9 +43,7 @@ const CodeVerificationModal = ({ type }) => {
       const newOtp = [...otp];
       newOtp[index] = value;
       setOtp(newOtp);
-
       setFieldValue('code', newOtp);
-
       if (value && index < otp.length - 1) {
         document.getElementById(`${id}-code-${index + 1}`).focus();
       }
@@ -60,7 +53,6 @@ const CodeVerificationModal = ({ type }) => {
   const onSubmit = async (values, actions) => {
     const isAuthenticated = await fakeAuthCheck(values.code.join(''));
     console.log('Confirmation code:', values.code.join(''));
-
     if (isAuthenticated) {
       if (type === 'verification-register') {
         openModal('confirmation-modal', { type });
@@ -72,13 +64,11 @@ const CodeVerificationModal = ({ type }) => {
       setAuthError(true);
       return;
     }
-
     setAuthError(false);
     actions.resetForm();
     setOtp(Array(6).fill(''));
   };
 
-  const id = useId();
   const handleBack = () => {
     if (type === 'verification-register') {
       openModal('register');
@@ -101,7 +91,7 @@ const CodeVerificationModal = ({ type }) => {
 
         <Formik
           initialValues={{ code: otp }}
-          validationSchema={schema}
+          validationSchema={codeSchema}
           onSubmit={onSubmit}
         >
           {({ setFieldValue }) => (

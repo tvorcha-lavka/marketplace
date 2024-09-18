@@ -9,7 +9,6 @@ import ChangePwdModal from '../ChangePwdModal/ChangePwdModal';
 import RegisterForm from '../RegisterForm/RegisterForm';
 import LoginForm from '../LoginForm/LoginForm';
 
-
 const ModalParentComponent = () => {
   const { activeModal, openModal, modalProps } = useModal();
   const location = useLocation();
@@ -20,42 +19,30 @@ const ModalParentComponent = () => {
     if (modal) {
       openModal(modal);
     }
-  }, [location, openModal, activeModal]);
+  }, [location, openModal]);
+
+  const renderModalContent = () => {
+    switch (activeModal) {
+      case 'login':
+        return <LoginForm />;
+      case 'register':
+        return <RegisterForm />;
+      case 'forgot-password':
+        return <ForgotPassword />;
+      case 'change-pwd':
+        return <ChangePwdModal />;
+      case 'confirmation-modal':
+        return modalProps && <ConfirmationModal type={modalProps.type} />;
+      case 'verification-register':
+      case 'verification-reset':
+        return <CodeVerificationModal type={activeModal} />;
+      default:
+        return null;
+    }
+  };
 
   return (
-    <>
-      {activeModal === 'login' && (
-        <ModalWrapper>
-          <LoginForm />
-        </ModalWrapper>
-      )}
-      {activeModal === 'register' && (
-        <ModalWrapper>
-          <RegisterForm />
-        </ModalWrapper>
-      )}
-      {activeModal === 'forgot-password' && (
-        <ModalWrapper>
-          <ForgotPassword />
-        </ModalWrapper>
-      )}
-      {activeModal === 'change-pwd' && (
-        <ModalWrapper>
-          <ChangePwdModal />
-        </ModalWrapper>
-      )}
-      {activeModal === 'confirmation-modal' && modalProps && (
-        <ModalWrapper>
-          <ConfirmationModal type={modalProps.type} />
-        </ModalWrapper>
-      )}
-      {(activeModal === 'verification-register' ||
-        activeModal === 'verification-reset') && (
-        <ModalWrapper>
-          <CodeVerificationModal type={activeModal} />
-        </ModalWrapper>
-      )}
-    </>
+    <>{activeModal && <ModalWrapper>{renderModalContent()}</ModalWrapper>}</>
   );
 };
 
