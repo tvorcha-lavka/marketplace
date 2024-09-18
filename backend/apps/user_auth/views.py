@@ -1,58 +1,64 @@
 from drf_spectacular.utils import extend_schema
 from rest_framework import status
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
-from rest_framework.views import APIView
 
-from apps.user_auth.jwt_auth.tasks import send_welcome_email
-from apps.user_auth.mixins import BackendMixin, TokenMixin
-
-from .serializers import (
-    SocialCallbackOAuth2Serializer,
-    SocialOAuth2RedirectSerializer,
-    UserAuthSerializer,
-    UserSerializer,
-)
+from .jwt.mixins import TokenMixin
+from .serializers import PasswordResetSerializer, UserAuthSerializer, UserSerializer, VerifyCodeSerializer
 
 
-class SocialOAuth2RedirectView(APIView, BackendMixin):
-    """Returns the authorization URL `auth_url`."""
+class VerifyCodeAPIView(GenericAPIView):
+    """AJAX request for verification code."""
 
-    serializer_class = SocialOAuth2RedirectSerializer
+    serializer_class = VerifyCodeSerializer
 
-    def get(self, request):
-        backend = self.get_backend(request)
-        return Response({"auth_url": backend.auth_url()})
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        return Response(status=status.HTTP_200_OK)
 
 
-class SocialOAuth2CallbackView(CreateAPIView, TokenMixin, BackendMixin):
-    """Exchange social code for user data and JSON web token pair."""
+# ----------------------------------------------------------------------------------------------------------------------
+class VerifyEmailAddressAPIView(GenericAPIView, TokenMixin):
+    """Verify a user's email address and give them access to the site."""
 
-    request_serializer = SocialCallbackOAuth2Serializer
+    request_serializer = VerifyCodeSerializer
     response_serializer = UserAuthSerializer
 
     @extend_schema(request=request_serializer, responses=response_serializer)
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
         serializer = self.request_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        backend = self.get_backend(request)
-        backend.data = serializer.validated_data
+        user = serializer.validated_data["user"]
+        user.verify_email()
 
-        try:
-            user = backend.complete()
-        except Exception as e:
-            return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        code_obj = serializer.validated_data["code_obj"]
+        code_obj.delete()
 
-        if not user.is_email_verified:
-            user.verify_email()
-            send_welcome_email.apply_async((user.email,), queue="low_priority", priority=0)
+        response_data = {"user": UserSerializer(user).data, "token": {**self.get_token_pair(user)}}
+        serializer = self.response_serializer(data=response_data)
+        serializer.is_valid(raise_exception=True)
 
-        if user and user.is_active:
-            response_data = {"user": UserSerializer(user).data, "token": {**self.get_token_pair(user)}}
-            serializer = self.response_serializer(data=response_data)
-            serializer.is_valid(raise_exception=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
-            return Response(serializer.data, status=status.HTTP_200_OK)
 
-        return Response({"detail": "Authentication failed"}, status=status.HTTP_403_FORBIDDEN)
+# ----------------------------------------------------------------------------------------------------------------------
+class ResetPasswordAPIView(GenericAPIView):
+    """Resets the user's password using the provided reset code sent to email."""
+
+    serializer_class = PasswordResetSerializer
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        user = serializer.validated_data["user"]
+        raw_password = serializer.validated_data["password"]
+        user.set_new_password(raw_password)
+
+        code_obj = serializer.validated_data["code_obj"]
+        code_obj.delete()
+
+        message = "Password has been changed successfully."
+        return Response({"message": message}, status=status.HTTP_200_OK)

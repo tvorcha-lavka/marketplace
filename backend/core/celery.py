@@ -48,7 +48,7 @@ app.conf.task_queues = {
 # Defining celery beat schedule
 app.conf.beat_schedule = {
     "remove_expired_tokens": {
-        "task": "apps.user_auth.jwt_auth.tasks.remove_expired_tokens",
+        "task": "apps.user_auth.jwt.tasks.remove_expired_tokens",
         "schedule": crontab(hour="0", minute="0"),
         "options": {"queue": "low_priority"},
     }

@@ -23,10 +23,10 @@ verify_code_test_cases = [
 @pytest.mark.django_db
 class TestVerifyCodeAPIView:
     @pytest.fixture(autouse=True)
-    def inject_fixtures(self, auth_client, users, verification_code_factory):
+    def inject_fixtures(self, auth_client, users, code_factory):
         self.auth_client = auth_client
         self.users = users
-        self.code_factory = verification_code_factory
+        self.code_factory = code_factory
 
     @pytest.mark.parametrize("test_case", verify_code_test_cases)
     def test_verify_email_view(self, test_case: V_TestCase):
