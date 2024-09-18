@@ -1,0 +1,37 @@
+.container {
+  display: flex;
+}
+
+.pageContent {
+  padding: 120px 20px 0px 20px;
+}
+
+.title {
+  margin-bottom: 12px;
+  font-size: 24px;
+  font-weight: 700;
+  color: #000;
+}
+
+.additionalInfo {
+  margin-bottom: 32px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #000;
+}
+
+.loginLink {
+  display: block;
+  margin-bottom: 8px;
+  width: 358px;
+  height: 44px;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  color: #0c0600;
+  background-color: #fcbc5a;
+}

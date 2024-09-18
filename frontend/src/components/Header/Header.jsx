@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { useModal } from '../../hooks/useModal';
 import sprite from '../../../public/icons/sprite.svg';
 
 import Logo from '../Logo/Logo';
@@ -8,6 +9,12 @@ import AddItemButton from '../AddItemButton/AddItemButton';
 import styles from './Header.module.css';
 
 export default function Header() {
+	 const { openModal } = useModal();
+
+   const handleLoginClick = () => {
+     openModal('login');
+	};
+	
   return (
     <section className={styles.section}>
       <div className={styles.firstPart}>
@@ -24,15 +31,15 @@ export default function Header() {
         </div>
         <div className={styles.rightPart}>
           <Link to="/cart">
-            <svg width={24} height={24} >
+            <svg width={24} height={24}>
               <use href={`${sprite}#icon-cart`} />
             </svg>
           </Link>
-          <Link to="/login">
+          <button className={styles.loginButton} onClick={handleLoginClick}>
             <svg width={32} height={32} stroke="black">
               <use href={`${sprite}#icon-user`} />
             </svg>
-          </Link>
+          </button>
         </div>
       </div>
     </section>
