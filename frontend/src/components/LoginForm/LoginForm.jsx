@@ -149,6 +149,7 @@ export default function LoginForm() {
                     )}
                     type={type}
                     placeholder="нп.dianasetter"
+                    autoComplete="off"
                   />
 
                   {showPassword ? (
