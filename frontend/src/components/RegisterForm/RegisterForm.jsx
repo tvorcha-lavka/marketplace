@@ -128,6 +128,7 @@ export default function RegisterForm() {
                       values.password && css.filled
                     )}
                     placeholder="нп.dianasetter"
+                    autoComplete="off"
                     onChange={(e) => {
                       const password = e.target.value;
                       setFieldValue('password', password);
