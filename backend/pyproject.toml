@@ -25,6 +25,7 @@ django-parler-rest = "^2.2"
 deep-translator = "^1.11.4"
 django-storages = "^1.14.4"
 pillow = "^10.4.0"
+django-cors-headers = "^4.4.0"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^3.7.1"
