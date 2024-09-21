@@ -2,8 +2,10 @@ from celery import current_app
 from django.db.models.signals import pre_delete
 from django.dispatch import receiver
 
-from apps.user_auth.jwt_auth.tasks import delete_non_used_code, delete_non_verified_user
-from apps.user_auth.models import VerificationCode, email_verification_signal, reset_password_signal
+from core.signals import email_verification_signal, reset_password_signal
+
+from .models import VerificationCode
+from .tasks import delete_non_used_code, delete_non_verified_user
 
 
 @receiver(email_verification_signal, sender=VerificationCode)

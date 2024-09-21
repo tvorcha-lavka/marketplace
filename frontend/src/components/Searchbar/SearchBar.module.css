@@ -1,0 +1,21 @@
+.searchBar{
+  position: relative;
+
+}
+.input{
+  border: 1px solid #D2D2D2;
+  border-radius: 8px;
+  padding: 13px 12px;
+  width: 492px;
+}
+
+.input::placeholder{
+  color: #949494;
+
+}
+
+.icon{
+  position: absolute;
+  right: 12px;
+  top: 10px;
+}

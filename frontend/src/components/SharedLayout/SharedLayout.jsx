@@ -1,7 +1,8 @@
 import { Outlet } from 'react-router-dom';
 import { Suspense } from 'react';
-import Header from '../Header';
-import Footer from '../Footer';
+import SupportPage from '../../pages/SupportPage/SupportPage';
+import Header from '../Header/Header';
+import Footer from '../Footer/Footer';
 import styles from './SharedLayout.module.css';
 
 export default function SharedLayout() {
@@ -12,6 +13,7 @@ export default function SharedLayout() {
         <Outlet />
       </Suspense>
       <Footer />
+      <SupportPage />
     </div>
   );
 }

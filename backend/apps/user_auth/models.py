@@ -2,14 +2,11 @@ from datetime import timedelta
 from random import randint
 
 from django.db import models
-from django.db.models.signals import ModelSignal
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from apps.user.models import User
-
-email_verification_signal = ModelSignal(use_caching=True)
-reset_password_signal = ModelSignal(use_caching=True)
+from core.signals import email_verification_signal, reset_password_signal
 
 
 class CodeType(models.TextChoices):

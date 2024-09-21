@@ -17,6 +17,7 @@
 
 .contentbox {
     display: flex;
+    flex: 1;
     gap: 16px;
 }
 

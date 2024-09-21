@@ -10,3 +10,4 @@ services:
       - logs:/var/log/frontend
     ports:
       - ${FRONTEND_PORT}:8080
+    

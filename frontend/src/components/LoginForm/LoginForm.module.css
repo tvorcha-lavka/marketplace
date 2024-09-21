@@ -1,0 +1,276 @@
+.container {
+  display: flex;
+}
+
+.headerWrapper {
+  display: flex;
+  margin-bottom: 24px;
+}
+
+.headerBtn {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 700;
+  border: none;
+  background-color: transparent;
+  color: #949494;
+}
+
+.headerBtnActive {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 700;
+  border: none;
+  background-color: transparent;
+  color: #0c0600;
+}
+
+.headerWrapLogin,
+.headerWrapRegister {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 180px;
+  padding: 8px 12px;
+}
+
+.headerWrapLogin::after {
+  position: absolute;
+  width: 184px;
+  height: 1.5px;
+  left: -2px;
+  bottom: -1px;
+  background-color: #fcbc5a;
+  content: '';
+}
+
+.formWrapper {
+  padding: 12px 20px;
+}
+
+.formInput {
+  width: 368px;
+  margin-top: 4px;
+  height: 44px;
+  padding: 0 12px;
+  font-size: 14px;
+  font-weight: 400;
+  border-radius: 8px;
+  border: 1px solid #b1b1b1;
+  color: #0c0600;
+  background-color: transparent;
+  appearance: none;
+}
+
+.formInputError {
+  border: 1px solid #d33232;
+}
+
+.formInput.filled {
+  border: 1px solid #0c0600;
+}
+
+.formInput:hover {
+  border-color: #fcbc5a;
+}
+
+.formInput:focus {
+  outline: 1px solid #fcbc5a;
+  border-color: #fcbc5a;
+}
+
+.formInput::placeholder {
+  font-size: 14px;
+  font-weight: 400;
+  color: #b1b1b1;
+}
+
+.inputWrapEmail,
+.inputWrapPwd {
+  display: flex;
+  flex-direction: column;
+}
+
+.formInput.formInputError {
+  border: 1px solid #d33232;
+}
+/*=========START EMAIL INPUT=========*/
+.inputWrapEmail {
+  margin-bottom: 20px;
+}
+
+.inputLabel {
+  margin-right: 4px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #0c0600;
+}
+
+.requiredSymb {
+  font-size: 16px;
+  font-weight: 700;
+  color: #0c0600;
+}
+/*=========END EMAIL INPUT=========*/
+
+/*=========START INPUT PWD=========*/
+.pwdLabelWrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.resetPwd {
+  font-size: 14px;
+  font-weight: 400;
+  border: none;
+  background-color: transparent;
+  color: #0c0600;
+}
+
+.pwdInput {
+  position: relative;
+}
+
+.pwdInputWrap {
+  margin-bottom: 8px;
+}
+
+.fiEyeOff {
+  position: absolute;
+  right: 12px;
+  top: -20%;
+  transform: translateY(100%);
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  stroke: #b1b1b1;
+}
+
+.fiEye {
+  position: absolute;
+  right: 12px;
+  top: -20%;
+  transform: translateY(100%);
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  stroke: #414141;
+}
+
+.iconError{
+	stroke: #D33232;
+}
+/*=========END INPUT PWD=========*/
+
+.additionalInfo {
+  margin-top: 4px;
+  font-size: 12px;
+  font-weight: 400;
+  color: #d33232;
+}
+
+/*=========START CHECKBOX=========*/
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  border: 0;
+  clip-path: inset(100%);
+  clip: rect(0 0 0 0);
+}
+
+.rememberCheckbox {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  margin-bottom: 24px;
+}
+
+.rememberCheckboxLabel {
+  display: flex;
+  align-items: center;
+}
+
+.userRememberComponentIcon {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 20px;
+  height: 20px;
+  background-color: transparent;
+  border: 1px solid #b1b1b1;
+  border-radius: 3px;
+  margin-right: 9px;
+}
+
+.checkmarkIcon {
+  display: none;
+  color: #ffffff;
+}
+
+.visuallyHidden:checked + .rememberCheckboxLabel .checkmarkIcon {
+  display: inline;
+}
+
+input[type='checkbox']:checked
+  + .rememberCheckboxLabel
+  > .userRememberComponentIcon {
+  background-color: #fcbc5a;
+  border-color: #fcbc5a;
+}
+
+input[type='checkbox']:hover
+  + .rememberCheckboxLabel
+  > .userRememberComponentIcon {
+  outline: 1px solid transparent;
+  border: 1px solid #fcbc5a;
+}
+
+input[type='checkbox']:focus
+  + .rememberCheckboxLabel
+  > .userRememberComponentIcon {
+  outline: 1px solid transparent;
+  border: 1px solid #fcbc5a;
+}
+
+.rememberText {
+  font-size: 14px;
+  font-weight: 400;
+  color: #0c0600;
+}
+
+.privacyText {
+  margin-bottom: 16px;
+  font-size: 12px;
+  font-weight: 400;
+  color: #0c0600;
+}
+/*=========END CHECKBOX=========*/
+
+.styledButton {
+  width: 368px;
+  height: 44px;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #0c0600;
+  background-color: #fcbc5a;
+  cursor: pointer;
+}
+
+.styledButton:disabled {
+  background-color: #d2d2d2;
+  color: #fff;
+  cursor: not-allowed;
+}
