@@ -5,13 +5,7 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
-from apps.user.models import User
-from core.signals import email_verification_signal, reset_password_signal
-
-
-class CodeType(models.TextChoices):
-    EMAIL_VERIFICATION = "email_verification", _("Email Verification")
-    RESET_PASSWORD = "reset_password", _("Reset Password")
+from apps.email.models import EmailType
 
 
 class VerificationCode(models.Model):
@@ -20,13 +14,14 @@ class VerificationCode(models.Model):
         verbose_name = _("Verification Code")
         verbose_name_plural = _("Verification Codes")
 
-    code = models.IntegerField()
-    code_type = models.CharField(max_length=20, choices=CodeType)
-    expires_at = models.DateTimeField()
-    uuid = models.UUIDField(null=True, blank=True)
+    code = models.IntegerField(_("code"))
+    expires_at = models.DateTimeField(_("expires at"))
 
+    email = models.EmailField(_("email"), unique=True)
+    email_type = models.CharField(_("email type"), max_length=20, choices=EmailType)
+
+    uuid = models.UUIDField(_("uuid"), null=True, blank=True)
     objects = models.Manager()
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.code}"
@@ -35,7 +30,6 @@ class VerificationCode(models.Model):
         self.code = randint(100000, 999999)
         self.expires_at = timezone.now() + self.default_expire
         super().save(*args, **kwargs)
-        self.post_save()
 
     @property
     def default_expire(self):
@@ -48,16 +42,9 @@ class VerificationCode(models.Model):
     def is_expired(self):
         return timezone.now() > self.expires_at
 
-    def post_save(self):
-        signal_map = {
-            CodeType.EMAIL_VERIFICATION: email_verification_signal,
-            CodeType.RESET_PASSWORD: reset_password_signal,
-        }
-        signal_map[self.code_type].send(sender=self.__class__, instance=self)  # type: ignore
-
     def re_create(self) -> object:
         self.delete()  # Send a signal to revoke a Celery task, then delete the active code.
-        return self.__class__.objects.create(user=self.user, code_type=self.code_type)
+        return self.__class__.objects.create(email=self.email, email_type=self.email_type)
 
     def __int__(self):
         return self.code

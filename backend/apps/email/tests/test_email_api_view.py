@@ -5,18 +5,17 @@ import pytest
 from django.urls import reverse
 from rest_framework import status
 
-from apps.email.views import EmailAPIView
-
 # ----- EmailAPIView Test Case Schema ----------------------------------------------------------------------------------
-E_TestCase = nt("Email", ["auth_user", "url_name", "expected_status", "expected_data"])
+E_TestCase = nt("Email", ["auth_user", "url_name", "has_cache", "expected_status", "expected_data"])
 
 # ----- EmailAPIView Test Cases ----------------------------------------------------------------------------------------
 send_email_test_cases = [
-    # "auth_user", "url_name", "user_data", "expected_status", "expected_data"
-    E_TestCase("admin", "send-email-verification-code", status.HTTP_200_OK, ["message"]),
-    E_TestCase("user1", "send-email-verification-code", status.HTTP_403_FORBIDDEN, ["detail"]),
-    E_TestCase("admin", "send-reset-password-code", status.HTTP_200_OK, ["message"]),
-    E_TestCase("user1", "send-reset-password-code", status.HTTP_403_FORBIDDEN, ["detail"]),
+    # "auth_user", "url_name", "user_data", "has_cache", "expected_status", "expected_data"
+    E_TestCase("admin", "send-email-verification-code", True, status.HTTP_200_OK, ["message"]),
+    E_TestCase("admin", "send-email-verification-code", False, status.HTTP_200_OK, ["message"]),
+    E_TestCase("user1", "send-email-verification-code", False, status.HTTP_403_FORBIDDEN, ["detail"]),
+    E_TestCase("admin", "send-reset-password-code", None, status.HTTP_200_OK, ["message"]),
+    E_TestCase("user1", "send-reset-password-code", None, status.HTTP_403_FORBIDDEN, ["detail"]),
 ]
 
 
@@ -30,11 +29,14 @@ class TestEmailAPIView:
 
     @pytest.mark.parametrize("test_case", send_email_test_cases)
     @patch("apps.email.tasks.send_verification_code.apply_async")
-    def test_send_email(self, mock_email_task, test_case: E_TestCase):
+    @patch("apps.user_auth.jwt.redis.cache.get")
+    def test_send_email(self, mock_redis_cache, mock_email_task, test_case: E_TestCase):
         client = self.get_testcase_client(test_case)
 
         url = reverse(test_case.url_name)
         data = {"email": self.users.user1.email}
+        mock_redis_cache.return_value = data if test_case.has_cache else None
+
         response = client.post(url, data=data)
 
         assert response.status_code == test_case.expected_status
@@ -44,11 +46,16 @@ class TestEmailAPIView:
         if response.status_code == status.HTTP_200_OK:
             mock_email_task.assert_called_once()
 
-    def test_no_implemented_perform_action(self):
-        view = EmailAPIView()
+    def test_send_email_verification_code_to_verified_user(self):
+        client = self.auth_client(self.users.admin)
+        user = self.users.user1
+        user.verify_email()
 
-        with pytest.raises(NotImplementedError):
-            view.perform_action(self.users.user1)
+        url = reverse("send-email-verification-code")
+        data = {"email": self.users.user1.email}
+        response = client.post(url, data=data)
+
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
 
     # ----- Helper Methods ---------------------------------------------------------------------------------------------
     def get_testcase_client(self, test_case):

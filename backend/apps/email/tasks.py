@@ -8,58 +8,61 @@ from django.template.loader import render_to_string
 from django.utils.translation import gettext_lazy as _
 
 from apps.user.models import User
-from apps.user_auth.models import CodeType, VerificationCode
+from apps.user_auth.models import VerificationCode
+
+from .models import EmailType
 
 
-def send_verify_email(user: User) -> Tuple[AsyncResult, str]:
-    code_type = CodeType.EMAIL_VERIFICATION
+def send_verify_email(email: str) -> Tuple[AsyncResult, str]:
+    email_type = EmailType.EMAIL_VERIFICATION
     template = "email_verification.html"
     subject = "Підтвердження електронної пошти"
-    body = f"Вітаю, {user.username}!\n" f"Ваш код підтвердження: <VERIFICATION_CODE>"
-    message = _("Please check your email to verify your account.")
+    body = "Вітаю!\n" "Ваш код підтвердження: <VERIFICATION_CODE>"
+
+    api_message = _("Please check your email to verify your account.")
 
     return (
         send_verification_code.apply_async(
-            (user.email, code_type, template, subject, body),
+            args=(email, email_type, template, subject, body),
             queue="high_priority",
             priority=0,
         ),
-        message,
+        api_message,
     )
 
 
 def send_reset_password(user: User) -> Tuple[AsyncResult, str]:
-    code_type = CodeType.RESET_PASSWORD
+    email_type = EmailType.RESET_PASSWORD
     template = "reset_password.html"
     subject = "Підтвердження на зміну пароля"
     body = f"Вітаю, {user.username}!\n" f"Ваш код підтвердження зміни пароля: <VERIFICATION_CODE>"
-    message = _("A password reset email has been sent to your email address.")
+
+    api_message = _("A password reset email has been sent to your email address.")
 
     return (
         send_verification_code.apply_async(
-            (user.email, code_type, template, subject, body),
+            args=(user.email, email_type, template, subject, body),
+            kwargs={"username": user.username},
             queue="high_priority",
             priority=0,
         ),
-        message,
+        api_message,
     )
 
 
 @shared_task
-def send_verification_code(recipient: str, code_type: CodeType, template: str, subject: str, body: str):
-    user = User.objects.get(email=recipient)
-
-    code, new_obj = VerificationCode.objects.get_or_create(user=user, code_type=code_type)
+def send_verification_code(recipient: str, email_type: EmailType, template: str, subject: str, body: str, **kwargs):
+    code, new_obj = VerificationCode.objects.get_or_create(email=recipient, email_type=email_type)
     code = code if new_obj else code.re_create()  # re-create code if re-request to send email
 
-    context = {"username": user.username, "code": str(code), "expire_in": code.expire_in}
+    context = {"code": str(code), "expire_in": code.expire_in, **kwargs}
     html_content = render_to_string(template, context)
 
     email = EmailMultiAlternatives(
         subject=subject,
         body=body.replace("<VERIFICATION_CODE>", str(code)),
         from_email=settings.DEFAULT_FROM_EMAIL,
-        to=[user.email],
+        to=[recipient],
     )
     email.attach_alternative(html_content, "text/html")
     email.send()

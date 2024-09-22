@@ -5,5 +5,5 @@ from apps.user_auth.models import VerificationCode
 
 @admin.register(VerificationCode)
 class VerificationCodeAdmin(admin.ModelAdmin):
-    list_display = ("user", "code", "expires_at")
+    list_display = ("email", "code", "expires_at")
     exclude = ("uuid",)
