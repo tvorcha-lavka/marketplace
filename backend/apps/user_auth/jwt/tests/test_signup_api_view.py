@@ -8,9 +8,9 @@ from rest_framework import status
 
 from apps.email.models import EmailType
 from apps.user.models import User
+from apps.user_auth.jwt.redis import save_temporary_signup_data
+from apps.user_auth.models import VerificationCode
 
-from ...models import VerificationCode
-from ..redis import save_temporary_signup_data
 from .conftest import UserSchema
 
 # ----- SignupAPIView Test Case Schema ---------------------------------------------------------------------------------
