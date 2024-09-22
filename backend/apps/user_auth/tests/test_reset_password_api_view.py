@@ -5,7 +5,8 @@ import pytest
 from django.urls import reverse
 from rest_framework import status
 
-from apps.user_auth.models import CodeType, VerificationCode
+from apps.email.models import EmailType
+from apps.user_auth.models import VerificationCode
 
 # ----- ResetPasswordAPIView Test Case Schema --------------------------------------------------------------------------
 R_TestCase = nt("PasswordReset", ["auth_user", "code", "expected_status", "expected_data"])
@@ -33,7 +34,7 @@ class TestResetPasswordAPIView:
     @pytest.mark.parametrize("test_case", password_reset_test_cases)
     @patch("apps.user_auth.signals.current_app.control.revoke", name="revoke_celery_task")
     def test_reset_password_view(self, mock_revoke_task, test_case: R_TestCase):
-        code_obj = self.code_factory.create(self.users.user1, CodeType.RESET_PASSWORD)
+        code_obj = self.code_factory.create(self.users.user1.email, EmailType.RESET_PASSWORD)
 
         if test_case.code == "invalid_code":
             self.code_factory.make_invalid(code_obj)
