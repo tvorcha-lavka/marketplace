@@ -9,20 +9,20 @@
 
 .headerBtn {
   text-align: center;
-  font-size: 18px;
-  font-weight: 700;
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-bold);
   border: none;
   background-color: transparent;
-  color: #949494;
+  color: var(--grey-darker);
 }
 
 .headerBtnActive {
   text-align: center;
-  font-size: 18px;
-  font-weight: 700;
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-bold);
   border: none;
   background-color: transparent;
-  color: #0c0600;
+  color: var(--default-black);
 }
 
 .headerWrapLogin,
@@ -42,7 +42,7 @@
   height: 1.5px;
   left: -2px;
   bottom: -1px;
-  background-color: #fcbc5a;
+  background-color: var(--primary-yellow);
   content: '';
 }
 
@@ -53,38 +53,38 @@
 .formInput {
   width: 368px;
   margin-top: 4px;
-  height: 44px;
+  height: var(--component-height);
   padding: 0 12px;
-  font-size: 14px;
-  font-weight: 400;
-  border-radius: 8px;
-  border: 1px solid #b1b1b1;
-  color: #0c0600;
+  font-size: var(--font-size-tiny);
+  font-weight: var(--font-weight-normal);
+  border-radius: var(--border-radius);
+  border: var(--border-width) var(--border-style) var(--grey-dark);
+  color: var(--default-black);
   background-color: transparent;
   appearance: none;
 }
 
 .formInputError {
-  border: 1px solid #d33232;
+  border-color: var(--error-red);
 }
 
 .formInput.filled {
-  border: 1px solid #0c0600;
+  border-color: var(--default-black);
 }
 
 .formInput:hover {
-  border-color: #fcbc5a;
+  border-color: var(--primary-yellow);
 }
 
 .formInput:focus {
-  outline: 1px solid #fcbc5a;
-  border-color: #fcbc5a;
+  outline: var(--border-width) var(--border-style) transparent;
+  border-color: var(--primary-yellow);
 }
 
 .formInput::placeholder {
-  font-size: 14px;
-  font-weight: 400;
-  color: #b1b1b1;
+  font-size: var(--font-size-tiny);
+  font-weight: var(--font-weight-normal);
+  color: var(--grey-dark);
 }
 
 .inputWrapEmail,
@@ -94,7 +94,7 @@
 }
 
 .formInput.formInputError {
-  border: 1px solid #d33232;
+  border: var(--border-width) var(--border-style) var(--error-red);
 }
 /*=========START EMAIL INPUT=========*/
 .inputWrapEmail {
@@ -103,15 +103,15 @@
 
 .inputLabel {
   margin-right: 4px;
-  font-size: 14px;
-  font-weight: 700;
-  color: #0c0600;
+  font-size: var(--font-size-tiny);
+  font-weight: var(--font-weight-bold);
+  color: var(--default-black);
 }
 
 .requiredSymb {
-  font-size: 16px;
-  font-weight: 700;
-  color: #0c0600;
+  font-size: var(--font-size-extra-small);
+  font-weight: var(--font-weight-bold);
+  color: var(--default-black);
 }
 /*=========END EMAIL INPUT=========*/
 
@@ -123,11 +123,11 @@
 }
 
 .resetPwd {
-  font-size: 14px;
-  font-weight: 400;
+  font-size: var(--font-size-tiny);
+  font-weight: var(--font-weight-normal);
   border: none;
   background-color: transparent;
-  color: #0c0600;
+  color: var(--default-black);
 }
 
 .pwdInput {
@@ -143,10 +143,10 @@
   right: 12px;
   top: -20%;
   transform: translateY(100%);
-  width: 24px;
-  height: 24px;
+  width: var(--icon-size-normal);
+  height: var(--icon-size-normal);
   cursor: pointer;
-  stroke: #b1b1b1;
+  stroke: var(--grey-dark);
 }
 
 .fiEye {
@@ -154,22 +154,22 @@
   right: 12px;
   top: -20%;
   transform: translateY(100%);
-  width: 24px;
-  height: 24px;
+  width: var(--icon-size-normal);
+  height: var(--icon-size-normal);
   cursor: pointer;
-  stroke: #414141;
+  stroke: var(--grey-darkest);
 }
 
-.iconError{
-	stroke: #D33232;
+.iconError {
+  stroke: var(--error-red);
 }
 /*=========END INPUT PWD=========*/
 
 .additionalInfo {
   margin-top: 4px;
-  font-size: 12px;
-  font-weight: 400;
-  color: #d33232;
+  font-size: var(--font-size-extra-tiny);
+  font-weight: var(--font-weight-normal);
+  color: var(--error-red);
 }
 
 /*=========START CHECKBOX=========*/
@@ -202,17 +202,17 @@
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  width: 20px;
-  height: 20px;
+  width: var(--checkbox-size);
+  height: var(--checkbox-size);
   background-color: transparent;
-  border: 1px solid #b1b1b1;
-  border-radius: 3px;
+  border:  var(--border-width) var(--border-style) var(--grey-dark);
+  border-radius: var(--border-radius-small);
   margin-right: 9px;
 }
 
 .checkmarkIcon {
   display: none;
-  color: #ffffff;
+  color: var(--default-white);
 }
 
 .visuallyHidden:checked + .rememberCheckboxLabel .checkmarkIcon {
@@ -222,55 +222,55 @@
 input[type='checkbox']:checked
   + .rememberCheckboxLabel
   > .userRememberComponentIcon {
-  background-color: #fcbc5a;
-  border-color: #fcbc5a;
+  background-color: var(--primary-yellow);
+  border-color: var(--primary-yellow);
 }
 
 input[type='checkbox']:hover
   + .rememberCheckboxLabel
   > .userRememberComponentIcon {
-  outline: 1px solid transparent;
-  border: 1px solid #fcbc5a;
+  outline: var(--border-width) var(--border-style) transparent;
+  border: var(--border-width) var(--border-style) var(--primary-yellow);
 }
 
 input[type='checkbox']:focus
   + .rememberCheckboxLabel
   > .userRememberComponentIcon {
-  outline: 1px solid transparent;
-  border: 1px solid #fcbc5a;
+  outline: var(--border-width) var(--border-style) transparent;
+  border: var(--border-width) var(--border-style) var(--primary-yellow);
 }
 
 .rememberText {
-  font-size: 14px;
-  font-weight: 400;
-  color: #0c0600;
+  font-size: var(--font-size-tiny);
+  font-weight: var(--font-weight-normal);
+  color: var(--default-black);
 }
 
 .privacyText {
   margin-bottom: 16px;
-  font-size: 12px;
-  font-weight: 400;
-  color: #0c0600;
+  font-size: var(--font-size-extra-tiny);
+  font-weight: var(--font-weight-normal);
+  color: var(--default-black);
 }
 /*=========END CHECKBOX=========*/
 
 .styledButton {
   width: 368px;
-  height: 44px;
+  height: var(--component-height);
   padding: 10px;
   justify-content: center;
   align-items: center;
   border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 700;
-  color: #0c0600;
-  background-color: #fcbc5a;
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-extra-small);
+  font-weight: var(--font-weight-bold);
+  color: var(--default-black);
+  background-color: var(--primary-yellow);
   cursor: pointer;
 }
 
 .styledButton:disabled {
-  background-color: #d2d2d2;
-  color: #fff;
+  background-color: var(--grey-lighter);
+  color: var(--default-white);
   cursor: not-allowed;
 }

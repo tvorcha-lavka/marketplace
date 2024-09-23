@@ -1,8 +1,7 @@
-import os
-
 from django.urls import get_resolver
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
+from rest_framework import status
 from rest_framework.generics import RetrieveAPIView
 from rest_framework.response import Response
 
@@ -20,10 +19,7 @@ class RouteListView(RetrieveAPIView):
         url_patterns = resolver.reverse_dict.items()
         exclude = ["schema", "docs", "redoc", "route-list"]
 
-        urls = {
-            key: os.getenv("API_URL") + value[0][0][0]
-            for key, value in url_patterns
-            if isinstance(key, str) and key not in exclude
-        }
+        urls = {k: "/" + v[0][0][0] for k, v in url_patterns if isinstance(k, str) and k not in exclude}
+        sorted_urls = dict(sorted(urls.items(), key=lambda item: item[1]))
 
-        return Response(urls)
+        return Response(sorted_urls, status=status.HTTP_200_OK)

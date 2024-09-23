@@ -8,16 +8,16 @@
 
 .title {
   margin-bottom: 8px;
-  font-size: 24px;
-  font-weight: 700;
-  color: #000;
+  font-size: var(--font-size-medium);
+  font-weight: var(--font-weight-bold);
+  color: var(--default-black);
 }
 
 .additionalInfo {
   margin-bottom: 16px;
-  font-size: 14px;
-  font-weight: 400;
-  color: #000;
+  font-size: var(--font-size-tiny);
+  font-weight: var(--font-weight-normal);
+  color: var(--default-black);
 }
 
 .pwdLabelWrap {
@@ -28,48 +28,48 @@
 
 .inputLabel {
   margin-right: 4px;
-  font-size: 14px;
-  font-weight: 700;
-  color: #0c0600;
+  font-size: var(--font-size-tiny);
+  font-weight: var(--font-weight-bold);
+  color: var(--default-black);
 }
 
 .requiredSymb {
-  font-size: 16px;
-  font-weight: 700;
-  color: #0c0600;
+  font-size: var(--font-size-extra-small);
+  font-weight: var(--font-weight-bold);
+  color: var(--default-black);
 }
 
 .formInput {
-  width: 358px;
+  width: var(--component-width);
   margin-top: 4px;
-  height: 44px;
+  height: var(--component-height);
   padding: 0 12px;
-  font-size: 14px;
-  font-weight: 400;
-  border-radius: 8px;
-  border: 1px solid #b1b1b1;
-  color: #0c0600;
+  font-size: var(--font-size-tiny);
+  font-weight: var(--font-weight-normal);
+  border-radius: var(--border-radius);
+  border: var(--border-width) var(--border-style) var(--grey-dark);
+  color: var(--default-black);
   background-color: transparent;
   appearance: none;
 }
 
 .formInput.filled {
-  border-color: #0c0600;
+  border-color: var(--default-black);
 }
 
 .formInput:hover {
-  border-color: #fcbc5a;
+  border-color: var(--primary-yellow);
 }
 
 .formInput:focus {
-  outline: 1px solid #fcbc5a;
-  border-color: #fcbc5a;
+  outline: var(--border-width) var(--border-style) transparent;
+  border-color: var(--primary-yellow);
 }
 
 .formInput::placeholder {
-  font-size: 14px;
-  font-weight: 400;
-  color: #b1b1b1;
+  font-size: var(--font-size-tiny);
+  font-weight: var(--font-weight-normal);
+  color: var(--grey-dark);
 }
 
 .pwdInput {
@@ -85,9 +85,9 @@
   right: 12px;
   top: -20%;
   transform: translateY(100%);
-  width: 24px;
-  height: 24px;
-  stroke: #b1b1b1;
+  width: var(--icon-size-normal);
+  height: var(--icon-size-normal);
+  stroke: var(--grey-dark);
 }
 
 .fiEye {
@@ -95,46 +95,46 @@
   right: 12px;
   top: -20%;
   transform: translateY(100%);
-  width: 24px;
-  height: 24px;
-  stroke: #414141;
+  width: var(--icon-size-normal);
+  height: var(--icon-size-normal);
+  stroke: var(--grey-darkest);
 }
 
 .info {
-  width: 358px;
-  font-size: 12px;
-  font-weight: 400;
-  color: #949494;
+  width: var(--component-width);
+  font-size: var(--font-size-extra-tiny);
+  font-weight: var(--font-weight-normal);
+  color: var(--grey-darker);
 }
 
 .supportLink {
   display: flex;
   justify-content: center;
-  font-size: 14px;
-  font-weight: 400;
+  font-size: var(--font-size-tiny);
+  font-weight: var(--font-weight-normal);
   text-decoration-line: underline;
-  color: #949494;
+  color: var(--grey-darker);
 }
 
 .styledButton {
-  width: 358px;
-  height: 44px;
+  width: var(--component-width);
+  height: var(--component-height);
   padding: 10px;
-	margin-top: 32px;
-	margin-bottom: 12px;
+  margin-top: 32px;
+  margin-bottom: 12px;
   justify-content: center;
   align-items: center;
   border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 700;
-  color: #0C0600;
-  background-color: #FCBC5A;
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-extra-small);
+  font-weight: var(--font-weight-bold);
+  color: var(--default-black);
+  background-color: var(--primary-yellow);
   cursor: pointer;
 }
 
 .styledButton:disabled {
-  background-color: #D2D2D2;
-  color: #fff;
+  background-color: var(--grey-lighter);
+  color: var(--default-white);
   cursor: not-allowed;
 }

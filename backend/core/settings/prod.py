@@ -12,6 +12,11 @@ SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 
 
+CORS_ALLOWED_ORIGINS = [
+    os.getenv("PROD_FRONTEND_URL"),
+]
+
+
 def create_file_logger(path_to_file):
     return {
         "level": "ERROR",

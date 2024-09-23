@@ -8,6 +8,7 @@ import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
 import ChangePwdModal from '../ChangePwdModal/ChangePwdModal';
 import RegisterForm from '../RegisterForm/RegisterForm';
 import LoginForm from '../LoginForm/LoginForm';
+import './ModalParentComponent.css';
 
 const ModalParentComponent = () => {
   const { activeModal, openModal, modalProps } = useModal();
@@ -20,6 +21,16 @@ const ModalParentComponent = () => {
       openModal(modal);
     }
   }, [location, openModal]);
+
+  useEffect(() => {
+    if (activeModal) {
+      document.body.classList.add('no-scroll');
+    } else {
+      document.body.classList.remove('no-scroll');
+    }
+
+    return () => document.body.classList.remove('no-scroll');
+  }, [activeModal]);
 
   const renderModalContent = () => {
     switch (activeModal) {
