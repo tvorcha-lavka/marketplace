@@ -4,6 +4,7 @@ from rest_framework.exceptions import PermissionDenied
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenBlacklistView, TokenObtainPairView
 
 from apps.email.tasks import send_verify_email
@@ -13,7 +14,7 @@ from apps.user_auth.serializers import UserAuthSerializer, VerifyCodeSerializer
 
 from .mixins import TokenMixin
 from .redis import get_temporary_signup_data, save_temporary_signup_data, temporary_signup_data_is_exists
-from .serializers import SignupSerializer
+from .serializers import CustomTokenObtainPairSerializer, SignupSerializer
 
 
 class SignupAPIView(GenericAPIView):
@@ -63,8 +64,11 @@ class SignupCompleteAPIView(GenericAPIView, TokenMixin):
 
 
 class LoginAPIView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
+    response_serializer = TokenObtainPairSerializer
     permission_classes = [AllowAny]
 
+    @extend_schema(request=serializer_class, responses=response_serializer)
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)

@@ -13,7 +13,7 @@ class UserAuthSerializer(serializers.Serializer):
 
 
 class VerifyCodeSerializer(serializers.Serializer):
-    email = serializers.EmailField(write_only=True, validators=[validate_email])
+    email = serializers.EmailField(validators=[validate_email])
     code = serializers.IntegerField(write_only=True, min_value=100000, max_value=999999)
     message = serializers.CharField(read_only=True)
 

@@ -11,10 +11,10 @@ E_TestCase = nt("Email", ["auth_user", "url_name", "has_cache", "expected_status
 # ----- EmailAPIView Test Cases ----------------------------------------------------------------------------------------
 send_email_test_cases = [
     # "auth_user", "url_name", "user_data", "has_cache", "expected_status", "expected_data"
-    E_TestCase("admin", "send-email-verification-code", True, status.HTTP_200_OK, ["message"]),
-    E_TestCase("admin", "send-email-verification-code", False, status.HTTP_200_OK, ["message"]),
+    E_TestCase("admin", "send-email-verification-code", True, status.HTTP_200_OK, ["email", "message"]),
+    E_TestCase("admin", "send-email-verification-code", False, status.HTTP_200_OK, ["email", "message"]),
     E_TestCase("user1", "send-email-verification-code", False, status.HTTP_403_FORBIDDEN, ["detail"]),
-    E_TestCase("admin", "send-reset-password-code", None, status.HTTP_200_OK, ["message"]),
+    E_TestCase("admin", "send-reset-password-code", None, status.HTTP_200_OK, ["email", "message"]),
     E_TestCase("user1", "send-reset-password-code", None, status.HTTP_403_FORBIDDEN, ["detail"]),
 ]
 
