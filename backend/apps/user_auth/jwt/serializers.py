@@ -1,8 +1,10 @@
 from datetime import timedelta
 from typing import Any, Dict
 
+from django.utils import timezone
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainSerializer
+from rest_framework_simplejwt.token_blacklist.models import OutstandingToken
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from apps.user.models import User
@@ -33,7 +35,13 @@ class CustomTokenObtainPairSerializer(TokenObtainSerializer):
         remember_me = attrs.get("remember_me", False)
 
         refresh = self.get_token(self.user)
-        refresh.set_exp(lifetime=timedelta(days=30 if remember_me else 1))
+        refresh_lifetime = timedelta(days=30 if remember_me else 1)
+        refresh.set_exp(lifetime=refresh_lifetime)
+
+        OutstandingToken.objects.update_or_create(  # type: ignore
+            jti=refresh["jti"],
+            defaults={"user": self.user, "token": str(refresh), "expires_at": timezone.now() + refresh_lifetime},
+        )
 
         data["refresh"] = str(refresh)
         data["access"] = str(refresh.access_token)  # type: ignore
