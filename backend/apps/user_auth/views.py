@@ -4,7 +4,24 @@ from rest_framework.response import Response
 
 from apps.user.models import User
 
-from .serializers import PasswordResetSerializer
+from .serializers import PasswordResetSerializer, VerifyCodeSerializer
+
+
+class VerifyCodeAPIView(GenericAPIView):
+    """AJAX request to verify verification code."""
+
+    serializer_class = VerifyCodeSerializer
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        response_data = {
+            "email": serializer.validated_data["email"],
+            "message": "The code is valid.",
+        }
+
+        return Response(response_data, status=status.HTTP_200_OK)
 
 
 class ResetPasswordAPIView(GenericAPIView):

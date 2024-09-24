@@ -26,7 +26,7 @@ class SendEmailVerificationAPIView(GenericAPIView):
         result, message = send_verify_email(email)
         temporary_signup_data_update_timeout(email)
 
-        return Response({"message": message}, status=status.HTTP_200_OK)
+        return Response({"email": email, "message": message}, status=status.HTTP_200_OK)
 
 
 class SendPasswordResetAPIView(GenericAPIView):
@@ -42,4 +42,4 @@ class SendPasswordResetAPIView(GenericAPIView):
         user = get_object_or_404(User, email=email)
         result, message = send_reset_password(user)
 
-        return Response({"message": message}, status=status.HTTP_200_OK)
+        return Response({"email": email, "message": message}, status=status.HTTP_200_OK)
