@@ -1,4 +1,5 @@
 from django.contrib.auth.password_validation import validate_password
+from django.utils.translation import gettext_lazy as _
 from rest_framework.exceptions import ValidationError
 from rest_framework.generics import get_object_or_404
 
@@ -14,10 +15,10 @@ def code_validator(attrs):
     code_obj = get_object_or_404(VerificationCode, email=email)
 
     if code != int(code_obj):
-        raise ValidationError({"detail": "Invalid code."})
+        raise ValidationError({"detail": _("Invalid code.")})
 
     if code_obj.is_expired():
-        raise ValidationError({"detail": "Code has expired."})
+        raise ValidationError({"detail": _("Code has expired.")})
 
     attrs["code_obj"] = code_obj
     return attrs

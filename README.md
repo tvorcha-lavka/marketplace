@@ -149,4 +149,46 @@
     ```bash
     make pytest-cov
     ```
-    
+
+---
+# Django Translations Guide
+This document provides instructions on how to set up and use translations in a Django project.
+
+## 1. GetText Installation
+To enable translation support, follow these steps, or you can skip this step and use `gettext` in docker:
+  - Download [GetText](https://mlocati.github.io/articles/gettext-iconv-windows.html)
+  - After installation, add the `bin` folder of GetText to your system `PATH` environment variable.
+
+## 2. Usage
+### Defining Translatable Messages
+To define a translatable message in your code, import the `gettext_lazy` function from `django.utils.translation`:
+
+```python
+from django.utils.translation import gettext_lazy as _
+
+message = _("Example message")
+```
+
+### Creating New Translatable Messages
+To create or update the Ukrainian translation file, run the following command:
+```bash
+# if you have installed locally `gettext`
+django-admin makemessages -l uk
+```
+```bash
+# if you don't have `gettext` locally and want to use it in docker.
+docker compose run --rm backend django-admin makemessages -l uk
+```
+This command scans your code for translatable strings and generates a .po file for the specified language.
+
+
+### Compiling Translations
+After configuring your translations, compile them using:
+```bash
+django-admin compilemessages
+```
+This command generates the compiled .mo files needed for your application to use the translations.
+
+### Additional Notes
+- Make sure to restart your Django server after making changes to translation files to see the updates.
+- You can add translations for other languages by repeating the `makemessages` command with the appropriate language code.

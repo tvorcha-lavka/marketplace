@@ -1,3 +1,4 @@
+from django.utils.translation import gettext_lazy as _
 from rest_framework import status
 from rest_framework.generics import GenericAPIView, get_object_or_404
 from rest_framework.response import Response
@@ -21,7 +22,7 @@ class SendEmailVerificationAPIView(GenericAPIView):
         user = User.objects.filter(email=email).first()
 
         if user and user.is_email_verified:
-            return Response({"message": "Email already verified."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"message": _("Email already verified.")}, status=status.HTTP_400_BAD_REQUEST)
 
         result, message = send_verify_email(email)
         temporary_signup_data_update_timeout(email)

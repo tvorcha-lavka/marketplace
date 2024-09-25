@@ -1,0 +1,309 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-09-25 09:09+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
+"%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: .\apps\category\admin.py:32 .\apps\category\tests\test_admin_panel.py:28
+msgid ""
+"This parameter is responsible for the location of the category.\n"
+"The smaller the number, the higher the category in the list.\n"
+"Sorting occurs by [order] and tree [level]."
+msgstr ""
+"Этот параметр отвечает за расположение категории.\n"
+"Чем меньше число, тем выше категория в списке.\n"
+"Сортировка происходит по порядку [order] и древовидному уровню [level]."
+
+#: .\apps\category\admin.py:58 .\apps\category\models.py:21
+msgid "Category"
+msgstr "Категория"
+
+#: .\apps\category\admin.py:63
+msgid "Parent"
+msgstr "Родительская категория"
+
+#: .\apps\category\models.py:22
+msgid "Categories"
+msgstr "Категории"
+
+#: .\apps\category\models.py:25
+msgid "name"
+msgstr "имя"
+
+#: .\apps\category\models.py:26
+msgid "href"
+msgstr "ссылка"
+
+#: .\apps\category\models.py:27
+msgid "order"
+msgstr "порядок"
+
+#: .\apps\category\models.py:28
+msgid "active"
+msgstr "активная"
+
+#: .\apps\category\models.py:31
+msgid "title"
+msgstr "название"
+
+#: .\apps\category\models.py:122
+msgid "top left"
+msgstr "верхний левый угол"
+
+#: .\apps\category\models.py:123
+msgid "top right"
+msgstr "верхний правый угол"
+
+#: .\apps\category\models.py:124
+msgid "top middle"
+msgstr "сверху посередине"
+
+#: .\apps\category\models.py:125
+msgid "bottom left"
+msgstr "нижний левый угол"
+
+#: .\apps\category\models.py:126
+msgid "bottom right"
+msgstr "нижний правый угол"
+
+#: .\apps\category\models.py:127
+msgid "bottom middle"
+msgstr "снизу посередине"
+
+#: .\apps\category\models.py:133
+msgid "Category Image"
+msgstr "Изображение Категории"
+
+#: .\apps\category\models.py:134
+msgid "Category Images"
+msgstr "Изображения Категорий"
+
+#: .\apps\category\models.py:136
+msgid "image"
+msgstr "изображение"
+
+#: .\apps\category\models.py:138
+msgid "title position"
+msgstr "позиция названия"
+
+#: .\apps\category\models.py:150
+msgid "Category Statistic"
+msgstr "Статистика для категории"
+
+#: .\apps\category\models.py:151
+msgid "Category Statistics"
+msgstr "Статистика для категорий"
+
+#: .\apps\category\models.py:153
+msgid "views count"
+msgstr "количество просмотров"
+
+#: .\apps\category\models.py:154
+msgid "purchases count"
+msgstr "количество покупок"
+
+#: .\apps\category\models.py:155
+msgid "popularity score"
+msgstr "оценка популярности"
+
+#: .\apps\email\models.py:6
+msgid "Email Verification"
+msgstr "Подтверждение электронной почты"
+
+#: .\apps\email\models.py:7
+msgid "Reset Password"
+msgstr "Сброс пароля"
+
+#: .\apps\email\tasks.py:19 .\apps\email\templates\email_verification.html:7
+msgid "Email verification"
+msgstr "Подтверждение электронной почты"
+
+#: .\apps\email\tasks.py:20
+#, python-format
+msgid ""
+"Hi!\n"
+"Your confirmation code: %(code)s"
+msgstr ""
+"Здравствуйте!\n"
+"Ваш код подтверждения: %(code)s"
+
+#: .\apps\email\tasks.py:21
+msgid "Please check your email to verify your account."
+msgstr "Пожалуйста, проверьте свою электронную почту для подтверждения аккаунта."
+
+#: .\apps\email\tasks.py:36 .\apps\email\templates\reset_password.html:7
+msgid "Password change confirmation"
+msgstr "Подтверждение изменения пароля"
+
+#: .\apps\email\tasks.py:37
+#, python-format
+msgid ""
+"Hi %(username)s!\n"
+"Your password change confirmation code: %(code)s"
+msgstr ""
+"Здравствуйте, %(username)s!\n"
+"Ваш код подтверждения изменения пароля: %(code)s"
+
+#: .\apps\email\tasks.py:42
+msgid "A password reset email has been sent to your email address."
+msgstr "Письмо для сброса пароля было отправлено на вашу электронную почту."
+
+#: .\apps\email\tasks.py:76
+msgid "Welcome to Tvorcha Lavka!"
+msgstr "Добро пожаловать в Tvorcha Lavka!"
+
+#: .\apps\email\tasks.py:77
+#, python-format
+msgid "Hi, %(username)s. Thank you for registering Tvorcha Lavka!"
+msgstr "Здравствуйте, %(username)s. Спасибо за регистрацию на Tvorcha Lavka!"
+
+#: .\apps\email\templates\email_verification.html:12
+msgid "Hi!"
+msgstr "Здравствуйте!"
+
+#: .\apps\email\templates\email_verification.html:15
+msgid "Your confirmation code:"
+msgstr "Ваш код подтверждения:"
+
+#: .\apps\email\templates\email_verification.html:19
+#: .\apps\email\templates\reset_password.html:19
+#, python-format
+msgid "Code is valid for %(expire_in)s minutes."
+msgstr "Срок действия кода - %(expire_in)s мин."
+
+#: .\apps\email\templates\email_verification.html:20
+msgid "Please enter this code on the website to confirm your email address."
+msgstr "Пожалуйста, введите этот код на сайте, чтобы подтвердить свою электронную почту."
+
+#: .\apps\email\templates\email_verification.html:23
+msgid "If you have not requested this verification, please ignore this email."
+msgstr "Если вы не запрашивали эту проверку, пожалуйста, игнорируйте это письмо."
+
+#: .\apps\email\templates\reset_password.html:12
+msgid "Hi, "
+msgstr "Здравствуйте, "
+
+#: .\apps\email\templates\reset_password.html:15
+msgid "Your password change confirmation code:"
+msgstr "Ваш код подтверждения изменения пароля:"
+
+#: .\apps\email\templates\reset_password.html:20
+msgid "Please enter this code on the website to confirm the password change."
+msgstr "Пожалуйста, введите этот код на сайте, чтобы подтвердить изменение пароля."
+
+#: .\apps\email\templates\reset_password.html:23
+msgid "If you have not requested a password change, please ignore this email."
+msgstr "Если вы не запрашивали изменение пароля, игнорируйте это письмо."
+
+#: .\apps\email\views.py:25
+msgid "Email already verified."
+msgstr "Электронная почта уже подтверждена."
+
+#: .\apps\user\models.py:17
+msgid "User"
+msgstr "Пользователь"
+
+#: .\apps\user\models.py:18
+msgid "Users"
+msgstr "Пользователи"
+
+#: .\apps\user\models.py:23 .\apps\user_auth\models.py:20
+msgid "email"
+msgstr "электронная почта"
+
+#: .\apps\user\models.py:24
+msgid "username"
+msgstr "имя пользователя"
+
+#: .\apps\user\models.py:25
+msgid "first name"
+msgstr "имя"
+
+#: .\apps\user\models.py:26
+msgid "last name"
+msgstr "фамилия"
+
+#: .\apps\user\models.py:28
+msgid "phone number"
+msgstr "номер телефона"
+
+#: .\apps\user\models.py:30
+msgid "is email verified"
+msgstr "подтверждена почта"
+
+#: .\apps\user\validators.py:17
+msgid "Enter a valid name containing only letters."
+msgstr "Введите действительное имя, содержащее только буквы."
+
+#: .\apps\user\validators.py:35
+#, python-format
+msgid "Enter a valid phone number with country code. Available countries: %(list)s"
+msgstr "Введите действительный номер телефона с кодом страны. Доступные страны: %(list)s"
+
+#: .\apps\user_auth\jwt\views.py:36
+msgid "A verification code was recently sent to user email."
+msgstr "На электронную почту пользователя был уже отправлен недавно код подтверждения."
+
+#: .\apps\user_auth\jwt\views.py:78
+msgid "Email is not verified."
+msgstr "Электронная почта не подтверждена."
+
+#: .\apps\user_auth\models.py:14
+msgid "Verification Code"
+msgstr "Код Подтверждения"
+
+#: .\apps\user_auth\models.py:15
+msgid "Verification Codes"
+msgstr "Коды Подтверждения"
+
+#: .\apps\user_auth\models.py:17
+msgid "code"
+msgstr "код"
+
+#: .\apps\user_auth\models.py:18
+msgid "expires at"
+msgstr "действительный до"
+
+#: .\apps\user_auth\models.py:21
+msgid "email type"
+msgstr "тип почты"
+
+#: .\apps\user_auth\models.py:23
+msgid "uuid"
+msgstr "uuid"
+
+#: .\apps\user_auth\social\views.py:57
+msgid "Authentication failed."
+msgstr "Не удалось пройти аутентификацию."
+
+#: .\apps\user_auth\validators.py:18
+msgid "Invalid code."
+msgstr "Неправильный код."
+
+#: .\apps\user_auth\validators.py:21
+msgid "Code has expired."
+msgstr "Срок действия кода истек."
+
+#: .\apps\user_auth\views.py:22
+msgid "The code is valid."
+msgstr "Код действителен."
+
+#: .\apps\user_auth\views.py:46
+msgid "Password has been changed successfully."
+msgstr "Пароль успешно изменен."

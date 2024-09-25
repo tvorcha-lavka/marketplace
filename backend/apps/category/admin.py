@@ -55,12 +55,12 @@ class CategoryAdmin(TranslatableAdmin, MPTTModelAdmin):
     inlines = [ImageInline]
 
     @staticmethod
-    @admin.display(description="Category")
+    @admin.display(description=_("Category"))
     def title_display(obj):
         return obj.title
 
     @staticmethod
-    @admin.display(description="Parent")
+    @admin.display(description=_("Parent"))
     def parent_display(obj):
         return obj.parent.title if obj.parent else None
 

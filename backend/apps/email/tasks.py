@@ -16,9 +16,8 @@ from .models import EmailType
 def send_verify_email(email: str) -> Tuple[AsyncResult, str]:
     email_type = EmailType.EMAIL_VERIFICATION
     template = "email_verification.html"
-    subject = "Підтвердження електронної пошти"
-    body = "Вітаю!\n" "Ваш код підтвердження: <VERIFICATION_CODE>"
-
+    subject = _("Email verification")
+    body = _("Hi!\nYour confirmation code: %(code)s") % {"code": "<VERIFICATION_CODE>"}
     api_message = _("Please check your email to verify your account.")
 
     return (
@@ -34,8 +33,11 @@ def send_verify_email(email: str) -> Tuple[AsyncResult, str]:
 def send_reset_password(user: User) -> Tuple[AsyncResult, str]:
     email_type = EmailType.RESET_PASSWORD
     template = "reset_password.html"
-    subject = "Підтвердження на зміну пароля"
-    body = f"Вітаю, {user.username}!\n" f"Ваш код підтвердження зміни пароля: <VERIFICATION_CODE>"
+    subject = _("Password change confirmation")
+    body = _("Hi %(username)s!\nYour password change confirmation code: %(code)s") % {
+        "username": user.username,
+        "code": "<VERIFICATION_CODE>",
+    }
 
     api_message = _("A password reset email has been sent to your email address.")
 
@@ -71,10 +73,12 @@ def send_verification_code(recipient: str, email_type: EmailType, template: str,
 @shared_task
 def send_welcome_email(email: str):
     user = User.objects.get(email=email)
+    subject = _("Welcome to Tvorcha Lavka!")
+    message = _("Hi, %(username)s. Thank you for registering Tvorcha Lavka!") % {"username": user.username}
 
     send_mail(
-        subject="Welcome to TvorchaLavka",
-        message=f"Hi, {user.username}! Thank you for registering TvorchaLavka!.",
+        subject=subject,
+        message=message,
         from_email=settings.DEFAULT_FROM_EMAIL,
         recipient_list=[user.email],
     )

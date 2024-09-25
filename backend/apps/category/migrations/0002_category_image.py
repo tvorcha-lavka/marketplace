@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
             name="CategoryImage",
             fields=[
                 ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
-                ("image", models.ImageField(upload_to="category_images/")),
+                ("image", models.ImageField(upload_to="category_images/", verbose_name="image")),
                 (
                     "title_position",
                     models.CharField(
