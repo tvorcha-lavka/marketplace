@@ -144,7 +144,7 @@ const CodeVerificationModal = ({ type }) => {
                           id={`${id}-code-${index}`}
                           type="text"
                           maxLength="1"
-                          value={value}
+                          value={otp[index]}
                           onChange={(e) =>
                             handleChange(e, index, setFieldValue)
                           }
