@@ -32,7 +32,9 @@ class PhoneNumberValidator(RegexValidator):
     # fmt: on
 
     regex = "|".join(data.values())
-    message = _(f"Enter a valid phone number with country code. Available countries: {'|'.join(data.keys())}")
+    message = _("Enter a valid phone number with country code. Available countries: %(list)s") % {
+        "list": "|".join(data.keys()),
+    }
     flags = 0
 
 

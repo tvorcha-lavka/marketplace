@@ -1,3 +1,4 @@
+from django.utils.translation import gettext_lazy as _
 from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.generics import CreateAPIView
@@ -53,4 +54,4 @@ class SocialOAuth2CallbackView(CreateAPIView, TokenMixin, BackendMixin):
 
             return Response(serializer.data, status=status.HTTP_200_OK)
 
-        return Response({"detail": "Authentication failed"}, status=status.HTTP_403_FORBIDDEN)
+        return Response({"detail": _("Authentication failed.")}, status=status.HTTP_403_FORBIDDEN)

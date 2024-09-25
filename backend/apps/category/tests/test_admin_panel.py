@@ -1,6 +1,7 @@
 import pytest
 from django import forms
 from django.contrib.admin import AdminSite
+from django.utils.translation import gettext_lazy as _
 
 from apps.category.admin import CategoryAdmin, CategoryAdminForm
 from apps.category.models import Category
@@ -23,7 +24,7 @@ class TestCategoryAdminForm:
     def test_order_field_help_text(self):
         form = CategoryAdminForm(instance=Category(name="Test"))
 
-        expected_help_text = (
+        expected_help_text = _(
             "This parameter is responsible for the location of the category.\n"
             "The smaller the number, the higher the category in the list.\n"
             "Sorting occurs by [order] and tree [level]."

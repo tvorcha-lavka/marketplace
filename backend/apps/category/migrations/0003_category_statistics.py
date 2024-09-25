@@ -16,8 +16,8 @@ class Migration(migrations.Migration):
             fields=[
                 ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
                 ("views_count", models.FloatField(default=0.0, verbose_name="views count")),
-                ("purchases_count", models.FloatField(default=0.0, verbose_name="views count")),
-                ("popularity_score", models.FloatField(default=0.0, verbose_name="views count")),
+                ("purchases_count", models.FloatField(default=0.0, verbose_name="purchases count")),
+                ("popularity_score", models.FloatField(default=0.0, verbose_name="popularity score")),
                 (
                     "category",
                     models.OneToOneField(

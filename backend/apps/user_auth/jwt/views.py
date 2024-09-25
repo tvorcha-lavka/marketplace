@@ -1,3 +1,4 @@
+from django.utils.translation import gettext_lazy as _
 from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.exceptions import PermissionDenied
@@ -32,7 +33,7 @@ class SignupAPIView(GenericAPIView):
         email = serializer.validated_data["email"]
 
         if temporary_signup_data_is_exists(email):
-            message = "A verification code was recently sent to user email."
+            message = _("A verification code was recently sent to user email.")
             return Response({"message": message}, status=status.HTTP_307_TEMPORARY_REDIRECT)
 
         result, message = send_verify_email(email)
@@ -74,7 +75,7 @@ class LoginAPIView(TokenObtainPairView):
         serializer.is_valid(raise_exception=True)
 
         if not serializer.user.is_email_verified:
-            raise PermissionDenied("Email is not verified.")
+            raise PermissionDenied(_("Email is not verified."))
 
         return Response(serializer.validated_data, status=status.HTTP_200_OK)
 
