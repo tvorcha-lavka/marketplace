@@ -1,4 +1,5 @@
 .container {
+	position: relative;
   display: flex;
 }
 
@@ -67,7 +68,15 @@
   border-color: var(--error-red);
 }
 
+.container .input.inputError:hover {
+  border-color: var(--error-red);
+}
+
 .input.filled {
+  border-color: var(--default-black);
+}
+
+.input.filled:hover {
   border-color: var(--default-black);
 }
 
@@ -96,24 +105,6 @@
   font-size: var(--font-size-extra-tiny);
   font-weight: var(--font-weight-normal);
   color: var(--error-red);
-}
-
-.submitButton {
-  margin-top: 32px;
-  width: var(--component-width);
-  height: var(--component-height);
-  padding: 10px;
-  margin-bottom: 12px;
-  justify-content: center;
-  align-items: center;
-  border: none;
-  border-radius: var(--border-radius);
-  font-size: var(--font-size-extra-small);
-  font-weight: var(--font-weight-bold);
-  color: var(--default-black);
-  background-color: transparent;
-  border: var(--border-width) var(--border-style) var(--primary-yellow);
-  cursor: pointer;
 }
 
 .supportLink {
