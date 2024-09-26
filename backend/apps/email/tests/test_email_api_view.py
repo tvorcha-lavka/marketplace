@@ -13,9 +13,9 @@ send_email_test_cases = [
     # "auth_user", "url_name", "user_data", "has_cache", "expected_status", "expected_data"
     E_TestCase("admin", "send-email-verification-code", True, status.HTTP_200_OK, ["email", "message"]),
     E_TestCase("admin", "send-email-verification-code", False, status.HTTP_200_OK, ["email", "message"]),
-    E_TestCase("user1", "send-email-verification-code", False, status.HTTP_403_FORBIDDEN, ["detail"]),
+    E_TestCase("user1", "send-email-verification-code", False, status.HTTP_200_OK, ["email", "message"]),
     E_TestCase("admin", "send-reset-password-code", None, status.HTTP_200_OK, ["email", "message"]),
-    E_TestCase("user1", "send-reset-password-code", None, status.HTTP_403_FORBIDDEN, ["detail"]),
+    E_TestCase("user1", "send-reset-password-code", None, status.HTTP_200_OK, ["email", "message"]),
 ]
 
 
@@ -43,8 +43,7 @@ class TestEmailAPIView:
         for key in test_case.expected_data:
             assert key in response.data
 
-        if response.status_code == status.HTTP_200_OK:
-            mock_email_task.assert_called_once()
+        mock_email_task.assert_called_once()
 
     def test_send_email_verification_code_to_verified_user(self):
         client = self.auth_client(self.users.admin)

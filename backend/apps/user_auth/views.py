@@ -1,6 +1,7 @@
 from django.utils.translation import gettext_lazy as _
 from rest_framework import status
 from rest_framework.generics import GenericAPIView, get_object_or_404
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
 from apps.user.models import User
@@ -12,6 +13,7 @@ class VerifyCodeAPIView(GenericAPIView):
     """AJAX request to verify verification code."""
 
     serializer_class = VerifyCodeSerializer
+    permission_classes = [AllowAny]
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
@@ -29,6 +31,7 @@ class ResetPasswordAPIView(GenericAPIView):
     """Resets the user's password using the provided reset code sent to email."""
 
     serializer_class = PasswordResetSerializer
+    permission_classes = [AllowAny]
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
