@@ -25,6 +25,7 @@ class SignupAPIView(GenericAPIView):
     """
 
     serializer_class = SignupSerializer
+    permission_classes = [AllowAny]
 
     def post(self, request):
         serializer = self.get_serializer(data=request.data)
@@ -47,6 +48,7 @@ class SignupCompleteAPIView(GenericAPIView, TokenMixin):
 
     serializer_class = VerifyCodeSerializer
     response_serializer = UserAuthSerializer
+    permission_classes = [AllowAny]
 
     @extend_schema(request=serializer_class, responses=response_serializer)
     def post(self, request):

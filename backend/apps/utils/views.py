@@ -3,6 +3,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from rest_framework import status
 from rest_framework.generics import RetrieveAPIView
+from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 
 from .serializers import RouteSerializer
@@ -12,6 +13,7 @@ class RouteListView(RetrieveAPIView):
     """Return list of all API routes in JSON format."""
 
     serializer_class = RouteSerializer
+    permission_classes = [IsAdminUser]
 
     @method_decorator(cache_page(3600))  # cache for 1 hour
     def get(self, request, *args, **kwargs):

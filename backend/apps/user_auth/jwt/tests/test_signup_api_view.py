@@ -20,19 +20,15 @@ C_TestCase = nt("SignupCompleteTestCase", ["auth_user", "code", "expected_status
 # ----- SignupAPIView Test Cases ---------------------------------------------------------------------------------------
 signup_test_cases = [
     # "auth_user", "data", "re_request", "expected_status", "expected_data"
-    S_TestCase("admin", "valid_data", False, status.HTTP_200_OK, ["email", "message"]),
-    S_TestCase("admin", "valid_data", True, status.HTTP_307_TEMPORARY_REDIRECT, ["message"]),
-    S_TestCase("admin", "invalid_data", False, status.HTTP_400_BAD_REQUEST, ["password"]),
-    S_TestCase("not_auth", "valid_data", False, status.HTTP_401_UNAUTHORIZED, ["detail"]),
-    S_TestCase("user1", "valid_data", False, status.HTTP_403_FORBIDDEN, ["detail"]),
+    S_TestCase("user1", "valid_data", False, status.HTTP_200_OK, ["email", "message"]),
+    S_TestCase("user1", "valid_data", True, status.HTTP_307_TEMPORARY_REDIRECT, ["message"]),
+    S_TestCase("user1", "invalid_data", False, status.HTTP_400_BAD_REQUEST, ["password"]),
 ]
 signup_complete_test_cases = [
     # "auth_user", "code", "expected_status", "expected_data"
-    C_TestCase("admin", "valid_code", status.HTTP_201_CREATED, ["user", "token"]),
-    C_TestCase("admin", "invalid_code", status.HTTP_400_BAD_REQUEST, ["detail"]),
-    C_TestCase("admin", "expired_code", status.HTTP_400_BAD_REQUEST, ["detail"]),
-    C_TestCase("not_auth", "valid_code", status.HTTP_401_UNAUTHORIZED, ["detail"]),
-    C_TestCase("user1", "valid_code", status.HTTP_403_FORBIDDEN, ["detail"]),
+    C_TestCase("user1", "valid_code", status.HTTP_201_CREATED, ["user", "token"]),
+    C_TestCase("user1", "invalid_code", status.HTTP_400_BAD_REQUEST, ["detail"]),
+    C_TestCase("user1", "expired_code", status.HTTP_400_BAD_REQUEST, ["detail"]),
 ]
 
 

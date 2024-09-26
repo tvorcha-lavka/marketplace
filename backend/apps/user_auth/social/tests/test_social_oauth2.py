@@ -19,23 +19,19 @@ C_TestCase = nt(
 # ----- SocialOAuth2 Test Cases ----------------------------------------------------------------------------------------
 social_oauth2_redirect_test_cases = [
     # "auth_user", "social", "expected_status", "expected_data"
-    R_TestCase("admin", "google", status.HTTP_200_OK, ["auth_url"]),
-    R_TestCase("user1", "google", status.HTTP_403_FORBIDDEN, ["detail"]),
-    R_TestCase("admin", "facebook", status.HTTP_200_OK, ["auth_url"]),
-    R_TestCase("user1", "facebook", status.HTTP_403_FORBIDDEN, ["detail"]),
+    R_TestCase("user1", "google", status.HTTP_200_OK, ["auth_url"]),
+    R_TestCase("user1", "facebook", status.HTTP_200_OK, ["auth_url"]),
 ]
 social_oauth2_callback_test_cases = [
     # "auth_user", "social", "user_data", "is_active", "is_email_verified", "expected_status", "expected_data"
-    C_TestCase("admin", "google", "valid_data", True, True, status.HTTP_200_OK, ["user", "token"]),
-    C_TestCase("admin", "google", "valid_data", True, False, status.HTTP_200_OK, ["user", "token"]),
-    C_TestCase("admin", "google", "invalid_data", None, None, status.HTTP_400_BAD_REQUEST, ["detail"]),
-    C_TestCase("admin", "google", "valid_data", False, True, status.HTTP_403_FORBIDDEN, ["detail"]),
-    C_TestCase("user1", "google", "valid_data", True, True, status.HTTP_403_FORBIDDEN, ["detail"]),
-    C_TestCase("admin", "facebook", "valid_data", True, True, status.HTTP_200_OK, ["user", "token"]),
-    C_TestCase("admin", "facebook", "valid_data", True, False, status.HTTP_200_OK, ["user", "token"]),
-    C_TestCase("admin", "facebook", "invalid_data", None, None, status.HTTP_400_BAD_REQUEST, ["detail"]),
-    C_TestCase("admin", "facebook", "valid_data", False, False, status.HTTP_403_FORBIDDEN, ["detail"]),
-    C_TestCase("user1", "facebook", "valid_data", True, True, status.HTTP_403_FORBIDDEN, ["detail"]),
+    C_TestCase("user1", "google", "valid_data", True, True, status.HTTP_200_OK, ["user", "token"]),
+    C_TestCase("user1", "google", "valid_data", True, False, status.HTTP_200_OK, ["user", "token"]),
+    C_TestCase("user1", "google", "invalid_data", None, None, status.HTTP_400_BAD_REQUEST, ["detail"]),
+    C_TestCase("user1", "google", "valid_data", False, True, status.HTTP_403_FORBIDDEN, ["detail"]),
+    C_TestCase("user1", "facebook", "valid_data", True, True, status.HTTP_200_OK, ["user", "token"]),
+    C_TestCase("user1", "facebook", "valid_data", True, False, status.HTTP_200_OK, ["user", "token"]),
+    C_TestCase("user1", "facebook", "invalid_data", None, None, status.HTTP_400_BAD_REQUEST, ["detail"]),
+    C_TestCase("user1", "facebook", "valid_data", False, False, status.HTTP_403_FORBIDDEN, ["detail"]),
 ]
 
 

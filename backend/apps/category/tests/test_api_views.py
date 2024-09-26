@@ -19,16 +19,16 @@ P_TestCase = nt("PurchasesCount", ["auth_user", "expected_count", "expected_stat
 # ----- Test Cases -----------------------------------------------------------------------------------------------------
 list_category_test_cases = [
     # "auth_user", "get_popular", "expected_status"
-    L_TestCase("not_auth", False, status.HTTP_401_UNAUTHORIZED),
+    L_TestCase("not_auth", False, status.HTTP_200_OK),
     L_TestCase("admin", True, status.HTTP_200_OK),
     L_TestCase("admin", False, status.HTTP_200_OK),
-    L_TestCase("user1", True, status.HTTP_403_FORBIDDEN),
+    L_TestCase("user1", True, status.HTTP_200_OK),
 ]
 retrieve_category_test_cases = [
     # "auth_user", "expected_status"
-    R_TestCase("not_auth", status.HTTP_401_UNAUTHORIZED),
+    R_TestCase("not_auth", status.HTTP_200_OK),
     R_TestCase("admin", status.HTTP_200_OK),
-    R_TestCase("user1", status.HTTP_403_FORBIDDEN),
+    R_TestCase("user1", status.HTTP_200_OK),
 ]
 update_views_count_test_cases = [
     # "auth_user", "expected_count", "expected_status"
@@ -66,8 +66,7 @@ class TestCategory:
         response = client.get(url, data=query_params)
 
         assert response.status_code == test_case.expected_status
-        if response.status_code == status.HTTP_200_OK:
-            assert isinstance(response.data, list)
+        assert isinstance(response.data, list)
 
     # ----- Retrieve Categories ----------------------------------------------------------------------------------------
     @pytest.mark.parametrize("test_case", retrieve_category_test_cases)
@@ -83,10 +82,8 @@ class TestCategory:
 
         for lang, response in responses.items():
             assert response.status_code == test_case.expected_status
-
-            if response.status_code == status.HTTP_200_OK:
-                assert isinstance(response.data, dict)
-                assert response.data.get("title") == category.get_translated_title(lang)
+            assert isinstance(response.data, dict)
+            assert response.data.get("title") == category.get_translated_title(lang)
 
     @pytest.mark.parametrize("test_case", update_views_count_test_cases)
     def test_update_views_count(self, test_case: V_TestCase):

@@ -1,9 +1,9 @@
 from django.utils.translation import gettext_lazy as _
 from drf_spectacular.utils import extend_schema
 from rest_framework import status
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import CreateAPIView, GenericAPIView
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-from rest_framework.views import APIView
 
 from apps.email.tasks import send_welcome_email
 from apps.user.serializers import UserSerializer
@@ -14,10 +14,11 @@ from .mixins import BackendMixin
 from .serializers import SocialCallbackOAuth2Serializer, SocialOAuth2RedirectSerializer
 
 
-class SocialOAuth2RedirectView(APIView, BackendMixin):
+class SocialOAuth2RedirectView(GenericAPIView, BackendMixin):
     """Returns the authorization URL `auth_url`."""
 
     serializer_class = SocialOAuth2RedirectSerializer
+    permission_classes = [AllowAny]
 
     def get(self, request):
         backend = self.get_backend(request)
@@ -27,12 +28,13 @@ class SocialOAuth2RedirectView(APIView, BackendMixin):
 class SocialOAuth2CallbackView(CreateAPIView, TokenMixin, BackendMixin):
     """Exchange social code for user data and JSON web token pair."""
 
-    request_serializer = SocialCallbackOAuth2Serializer
+    serializer_class = SocialCallbackOAuth2Serializer
     response_serializer = UserAuthSerializer
+    permission_classes = [AllowAny]
 
-    @extend_schema(request=request_serializer, responses=response_serializer)
+    @extend_schema(request=serializer_class, responses=response_serializer)
     def post(self, request, *args, **kwargs):
-        serializer = self.request_serializer(data=request.data)
+        serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         backend = self.get_backend(request)
