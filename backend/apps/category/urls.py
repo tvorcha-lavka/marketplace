@@ -4,7 +4,7 @@ from drf_spectacular.utils import extend_schema
 from .views import CategoryViewSet, UpdatePurchasesCountAPIView, UpdateViewsCountAPIView
 
 SchemaTag = "Category"
-CategoryViewSet = extend_schema(tags=[SchemaTag])(CategoryViewSet)
+CategoryViewSet = extend_schema(tags=[SchemaTag], auth=[])(CategoryViewSet)
 
 SchemaTag = "Category Statistics"
 UpdateViewsCountAPIView = extend_schema(tags=[SchemaTag])(UpdateViewsCountAPIView)

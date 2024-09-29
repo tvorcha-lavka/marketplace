@@ -5,10 +5,10 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from .views import LoginAPIView, LogoutAPIView, SignupAPIView, SignupCompleteAPIView
 
 SchemaTag = "JWT Authentication"
-LoginAPIView = extend_schema(tags=[SchemaTag])(LoginAPIView)
-LogoutAPIView = extend_schema(tags=[SchemaTag])(LogoutAPIView)
-SignupAPIView = extend_schema(tags=[SchemaTag])(SignupAPIView)
-SignupCompleteAPIView = extend_schema(tags=[SchemaTag])(SignupCompleteAPIView)
+LoginAPIView = extend_schema(tags=[SchemaTag], auth=[])(LoginAPIView)
+LogoutAPIView = extend_schema(tags=[SchemaTag], auth=[])(LogoutAPIView)
+SignupAPIView = extend_schema(tags=[SchemaTag], auth=[])(SignupAPIView)
+SignupCompleteAPIView = extend_schema(tags=[SchemaTag], auth=[])(SignupCompleteAPIView)
 
 SchemaTag = "JWT Token Obtain Pair"
 TokenObtainPairView = extend_schema(tags=[SchemaTag])(TokenObtainPairView)

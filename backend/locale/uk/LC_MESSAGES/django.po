@@ -1,0 +1,311 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-09-25 09:06+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != "
+"11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % "
+"100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || "
+"(n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
+
+#: .\apps\category\admin.py:32 .\apps\category\tests\test_admin_panel.py:28
+msgid ""
+"This parameter is responsible for the location of the category.\n"
+"The smaller the number, the higher the category in the list.\n"
+"Sorting occurs by [order] and tree [level]."
+msgstr ""
+"Цей параметр відповідає за розташування категорії.\n"
+"Чим менше число, тим вище категорія у списку.\n"
+"Сортування відбувається за порядком [order] та деревовидним рівнем [level]."
+
+#: .\apps\category\admin.py:58 .\apps\category\models.py:21
+msgid "Category"
+msgstr "Категорія"
+
+#: .\apps\category\admin.py:63
+msgid "Parent"
+msgstr "Батьківська категорія"
+
+#: .\apps\category\models.py:22
+msgid "Categories"
+msgstr "Категорії"
+
+#: .\apps\category\models.py:25
+msgid "name"
+msgstr "ім'я"
+
+#: .\apps\category\models.py:26
+msgid "href"
+msgstr "посилання"
+
+#: .\apps\category\models.py:27
+msgid "order"
+msgstr "порядок"
+
+#: .\apps\category\models.py:28
+msgid "active"
+msgstr "активний"
+
+#: .\apps\category\models.py:31
+msgid "title"
+msgstr "назва"
+
+#: .\apps\category\models.py:122
+msgid "top left"
+msgstr "верхній лівий кут"
+
+#: .\apps\category\models.py:123
+msgid "top right"
+msgstr "верхній правий кут"
+
+#: .\apps\category\models.py:124
+msgid "top middle"
+msgstr "зверху посередині"
+
+#: .\apps\category\models.py:125
+msgid "bottom left"
+msgstr "нижній лівий кут"
+
+#: .\apps\category\models.py:126
+msgid "bottom right"
+msgstr "нижній правий кут"
+
+#: .\apps\category\models.py:127
+msgid "bottom middle"
+msgstr "знизу посередині"
+
+#: .\apps\category\models.py:133
+msgid "Category Image"
+msgstr "Зображення Категорії"
+
+#: .\apps\category\models.py:134
+msgid "Category Images"
+msgstr "Зображення Категорій"
+
+#: .\apps\category\models.py:136
+msgid "image"
+msgstr "зображення"
+
+#: .\apps\category\models.py:138
+msgid "title position"
+msgstr "позиція назви"
+
+#: .\apps\category\models.py:150
+msgid "Category Statistic"
+msgstr "Статистика для категорії"
+
+#: .\apps\category\models.py:151
+msgid "Category Statistics"
+msgstr "Статистика для категорій"
+
+#: .\apps\category\models.py:153
+msgid "views count"
+msgstr "кількість переглядів"
+
+#: .\apps\category\models.py:154
+msgid "purchases count"
+msgstr "кількість покупок"
+
+#: .\apps\category\models.py:155
+msgid "popularity score"
+msgstr "оцінка популярності"
+
+#: .\apps\email\models.py:6
+msgid "Email Verification"
+msgstr "Підтвердження електронної пошти"
+
+#: .\apps\email\models.py:7
+msgid "Reset Password"
+msgstr "Скидання пароля"
+
+#: .\apps\email\tasks.py:19 .\apps\email\templates\email_verification.html:7
+msgid "Email verification"
+msgstr "Підтвердження електронної пошти"
+
+#: .\apps\email\tasks.py:20
+#, python-format
+msgid ""
+"Hi!\n"
+"Your confirmation code: %(code)s"
+msgstr ""
+"Вітаю!\n"
+"Ваш код підтвердження: %(code)s"
+
+#: .\apps\email\tasks.py:21
+msgid "Please check your email to verify your account."
+msgstr "Будь ласка, перевірте електронну пошту, щоб підтвердити ваш обліковий запис."
+
+#: .\apps\email\tasks.py:36 .\apps\email\templates\reset_password.html:7
+msgid "Password change confirmation"
+msgstr "Підтвердження для зміни пароля"
+
+#: .\apps\email\tasks.py:37
+#, python-format
+msgid ""
+"Hi %(username)s!\n"
+"Your password change confirmation code: %(code)s"
+msgstr ""
+"Вітаю %(username)s!\n"
+"Ваш код підтвердження зміни пароля: %(code)s"
+
+#: .\apps\email\tasks.py:42
+msgid "A password reset email has been sent to your email address."
+msgstr "На вашу електронну адресу було надіслано лист для зміни паролю."
+
+#: .\apps\email\tasks.py:76
+msgid "Welcome to Tvorcha Lavka!"
+msgstr "Вітаємо у Tvorcha Lavka!"
+
+#: .\apps\email\tasks.py:77
+#, python-format
+msgid "Hi, %(username)s. Thank you for registering Tvorcha Lavka!"
+msgstr "Вітаю, %(username)s. Дякуємо, що зареєструвалися на Tvorcha Lavka!"
+
+#: .\apps\email\templates\email_verification.html:12
+msgid "Hi!"
+msgstr "Вітаю!"
+
+#: .\apps\email\templates\email_verification.html:15
+msgid "Your confirmation code:"
+msgstr "Ваш код підтвердження:"
+
+#: .\apps\email\templates\email_verification.html:19
+#: .\apps\email\templates\reset_password.html:19
+#, python-format
+msgid "Code is valid for %(expire_in)s minutes."
+msgstr "Термін дії коду - %(expire_in)s хв."
+
+#: .\apps\email\templates\email_verification.html:20
+msgid "Please enter this code on the website to confirm your email address."
+msgstr "Будь ласка, введіть цей код на сайті, щоб підтвердити свою електронну пошту."
+
+#: .\apps\email\templates\email_verification.html:23
+msgid "If you have not requested this verification, please ignore this email."
+msgstr "Якщо ви не запитували цю перевірку, будь ласка, ігноруйте цей лист."
+
+#: .\apps\email\templates\reset_password.html:12
+msgid "Hi, "
+msgstr "Вітаю, "
+
+#: .\apps\email\templates\reset_password.html:15
+msgid "Your password change confirmation code:"
+msgstr "Ваш код підтвердження зміни пароля:"
+
+#: .\apps\email\templates\reset_password.html:20
+msgid "Please enter this code on the website to confirm the password change."
+msgstr "Будь ласка, введіть цей код на сайті, щоб підтвердити зміну пароля."
+
+#: .\apps\email\templates\reset_password.html:23
+msgid "If you have not requested a password change, please ignore this email."
+msgstr "Якщо ви не надсилали запит на зміну пароля, ігноруйте цей лист."
+
+#: .\apps\email\views.py:25
+msgid "Email already verified."
+msgstr "Електронну пошту вже підтверджено."
+
+#: .\apps\user\models.py:17
+msgid "User"
+msgstr "Користувач"
+
+#: .\apps\user\models.py:18
+msgid "Users"
+msgstr "Користувачі"
+
+#: .\apps\user\models.py:23 .\apps\user_auth\models.py:20
+msgid "email"
+msgstr "електронна пошта"
+
+#: .\apps\user\models.py:24
+msgid "username"
+msgstr "ім'я користувача"
+
+#: .\apps\user\models.py:25
+msgid "first name"
+msgstr "ім'я"
+
+#: .\apps\user\models.py:26
+msgid "last name"
+msgstr "прізвище"
+
+#: .\apps\user\models.py:28
+msgid "phone number"
+msgstr "номер телефону"
+
+#: .\apps\user\models.py:30
+msgid "is email verified"
+msgstr "підтверджено пошту"
+
+#: .\apps\user\validators.py:17
+msgid "Enter a valid name containing only letters."
+msgstr "Введіть дійсне ім'я, що містить лише літери."
+
+#: .\apps\user\validators.py:35
+#, python-format
+msgid ""
+"Enter a valid phone number with country code. Available countries: %(list)s"
+msgstr "Введіть дійсний номер телефону з кодом країни. Доступні країни: %(list)s"
+
+#: .\apps\user_auth\jwt\views.py:36
+msgid "A verification code was recently sent to user email."
+msgstr "На електронну пошту користувача було вже надіслано нещодавно код підтвердження."
+
+#: .\apps\user_auth\jwt\views.py:78
+msgid "Email is not verified."
+msgstr "Електронну пошту не підтверджено."
+
+#: .\apps\user_auth\models.py:14
+msgid "Verification Code"
+msgstr "Код Підтвердження"
+
+#: .\apps\user_auth\models.py:15
+msgid "Verification Codes"
+msgstr "Коди Підтвердження"
+
+#: .\apps\user_auth\models.py:17
+msgid "code"
+msgstr "код"
+
+#: .\apps\user_auth\models.py:18
+msgid "expires at"
+msgstr "дійсний до"
+
+#: .\apps\user_auth\models.py:21
+msgid "email type"
+msgstr "тип пошти"
+
+#: .\apps\user_auth\models.py:23
+msgid "uuid"
+msgstr "uuid"
+
+#: .\apps\user_auth\social\views.py:57
+msgid "Authentication failed."
+msgstr "Не вдалося пройти автентифікацію."
+
+#: .\apps\user_auth\validators.py:18
+msgid "Invalid code."
+msgstr "Невірний код."
+
+#: .\apps\user_auth\validators.py:21
+msgid "Code has expired."
+msgstr "Термін дії коду закінчився."
+
+#: .\apps\user_auth\views.py:22
+msgid "The code is valid."
+msgstr "Код дійсний."
+
+#: .\apps\user_auth\views.py:46
+msgid "Password has been changed successfully."
+msgstr "Пароль успішно змінено."

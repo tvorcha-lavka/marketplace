@@ -18,7 +18,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -173,6 +173,8 @@ TIME_ZONE = "Europe/Kyiv"
 
 USE_I18N = True
 
+LOCALE_PATHS = [os.path.join(BASE_DIR, "locale")]
+
 USE_L10N = True
 
 USE_TZ = True
@@ -193,7 +195,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # Django Rest Framework
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.IsAdminUser",
+        "rest_framework.permissions.IsAuthenticated",
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",

@@ -3,9 +3,9 @@ from django.utils.decorators import method_decorator
 from django.utils.translation import get_language_from_request
 from django.views.decorators.cache import cache_page
 from rest_framework import status
-from rest_framework.generics import get_object_or_404
+from rest_framework.generics import GenericAPIView, get_object_or_404
+from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework.response import Response
-from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
 from .filters import CategoryFilter
@@ -16,6 +16,7 @@ from .serializers import CategoryDetailSerializer, CategorySerializer
 class CategoryViewSet(ModelViewSet):
     serializer_class = CategoryDetailSerializer
     filterset_class = CategoryFilter
+    permission_classes = [AllowAny]
     pagination_class = None
 
     def get_serializer_class(self):
@@ -36,7 +37,9 @@ class CategoryViewSet(ModelViewSet):
         return super().retrieve(request, *args, **kwargs)
 
 
-class UpdateCategoryStatisticAPIView(APIView):
+class UpdateCategoryStatisticAPIView(GenericAPIView):
+    permission_classes = [IsAdminUser]
+
     def get_object(self):
         return get_object_or_404(Category, pk=self.kwargs["pk"])
 

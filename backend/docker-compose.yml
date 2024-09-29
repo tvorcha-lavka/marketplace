@@ -44,7 +44,12 @@ services:
   backend:
     <<: *x-base-config
     container_name: backend
-    command: /bin/bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    command: >
+      /bin/bash -c "
+      python manage.py migrate &&
+      django-admin compilemessages &&
+      python manage.py runserver 0.0.0.0:8000
+      "
     healthcheck: *x-backend-healthcheck
     user: root
     ports:

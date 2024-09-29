@@ -6,10 +6,10 @@ from .social import urls as social_auth
 from .views import ResetPasswordAPIView, VerifyCodeAPIView
 
 SchemaTag = "Verification"
-VerifyCodeAPIView = extend_schema(tags=[SchemaTag])(VerifyCodeAPIView)
+VerifyCodeAPIView = extend_schema(tags=[SchemaTag], auth=[])(VerifyCodeAPIView)
 
 SchemaTag = "Reset Password"
-ResetPasswordAPIView = extend_schema(tags=[SchemaTag])(ResetPasswordAPIView)
+ResetPasswordAPIView = extend_schema(tags=[SchemaTag], auth=[])(ResetPasswordAPIView)
 
 urlpatterns = [
     path("", include(jwt_auth), name="jwt-auth"),

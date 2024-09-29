@@ -133,7 +133,7 @@ class CategoryImage(models.Model):
         verbose_name = _("Category Image")
         verbose_name_plural = _("Category Images")
 
-    image = models.ImageField(upload_to="category_images/")
+    image = models.ImageField(_("image"), upload_to="category_images/")
     title_position = models.CharField(
         _("title position"), default=TitlePosition.TOP_LEFT, choices=TitlePosition.choices, max_length=15
     )
@@ -151,8 +151,8 @@ class CategoryStatistics(models.Model):
         verbose_name_plural = _("Category Statistics")
 
     views_count = models.FloatField(_("views count"), default=0.0)
-    purchases_count = models.FloatField(_("views count"), default=0.0)
-    popularity_score = models.FloatField(_("views count"), default=0.0)
+    purchases_count = models.FloatField(_("purchases count"), default=0.0)
+    popularity_score = models.FloatField(_("popularity score"), default=0.0)
 
     objects = models.Manager()
     category = models.OneToOneField(Category, on_delete=models.CASCADE, related_name="statistics")

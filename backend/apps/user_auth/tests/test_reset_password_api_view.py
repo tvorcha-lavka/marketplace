@@ -14,10 +14,9 @@ R_TestCase = nt("PasswordReset", ["auth_user", "code", "expected_status", "expec
 # ----- ResetPasswordAPIView Test Cases --------------------------------------------------------------------------------
 password_reset_test_cases = [
     # "auth_user", "code", "expected_status", "expected_data"
-    R_TestCase("admin", "valid_code", status.HTTP_200_OK, ["message"]),
-    R_TestCase("admin", "invalid_code", status.HTTP_400_BAD_REQUEST, ["detail"]),
-    R_TestCase("admin", "expired_code", status.HTTP_400_BAD_REQUEST, ["detail"]),
-    R_TestCase("user1", "valid_code", status.HTTP_403_FORBIDDEN, ["detail"]),
+    R_TestCase("user1", "valid_code", status.HTTP_200_OK, ["message"]),
+    R_TestCase("user1", "invalid_code", status.HTTP_400_BAD_REQUEST, ["detail"]),
+    R_TestCase("user1", "expired_code", status.HTTP_400_BAD_REQUEST, ["detail"]),
 ]
 
 

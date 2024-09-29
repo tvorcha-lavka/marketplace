@@ -1,5 +1,7 @@
+from django.utils.translation import gettext_lazy as _
 from rest_framework import status
 from rest_framework.generics import GenericAPIView, get_object_or_404
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
 from apps.email.serializers import EmailSerializer
@@ -12,6 +14,7 @@ class SendEmailVerificationAPIView(GenericAPIView):
     """Sends a verification email to the user with the provided email address."""
 
     serializer_class = EmailSerializer
+    permission_classes = [AllowAny]
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
@@ -21,7 +24,7 @@ class SendEmailVerificationAPIView(GenericAPIView):
         user = User.objects.filter(email=email).first()
 
         if user and user.is_email_verified:
-            return Response({"message": "Email already verified."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"message": _("Email already verified.")}, status=status.HTTP_400_BAD_REQUEST)
 
         result, message = send_verify_email(email)
         temporary_signup_data_update_timeout(email)
@@ -33,6 +36,7 @@ class SendPasswordResetAPIView(GenericAPIView):
     """Sends a password reset email to the user with the provided email address."""
 
     serializer_class = EmailSerializer
+    permission_classes = [AllowAny]
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)

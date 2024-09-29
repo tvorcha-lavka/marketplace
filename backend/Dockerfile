@@ -27,6 +27,11 @@ ENV PYTHONUNBUFFERED=1
 
 WORKDIR /code
 
+# Installing gettext in the final image and cleaning up
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gettext \
+    && rm -rf /var/lib/apt/lists/*
+
 # Copying installed dependencies from the builder stage
 COPY --from=builder /usr/local /usr/local
 
