@@ -36,7 +36,6 @@
     width: 390px;
     height: 232px;
     border-radius: 16px;
-    background-color: #fcbc5a;
 }
 
 .item:nth-child(5) {
@@ -56,6 +55,7 @@
     font-size: 18px;
     font-weight: 700;
     line-height: 1.255;
+    color: #fff;
 }
 
 .item:last-child .item_title {

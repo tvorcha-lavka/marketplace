@@ -17,11 +17,20 @@ export default function PopularCategories() {
   useEffect(() => {
     dispatch(getPopCategories());
   }, [dispatch]);
+
+  const getRandomColor = () => {
+    const letters = '0123456789ABCDEFGHIJKLMNOP';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  };
  
   return (
     <section className={styles.container}>
       {isOpen !== true ? (
-        <div className="">
+        <>
           <div className={styles.title_box}>
             <h2 className={styles.title}>Популярні категорії</h2>
             <button onClick={() => setIsOpen(true)} className={styles.btn}>
@@ -31,19 +40,31 @@ export default function PopularCategories() {
 
           <ul className={styles.list}>
             {fivePopCategories?.map(({ title, image }, index) => (
-              <li key={index} className={styles.item}>
+              <li
+                key={index}
+                className={styles.item}
+                style={{
+                  backgroundColor: getRandomColor(),
+                }}
+              >
                 <h3 className={styles.item_title}>{title}</h3>
                 <img src={popImg3} alt="" className={styles.img1} />
               </li>
             ))}
           </ul>
-        </div>
+        </>
       ) : (
         <div className={styles.box}>
           <h2 className={styles.title}> Всі категорії</h2>
           <ul className={styles.list}>
             {popCategories?.map(({ title, image }, index) => (
-              <Link key={index} className={styles.item}>
+              <Link
+                key={index}
+                className={styles.item}
+                style={{
+                  backgroundColor: getRandomColor(),
+                }}
+              >
                 <h3 className={styles.item_title}>{title}</h3>
                 <img src={popImg1} alt="" className={styles.img1} />
               </Link>
