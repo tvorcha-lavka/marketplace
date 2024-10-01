@@ -13,17 +13,12 @@ export default function QuestionItem({ faqItem, onClick, isOpen }) {
         onClick={() => onClick()}
       >
         {faqItem.q}
-        {/* <GoChevronDown
+        <GoChevronDown
           className={
             isOpen ? `${styles.icon_active}` : `${styles.accordion_icon}`
           }
-        /> */}
-        <img src={arrow}
-          alt=""
-          className={
-            isOpen ? `${styles.icon_active}` : `${styles.accordion_icon}`
-          } />         
-        
+        />
+       
       </button>
       <div
         className={styles.collapse}
