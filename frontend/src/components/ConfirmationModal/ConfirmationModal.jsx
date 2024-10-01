@@ -7,23 +7,15 @@ export default function ConfirmationModal({ type }) {
   const { openModal } = useModal();
 
   const getTitle = () => {
-    if (type === 'verification-register') {
-      return 'Реєстрацію завершено';
-    }
-    if (type === 'verification-reset') {
-      return 'Ваш пароль змінено';
-    }
-    return '';
+    return type === 'verification-register'
+      ? 'Реєстрацію завершено'
+      : 'Ваш пароль змінено';
   };
 
   const getDescription = () => {
-    if (type === 'verification-register') {
-      return 'Тепер ви можете зайти на cвій акаунт використовуючи свої дані для входу';
-    }
-    if (type === 'verification-reset') {
-      return 'Тепер ви можете зайти на cвій акаунт використовуючи новий пароль';
-    }
-    return '';
+    return type === 'verification-register'
+      ? 'Тепер ви можете зайти на cвій акаунт використовуючи свої дані для входу'
+      : 'Тепер ви можете зайти на cвій акаунт використовуючи новий пароль';
   };
 
   return (

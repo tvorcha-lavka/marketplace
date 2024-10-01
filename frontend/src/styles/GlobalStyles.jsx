@@ -32,6 +32,13 @@ const GlobalStylesComponent = () => {
           //max-width: '100%',
           height: 'auto',
         },
+        "input[type='password']::-ms-reveal": {
+          display: 'none',
+        },
+
+        "input[type='password']::-ms-clear": {
+          display: 'none',
+        },
         ':root': {
           '--default-white': theme.custom.colors.defaultWhite, //fff
           '--grey-light': theme.custom.colors.greyLight, //E8E8E8
@@ -42,6 +49,7 @@ const GlobalStylesComponent = () => {
           '--default-black': theme.custom.colors.defaultBlack, //0C0600
 
           '--primary-yellow': theme.custom.colors.primaryYellow, //FCBC5A
+          '--primary-yellow-light': theme.custom.colors.primaryYellowLight, //rgba(252, 188, 90, 0.32)
           '--primary-dark-orange': theme.custom.colors.primaryDarkOrange, //DA5135
 
           '--secondary-dark-yellow': theme.custom.colors.secondaryDarkYellow, //FBAB30
@@ -66,6 +74,7 @@ const GlobalStylesComponent = () => {
           '--background-backdrop': theme.custom.colors.backgroundBackdrop,
           '--background-modal': theme.custom.colors.backgroundModal, //#fffdf9
 
+          '--font-family': theme.typography.fontFamily,
           '--font-weight-bold': theme.typography.fontWeightBold, //700
           '--font-weight-medium': theme.typography.fontWeightMedium, //600
           '--font-weight-normal': theme.typography.fontWeightNormal, //400

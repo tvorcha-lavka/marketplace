@@ -18,13 +18,14 @@ const theme = createTheme({
       defaultBlack: '#0C0600',
 
       primaryYellow: '#FCBC5A',
+      primaryYellowLight: 'rgba(252, 188, 90, 0.32)',
       primaryDarkOrange: '#DA5135',
 
       secondaryDarkYellow: '#FBAB30',
       secondaryPeach: '#F67B52',
       secondaryPink: '#D88B99',
       secondaryDarkBlue: '#085E69',
-      faceBook: '#0062e0', 
+      faceBook: '#0062e0',
       secondaryGreen: '#5D8348',
 
       errorLightRed: 'rgba(211, 50, 50, 0.70)',
@@ -56,7 +57,7 @@ const theme = createTheme({
       borderRadius: '8px',
       borderRadiusSmall: '4px',
 
-			iconSizeLarge: '32px',
+      iconSizeLarge: '32px',
       iconSizeNormal: '24px',
       checkboxSize: '20px',
       iconSize: '16px',

@@ -1,0 +1,17 @@
+.submitButton {
+  margin-top: 32px;
+  width: var(--component-width);
+  height: var(--component-height);
+  padding: 10px;
+  margin-bottom: 12px;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-extra-small);
+  font-weight: var(--font-weight-bold);
+  color: var(--default-black);
+  background-color: transparent;
+  border: var(--border-width) var(--border-style) var(--primary-yellow);
+  cursor: pointer;
+}

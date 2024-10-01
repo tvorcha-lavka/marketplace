@@ -147,81 +147,8 @@
   color: var(--grey-darker);
 }
 
-/*=========START CHECKBOX=========*/
-.visuallyHidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  border: 0;
-  clip-path: inset(100%);
-  clip: rect(0 0 0 0);
-}
-
-.rememberCheckbox {
-  display: flex;
-  align-items: center;
-  justify-content: start;
-  margin-bottom: 24px;
-}
-
-.rememberCheckboxLabel {
-  display: flex;
-  align-items: center;
-}
-
-.userRememberComponentIcon {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  width: var(--checkbox-size);
-  height: var(--checkbox-size);
-  background-color: transparent;
-  border:  var(--border-width) var(--border-style) var(--grey-dark);
-  border-radius: var(--border-radius-small);
-  margin-right: 9px;
-}
-
-.checkmarkIcon {
-  display: none;
-  color: var(--default-white);
-}
-
-.visuallyHidden:checked + .rememberCheckboxLabel .checkmarkIcon {
-  display: inline;
-}
-
-input[type='checkbox']:checked
-  + .rememberCheckboxLabel
-  > .userRememberComponentIcon {
-  background-color: var(--primary-yellow);
-  border-color: var(--primary-yellow);
-}
-
-input[type='checkbox']:hover
-  + .rememberCheckboxLabel
-  > .userRememberComponentIcon {
-  outline: var(--border-width) var(--border-style) transparent;
-  border: var(--border-width) var(--border-style) var(--primary-yellow);
-}
-
-input[type='checkbox']:focus
-  + .rememberCheckboxLabel
-  > .userRememberComponentIcon {
-  outline: var(--border-width) var(--border-style) transparent;
-  border: var(--border-width) var(--border-style) var(--primary-yellow);
-}
-
-.rememberText {
-  font-size: var(--font-size-tiny);
-  font-weight: var(--font-weight-normal);
-  color: var(--default-black);
-}
-
 .privacyText {
+	margin-top: 24px;
   margin-bottom: 16px;
   font-size: var(--font-size-extra-tiny);
   font-weight: var(--font-weight-normal);
