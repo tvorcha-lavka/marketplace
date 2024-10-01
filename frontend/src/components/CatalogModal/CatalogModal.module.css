@@ -1,11 +1,12 @@
 .modal_box {
     position: absolute;
+    display: flex;
     top: 92px;
     left: 50%;
     transform: translateX(-50%);
     width: 981px;
     max-height: 420px;
-    display: flex;
+    z-index: 100;
 }
 
 .box_categories {

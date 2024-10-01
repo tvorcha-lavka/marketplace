@@ -25,7 +25,6 @@ export default function CatalogModal() {
   const subcategories = focusedCategory?.children || [];
 
   useEffect(() => {
-    // console.log(dispatch(getAllCategories()))
     dispatch(getAllCategories());
   }, [dispatch]);
 
@@ -41,7 +40,10 @@ export default function CatalogModal() {
   if (error) return <p>Помилка: {error}</p>;
 
   return (
-    <div className={styles.modal_box} onMouseLeave={handleMouseLeave}>
+    <div
+      className={styles.modal_box}
+      onMouseLeave={handleMouseLeave}
+    >
       <div
         className={
           focusId !== null && subcategories.length > 0

@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import PropTypes from 'prop-types';
 import arrow from '../../images/arrow-icon.svg';
-// import { GoChevronDown } from 'react-icons/go';
+import { GoChevronDown } from 'react-icons/go';
 import styles from './QuestionItem.module.css';
 
 export default function QuestionItem({ faqItem, onClick, isOpen }) {
