@@ -1,10 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getAllCategories } from './categoriesOperations';
+import { getAllCategories, getPopCategories } from './categoriesOperations';
 
 const categoriesSlice = createSlice({
     name: 'categories',
     initialState: {
         items: [],
+        popular: [],
         loading: false,
         error: null,
     },
@@ -17,11 +18,19 @@ const categoriesSlice = createSlice({
        
         .addCase(getAllCategories.fulfilled, (state, action) => {
             state.items = action.payload;
+            state.loading = false;
             state.error = null;
         })
        .addCase(getAllCategories.rejected, (state, action) => {
-            state.error = action.payload;
+           state.error = action.payload;
+           state.loading = false;
+       })
+        .addCase(getPopCategories.fulfilled, (state, action) => {
+            state.popular = action.payload;
+            state.loading = false;
+            state.error = null;
         })
+        
     },
 })
 

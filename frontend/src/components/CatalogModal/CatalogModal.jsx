@@ -22,7 +22,8 @@ export default function CatalogModal() {
   const subcategories = focusedCategory?.children || [];
 
     useEffect(() => {
-        dispatch(getAllCategories())
+      // console.log(dispatch(getAllCategories()))
+      dispatch(getAllCategories());
     }, [dispatch])
   
   const handleMouseEnter = (id) => {
