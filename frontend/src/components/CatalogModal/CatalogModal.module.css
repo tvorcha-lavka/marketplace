@@ -1,105 +1,131 @@
 .modal_box {
-    position: absolute;
-    top: 92px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 981px;
-    max-height: 420px;
-    padding-block: 40px;
-    padding-inline: 32px;
-    display: grid;
-    grid-template-columns: 289px 588px;
-    gap: 40px;
-    border-radius: 40px;
-    background-color: #fff;
+  position: absolute;
+  top: 92px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 981px;
+  max-height: 420px;
+  display: flex;
 }
 
 .box_categories {
-    height: 340px;
-    border-right: 1px solid #d2d2d2;
+  width: 321px;
+  height: 420px;
+  border-radius: 40px;
+  background-color: #fff;
+}
+.box_categories_open {
+  width: 321px;
+  height: 420px;
+  border-top-left-radius: 40px;
+  border-bottom-left-radius: 40px;
+  background-color: #fff;
+}
+.list_categories,
+.list_categories_open {
+  height: 340px;
+  margin: 40px 0 40px 36px;
 }
 
+.list_categories_open {
+  border-right: 1px solid #d2d2d2;
+}
 .category_item {
-    display: flex;
-    padding-inline-end: 20px;
-    margin-block-end: 12px;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 16px;
-}
-
-.category_item:is(:hover, :focus) {
-    font-weight: 700;
+  margin-block-end: 12px;
+  font-size: 16px;
 }
 
 .category_item:last-child {
-    margin-block-end: 0;
+  margin-block-end: 0;
+}
+
+.category {
+  position: relative;
+  display: block;
+  color: black;
+}
+
+.category:is(:hover, :focus) {
+  font-weight: 700;
+}
+
+.icon_right {
+  position: absolute;
+  top: 50%;
+  right: 24px;
+  transform: translateY(-50%);
 }
 
 ::-webkit-scrollbar {
-    width: 4px;
+  width: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: #fcbc5a;
-    border-radius: 1px;
-    height: 50px;
+  background-color: #fcbc5a;
+  border-radius: 1px;
+  height: 50px;
 }
 
 ::-webkit-scrollbar-track {
-    background-color: rgba(130, 84, 8, 0.1);
+  background-color: rgba(130, 84, 8, 0.1);
 }
 
 .category_menu {
-    height: 340px;
+  width: 660px;
+  height: 420px;
+  padding: 40px 38px 40px 32px;
+  border-top-right-radius: 40px;
+  border-bottom-right-radius: 40px;
+  background-color: #fff;
 }
 
 .list_title {
-    position: fixed;
-    top: 40px;
-    left: 361px;
-    width: 560px;
-    padding-block-end: 16px;
-    font-size: 18px;
-    font-weight: 700;
-    line-height: 1.255;
-    background-color: #fff;
+  position: fixed;
+  top: 38px;
+  left: 321px;
+  width: 600px;
+  padding-block-end: 16px;
+  padding-inline-start: 32px;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.255;
+  background-color: #fff;
 }
 
 .scrollbox {
-    overflow-y: auto;
+  overflow-y: auto;
 }
 
 .scrollbox_inner {
-    height: auto;
+  height: auto;
 }
 
 .list_cards {
-    display: grid;
-    width: 560px;
-    height: 297px;
-    margin-top: 47px;
-    grid-template-columns: repeat(4, 1fr);
-    column-gap: 16px;
-    row-gap: 24px;
+  display: grid;
+  width: 560px;
+  height: 297px;
+  margin-top: 47px;
+  grid-template-columns: repeat(4, 1fr);
+  column-gap: 16px;
+  row-gap: 24px;
 }
 
 .item_card {
-    width: 128px;
-    height: 172px;
-    border-top-right-radius: 16px;
-    border-top-left-radius: 16px;
+  width: 128px;
+  height: 172px;
+  border-top-right-radius: 16px;
+  border-top-left-radius: 16px;
 }
 
 .item_img {
-    width: 100%;
-    height: 128px;
-    border-radius: 8px;
-    background-color: #fad7d7;
+  width: 100%;
+  height: 128px;
+  border-radius: 8px;
+  background-color: #fad7d7;
 }
 
 .box_text {
-    padding-block-start: 8px;
-    height: 44px;
-    font-size: 14px;
+  padding-block-start: 8px;
+  height: 44px;
+  font-size: 14px;
 }

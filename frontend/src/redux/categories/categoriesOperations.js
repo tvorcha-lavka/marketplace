@@ -10,13 +10,16 @@ export const getAllCategories = createAsyncThunk(
   'categories/allCategories',
   async (_, thunkAPI) => {
     try {
-      const data = await axios.get(
-        `/categories/`
-        );
-        console.log(data)
-      const categoryTree = buildCategoryTree(data);
-        console.log(categoryTree)
-        const categories = categoryTree.flatMap((cat) => cat.children);
+      const res = await axios.get(
+        `/categories/?lang=uk`);
+      
+      // return res.data
+      console.log(res.data)
+      const tree = res.data
+      const categoryTrees = buildCategoryTree(tree);
+        console.log(categoryTrees)
+      const categories = categoryTrees[0].children;
+      console.log(categories)
         return categories;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);

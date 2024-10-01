@@ -4,16 +4,22 @@ import { getAllCategories } from './categoriesOperations';
 const categoriesSlice = createSlice({
     name: 'categories',
     initialState: {
-        categories: [ ],
+        items: [],
+        loading: false,
         error: null,
     },
-    extraReducers: (builder)=> {
+    extraReducers: (builder) => {
+        builder
+        .addCase(getAllCategories.pending, (state) => {
+                state.loading = true;  
+                state.error = null;
+            })
        
-        builder.addCase(getAllCategories.fulfilled, (state, action) => {
-            state.categories = action.payload;
+        .addCase(getAllCategories.fulfilled, (state, action) => {
+            state.items = action.payload;
             state.error = null;
         })
-        builder.addCase(getAllCategories.rejected, (state, action) => {
+       .addCase(getAllCategories.rejected, (state, action) => {
             state.error = action.payload;
         })
     },

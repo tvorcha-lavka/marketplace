@@ -10,10 +10,10 @@ export function buildCategoryTree(categories) {
 
   // Build a tree using the values of lft and rght
   categories.forEach((cat) => {
-    if (cat.parent) {
-      const parent = nodes[cat.parent];
-      if (parent) {
-        parent.children.push(nodes[cat.id]);
+    if (cat.parent_id) {
+      const parent_id = nodes[cat.parent_id];
+      if (parent_id) {
+        parent_id.children.push(nodes[cat.id]);
       }
     } else {
       // If a node does not have a parent, it is rooted
