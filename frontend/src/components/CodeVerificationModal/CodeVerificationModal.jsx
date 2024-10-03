@@ -91,10 +91,16 @@ const CodeVerificationModal = ({ type }) => {
 
         if (type === 'verification-register') {
           openModal('confirmation-modal', { type });
-          localStorage.removeItem('ResendRegisterCode');
-          localStorage.removeItem('verifyResetCode');
+          const keysToRemove = [
+            'emailForResendRegisterCode',
+            'verifyResetCode',
+            'passwordForResendRegisterCode',
+          ];
+
+          keysToRemove.forEach((key) => localStorage.removeItem(key));
         } else if (type === 'verification-reset') {
           openModal('change-pwd');
+          localStorage.removeItem('emailForReset');
         }
       })
       .catch((e) => {
