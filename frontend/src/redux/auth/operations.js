@@ -54,7 +54,6 @@ export const logIn = createAsyncThunk('auth/login', async (user, thunkAPI) => {
       localStorage.removeItem('email');
       localStorage.removeItem('password');
     }
-    console.log(res.data);
     return res.data;
   } catch (e) {
     return thunkAPI.rejectWithValue(e.message);
