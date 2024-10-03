@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { register } from '../../redux/auth/operations';
 import { Formik, Form, Field } from 'formik';
 import clsx from 'clsx';
+import toast from 'react-hot-toast';
 import { useModal } from '../../hooks/useModal';
 import { selectLoading } from '../../redux/auth/selectors';
 import Loader from '../Loader/Loader';
@@ -27,7 +28,7 @@ export default function RegisterForm() {
   const dispatch = useDispatch();
   const id = useId();
 
-  const handleSubmit = (values, actions) => {
+  const handleSubmit = async (values, actions) => {
     const newUser = {
       email: values.email,
       password: values.password,
@@ -39,20 +40,26 @@ export default function RegisterForm() {
       actions.resetForm();
     }
 
+    const saveToLocalStorage = (email, password) => {
+      localStorage.setItem('emailForResendRegisterCode', email);
+      localStorage.setItem('passwordForResendRegisterCode', password);
+    };
+
     dispatch(register(newUser))
       .unwrap()
-			.then(() => {
-        localStorage.setItem('ResendRegisterCode', values.email);
+      .then(() => {
+        saveToLocalStorage(newUser.email, newUser.password);
         resetFormData();
         openModal('verification-register');
       })
       .catch((e) => {
         if (e === 'Request failed with status code 307') {
+          saveToLocalStorage(newUser.email, newUser.password);
           resetFormData();
           openModal('verification-register');
         } else {
-					resetFormData();
-					console.error('Register failed:', e.message); 
+          resetFormData();
+          toast('Користувач з такою поштою вже зареєстрований');
         }
       });
   };
@@ -93,13 +100,14 @@ export default function RegisterForm() {
           <SocialAuthComponent />
           <Formik
             initialValues={{
-              email: '',
-              password: '',
+              email: localStorage.getItem('emailForResendRegisterCode') || '',
+              password:
+                localStorage.getItem('passwordForResendRegisterCode') || '',
             }}
             onSubmit={handleSubmit}
             validationSchema={schema}
           >
-            {({ setFieldValue, isValid, dirty, values }) => (
+            {({ setFieldValue, values, errors }) => (
               <Form>
                 <div className={css.inputWrapEmail}>
                   <label className={css.inputLabel} htmlFor={`${id}-email`}>
@@ -182,7 +190,12 @@ export default function RegisterForm() {
                 <button
                   className={css.styledButton}
                   type="submit"
-                  disabled={!(isValid && dirty)}
+                  disabled={
+                    !values.email ||
+                    !values.password ||
+                    !!errors.email ||
+                    !!errors.password
+                  }
                 >
                   Зареєструватись
                 </button>
