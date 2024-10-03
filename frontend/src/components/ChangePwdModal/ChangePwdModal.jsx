@@ -54,7 +54,7 @@ export default function ChangePwdModal() {
       })
       .catch((e) => {
 				resetFormData();
-				return thunkAPI.rejectWithValue(e.message);
+				console.error('Change password failed:', e.message); 
       });
   };
 

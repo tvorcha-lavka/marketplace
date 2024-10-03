@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectLoading, selectUser } from '../../redux/auth/selectors';
 import {
@@ -30,7 +29,7 @@ const ResendCodeBtn = ({ type }) => {
       .unwrap()
       .then(() => {})
       .catch((e) => {
-        return thunkAPI.rejectWithValue(e.message);
+        console.error('Resend code verification failed:', e.message); 
       });
   };
 
@@ -40,14 +39,11 @@ const ResendCodeBtn = ({ type }) => {
       onClick={handleSubmit}
       className={css.submitButton}
     >
-      Повторно надіслати код
+      Надіслати код
     </button>
   );
 };
 
 export default ResendCodeBtn;
 
-ResendCodeBtn.propTypes = {
-  type: PropTypes.oneOf(['verification-register', 'verification-reset'])
-    .isRequired,
-};
+

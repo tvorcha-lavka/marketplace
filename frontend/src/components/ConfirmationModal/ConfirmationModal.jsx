@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { useModal } from '../../hooks/useModal';
 import FormImgComponent from '../../components/FormImgComponent/FormImgComponent';
 import css from './ConfirmationModal.module.css';
@@ -36,7 +35,4 @@ export default function ConfirmationModal({ type }) {
   );
 }
 
-ConfirmationModal.propTypes = {
-  type: PropTypes.oneOf(['verification-register', 'verification-reset'])
-    .isRequired,
-};
+

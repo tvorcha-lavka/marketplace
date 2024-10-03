@@ -18,6 +18,7 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [type, setType] = useState('password');
   const [authError, setAuthError] = useState(false);
+  const [isButtonEnabled, setIsButtonEnabled] = useState(false);
   const [inputError, setInputError] = useState({
     email: false,
     password: false,
@@ -43,12 +44,15 @@ export default function LoginForm() {
   const handleSubmit = async (values, actions) => {
     setInputError({ email: false, password: false });
 
-    dispatch(
-      logIn({
-        user: { email: values.email, password: values.password },
-        userRemember: values.userRemember,
-      })
-    )
+    const user = {
+      email: values.email,
+      password: values.password,
+      userRemember: values.userRemember,
+    };
+
+    console.log(user);
+
+    dispatch(logIn(user))
       .unwrap()
       .then(() => {
         setAuthError(false);
@@ -59,7 +63,7 @@ export default function LoginForm() {
       .catch((e) => {
         setAuthError(true);
         setInputError({ email: true, password: true });
-        return thunkAPI.rejectWithValue(e.message);
+        console.error('Login failed:', e.message);
       });
   };
 
@@ -215,7 +219,12 @@ export default function LoginForm() {
                 <button
                   className={css.styledButton}
                   type="submit"
-                  disabled={!(isValid && dirty)}
+                  disabled={
+                    !values.email ||
+                    !values.password ||
+                    !!errors.email ||
+                    !!errors.password
+                  }
                 >
                   Увійти
                 </button>

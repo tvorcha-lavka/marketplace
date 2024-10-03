@@ -26,7 +26,7 @@ export default function ForgotPassword() {
         openModal('verification-reset');
       })
 			.catch((e) => {
-				return thunkAPI.rejectWithValue(e.message);
+				console.error('Reset password failed:', e.message); 
       });
   };
 

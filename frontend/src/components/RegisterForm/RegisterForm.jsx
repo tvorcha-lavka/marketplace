@@ -52,7 +52,7 @@ export default function RegisterForm() {
           openModal('verification-register');
         } else {
 					resetFormData();
-					return thunkAPI.rejectWithValue(e.message);
+					console.error('Register failed:', e.message); 
         }
       });
   };
