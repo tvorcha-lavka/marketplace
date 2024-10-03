@@ -18,7 +18,6 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [type, setType] = useState('password');
   const [authError, setAuthError] = useState(false);
-  const [isButtonEnabled, setIsButtonEnabled] = useState(false);
   const [inputError, setInputError] = useState({
     email: false,
     password: false,
@@ -107,7 +106,7 @@ export default function LoginForm() {
             validationSchema={schema}
             onSubmit={handleSubmit}
           >
-            {({ errors, touched, values, isValid, dirty }) => (
+            {({ errors, touched, values }) => (
               <Form>
                 <div className={css.inputWrapEmail}>
                   <label className={css.inputLabel} htmlFor={`${id}-email`}>
