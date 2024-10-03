@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 import HomePage from '../src/pages/HomePage/HomePage';
 import CartPage from '../src/pages/CartPage/CartPage';
 import SharedLayout from './components/SharedLayout/SharedLayout';
@@ -7,7 +8,7 @@ import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 import SupportPage from './pages/SupportPage/SupportPage';
 
 export default function App() {
-	return (
+  return (
     <>
       <ModalParentComponent />
       <Routes>
@@ -18,7 +19,7 @@ export default function App() {
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
+      <Toaster />
     </>
   );
 }
-
