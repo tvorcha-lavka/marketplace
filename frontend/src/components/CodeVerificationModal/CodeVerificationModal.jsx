@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useId, useState } from 'react';
 import { Formik, Field, Form } from 'formik';
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
 import { useModal } from '../../hooks/useModal';
 import { selectLoading, selectUser } from '../../redux/auth/selectors';
 import { registerComplete, verifyCode } from '../../redux/auth/operations';
@@ -99,8 +98,10 @@ const CodeVerificationModal = ({ type }) => {
         }
       })
       .catch((e) => {
-				setAuthError(true);
-				return thunkAPI.rejectWithValue(e.message);
+        setAuthError(true);
+        console.error('Code verification:', e.message);
+        actions.resetForm();
+        setOtp(Array(6).fill(''));
       });
   };
 
@@ -180,8 +181,3 @@ const CodeVerificationModal = ({ type }) => {
 };
 
 export default CodeVerificationModal;
-
-CodeVerificationModal.propTypes = {
-  type: PropTypes.oneOf(['verification-register', 'verification-reset'])
-    .isRequired,
-};
