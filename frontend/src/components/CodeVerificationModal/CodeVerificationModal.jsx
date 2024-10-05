@@ -38,6 +38,7 @@ const CodeVerificationModal = ({ type }) => {
 
   const handleChange = (e, index, setFieldValue) => {
     const value = e.target.value;
+
     if (/^\d$/.test(value) || value === '') {
       const newOtp = [...otp];
       newOtp[index] = value;
@@ -59,11 +60,33 @@ const CodeVerificationModal = ({ type }) => {
 
   const handleKeyDown = (e, index) => {
     if (e.key === 'Backspace') {
-      if (!otp[index] && index > 0) {
-        document.getElementById(`${id}-code-${index - 1}`).focus();
+      if (index === otp.length - 1 || otp[index] === '') {
         const newOtp = [...otp];
-        newOtp[index - 1] = '';
+
+        if (otp[index] !== '') {
+          newOtp[index] = '';
+        } else if (index > 0) {
+          newOtp[index - 1] = '';
+          document.getElementById(`${id}-code-${index - 1}`).focus();
+        }
+
         setOtp(newOtp);
+
+        setTimeout(() => {
+          otp.forEach((_, i) => {
+            if (i > index) {
+              document
+                .getElementById(`${id}-code-${i}`)
+                .setAttribute('disabled', true);
+            } else {
+              document
+                .getElementById(`${id}-code-${i}`)
+                .removeAttribute('disabled');
+            }
+          });
+        }, 0);
+      } else {
+        e.preventDefault();
       }
     }
   };
