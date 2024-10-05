@@ -111,16 +111,10 @@ const CodeVerificationModal = ({ type }) => {
 
         if (type === 'verification-register') {
           openModal('confirmation-modal', { type });
-          const keysToRemove = [
-            'emailForResendRegisterCode',
-            'verifyResetCode',
-            'passwordForResendRegisterCode',
-          ];
 
-          keysToRemove.forEach((key) => localStorage.removeItem(key));
+          localStorage.removeItem('verifyResetCode');
         } else if (type === 'verification-reset') {
           openModal('change-pwd');
-          localStorage.removeItem('emailForReset');
         }
       })
       .catch((e) => {
