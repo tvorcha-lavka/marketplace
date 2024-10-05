@@ -35,7 +35,8 @@ export default function ChangePwdModal() {
   };
 
   const handleSubmit = async (values, actions) => {
-    const newPwd = values.password;
+		const newPwd = values.password;
+		localStorage.setItem('newPwd', newPwd);
 
     function resetFormData() {
       setShowInfo(false);
