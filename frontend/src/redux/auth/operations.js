@@ -38,27 +38,33 @@ export const registerComplete = createAsyncThunk(
   }
 );
 
-export const logIn = createAsyncThunk('auth/login', async (user, thunkAPI) => {
-  try {
-    const res = await axios.post('/api/auth/login/', user);
-    const accessToken = res.data.access;
-    const refreshToken = res.data.refresh;
-    setAuthHeader(accessToken);
-    localStorage.setItem('accessToken', accessToken);
-    localStorage.setItem('refreshToken', refreshToken);
+export const logIn = createAsyncThunk(
+  'auth/login',
+  async ({ email, password, userRemember }, thunkAPI) => {
+    try {
+      const res = await axios.post('/api/auth/login/', {
+        email,
+        password,
+      });
+      const accessToken = res.data.access;
+      const refreshToken = res.data.refresh;
+      setAuthHeader(accessToken);
+      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('refreshToken', refreshToken);
 
-    if (user) {
-      localStorage.setItem('email', user.email);
-      localStorage.setItem('password', user.password);
-    } else {
-      localStorage.removeItem('email');
-      localStorage.removeItem('password');
+      if (userRemember) {
+        localStorage.setItem('email', email);
+        localStorage.setItem('password', password);
+      } else {
+        localStorage.removeItem('email');
+        localStorage.removeItem('password');
+      }
+      return res.data;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e.message);
     }
-    return res.data;
-  } catch (e) {
-    return thunkAPI.rejectWithValue(e.message);
   }
-});
+);
 
 export const logOut = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
   try {
@@ -124,8 +130,6 @@ export const resetPassword = createAsyncThunk(
         code,
         password,
       });
-      const accessToken = res.data.access;
-      setAuthHeader(accessToken);
       return res.data;
     } catch (e) {
       return thunkAPI.rejectWithValue(e);
