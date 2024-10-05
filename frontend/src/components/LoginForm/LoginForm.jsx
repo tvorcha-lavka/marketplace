@@ -49,8 +49,6 @@ export default function LoginForm() {
       userRemember: values.userRemember,
     };
 
-    console.log(user);
-
     dispatch(logIn(user))
       .unwrap()
       .then(() => {
