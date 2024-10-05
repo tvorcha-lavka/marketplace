@@ -59,7 +59,7 @@ export default function ForgotPassword() {
             onSubmit={handleSubmit}
             validationSchema={forgotPasswordSchema}
           >
-            {({ isValid, dirty, values, errors }) => (
+            {({ values, errors }) => (
               <Form>
                 <div className={css.inputWrapEmail}>
                   <label htmlFor={`${id}-email`}>
