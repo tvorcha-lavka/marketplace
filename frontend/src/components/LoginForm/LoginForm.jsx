@@ -1,6 +1,6 @@
 import { useState, useId } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-//import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { logIn } from '../../redux/auth/operations';
 import { Formik, Form, Field } from 'formik';
 import clsx from 'clsx';
@@ -27,7 +27,7 @@ export default function LoginForm() {
   const { openModal } = useModal();
   const id = useId();
   const dispatch = useDispatch();
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
   const { closeModal } = useModal();
 
   const togglePassInput = () => {
@@ -57,7 +57,7 @@ export default function LoginForm() {
         setAuthError(false);
         actions.resetForm();
         closeModal();
-        //navigate('/private');
+        navigate('/private');
       })
       .catch((e) => {
         setAuthError(true);
