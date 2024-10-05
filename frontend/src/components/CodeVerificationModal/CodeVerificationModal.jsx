@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { useId, useState } from 'react';
+import { useId, useState, useEffect } from 'react';
 import { Formik, Field, Form } from 'formik';
 import clsx from 'clsx';
 import { useModal } from '../../hooks/useModal';
@@ -29,11 +29,12 @@ const CodeVerificationModal = ({ type }) => {
       : 'Введіть унікальний 6-значний код, який був висланий на ваш e-mail';
   };
 
-  const handleKeyDown = (e, index) => {
-    if (e.key === 'Backspace' && !otp[index] && index > 0) {
-      document.getElementById(`${id}-code-${index - 1}`).focus();
+  useEffect(() => {
+    const firstInput = document.getElementById(`${id}-code-0`);
+    if (firstInput) {
+      firstInput.focus();
     }
-  };
+  }, [id]);
 
   const handleChange = (e, index, setFieldValue) => {
     const value = e.target.value;
@@ -43,12 +44,26 @@ const CodeVerificationModal = ({ type }) => {
       setOtp(newOtp);
       setFieldValue('code', newOtp);
 
+      if (value && index < otp.length - 1) {
+        document
+          .getElementById(`${id}-code-${index + 1}`)
+          .removeAttribute('disabled');
+        document.getElementById(`${id}-code-${index + 1}`).focus();
+      }
+
       if (newOtp.every((digit) => digit !== '')) {
         handleSubmit({ code: newOtp }, { resetForm: () => {} });
       }
+    }
+  };
 
-      if (value && index < otp.length - 1) {
-        document.getElementById(`${id}-code-${index + 1}`).focus();
+  const handleKeyDown = (e, index) => {
+    if (e.key === 'Backspace') {
+      if (!otp[index] && index > 0) {
+        document.getElementById(`${id}-code-${index - 1}`).focus();
+        const newOtp = [...otp];
+        newOtp[index - 1] = '';
+        setOtp(newOtp);
       }
     }
   };
@@ -60,6 +75,11 @@ const CodeVerificationModal = ({ type }) => {
       setOtp(newOtp);
       newOtp.forEach((value, index) => {
         document.getElementById(`${id}-code-${index}`).value = value;
+        if (index < otp.length - 1) {
+          document
+            .getElementById(`${id}-code-${index + 1}`)
+            .removeAttribute('disabled');
+        }
       });
       setFieldValue('code', newOtp);
 
@@ -162,6 +182,7 @@ const CodeVerificationModal = ({ type }) => {
                             authError && css.inputError
                           )}
                           autoComplete="off"
+                          disabled={index > 0 && !otp[index - 1]}
                         />
                       </label>
                     ))}

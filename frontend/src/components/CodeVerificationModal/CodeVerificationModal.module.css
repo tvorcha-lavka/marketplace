@@ -80,6 +80,10 @@
   border-color: var(--default-black);
 }
 
+.input.filled:focus {
+  border-color: var(--default-black);
+}
+
 .input:hover {
   border-color: var(--primary-yellow);
 }
