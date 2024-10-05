@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { selectLoading, selectUser } from '../../redux/auth/selectors';
+import { selectUser } from '../../redux/auth/selectors';
 import {
   resendRegisterCode,
   forgotPassword,
@@ -7,7 +7,6 @@ import {
 import css from './ResendCodeBtn.module.css';
 
 const ResendCodeBtn = ({ type }) => {
-  const isLoading = useSelector(selectLoading);
   const email = useSelector(selectUser);
   const dispatch = useDispatch();
 
@@ -18,32 +17,23 @@ const ResendCodeBtn = ({ type }) => {
 
     if (type === 'verification-register') {
       action = resendRegisterCode({ email: newUserEmail });
-    } else if (type === 'verification-reset') {
-      action = forgotPassword({ email: email });
     } else {
-      console.error('Invalid operation type');
-      return;
+      action = forgotPassword({ email: email });
     }
 
     dispatch(action)
       .unwrap()
       .then(() => {})
       .catch((e) => {
-        console.error('Resend code verification failed:', e.message); 
+        console.error('Resend code verification failed:', e.message);
       });
   };
 
   return (
-    <button
-      type="button"
-      onClick={handleSubmit}
-      className={css.submitButton}
-    >
+    <button type="button" onClick={handleSubmit} className={css.submitButton}>
       Надіслати код
     </button>
   );
 };
 
 export default ResendCodeBtn;
-
-

@@ -5,7 +5,7 @@ import { Formik, Form, Field } from 'formik';
 import clsx from 'clsx';
 import toast from 'react-hot-toast';
 import { useModal } from '../../hooks/useModal';
-import { selectLoading } from '../../redux/auth/selectors';
+import { selectLoading, selectUser } from '../../redux/auth/selectors';
 import Loader from '../Loader/Loader';
 import FormImgComponent from '../../components/FormImgComponent/FormImgComponent';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
@@ -45,18 +45,21 @@ export default function RegisterForm() {
       localStorage.setItem('passwordForResendRegisterCode', password);
     };
 
+    const confirmRegister = () => {
+      resetFormData();
+      openModal('verification-register');
+    };
+
     dispatch(register(newUser))
       .unwrap()
       .then(() => {
         saveToLocalStorage(newUser.email, newUser.password);
-        resetFormData();
-        openModal('verification-register');
+        confirmRegister();
       })
       .catch((e) => {
         if (e === 'Request failed with status code 307') {
           saveToLocalStorage(newUser.email, newUser.password);
-          resetFormData();
-          openModal('verification-register');
+          confirmRegister();
         } else {
           resetFormData();
           toast('Користувач з такою поштою вже зареєстрований');
