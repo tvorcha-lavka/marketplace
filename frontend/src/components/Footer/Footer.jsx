@@ -7,8 +7,8 @@ import styles from './Footer.module.css';
 
 export default function Footer() {
   return (
-    <div className={styles.container}>
-      <section className={styles.section}>
+    <section className={styles.section}>
+      <div className={styles.container}>
         <Logo />
         <div className={styles.wrapper}>
           {footerLinks.map(({ title, links }) => (
@@ -24,7 +24,7 @@ export default function Footer() {
             </div>
           ))}
         </div>
-      </section>
-    </div>
+      </div>
+    </section>
   );
 }
