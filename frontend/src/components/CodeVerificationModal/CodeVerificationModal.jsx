@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { useId, useState, useEffect } from 'react';
+import { useId, useState, useEffect, useRef } from 'react';
 import { Formik, Field, Form } from 'formik';
 import clsx from 'clsx';
 import { useModal } from '../../hooks/useModal';
@@ -23,6 +23,8 @@ const CodeVerificationModal = ({ type }) => {
   const { openModal } = useModal();
   const id = useId();
 
+  const inputRefs = useRef([]);
+
   const getDescription = () => {
     return type === 'verification-register'
       ? 'На вашу електронну пошту надіслано код підтвердження. Введіть його нижче, щоб завершити реєстрацію'
@@ -30,81 +32,75 @@ const CodeVerificationModal = ({ type }) => {
   };
 
   useEffect(() => {
-    const firstInput = document.getElementById(`${id}-code-0`);
-    if (firstInput) {
-      firstInput.focus();
-    }
-  }, [id]);
+    inputRefs.current[0].focus();
+  }, []);
 
-  const handleChange = (e, index, setFieldValue) => {
+  const focusFirstEmptyInput = () => {
+    const firstEmptyIndex = otp.findIndex((value) => value === '');
+    if (firstEmptyIndex !== -1) {
+      setTimeout(() => {
+        inputRefs.current[firstEmptyIndex].focus();
+      }, 300);
+    }
+  };
+
+  const handleChange = (e, index) => {
     const value = e.target.value;
 
     if (/^\d$/.test(value) || value === '') {
       const newOtp = [...otp];
       newOtp[index] = value;
       setOtp(newOtp);
-      setFieldValue('code', newOtp);
 
-      if (value && index < otp.length - 1) {
-        document
-          .getElementById(`${id}-code-${index + 1}`)
-          .removeAttribute('disabled');
-        document.getElementById(`${id}-code-${index + 1}`).focus();
-      }
-
-      if (newOtp.every((digit) => digit !== '')) {
-        handleSubmit({ code: newOtp }, { resetForm: () => {} });
+      if (value) {
+        const nextEmptyIndex = newOtp.indexOf('');
+        if (nextEmptyIndex !== -1) {
+          setTimeout(() => {
+            inputRefs.current[nextEmptyIndex].focus();
+          }, 300);
+        } else {
+          handleSubmit({ code: newOtp }, { resetForm: () => {} });
+        }
       }
     }
   };
 
   const handleKeyDown = (e, index) => {
-    if (e.key === 'Backspace') {
-      if (index === otp.length - 1 || otp[index] === '') {
-        const newOtp = [...otp];
-
-        if (otp[index] !== '') {
-          newOtp[index] = '';
-        } else if (index > 0) {
-          newOtp[index - 1] = '';
-          document.getElementById(`${id}-code-${index - 1}`).focus();
-        }
-
-        setOtp(newOtp);
-
-        setTimeout(() => {
-          otp.forEach((_, i) => {
-            if (i > index) {
-              document
-                .getElementById(`${id}-code-${i}`)
-                .setAttribute('disabled', true);
-            } else {
-              document
-                .getElementById(`${id}-code-${i}`)
-                .removeAttribute('disabled');
-            }
-          });
-        }, 0);
-      } else {
+    switch (e.key) {
+      case 'Backspace':
         e.preventDefault();
-      }
+        if (otp[index]) {
+          handleChange({ target: { value: '' } }, index);
+        } else if (index > 0) {
+          handleChange({ target: { value: '' } }, index - 1);
+          setTimeout(() => {
+            inputRefs.current[index - 1].focus();
+          }, 300);
+        }
+        break;
+      case 'Delete':
+        e.preventDefault();
+        handleChange({ target: { value: '' } }, index);
+        break;
+      default:
+        break;
     }
   };
 
-  const handlePaste = (e, setFieldValue) => {
+  const handlePaste = (e) => {
+    e.preventDefault();
     const pasteData = e.clipboardData.getData('text');
     if (/^\d{6}$/.test(pasteData)) {
-      const newOtp = pasteData.split('').slice(0, 6);
+      const newOtp = pasteData.split('');
       setOtp(newOtp);
       newOtp.forEach((value, index) => {
-        document.getElementById(`${id}-code-${index}`).value = value;
+        inputRefs.current[index].value = value;
         if (index < otp.length - 1) {
-          document
-            .getElementById(`${id}-code-${index + 1}`)
-            .removeAttribute('disabled');
+          setTimeout(() => {
+            inputRefs.current[index + 1].focus();
+          }, 300);
         }
       });
-      setFieldValue('code', newOtp);
 
       handleSubmit({ code: newOtp }, { resetForm: () => {} });
     }
@@ -188,18 +184,17 @@ const CodeVerificationModal = ({ type }) => {
                           id={`${id}-code-${index}`}
                           type="text"
                           maxLength="1"
-                          value={otp[index]}
-                          onChange={(e) =>
-                            handleChange(e, index, setFieldValue)
-                          }
+                          value={value}
+                          innerRef={(elem) => (inputRefs.current[index] = elem)}
+                          onChange={(e) => handleChange(e, index)}
                           onKeyDown={(e) => handleKeyDown(e, index)}
+                          onClick={focusFirstEmptyInput}
                           className={clsx(
                             css.input,
                             value !== '' && css.filled,
                             authError && css.inputError
                           )}
                           autoComplete="off"
-                          disabled={index > 0 && !otp[index - 1]}
                         />
                       </label>
                     ))}

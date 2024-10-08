@@ -57,6 +57,7 @@
   border-radius: var(--border-radius-small);
   background-color: transparent;
   outline: var(--border-width) var(--border-style) transparent;
+	transition: border-color 0.3s ease;
   appearance: none;
 }
 
