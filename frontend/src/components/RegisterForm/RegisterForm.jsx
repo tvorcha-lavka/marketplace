@@ -51,7 +51,10 @@ export default function RegisterForm() {
         confirmRegister();
       })
       .catch((e) => {
-        if (e === 'Request failed with status code 307') {
+        if (
+          e.message === 'Request failed with status code 307' ||
+          e.response?.status === 307
+        ) {
           confirmRegister();
         } else {
           resetFormData();
