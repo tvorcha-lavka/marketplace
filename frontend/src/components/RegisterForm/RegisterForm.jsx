@@ -5,7 +5,7 @@ import { Formik, Form, Field } from 'formik';
 import clsx from 'clsx';
 import toast from 'react-hot-toast';
 import { useModal } from '../../hooks/useModal';
-import { selectLoading, selectUser } from '../../redux/auth/selectors';
+import { selectLoading } from '../../redux/auth/selectors';
 import Loader from '../Loader/Loader';
 import FormImgComponent from '../../components/FormImgComponent/FormImgComponent';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
@@ -40,11 +40,6 @@ export default function RegisterForm() {
       actions.resetForm();
     }
 
-    const saveToLocalStorage = (email, password) => {
-      localStorage.setItem('emailForResendRegisterCode', email);
-      localStorage.setItem('passwordForResendRegisterCode', password);
-    };
-
     const confirmRegister = () => {
       resetFormData();
       openModal('verification-register');
@@ -53,12 +48,10 @@ export default function RegisterForm() {
     dispatch(register(newUser))
       .unwrap()
       .then(() => {
-        saveToLocalStorage(newUser.email, newUser.password);
         confirmRegister();
       })
       .catch((e) => {
         if (e === 'Request failed with status code 307') {
-          saveToLocalStorage(newUser.email, newUser.password);
           confirmRegister();
         } else {
           resetFormData();
@@ -103,9 +96,8 @@ export default function RegisterForm() {
           <SocialAuthComponent />
           <Formik
             initialValues={{
-              email: localStorage.getItem('emailForResendRegisterCode') || '',
-              password:
-                localStorage.getItem('passwordForResendRegisterCode') || '',
+              email: '',
+              password: '',
             }}
             onSubmit={handleSubmit}
             validationSchema={schema}

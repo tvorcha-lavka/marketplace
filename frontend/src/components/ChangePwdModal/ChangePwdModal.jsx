@@ -5,7 +5,11 @@ import { Formik, Form, Field } from 'formik';
 import clsx from 'clsx';
 import { useModal } from '../../hooks/useModal';
 import { resetPassword } from '../../redux/auth/operations';
-import { selectLoading, selectUser } from '../../redux/auth/selectors';
+import {
+  selectLoading,
+  selectUser,
+  selectVerificationCode,
+} from '../../redux/auth/selectors';
 import Loader from '../Loader/Loader';
 import FormImgComponent from '../../components/FormImgComponent/FormImgComponent';
 import {
@@ -23,11 +27,11 @@ export default function ChangePwdModal() {
   const [showInfo, setShowInfo] = useState(false);
 
   const isLoading = useSelector(selectLoading);
-  const email = useSelector(selectUser);
-  const { openModal } = useModal();
+	const email = useSelector(selectUser);
+	const verificationCode = useSelector(selectVerificationCode);
+  const { openModal, closeModal } = useModal();
   const id = useId();
   const dispatch = useDispatch();
-  const verifyCode = localStorage.getItem('verifyResetCode');
 
   const togglePassInput = () => {
     setType(showPassword ? 'text' : 'password');
@@ -35,8 +39,7 @@ export default function ChangePwdModal() {
   };
 
   const handleSubmit = async (values, actions) => {
-		const newPwd = values.password;
-		localStorage.setItem('newPwd', newPwd);
+    const newPwd = values.password;
 
     function resetFormData() {
       setShowInfo(false);
@@ -44,18 +47,23 @@ export default function ChangePwdModal() {
       actions.resetForm();
     }
 
-    dispatch(
-      resetPassword({ email: email, code: verifyCode, password: newPwd })
-    )
+    const payload = {
+      password: newPwd,
+      code: verificationCode, 
+      email,
+    };
+
+    dispatch(resetPassword(payload))
       .unwrap()
       .then(() => {
+        resetFormData();
+        closeModal();
         openModal('confirmation-modal', { type: 'verification-reset' });
-				resetFormData();
-				localStorage.removeItem('verifyResetCode');
       })
+
       .catch((e) => {
-				resetFormData();
-				console.error('Change password failed:', e.message); 
+        resetFormData();
+        console.error('Change password failed:', e.message);
       });
   };
 

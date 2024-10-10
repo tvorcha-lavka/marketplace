@@ -16,7 +16,7 @@ import css from './ForgotPassword.module.css';
 export default function ForgotPassword() {
   const dispatch = useDispatch();
   const isLoading = useSelector(selectLoading);
-  const { openModal } = useModal();
+  const { openModal, closeModal } = useModal();
   const id = useId();
 
   const handleSubmit = async (values, actions) => {
@@ -26,8 +26,8 @@ export default function ForgotPassword() {
       const res = await dispatch(forgotPassword({ email: email })).unwrap();
 
       if (res && res.email) {
-        localStorage.setItem('emailForReset', email);
-        actions.resetForm();
+				actions.resetForm();
+				closeModal();
         openModal('verification-reset');
       }
     } catch (e) {
@@ -54,7 +54,7 @@ export default function ForgotPassword() {
           </p>
           <Formik
             initialValues={{
-              email: localStorage.getItem('emailForReset') || '',
+              email: '',
             }}
             onSubmit={handleSubmit}
             validationSchema={forgotPasswordSchema}

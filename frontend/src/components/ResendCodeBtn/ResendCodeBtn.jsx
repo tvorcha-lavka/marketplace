@@ -11,14 +11,12 @@ const ResendCodeBtn = ({ type }) => {
   const dispatch = useDispatch();
 
   const handleSubmit = () => {
-    const newUserEmail = localStorage.getItem('ResendRegisterCode');
-
     let action;
 
     if (type === 'verification-register') {
-      action = resendRegisterCode({ email: newUserEmail });
+      action = resendRegisterCode({ email });
     } else {
-      action = forgotPassword({ email: email });
+      action = forgotPassword({ email });
     }
 
     dispatch(action)

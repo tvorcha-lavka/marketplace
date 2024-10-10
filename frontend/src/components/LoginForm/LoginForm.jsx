@@ -46,7 +46,7 @@ export default function LoginForm() {
     const user = {
       email: values.email,
       password: values.password,
-      userRemember: values.userRemember,
+      remember_me: values.remember_me,
     };
 
     dispatch(logIn(user))
@@ -55,7 +55,7 @@ export default function LoginForm() {
         setAuthError(false);
         actions.resetForm();
         closeModal();
-        navigate('/private');
+        navigate('/');
       })
       .catch((e) => {
         setAuthError(true);
@@ -97,9 +97,9 @@ export default function LoginForm() {
 
           <Formik
             initialValues={{
-              email: localStorage.getItem('email') || '',
-              password: localStorage.getItem('password') || '',
-              userRemember: false,
+              email: '',
+              password: '',
+              remember_me: false,
             }}
             validationSchema={schema}
             onSubmit={handleSubmit}
@@ -192,13 +192,13 @@ export default function LoginForm() {
                 <div className={css.rememberCheckbox}>
                   <Field
                     className={css.visuallyHidden}
-                    id={`${id}-userRemember`}
-                    name="userRemember"
+                    id={`${id}-remember_me`}
+                    name="remember_me"
                     type="checkbox"
                   />
                   <label
                     className={css.rememberCheckboxLabel}
-                    htmlFor={`${id}-userRemember`}
+                    htmlFor={`${id}-remember_me`}
                   >
                     <span className={css.userRememberComponentIcon}>
                       <FaCheck className={css.checkmarkIcon} />
