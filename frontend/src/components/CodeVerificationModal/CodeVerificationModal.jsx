@@ -6,6 +6,7 @@ import clsx from 'clsx';
 import { useModal } from '../../hooks/useModal';
 import { selectLoading, selectUser } from '../../redux/auth/selectors';
 import { registerComplete, verifyCode } from '../../redux/auth/operations';
+import { setVerificationCode } from '../../redux/auth/slice.js';
 import FormImgComponent from '../FormImgComponent/FormImgComponent';
 import ResendCodeBtn from '../ResendCodeBtn/ResendCodeBtn';
 import Loader from '../Loader/Loader';
@@ -20,7 +21,7 @@ const CodeVerificationModal = ({ type }) => {
   const isLoading = useSelector(selectLoading);
   const email = useSelector(selectUser);
   const dispatch = useDispatch();
-  const { openModal } = useModal();
+  const { openModal, closeModal } = useModal();
   const id = useId();
 
   const inputRefs = useRef([]);
@@ -35,33 +36,29 @@ const CodeVerificationModal = ({ type }) => {
     inputRefs.current[0].focus();
   }, []);
 
-  const focusFirstEmptyInput = () => {
-    const firstEmptyIndex = otp.findIndex((value) => value === '');
-    if (firstEmptyIndex !== -1) {
-      setTimeout(() => {
-        inputRefs.current[firstEmptyIndex].focus();
-      }, 300);
-    }
-  };
-
   const handleChange = (e, index) => {
     const value = e.target.value;
 
-    if (/^\d$/.test(value) || value === '') {
-      const newOtp = [...otp];
-      newOtp[index] = value;
-      setOtp(newOtp);
+    if (!/^\d$/.test(value) && value !== '') return;
 
-      if (value) {
-        const nextEmptyIndex = newOtp.indexOf('');
-        if (nextEmptyIndex !== -1) {
-          setTimeout(() => {
-            inputRefs.current[nextEmptyIndex].focus();
-          }, 300);
-        } else {
-          handleSubmit({ code: newOtp }, { resetForm: () => {} });
-        }
+    if (index > 0 && otp[0] === '') {
+      inputRefs.current[0].focus();
+      return;
+    }
+
+    const newOtp = [...otp];
+    newOtp[index] = value;
+    setOtp(newOtp);
+
+    if (value && index < otp.length - 1) {
+      const nextEmptyIndex = newOtp.indexOf('');
+      if (nextEmptyIndex !== -1) {
+        inputRefs.current[nextEmptyIndex].focus();
       }
+    }
+
+    if (newOtp.every((digit) => digit !== '')) {
+      handleSubmit({ code: newOtp });
     }
   };
 
@@ -69,18 +66,28 @@ const CodeVerificationModal = ({ type }) => {
     switch (e.key) {
       case 'Backspace':
         e.preventDefault();
-        if (otp[index]) {
-          handleChange({ target: { value: '' } }, index);
-        } else if (index > 0) {
-          handleChange({ target: { value: '' } }, index - 1);
-          setTimeout(() => {
-            inputRefs.current[index - 1].focus();
-          }, 300);
+        const newOtp = [...otp];
+
+        for (let i = otp.length - 1; i >= 0; i--) {
+          if (newOtp[i] !== '') {
+            newOtp[i] = '';
+            setOtp(newOtp);
+            inputRefs.current[i].focus();
+            break;
+          }
         }
         break;
-      case 'Delete':
+      case 'ArrowLeft':
         e.preventDefault();
-        handleChange({ target: { value: '' } }, index);
+        if (index > 0) {
+          inputRefs.current[index - 1].focus();
+        }
+        break;
+      case 'ArrowRight':
+        e.preventDefault();
+        if (index < otp.length - 1) {
+          inputRefs.current[index + 1].focus();
+        }
         break;
       default:
         break;
@@ -95,21 +102,20 @@ const CodeVerificationModal = ({ type }) => {
       setOtp(newOtp);
       newOtp.forEach((value, index) => {
         inputRefs.current[index].value = value;
-        if (index < otp.length - 1) {
-          setTimeout(() => {
-            inputRefs.current[index + 1].focus();
-          }, 300);
-        }
       });
-
-      handleSubmit({ code: newOtp }, { resetForm: () => {} });
+      handleSubmit({ code: newOtp });
     }
   };
 
   const handleSubmit = (values, actions) => {
     const code = values.code.join('');
 
-    localStorage.setItem('verifyResetCode', code);
+    console.log(code);
+
+    const numericCode = Number(code);
+    console.log('numericCode:', numericCode);
+
+    dispatch(setVerificationCode(numericCode));
 
     let dispatchAction;
 
@@ -128,10 +134,10 @@ const CodeVerificationModal = ({ type }) => {
         actions.resetForm();
         setOtp(Array(6).fill(''));
 
+        closeModal();
+
         if (type === 'verification-register') {
           openModal('confirmation-modal', { type });
-
-          localStorage.removeItem('verifyResetCode');
         } else if (type === 'verification-reset') {
           openModal('change-pwd');
         }
@@ -188,7 +194,6 @@ const CodeVerificationModal = ({ type }) => {
                           innerRef={(elem) => (inputRefs.current[index] = elem)}
                           onChange={(e) => handleChange(e, index)}
                           onKeyDown={(e) => handleKeyDown(e, index)}
-                          onClick={focusFirstEmptyInput}
                           className={clsx(
                             css.input,
                             value !== '' && css.filled,
