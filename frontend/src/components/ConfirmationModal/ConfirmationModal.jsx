@@ -1,6 +1,5 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { logIn } from '../../redux/auth/operations';
 import { useModal } from '../../hooks/useModal';
 import { selectLoading } from '../../redux/auth/selectors';
 import Loader from '../Loader/Loader';
@@ -8,7 +7,6 @@ import FormImgComponent from '../../components/FormImgComponent/FormImgComponent
 import css from './ConfirmationModal.module.css';
 
 export default function ConfirmationModal({ type }) {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { closeModal } = useModal();
 
@@ -27,35 +25,20 @@ export default function ConfirmationModal({ type }) {
   };
 
   const handleSubmit = async () => {
-    const email = localStorage.getItem('emailForResendRegisterCode');
-    const password = localStorage.getItem('passwordForResendRegisterCode');
-    const emailForReset = localStorage.getItem('emailForReset');
-    const newPwd = localStorage.getItem('newPwd');
-
-    let dispatchAction;
+    const accessToken = localStorage.getItem('accessToken');
 
     if (type === 'verification-register') {
-      dispatchAction = logIn({ email, password });
-    } else {
-      dispatchAction = logIn({ email: emailForReset, password: newPwd });
-    }
-
-    try {
-      await dispatch(dispatchAction).unwrap();
-
-      // Clean up local storage
-      const keysToRemove =
-        type === 'verification-register'
-          ? ['emailForResendRegisterCode', 'passwordForResendRegisterCode']
-          : ['emailForReset', 'newPwd'];
-
-      keysToRemove.forEach((key) => localStorage.removeItem(key));
-
+      if (accessToken) {
+        try {
+          closeModal();
+          navigate('/');
+        } catch (e) {
+          console.error('Error during the dispatch:', e.message);
+        }
+      }
+    } else if ('change-pwd') {
       closeModal();
-      navigate('/private');
-    } catch (e) {
-      console.error('Error during the dispatch:', e.message);
-      // Optionally, you can show a user-friendly error message here
+      navigate('/');
     }
   };
 
