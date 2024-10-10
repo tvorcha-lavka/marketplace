@@ -21,7 +21,7 @@ const CodeVerificationModal = ({ type }) => {
   const isLoading = useSelector(selectLoading);
   const email = useSelector(selectUser);
   const dispatch = useDispatch();
-  const { openModal, closeModal } = useModal();
+  const { openModal } = useModal();
   const id = useId();
 
   const inputRefs = useRef([]);
@@ -41,8 +41,8 @@ const CodeVerificationModal = ({ type }) => {
 
     if (!/^\d$/.test(value) && value !== '') return;
 
-    if (index > 0 && otp[0] === '') {
-      inputRefs.current[0].focus();
+    if (index > 0 && otp.slice(0, index).includes('')) {
+      inputRefs.current[otp.indexOf('')].focus();
       return;
     }
 
@@ -51,10 +51,7 @@ const CodeVerificationModal = ({ type }) => {
     setOtp(newOtp);
 
     if (value && index < otp.length - 1) {
-      const nextEmptyIndex = newOtp.indexOf('');
-      if (nextEmptyIndex !== -1) {
-        inputRefs.current[nextEmptyIndex].focus();
-      }
+      inputRefs.current[index + 1].focus();
     }
 
     if (newOtp.every((digit) => digit !== '')) {
@@ -107,13 +104,9 @@ const CodeVerificationModal = ({ type }) => {
     }
   };
 
-  const handleSubmit = (values, actions) => {
+  const handleSubmit = (values) => {
     const code = values.code.join('');
-
-    console.log(code);
-
     const numericCode = Number(code);
-    console.log('numericCode:', numericCode);
 
     dispatch(setVerificationCode(numericCode));
 
@@ -131,10 +124,7 @@ const CodeVerificationModal = ({ type }) => {
       .unwrap()
       .then(() => {
         setAuthError(false);
-        actions.resetForm();
         setOtp(Array(6).fill(''));
-
-        closeModal();
 
         if (type === 'verification-register') {
           openModal('confirmation-modal', { type });
@@ -143,10 +133,15 @@ const CodeVerificationModal = ({ type }) => {
         }
       })
       .catch((e) => {
+        // const errorPayload = {
+        //   message: e.message,
+        //   status: e.response?.status,
+        //   data: e.response?.data,
+        // };
         setAuthError(true);
-        console.error('Code verification:', e.message);
-        actions.resetForm();
         setOtp(Array(6).fill(''));
+
+        // console.error('Code verification:', errorPayload);
       });
   };
 
@@ -175,7 +170,7 @@ const CodeVerificationModal = ({ type }) => {
           <Formik
             initialValues={{ code: otp }}
             validationSchema={codeSchema}
-            onSubmit={handleSubmit}
+            onSubmit={(values) => handleSubmit(values)}
           >
             {({ setFieldValue }) => (
               <Form>
