@@ -29,7 +29,7 @@ export default function ChangePwdModal() {
   const isLoading = useSelector(selectLoading);
 	const email = useSelector(selectUser);
 	const verificationCode = useSelector(selectVerificationCode);
-  const { openModal, closeModal } = useModal();
+  const { openModal } = useModal();
   const id = useId();
   const dispatch = useDispatch();
 
@@ -57,7 +57,6 @@ export default function ChangePwdModal() {
       .unwrap()
       .then(() => {
         resetFormData();
-        closeModal();
         openModal('confirmation-modal', { type: 'verification-reset' });
       })
 

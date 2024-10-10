@@ -16,7 +16,7 @@ import css from './ForgotPassword.module.css';
 export default function ForgotPassword() {
   const dispatch = useDispatch();
   const isLoading = useSelector(selectLoading);
-  const { openModal, closeModal } = useModal();
+  const { openModal } = useModal();
   const id = useId();
 
   const handleSubmit = async (values, actions) => {
@@ -26,8 +26,7 @@ export default function ForgotPassword() {
       const res = await dispatch(forgotPassword({ email: email })).unwrap();
 
       if (res && res.email) {
-				actions.resetForm();
-				closeModal();
+        actions.resetForm();
         openModal('verification-reset');
       }
     } catch (e) {
