@@ -36,12 +36,19 @@ const authSlice = createSlice({
       email: null,
       password: null,
       code: null,
+      remember_me: false,
     },
     token: null,
     isLoggedIn: false,
     isRefreshing: false,
     loading: false,
     error: false,
+    verificationCode: null,
+  },
+  reducers: {
+    setVerificationCode: (state, action) => {
+      state.verificationCode = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -100,5 +107,5 @@ const authSlice = createSlice({
       .addCase(resendRegisterCode.rejected, handleRejected);
   },
 });
-
+export const { setVerificationCode } = authSlice.actions;
 export const authReducer = authSlice.reducer;
