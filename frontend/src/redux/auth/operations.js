@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from './axiosInterceptor';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 axios.defaults.baseURL = 'http://localhost:8000';
@@ -9,6 +9,11 @@ const setAuthHeader = (token) => {
 
 const clearAuthHeader = () => {
   axios.defaults.headers.common.Authorization = '';
+};
+
+const saveTokensToStorage = (accessToken, refreshToken) => {
+  localStorage.setItem('accessToken', accessToken);
+  localStorage.setItem('refreshToken', refreshToken);
 };
 
 export const register = createAsyncThunk(
@@ -31,7 +36,15 @@ export const registerComplete = createAsyncThunk(
         code,
         email,
       });
-      return res.data;
+      const accessToken = res.data.token.access;
+      const refreshToken = res.data.token.refresh;
+
+      saveTokensToStorage(accessToken, refreshToken);
+
+      setAuthHeader(accessToken);
+
+      const user = res.data.user;
+      return { user, accessToken, refreshToken };
     } catch (e) {
       return thunkAPI.rejectWithValue(e.message);
     }
@@ -40,7 +53,7 @@ export const registerComplete = createAsyncThunk(
 
 export const logIn = createAsyncThunk(
   'auth/login',
-  async ({ email, password, userRemember }, thunkAPI) => {
+  async ({ email, password, remember_me }, thunkAPI) => {
     try {
       const res = await axios.post('/api/auth/login/', {
         email,
@@ -48,18 +61,16 @@ export const logIn = createAsyncThunk(
       });
       const accessToken = res.data.access;
       const refreshToken = res.data.refresh;
-      setAuthHeader(accessToken);
-      localStorage.setItem('accessToken', accessToken);
-      localStorage.setItem('refreshToken', refreshToken);
 
-      if (userRemember) {
-        localStorage.setItem('email', email);
-        localStorage.setItem('password', password);
-      } else {
-        localStorage.removeItem('email');
-        localStorage.removeItem('password');
+      setAuthHeader(accessToken);
+
+      saveTokensToStorage(accessToken, refreshToken);
+
+      if (remember_me) {
+        saveTokensToStorage(accessToken, refreshToken);
       }
-      return res.data;
+
+      return { accessToken, refreshToken };
     } catch (e) {
       return thunkAPI.rejectWithValue(e.message);
     }
@@ -70,6 +81,9 @@ export const logOut = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
   try {
     await axios.post('/api/auth/logout/');
     clearAuthHeader();
+
+    const keysToRemove = ['accessToken', 'refreshToken'];
+    keysToRemove.forEach((key) => localStorage.removeItem(key));
   } catch (e) {
     return thunkAPI.rejectWithValue(e.message);
   }
