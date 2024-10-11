@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-axios.defaults.baseURL = 'http://localhost:8000';
+axios.defaults.baseURL = 'http://localhost:8000/api';
 
 const isLocalStorageAvailable = () => {
   try {
@@ -33,7 +33,7 @@ export const register = createAsyncThunk(
   'auth/register',
   async (newUser, thunkAPI) => {
     try {
-      const res = await axios.post('/api/auth/sign-up/', newUser);
+      const res = await axios.post('/auth/sign-up/', newUser);
       return res.data;
     } catch (e) {
       if (e.response && e.response.status === 400) {
@@ -50,7 +50,7 @@ export const registerComplete = createAsyncThunk(
   'auth/registerComplete',
   async ({ code, email }, thunkAPI) => {
     try {
-      const res = await axios.post('/api/auth/sign-up/complete/', {
+      const res = await axios.post('/auth/sign-up/complete/', {
         code,
         email,
       });
@@ -78,7 +78,7 @@ export const logIn = createAsyncThunk(
   'auth/login',
   async ({ email, password, remember_me }, thunkAPI) => {
     try {
-      const res = await axios.post('/api/auth/login/', {
+      const res = await axios.post('/auth/login/', {
         email,
         password,
         remember_me,
@@ -99,7 +99,7 @@ export const logIn = createAsyncThunk(
 
 export const logOut = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
   try {
-    await axios.post('/api/auth/logout/');
+    await axios.post('/auth/logout/');
     clearAuthHeader();
 
     const keysToRemove = ['accessToken', 'refreshToken'];
@@ -116,25 +116,47 @@ export const refreshUser = createAsyncThunk(
   'auth/refresh',
   async (_, thunkAPI) => {
     const reduxState = thunkAPI.getState();
-    const persistedToken = reduxState.auth.token;
+    const persistedAccessToken = reduxState.auth.accessToken;
+    const persistedRefreshToken = reduxState.auth.refreshToken;
 
-    if (!persistedToken) {
-      return thunkAPI.rejectWithValue('Unable to fetch user');
+    const { openModal } = thunkAPI.extra;
+
+    if (!persistedRefreshToken) {
+      thunkAPI.dispatch(logoutUser());
+
+      if (openModal) {
+        openModal('login');
+      }
+
+      return thunkAPI.rejectWithValue('Refresh token missing. Logging out...');
     }
 
-    setAuthHeader(persistedToken);
+    if (!persistedAccessToken) {
+      try {
+        const res = await axios.post('/auth/token/refresh/', {
+          refresh: persistedRefreshToken,
+        });
 
-    try {
-      const res = await axios.get('/api/auth/token/refresh/');
-      return res.data;
-    } catch (e) {
-      return thunkAPI.rejectWithValue(e.response?.data || e.message);
+        setAuthHeader(res.data.access);
+        return res.data;
+      } catch (error) {
+        thunkAPI.dispatch(logoutUser());
+
+        if (openModal) {
+          openModal('login');
+        }
+        return thunkAPI.rejectWithValue(
+          'Unable to refresh token. Logging out...'
+        );
+      }
     }
+
+    setAuthHeader(persistedAccessToken);
   },
   {
     condition(_, thunkAPI) {
       const reduxState = thunkAPI.getState();
-      return reduxState.auth.token !== null;
+      return reduxState.auth.refreshToken !== null;
     },
   }
 );
@@ -143,7 +165,7 @@ export const forgotPassword = createAsyncThunk(
   'auth/forgot-password',
   async (user, thunkAPI) => {
     try {
-      const res = await axios.post('/api/send-mail/reset-password/', user);
+      const res = await axios.post('/send-mail/reset-password/', user);
       return res.data;
     } catch (e) {
       return thunkAPI.rejectWithValue(e.response?.data || e.message);
@@ -155,7 +177,7 @@ export const verifyCode = createAsyncThunk(
   'auth/verifyCode',
   async ({ code, email }, thunkAPI) => {
     try {
-      const res = await axios.post('/api/auth/verify-code/', { code, email });
+      const res = await axios.post('/auth/verify-code/', { code, email });
       return res.data;
     } catch (e) {
       return thunkAPI.rejectWithValue(e.response?.data || e.message);
@@ -167,7 +189,7 @@ export const resetPassword = createAsyncThunk(
   'auth/reset-password',
   async ({ email, code, password }, thunkAPI) => {
     try {
-      const res = await axios.post('/api/auth/reset/password/', {
+      const res = await axios.post('/auth/reset/password/', {
         email,
         code,
         password,
@@ -183,7 +205,7 @@ export const resendRegisterCode = createAsyncThunk(
   'auth/resend-code',
   async (user, thunkAPI) => {
     try {
-      const res = await axios.post('/api/send-mail/email-verification/', user);
+      const res = await axios.post('/send-mail/email-verification/', user);
       return res.data;
     } catch (e) {
       return thunkAPI.rejectWithValue(e.response?.data || e.message);

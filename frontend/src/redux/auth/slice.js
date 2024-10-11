@@ -18,7 +18,8 @@ const handlePending = (state) => {
 
 const handleFulfilled = (state, action) => {
   state.user = action.payload.email;
-  state.token = action.payload.token;
+  state.accessToken = action.payload.accessToken;
+  state.refreshToken = action.payload.refreshToken;
   state.isLoggedIn = true;
   state.loading = false;
   state.error = false;
@@ -38,7 +39,8 @@ const authSlice = createSlice({
       code: null,
       remember_me: false,
     },
-    token: null,
+    accessToken: null,
+    refreshToken: null,
     isLoggedIn: false,
     isRefreshing: false,
     loading: false,
@@ -67,7 +69,8 @@ const authSlice = createSlice({
       .addCase(logOut.pending, handlePending)
       .addCase(logOut.fulfilled, (state) => {
         state.user = { email: null, password: null };
-        state.token = null;
+        state.accessToken = null;
+        state.refreshToken = null;
         state.isLoggedIn = false;
         state.loading = false;
         state.error = false;
@@ -80,7 +83,9 @@ const authSlice = createSlice({
         state.error = false;
       })
       .addCase(refreshUser.fulfilled, (state, action) => {
-        state.user = action.payload;
+        state.user = action.payload.user || state.user;
+        state.accessToken = action.payload.accessToken || state.accessToken;
+        state.refreshToken = action.payload.refreshToken || state.refreshToken;
         state.isLoggedIn = true;
         state.isRefreshing = false;
         state.loading = false;
@@ -107,5 +112,6 @@ const authSlice = createSlice({
       .addCase(resendRegisterCode.rejected, handleRejected);
   },
 });
+
 export const { setVerificationCode } = authSlice.actions;
 export const authReducer = authSlice.reducer;
