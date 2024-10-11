@@ -133,15 +133,10 @@ const CodeVerificationModal = ({ type }) => {
         }
       })
       .catch((e) => {
-        // const errorPayload = {
-        //   message: e.message,
-        //   status: e.response?.status,
-        //   data: e.response?.data,
-        // };
         setAuthError(true);
         setOtp(Array(6).fill(''));
 
-        // console.error('Code verification:', errorPayload);
+        console.error('Code verification:', e.message);
       });
   };
 

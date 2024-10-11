@@ -40,24 +40,17 @@ export default function RegisterForm() {
       actions.resetForm();
     }
 
-    const confirmRegister = () => {
-      resetFormData();
-      openModal('verification-register');
-    };
-
     dispatch(register(newUser))
       .unwrap()
       .then(() => {
-        confirmRegister();
+        resetFormData();
+        openModal('verification-register');
       })
       .catch((e) => {
-        if (
-          e.message === 'Request failed with status code 307' ||
-          e.response?.status === 307
-        ) {
-          confirmRegister();
-        } else {
+        if (e === 'Request failed with status code 307') {
           resetFormData();
+          openModal('verification-register');
+        } else {
           toast('Користувач з такою поштою вже зареєстрований');
         }
       });

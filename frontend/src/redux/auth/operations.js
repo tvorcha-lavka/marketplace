@@ -36,11 +36,6 @@ export const register = createAsyncThunk(
       const res = await axios.post('/auth/sign-up/', newUser);
       return res.data;
     } catch (e) {
-      if (e.response && e.response.status === 400) {
-        return thunkAPI.rejectWithValue(
-          'Email is already registered. Please use a different email.'
-        );
-      }
       return thunkAPI.rejectWithValue(e.message);
     }
   }
@@ -64,11 +59,6 @@ export const registerComplete = createAsyncThunk(
       const user = res.data.user;
       return { user, accessToken, refreshToken };
     } catch (e) {
-      if (e.response && e.response.status === 400) {
-        return thunkAPI.rejectWithValue(
-          'Invalid confirmation code. Please try again.'
-        );
-      }
       return thunkAPI.rejectWithValue(e.message);
     }
   }
