@@ -1,12 +1,10 @@
 import os
 
-import pytest
 from django.test import RequestFactory
 
 from apps.admin.sites import AdminSite
 
 
-@pytest.mark.django_db
 def test_admin_site_each_context(users, mocker):
     mocker.patch.object(AdminSite, "get_log_entries", return_value=[])
     admin_site = AdminSite()
