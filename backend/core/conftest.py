@@ -26,6 +26,15 @@ def auth_client(api_client):
     return _auth_client
 
 
+@pytest.fixture
+def admin_auth(client, users):
+    def _login():
+        client.force_login(users.admin)
+        return client
+
+    return _login
+
+
 # ----- User Fixtures --------------------------------------------------------------------------------------------------
 @pytest.fixture(scope="session")
 def users(django_db_setup, django_db_blocker):  # noqa: django_db_setup
