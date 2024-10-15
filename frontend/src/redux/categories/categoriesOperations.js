@@ -1,8 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { axios } from '../axiosConfig.js';
 import {buildCategoryTree} from '../../utils/tree.js'
 
-axios.defaults.baseURL = 'http://localhost:8000/api';
+
 
 
 export const getAllCategories = createAsyncThunk(
