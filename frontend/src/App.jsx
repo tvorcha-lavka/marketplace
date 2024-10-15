@@ -6,10 +6,12 @@ import SharedLayout from './components/SharedLayout/SharedLayout';
 import ModalParentComponent from './components/ModalParentComponent/ModalParentComponent';
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 import SupportPage from './pages/SupportPage/SupportPage';
+import LogoutButton from './components/LogoutButton/LogoutButton';
 
 export default function App() {
   return (
     <>
+      <LogoutButton />
       <ModalParentComponent />
       <Routes>
         <Route path="/" element={<SharedLayout />}>
