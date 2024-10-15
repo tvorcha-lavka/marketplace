@@ -12,6 +12,7 @@ import {
   PURGE,
   REGISTER,
 } from 'redux-persist';
+import jwtRefreshMiddleware from './middleware/jwtRefreshMiddleware';
 
 const persistedAuthReducer = persistReducer(
   {
@@ -21,13 +22,6 @@ const persistedAuthReducer = persistReducer(
   },
   authReducer
 );
-
-const modalMiddleware = (modalContext) => (storeAPI) => (next) => (action) => {
-  if (typeof action === 'function') {
-    return action(storeAPI.dispatch, storeAPI.getState, modalContext);
-  }
-  return next(action);
-};
 
 export const store = configureStore({
   reducer: {
@@ -39,7 +33,7 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(modalMiddleware({})),
+    }).concat(jwtRefreshMiddleware),
 });
 
 export const persistor = persistStore(store);
