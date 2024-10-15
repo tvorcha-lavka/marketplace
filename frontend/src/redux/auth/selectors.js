@@ -8,6 +8,4 @@ export const selectLoading = (state) => state.auth.loading;
 
 export const selectError = (state) => state.auth.error;
 
-export const selectVerificationCode = (state) =>
-  state.auth.verificationCode;
-
+export const selectVerificationCode = (state) => state.auth.code;

@@ -27,8 +27,8 @@ export default function ChangePwdModal() {
   const [showInfo, setShowInfo] = useState(false);
 
   const isLoading = useSelector(selectLoading);
-	const email = useSelector(selectUser);
-	const verificationCode = useSelector(selectVerificationCode);
+  const email = useSelector(selectUser);
+  const verificationCode = useSelector(selectVerificationCode);
   const { openModal } = useModal();
   const id = useId();
   const dispatch = useDispatch();
@@ -49,7 +49,7 @@ export default function ChangePwdModal() {
 
     const payload = {
       password: newPwd,
-      code: verificationCode, 
+      code: verificationCode,
       email,
     };
 

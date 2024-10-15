@@ -17,7 +17,7 @@ const handlePending = (state) => {
 };
 
 const handleFulfilled = (state, action) => {
-  state.user = action.payload.email;
+  state.user = action.payload.email; 
   state.accessToken = action.payload.accessToken;
   state.refreshToken = action.payload.refreshToken;
   state.isLoggedIn = true;
@@ -45,11 +45,10 @@ const authSlice = createSlice({
     isRefreshing: false,
     loading: false,
     error: false,
-    verificationCode: null,
   },
   reducers: {
     setVerificationCode: (state, action) => {
-      state.verificationCode = action.payload;
+      state.code = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -71,6 +70,7 @@ const authSlice = createSlice({
         state.user = { email: null, password: null };
         state.accessToken = null;
         state.refreshToken = null;
+        state.isRefreshing = false;
         state.isLoggedIn = false;
         state.loading = false;
         state.error = false;
@@ -83,14 +83,13 @@ const authSlice = createSlice({
         state.error = false;
       })
       .addCase(refreshUser.fulfilled, (state, action) => {
-        state.user = action.payload.user || state.user;
-        state.accessToken = action.payload.accessToken || state.accessToken;
-        state.refreshToken = action.payload.refreshToken || state.refreshToken;
+        state.user = action.payload;
         state.isLoggedIn = true;
         state.isRefreshing = false;
         state.loading = false;
         state.error = false;
       })
+      .addCase(refreshUser.rejected, handleRejected)
 
       .addCase(forgotPassword.pending, handlePending)
       .addCase(forgotPassword.fulfilled, handleFulfilled)

@@ -24,11 +24,10 @@ export default function LoginForm() {
   });
 
   const isLoading = useSelector(selectLoading);
-  const { openModal } = useModal();
+  const { openModal, closeModal } = useModal();
   const id = useId();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { closeModal } = useModal();
 
   const togglePassInput = () => {
     setType(showPassword ? 'password' : 'text');
@@ -36,7 +35,7 @@ export default function LoginForm() {
   };
 
   const openForgotPasswordModal = () => {
-    openModal('login', false);
+    closeModal();
     openModal('forgot-password');
   };
 

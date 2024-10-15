@@ -1,27 +1,13 @@
-import axios from 'axios';
+import { axios } from '../axiosConfig.js';
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { toast } from 'react-hot-toast';
 
-axios.defaults.baseURL = 'http://localhost:8000/api';
-
-const isLocalStorageAvailable = () => {
-  try {
-    const testKey = '__test__';
-    localStorage.setItem(testKey, testKey);
-    localStorage.removeItem(testKey);
-    return true;
-  } catch (e) {
-    return false;
-  }
+export const saveTokensToStorage = (accessToken, refreshToken) => {
+  localStorage.setItem('accessToken', accessToken);
+  localStorage.setItem('refreshToken', refreshToken);
 };
 
-const saveTokensToStorage = (accessToken, refreshToken) => {
-  if (isLocalStorageAvailable()) {
-    localStorage.setItem('accessToken', accessToken);
-    localStorage.setItem('refreshToken', refreshToken);
-  }
-};
-
-const setAuthHeader = (token) => {
+export const setAuthHeader = (token) => {
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 };
 
@@ -66,13 +52,10 @@ export const registerComplete = createAsyncThunk(
 
 export const logIn = createAsyncThunk(
   'auth/login',
-  async ({ email, password, remember_me }, thunkAPI) => {
+  async (credentials, thunkAPI) => {
     try {
-      const res = await axios.post('/auth/login/', {
-        email,
-        password,
-        remember_me,
-      });
+      const res = await axios.post('/auth/login/', credentials);
+
       const accessToken = res.data.access;
       const refreshToken = res.data.refresh;
 
@@ -87,61 +70,46 @@ export const logIn = createAsyncThunk(
   }
 );
 
-export const logOut = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
-  try {
-    await axios.post('/auth/logout/');
-    clearAuthHeader();
+export const logOut = createAsyncThunk(
+  'auth/logout',
+  async (openModal, thunkAPI) => {
+    try {
+      const refreshToken = localStorage.getItem('refreshToken');
+      console.log('Logout refreshToken:', refreshToken);
 
-    const keysToRemove = ['accessToken', 'refreshToken'];
-    if (isLocalStorageAvailable()) {
-      keysToRemove.forEach((key) => localStorage.removeItem(key));
+      await axios.post('/auth/logout/', { refresh: refreshToken });
+
+      toast.error('Logging out...');
+
+      clearAuthHeader();
+
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+
+      openModal('login');
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e.message);
     }
-  } catch (e) {
-    console.error('Logout failed:', e);
-    return thunkAPI.rejectWithValue(e.message);
   }
-});
+);
 
 export const refreshUser = createAsyncThunk(
   'auth/refresh',
   async (_, thunkAPI) => {
     const reduxState = thunkAPI.getState();
-    const persistedAccessToken = reduxState.auth.accessToken;
-    const persistedRefreshToken = reduxState.auth.refreshToken;
+    const persistedToken = reduxState.auth.refreshToken;
 
-    const { openModal } = thunkAPI.extra;
-
-    if (!persistedRefreshToken) {
-      thunkAPI.dispatch(logoutUser());
-
-      if (openModal) {
-        openModal('login');
-      }
-
-      return thunkAPI.rejectWithValue('Refresh token missing. Logging out...');
+    if (!persistedToken) {
+      return thunkAPI.rejectWithValue('Unable to fetch refresh user');
     }
 
-    if (!persistedAccessToken) {
-      try {
-        const res = await axios.post('/auth/token/refresh/', {
-          refresh: persistedRefreshToken,
-        });
+    const res = await axios.post('/auth/token/refresh/', {
+      refresh: persistedToken,
+    });
+    const newAccessToken = res.data.access;
 
-        setAuthHeader(res.data.access);
-        return res.data;
-      } catch (error) {
-        thunkAPI.dispatch(logoutUser());
-
-        if (openModal) {
-          openModal('login');
-        }
-        return thunkAPI.rejectWithValue(
-          'Unable to refresh token. Logging out...'
-        );
-      }
-    }
-
-    setAuthHeader(persistedAccessToken);
+    setAuthHeader(newAccessToken);
+    return res.data;
   },
   {
     condition(_, thunkAPI) {
