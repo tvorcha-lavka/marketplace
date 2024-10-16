@@ -27,6 +27,7 @@ module.exports = {
         allow: ['error'],
       },
     ],
+    'react/prop-types': 'off',
     // Disable the rule that requires React to be in scope when using JSX
     'react/react-in-jsx-scope': 'off',
     // Disable the warning about missing displayName in React components
