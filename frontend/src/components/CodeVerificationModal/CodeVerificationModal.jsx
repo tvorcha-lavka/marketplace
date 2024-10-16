@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { useId, useState } from 'react';
+import { useId, useState, useEffect, useRef } from 'react';
 import { Formik, Field, Form } from 'formik';
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
 import { useModal } from '../../hooks/useModal';
 import { selectLoading, selectUser } from '../../redux/auth/selectors';
 import { registerComplete, verifyCode } from '../../redux/auth/operations';
+import { setVerificationCode } from '../../redux/auth/slice.js';
 import FormImgComponent from '../FormImgComponent/FormImgComponent';
 import ResendCodeBtn from '../ResendCodeBtn/ResendCodeBtn';
 import Loader from '../Loader/Loader';
@@ -24,54 +24,91 @@ const CodeVerificationModal = ({ type }) => {
   const { openModal } = useModal();
   const id = useId();
 
+  const inputRefs = useRef([]);
+
   const getDescription = () => {
     return type === 'verification-register'
       ? 'На вашу електронну пошту надіслано код підтвердження. Введіть його нижче, щоб завершити реєстрацію'
       : 'Введіть унікальний 6-значний код, який був висланий на ваш e-mail';
   };
 
-  const handleKeyDown = (e, index) => {
-    if (e.key === 'Backspace' && !otp[index] && index > 0) {
-      document.getElementById(`${id}-code-${index - 1}`).focus();
-    }
-  };
+  useEffect(() => {
+    inputRefs.current[0].focus();
+  }, []);
 
-  const handleChange = (e, index, setFieldValue) => {
+  const handleChange = (e, index) => {
     const value = e.target.value;
-    if (/^\d$/.test(value) || value === '') {
-      const newOtp = [...otp];
-      newOtp[index] = value;
-      setOtp(newOtp);
-      setFieldValue('code', newOtp);
 
-      if (newOtp.every((digit) => digit !== '')) {
-        handleSubmit({ code: newOtp }, { resetForm: () => {} });
-      }
+    if (!/^\d$/.test(value) && value !== '') return;
 
-      if (value && index < otp.length - 1) {
-        document.getElementById(`${id}-code-${index + 1}`).focus();
-      }
+    if (index > 0 && otp.slice(0, index).includes('')) {
+      inputRefs.current[otp.indexOf('')].focus();
+      return;
+    }
+
+    const newOtp = [...otp];
+    newOtp[index] = value;
+    setOtp(newOtp);
+
+    if (value && index < otp.length - 1) {
+      inputRefs.current[index + 1].focus();
+    }
+
+    if (newOtp.every((digit) => digit !== '')) {
+      handleSubmit({ code: newOtp });
     }
   };
 
-  const handlePaste = (e, setFieldValue) => {
+  const handleKeyDown = (e, index) => {
+    switch (e.key) {
+      case 'Backspace':
+        e.preventDefault();
+        const newOtp = [...otp];
+
+        for (let i = otp.length - 1; i >= 0; i--) {
+          if (newOtp[i] !== '') {
+            newOtp[i] = '';
+            setOtp(newOtp);
+            inputRefs.current[i].focus();
+            break;
+          }
+        }
+        break;
+      case 'ArrowLeft':
+        e.preventDefault();
+        if (index > 0) {
+          inputRefs.current[index - 1].focus();
+        }
+        break;
+      case 'ArrowRight':
+        e.preventDefault();
+        if (index < otp.length - 1) {
+          inputRefs.current[index + 1].focus();
+        }
+        break;
+      default:
+        break;
+    }
+  };
+
+  const handlePaste = (e) => {
+    e.preventDefault();
     const pasteData = e.clipboardData.getData('text');
     if (/^\d{6}$/.test(pasteData)) {
-      const newOtp = pasteData.split('').slice(0, 6);
+      const newOtp = pasteData.split('');
       setOtp(newOtp);
       newOtp.forEach((value, index) => {
-        document.getElementById(`${id}-code-${index}`).value = value;
+        inputRefs.current[index].value = value;
       });
-      setFieldValue('code', newOtp);
-
-      handleSubmit({ code: newOtp }, { resetForm: () => {} });
+      handleSubmit({ code: newOtp });
     }
   };
 
-  const handleSubmit = (values, actions) => {
+  const handleSubmit = (values) => {
     const code = values.code.join('');
+    const numericCode = Number(code);
 
-    localStorage.setItem('verifyResetCode', code);
+    dispatch(setVerificationCode(numericCode));
 
     let dispatchAction;
 
@@ -87,20 +124,19 @@ const CodeVerificationModal = ({ type }) => {
       .unwrap()
       .then(() => {
         setAuthError(false);
-        actions.resetForm();
         setOtp(Array(6).fill(''));
 
         if (type === 'verification-register') {
           openModal('confirmation-modal', { type });
-          localStorage.removeItem('ResendRegisterCode');
-          localStorage.removeItem('verifyResetCode');
         } else if (type === 'verification-reset') {
           openModal('change-pwd');
         }
       })
       .catch((e) => {
-				setAuthError(true);
-				return thunkAPI.rejectWithValue(e.message);
+        setAuthError(true);
+        setOtp(Array(6).fill(''));
+
+        console.error('Code verification:', e.message);
       });
   };
 
@@ -129,7 +165,7 @@ const CodeVerificationModal = ({ type }) => {
           <Formik
             initialValues={{ code: otp }}
             validationSchema={codeSchema}
-            onSubmit={handleSubmit}
+            onSubmit={(values) => handleSubmit(values)}
           >
             {({ setFieldValue }) => (
               <Form>
@@ -144,10 +180,9 @@ const CodeVerificationModal = ({ type }) => {
                           id={`${id}-code-${index}`}
                           type="text"
                           maxLength="1"
-                          value={otp[index]}
-                          onChange={(e) =>
-                            handleChange(e, index, setFieldValue)
-                          }
+                          value={value}
+                          innerRef={(elem) => (inputRefs.current[index] = elem)}
+                          onChange={(e) => handleChange(e, index)}
                           onKeyDown={(e) => handleKeyDown(e, index)}
                           className={clsx(
                             css.input,
@@ -180,8 +215,3 @@ const CodeVerificationModal = ({ type }) => {
 };
 
 export default CodeVerificationModal;
-
-CodeVerificationModal.propTypes = {
-  type: PropTypes.oneOf(['verification-register', 'verification-reset'])
-    .isRequired,
-};

@@ -1,29 +1,21 @@
 import { useEffect, useRef } from 'react';
 
-export function useClickOutsideAndEsc(closeModal) {
-  const ref = useRef(null);
+export const useClickOutsideAndEsc = (closeModal) => {
+  const modalRef = useRef(null);
 
   useEffect(() => {
-    function handleClickOutside(event) {
-      if (ref.current && !ref.current.contains(event.target)) {
-        closeModal();
-      }
-    }
-
-    function handleEscPress(event) {
+    const handleEscKey = (event) => {
       if (event.key === 'Escape') {
         closeModal();
       }
-    }
+    };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    document.addEventListener('keydown', handleEscPress);
+    document.addEventListener('keydown', handleEscKey);
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('keydown', handleEscPress);
+      document.removeEventListener('keydown', handleEscKey);
     };
   }, [closeModal]);
 
-  return ref;
-}
+  return modalRef;
+};

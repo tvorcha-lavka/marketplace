@@ -1,6 +1,6 @@
 import { useState, useId } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-//import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { logIn } from '../../redux/auth/operations';
 import { Formik, Form, Field } from 'formik';
 import clsx from 'clsx';
@@ -24,11 +24,10 @@ export default function LoginForm() {
   });
 
   const isLoading = useSelector(selectLoading);
-  const { openModal } = useModal();
+  const { openModal, closeModal } = useModal();
   const id = useId();
   const dispatch = useDispatch();
-  //const navigate = useNavigate();
-  const { closeModal } = useModal();
+  const navigate = useNavigate();
 
   const togglePassInput = () => {
     setType(showPassword ? 'password' : 'text');
@@ -36,30 +35,31 @@ export default function LoginForm() {
   };
 
   const openForgotPasswordModal = () => {
-    openModal('login', false);
+    closeModal();
     openModal('forgot-password');
   };
 
   const handleSubmit = async (values, actions) => {
     setInputError({ email: false, password: false });
 
-    dispatch(
-      logIn({
-        user: { email: values.email, password: values.password },
-        userRemember: values.userRemember,
-      })
-    )
+    const user = {
+      email: values.email,
+      password: values.password,
+      remember_me: values.remember_me,
+    };
+
+    dispatch(logIn(user))
       .unwrap()
       .then(() => {
         setAuthError(false);
         actions.resetForm();
         closeModal();
-        //navigate('/private');
+        navigate('/');
       })
       .catch((e) => {
         setAuthError(true);
         setInputError({ email: true, password: true });
-        return thunkAPI.rejectWithValue(e.message);
+        console.error('Login failed:', e.message);
       });
   };
 
@@ -96,14 +96,14 @@ export default function LoginForm() {
 
           <Formik
             initialValues={{
-              email: localStorage.getItem('email') || '',
-              password: localStorage.getItem('password') || '',
-              userRemember: false,
+              email: '',
+              password: '',
+              remember_me: false,
             }}
             validationSchema={schema}
             onSubmit={handleSubmit}
           >
-            {({ errors, touched, values, isValid, dirty }) => (
+            {({ errors, touched, values }) => (
               <Form>
                 <div className={css.inputWrapEmail}>
                   <label className={css.inputLabel} htmlFor={`${id}-email`}>
@@ -191,13 +191,13 @@ export default function LoginForm() {
                 <div className={css.rememberCheckbox}>
                   <Field
                     className={css.visuallyHidden}
-                    id={`${id}-userRemember`}
-                    name="userRemember"
+                    id={`${id}-remember_me`}
+                    name="remember_me"
                     type="checkbox"
                   />
                   <label
                     className={css.rememberCheckboxLabel}
-                    htmlFor={`${id}-userRemember`}
+                    htmlFor={`${id}-remember_me`}
                   >
                     <span className={css.userRememberComponentIcon}>
                       <FaCheck className={css.checkmarkIcon} />
@@ -215,7 +215,12 @@ export default function LoginForm() {
                 <button
                   className={css.styledButton}
                   type="submit"
-                  disabled={!(isValid && dirty)}
+                  disabled={
+                    !values.email ||
+                    !values.password ||
+                    !!errors.email ||
+                    !!errors.password
+                  }
                 >
                   Увійти
                 </button>

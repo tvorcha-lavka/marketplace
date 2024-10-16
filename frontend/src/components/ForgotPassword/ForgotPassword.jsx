@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import clsx from 'clsx';
 import { Formik, Form, Field } from 'formik';
+import toast from 'react-hot-toast';
 import { useModal } from '../../hooks/useModal';
 import { selectLoading } from '../../redux/auth/selectors';
 import { forgotPassword } from '../../redux/auth/operations';
@@ -18,16 +19,19 @@ export default function ForgotPassword() {
   const { openModal } = useModal();
   const id = useId();
 
-  const handleSubmit = (values, actions) => {
-    dispatch(forgotPassword({email: values.email }))
-      .unwrap()
-      .then(() => {
+  const handleSubmit = async (values, actions) => {
+    const email = values.email;
+
+    try {
+      const res = await dispatch(forgotPassword({ email: email })).unwrap();
+
+      if (res && res.email) {
         actions.resetForm();
         openModal('verification-reset');
-      })
-			.catch((e) => {
-				return thunkAPI.rejectWithValue(e.message);
-      });
+      }
+    } catch (e) {
+      toast('Користувач з такою поштою не зареєстрований');
+    }
   };
 
   return (
@@ -54,7 +58,7 @@ export default function ForgotPassword() {
             onSubmit={handleSubmit}
             validationSchema={forgotPasswordSchema}
           >
-            {({ isValid, dirty, values }) => (
+            {({ values, errors }) => (
               <Form>
                 <div className={css.inputWrapEmail}>
                   <label htmlFor={`${id}-email`}>
@@ -74,7 +78,7 @@ export default function ForgotPassword() {
 
                 <button
                   className={css.styledButton}
-                  disabled={!(isValid && dirty)}
+                  disabled={!values.email || !!errors.email}
                   type="submit"
                 >
                   Надіслати посилання
