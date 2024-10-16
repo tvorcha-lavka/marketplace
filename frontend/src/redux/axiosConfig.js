@@ -1,5 +1,1 @@
-import axios from 'axios';
-
-axios.defaults.baseURL = 'http://localhost:8000/api';
-
-export { axios };
+export const baseApiUrl = import.meta.env.VITE_API_URL;
