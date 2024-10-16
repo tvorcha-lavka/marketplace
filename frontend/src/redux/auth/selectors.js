@@ -9,3 +9,7 @@ export const selectLoading = (state) => state.auth.loading;
 export const selectError = (state) => state.auth.error;
 
 export const selectVerificationCode = (state) => state.auth.code;
+
+export const selectAccessToken = (state) => state.auth.accessToken;
+
+export const selectRefreshToken = (state) => state.auth.refreshToken;
