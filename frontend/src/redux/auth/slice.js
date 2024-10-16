@@ -17,9 +17,11 @@ const handlePending = (state) => {
 };
 
 const handleFulfilled = (state, action) => {
-  state.user = action.payload.email; 
+  state.user = action.payload.email;
   state.accessToken = action.payload.accessToken;
   state.refreshToken = action.payload.refreshToken;
+  console.log('Updated access token:', state.accessToken);
+  console.log('Updated refresh token:', state.refreshToken);
   state.isLoggedIn = true;
   state.loading = false;
   state.error = false;
@@ -82,12 +84,10 @@ const authSlice = createSlice({
         state.loading = true;
         state.error = false;
       })
-      .addCase(refreshUser.fulfilled, (state, action) => {
-        state.user = action.payload;
-        state.isLoggedIn = true;
-        state.isRefreshing = false;
-        state.loading = false;
-        state.error = false;
+			.addCase(refreshUser.fulfilled, (state, action) => {
+				state.isRefreshing = false; 
+        console.log('Refresh successful:', action.payload);
+        handleFulfilled(state, action);
       })
       .addCase(refreshUser.rejected, handleRejected)
 
