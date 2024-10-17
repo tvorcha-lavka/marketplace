@@ -18,7 +18,10 @@ const handlePending = (state) => {
 
 const handleFulfilled = (state, action) => {
   state.user = action.payload.email;
-  state.token = action.payload.token;
+  state.accessToken = action.payload.accessToken;
+  state.refreshToken = action.payload.refreshToken;
+  console.log('Updated access token:', state.accessToken);
+  console.log('Updated refresh token:', state.refreshToken);
   state.isLoggedIn = true;
   state.loading = false;
   state.error = false;
@@ -36,12 +39,19 @@ const authSlice = createSlice({
       email: null,
       password: null,
       code: null,
+      remember_me: false,
     },
-    token: null,
+    accessToken: null,
+    refreshToken: null,
     isLoggedIn: false,
     isRefreshing: false,
     loading: false,
     error: false,
+  },
+  reducers: {
+    setVerificationCode: (state, action) => {
+      state.code = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -60,7 +70,9 @@ const authSlice = createSlice({
       .addCase(logOut.pending, handlePending)
       .addCase(logOut.fulfilled, (state) => {
         state.user = { email: null, password: null };
-        state.token = null;
+        state.accessToken = null;
+        state.refreshToken = null;
+        state.isRefreshing = false;
         state.isLoggedIn = false;
         state.loading = false;
         state.error = false;
@@ -72,13 +84,12 @@ const authSlice = createSlice({
         state.loading = true;
         state.error = false;
       })
-      .addCase(refreshUser.fulfilled, (state, action) => {
-        state.user = action.payload;
-        state.isLoggedIn = true;
-        state.isRefreshing = false;
-        state.loading = false;
-        state.error = false;
+			.addCase(refreshUser.fulfilled, (state, action) => {
+				state.isRefreshing = false; 
+        console.log('Refresh successful:', action.payload);
+        handleFulfilled(state, action);
       })
+      .addCase(refreshUser.rejected, handleRejected)
 
       .addCase(forgotPassword.pending, handlePending)
       .addCase(forgotPassword.fulfilled, handleFulfilled)
@@ -101,4 +112,5 @@ const authSlice = createSlice({
   },
 });
 
+export const { setVerificationCode } = authSlice.actions;
 export const authReducer = authSlice.reducer;

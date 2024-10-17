@@ -1,6 +1,6 @@
-import { useModal } from '../../hooks/useModal';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useModal } from '../../hooks/useModal';
 import ModalWrapper from '../ModalWrapper/ModalWrapper';
 import ForgotPassword from '../../components/ForgotPassword/ForgotPassword';
 import CodeVerificationModal from '../CodeVerificationModal/CodeVerificationModal';

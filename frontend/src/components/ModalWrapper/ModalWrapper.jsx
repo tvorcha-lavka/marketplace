@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { useModal } from '../../hooks/useModal';
 import { useClickOutsideAndEsc } from '../../hooks/useClickOutsideAndEsc';
 import { RxCross2 } from 'react-icons/rx';
@@ -30,6 +29,4 @@ const ModalWrapper = ({ children }) => {
 
 export default ModalWrapper;
 
-ModalWrapper.propTypes = {
-  children: PropTypes.node, 
-};
+

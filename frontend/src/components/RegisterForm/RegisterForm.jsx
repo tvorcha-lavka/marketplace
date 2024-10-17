@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { register } from '../../redux/auth/operations';
 import { Formik, Form, Field } from 'formik';
 import clsx from 'clsx';
+import toast from 'react-hot-toast';
 import { useModal } from '../../hooks/useModal';
 import { selectLoading } from '../../redux/auth/selectors';
 import Loader from '../Loader/Loader';
@@ -27,7 +28,7 @@ export default function RegisterForm() {
   const dispatch = useDispatch();
   const id = useId();
 
-  const handleSubmit = (values, actions) => {
+  const handleSubmit = async (values, actions) => {
     const newUser = {
       email: values.email,
       password: values.password,
@@ -41,8 +42,7 @@ export default function RegisterForm() {
 
     dispatch(register(newUser))
       .unwrap()
-			.then(() => {
-        localStorage.setItem('ResendRegisterCode', values.email);
+      .then(() => {
         resetFormData();
         openModal('verification-register');
       })
@@ -51,8 +51,7 @@ export default function RegisterForm() {
           resetFormData();
           openModal('verification-register');
         } else {
-					resetFormData();
-					return thunkAPI.rejectWithValue(e.message);
+          toast('Користувач з такою поштою вже зареєстрований');
         }
       });
   };
@@ -99,7 +98,7 @@ export default function RegisterForm() {
             onSubmit={handleSubmit}
             validationSchema={schema}
           >
-            {({ setFieldValue, isValid, dirty, values }) => (
+            {({ setFieldValue, values, errors }) => (
               <Form>
                 <div className={css.inputWrapEmail}>
                   <label className={css.inputLabel} htmlFor={`${id}-email`}>
@@ -182,7 +181,12 @@ export default function RegisterForm() {
                 <button
                   className={css.styledButton}
                   type="submit"
-                  disabled={!(isValid && dirty)}
+                  disabled={
+                    !values.email ||
+                    !values.password ||
+                    !!errors.email ||
+                    !!errors.password
+                  }
                 >
                   Зареєструватись
                 </button>

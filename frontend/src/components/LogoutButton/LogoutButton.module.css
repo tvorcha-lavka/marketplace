@@ -1,0 +1,14 @@
+.logoutBtn {
+  width: 368px;
+  height: var(--component-height);
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-extra-small);
+  font-weight: var(--font-weight-bold);
+  color: var(--default-black);
+  background-color: var(--primary-yellow);
+  cursor: pointer;
+}
