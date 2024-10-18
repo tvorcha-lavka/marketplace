@@ -39,6 +39,7 @@ class SocialOAuth2CallbackView(CreateAPIView, TokenMixin, BackendMixin):
 
         backend = self.get_backend(request)
         backend.data = serializer.validated_data
+        backend.STATE_PARAMETER = False
 
         try:
             user = backend.complete()
