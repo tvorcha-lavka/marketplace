@@ -1,45 +1,38 @@
 import { useState, useId } from 'react';
-import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { register } from '../../redux/auth/operations';
 import { Formik, Form, Field } from 'formik';
 import clsx from 'clsx';
+import toast from 'react-hot-toast';
 import { useModal } from '../../hooks/useModal';
-import { resetPassword } from '../../redux/auth/operations';
-import {
-  selectLoading,
-  selectUser,
-  selectVerificationCode,
-} from '../../redux/auth/selectors';
+import { selectLoading } from '../../redux/auth/selectors';
 import Loader from '../Loader/Loader';
-import FormImgComponent from '../../components/FormImgComponent/FormImgComponent';
+import FormImgComponent from '../FormImgComponent/FormImgComponent';
+import { FiEye, FiEyeOff } from 'react-icons/fi';
+import SocialAuthComponent from '../SocialAuthComponent/SocialAuthComponent';
 import {
   PwdStrengthLength,
   getStrengthLabel,
 } from '../PwdStrengthLength/PwdStrengthLength';
-import { passwordSchema } from '../../utils/formSchema';
-import { FiEye, FiEyeOff } from 'react-icons/fi';
-import css from './ChangePwdModal.module.css';
+import { schema } from '../../utils/formSchema';
+import css from '../RegisterForm/RegisterForm.module.css';
 
-export default function ChangePwdModal() {
+export default function RegisterForm() {
   const [showPassword, setShowPassword] = useState(true);
-  const [types, setType] = useState('password');
+  const [type, setType] = useState('password');
   const [strengthLabel, setStrengthLabel] = useState('');
   const [showInfo, setShowInfo] = useState(false);
 
   const isLoading = useSelector(selectLoading);
-  const email = useSelector(selectUser);
-  const verificationCode = useSelector(selectVerificationCode);
   const { openModal } = useModal();
-  const id = useId();
   const dispatch = useDispatch();
-
-  const togglePassInput = () => {
-    setType(showPassword ? 'text' : 'password');
-    setShowPassword(!showPassword);
-  };
+  const id = useId();
 
   const handleSubmit = async (values, actions) => {
-    const newPwd = values.password;
+    const newUser = {
+      email: values.email,
+      password: values.password,
+    };
 
     function resetFormData() {
       setShowInfo(false);
@@ -47,23 +40,25 @@ export default function ChangePwdModal() {
       actions.resetForm();
     }
 
-    const payload = {
-      password: newPwd,
-      code: verificationCode,
-      email,
-    };
-
-    dispatch(resetPassword(payload))
+    dispatch(register(newUser))
       .unwrap()
       .then(() => {
         resetFormData();
-        openModal('confirmation-modal', { type: 'verification-reset' });
+        openModal('verification-register');
       })
-
       .catch((e) => {
-        resetFormData();
-        console.error('Change password failed:', e.message);
+        if (e === 'Request failed with status code 307') {
+          resetFormData();
+          openModal('verification-register');
+        } else {
+          toast('Користувач з такою поштою вже зареєстрований');
+        }
       });
+  };
+
+  const togglePassInput = () => {
+    setType(showPassword ? 'text' : 'password');
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -73,33 +68,63 @@ export default function ChangePwdModal() {
       {isLoading ? (
         <Loader />
       ) : (
-        <div className={css.pageContent}>
-          <h2 className={css.title}>Введіть новий пароль</h2>
-          <p className={css.additionalInfo}>
-            Створіть новий пароль для вашого акаунту
-          </p>
-
+        <div className={css.formWrapper}>
+          <ul className={css.headerWrapper}>
+            <li className={css.headerWrapLogin}>
+              <button
+                type="button"
+                onClick={() => openModal('login')}
+                className={css.headerBtn}
+              >
+                Вхід
+              </button>
+            </li>
+            <li className={css.headerWrapRegister}>
+              <button
+                type="button"
+                onClick={() => openModal('register')}
+                className={css.headerBtnActive}
+              >
+                Реєстрація
+              </button>
+            </li>
+          </ul>
+          <SocialAuthComponent />
           <Formik
             initialValues={{
+              email: '',
               password: '',
             }}
             onSubmit={handleSubmit}
-            validationSchema={passwordSchema}
+            validationSchema={schema}
           >
-            {({ setFieldValue, isValid, dirty, values }) => (
+            {({ setFieldValue, values, errors }) => (
               <Form>
+                <div className={css.inputWrapEmail}>
+                  <label className={css.inputLabel} htmlFor={`${id}-email`}>
+                    Електронна пошта{' '}
+                    <span className={css.requiredSymb}>&#42;</span>
+                  </label>
+
+                  <Field
+                    id={`${id}-email`}
+                    name="email"
+                    type="email"
+                    className={clsx(css.formInput, values.email && css.filled)}
+                    placeholder="example@gmail.com"
+                    autoComplete="off"
+                  />
+                </div>
+
                 <div className={css.pwdInputWrap}>
-                  <div className={css.pwdLabelWrap}>
-                    <label className={css.inputLabel} htmlFor="password">
-                      Новий пароль{' '}
-                      <span className={css.requiredSymb}>&#42;</span>
-                    </label>
-                  </div>
+                  <label className={css.inputLabel} htmlFor={`${id}-password`}>
+                    Пароль <span className={css.requiredSymb}>&#42;</span>
+                  </label>
 
                   <div className={css.pwdInput}>
                     <Field
                       id={`${id}-password`}
-                      type={types}
+                      type={type}
                       name="password"
                       className={clsx(
                         css.formInput,
@@ -143,23 +168,28 @@ export default function ChangePwdModal() {
                   )}
                 </div>
                 {showInfo && (
-                  <p className={css.info}>
+                  <p className={css.additionalInfo}>
                     Пароль має складатись з мін. 8 та макс. 30 символів, цифр і
                     спеціальних знаків
                   </p>
                 )}
 
+                <p className={css.privacyText}>
+                  Натискаючи &#x201C;Зареєструватись&#x201D; ви приймаєте
+                  Правила користування сайтом
+                </p>
                 <button
                   className={css.styledButton}
                   type="submit"
-                  disabled={!(isValid && dirty)}
+                  disabled={
+                    !values.email ||
+                    !values.password ||
+                    !!errors.email ||
+                    !!errors.password
+                  }
                 >
-                  Готово
+                  Зареєструватись
                 </button>
-
-                <Link to="/support" className={css.supportLink}>
-                  Потрібна допомога?
-                </Link>
               </Form>
             )}
           </Formik>

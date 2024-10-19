@@ -4,7 +4,7 @@ import { useId, useState, useEffect, useRef } from 'react';
 import { Formik, Field, Form } from 'formik';
 import clsx from 'clsx';
 import { useModal } from '../../hooks/useModal';
-import { selectLoading, selectUser } from '../../redux/auth/selectors';
+import { selectLoading, selectUserEmail } from '../../redux/auth/selectors';
 import { registerComplete, verifyCode } from '../../redux/auth/operations';
 import { setVerificationCode } from '../../redux/auth/slice.js';
 import FormImgComponent from '../FormImgComponent/FormImgComponent';
@@ -19,7 +19,7 @@ const CodeVerificationModal = ({ type }) => {
   const [authError, setAuthError] = useState(false);
 
   const isLoading = useSelector(selectLoading);
-  const email = useSelector(selectUser);
+  const email = useSelector(selectUserEmail);
   const dispatch = useDispatch();
   const { openModal } = useModal();
   const id = useId();

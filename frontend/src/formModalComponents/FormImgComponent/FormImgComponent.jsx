@@ -6,7 +6,7 @@ export default function FormImgComponent() {
       className={css.formImage}
       srcSet="../../../public/images/form@1x.png 1x, ../../../public/images/form@2x.png 2x"
       src="../../../public/images/form@1x.png"
-      alt="Form Image"
+      alt="Tvorcha Lavka auth form image"
     />
   );
 }

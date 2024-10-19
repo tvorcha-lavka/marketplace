@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useModal } from '../../hooks/useModal';
 import { selectLoading } from '../../redux/auth/selectors';
 import Loader from '../Loader/Loader';
-import FormImgComponent from '../../components/FormImgComponent/FormImgComponent';
+import FormImgComponent from '../FormImgComponent/FormImgComponent';
 import css from './ConfirmationModal.module.css';
 
 export default function ConfirmationModal({ type }) {

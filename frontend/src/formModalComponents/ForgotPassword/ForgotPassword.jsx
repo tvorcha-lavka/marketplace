@@ -8,7 +8,7 @@ import { useModal } from '../../hooks/useModal';
 import { selectLoading } from '../../redux/auth/selectors';
 import { forgotPassword } from '../../redux/auth/operations';
 import Loader from '../Loader/Loader';
-import FormImgComponent from '../../components/FormImgComponent/FormImgComponent';
+import FormImgComponent from '../FormImgComponent/FormImgComponent';
 import { forgotPasswordSchema } from '../../utils/formSchema';
 import { LuArrowLeft } from 'react-icons/lu';
 import css from './ForgotPassword.module.css';

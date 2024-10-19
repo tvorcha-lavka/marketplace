@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { selectUser } from '../../redux/auth/selectors';
+import { selectUserEmail } from '../../redux/auth/selectors';
 import {
   resendRegisterCode,
   forgotPassword,
@@ -7,7 +7,7 @@ import {
 import css from './ResendCodeBtn.module.css';
 
 const ResendCodeBtn = ({ type }) => {
-	const email = useSelector(selectUser);
+  const email = useSelector(selectUserEmail);
   const dispatch = useDispatch();
 
   const handleSubmit = () => {

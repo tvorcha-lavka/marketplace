@@ -1,38 +1,46 @@
 import { useState, useId } from 'react';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { register } from '../../redux/auth/operations';
 import { Formik, Form, Field } from 'formik';
 import clsx from 'clsx';
-import toast from 'react-hot-toast';
 import { useModal } from '../../hooks/useModal';
-import { selectLoading } from '../../redux/auth/selectors';
+import { resetPassword } from '../../redux/auth/operations';
+import {
+  selectLoading,
+  selectUserEmail,
+  selectVerificationCode,
+} from '../../redux/auth/selectors';
 import Loader from '../Loader/Loader';
-import FormImgComponent from '../../components/FormImgComponent/FormImgComponent';
-import { FiEye, FiEyeOff } from 'react-icons/fi';
-import SocialAuthComponent from '../SocialAuthComponent/SocialAuthComponent';
+import FormImgComponent from '../FormImgComponent/FormImgComponent';
 import {
   PwdStrengthLength,
   getStrengthLabel,
 } from '../PwdStrengthLength/PwdStrengthLength';
-import { schema } from '../../utils/formSchema';
-import css from '../RegisterForm/RegisterForm.module.css';
+import { passwordSchema } from '../../utils/formSchema';
+import { FiEye, FiEyeOff } from 'react-icons/fi';
+import css from './ChangePwdModal.module.css';
 
-export default function RegisterForm() {
+export default function ChangePwdModal() {
   const [showPassword, setShowPassword] = useState(true);
-  const [type, setType] = useState('password');
+  const [types, setType] = useState('password');
   const [strengthLabel, setStrengthLabel] = useState('');
   const [showInfo, setShowInfo] = useState(false);
 
   const isLoading = useSelector(selectLoading);
+  const email = useSelector(selectUserEmail);
+	const verificationCode = useSelector(selectVerificationCode);
+	console.log(verificationCode)
   const { openModal } = useModal();
-  const dispatch = useDispatch();
   const id = useId();
+  const dispatch = useDispatch();
+
+  const togglePassInput = () => {
+    setType(showPassword ? 'text' : 'password');
+    setShowPassword(!showPassword);
+  };
 
   const handleSubmit = async (values, actions) => {
-    const newUser = {
-      email: values.email,
-      password: values.password,
-    };
+    const newPwd = values.password;
 
     function resetFormData() {
       setShowInfo(false);
@@ -40,25 +48,23 @@ export default function RegisterForm() {
       actions.resetForm();
     }
 
-    dispatch(register(newUser))
+    const payload = {
+      password: newPwd,
+      code: verificationCode,
+      email,
+    };
+
+    dispatch(resetPassword(payload))
       .unwrap()
       .then(() => {
         resetFormData();
-        openModal('verification-register');
+        openModal('confirmation-modal', { type: 'verification-reset' });
       })
-      .catch((e) => {
-        if (e === 'Request failed with status code 307') {
-          resetFormData();
-          openModal('verification-register');
-        } else {
-          toast('Користувач з такою поштою вже зареєстрований');
-        }
-      });
-  };
 
-  const togglePassInput = () => {
-    setType(showPassword ? 'text' : 'password');
-    setShowPassword(!showPassword);
+      .catch((e) => {
+        resetFormData();
+        console.error('Change password failed:', e.message);
+      });
   };
 
   return (
@@ -68,63 +74,33 @@ export default function RegisterForm() {
       {isLoading ? (
         <Loader />
       ) : (
-        <div className={css.formWrapper}>
-          <ul className={css.headerWrapper}>
-            <li className={css.headerWrapLogin}>
-              <button
-                type="button"
-                onClick={() => openModal('login')}
-                className={css.headerBtn}
-              >
-                Вхід
-              </button>
-            </li>
-            <li className={css.headerWrapRegister}>
-              <button
-                type="button"
-                onClick={() => openModal('register')}
-                className={css.headerBtnActive}
-              >
-                Реєстрація
-              </button>
-            </li>
-          </ul>
-          <SocialAuthComponent />
+        <div className={css.pageContent}>
+          <h2 className={css.title}>Введіть новий пароль</h2>
+          <p className={css.additionalInfo}>
+            Створіть новий пароль для вашого акаунту
+          </p>
+
           <Formik
             initialValues={{
-              email: '',
               password: '',
             }}
             onSubmit={handleSubmit}
-            validationSchema={schema}
+            validationSchema={passwordSchema}
           >
-            {({ setFieldValue, values, errors }) => (
+            {({ setFieldValue, isValid, dirty, values }) => (
               <Form>
-                <div className={css.inputWrapEmail}>
-                  <label className={css.inputLabel} htmlFor={`${id}-email`}>
-                    Електронна пошта{' '}
-                    <span className={css.requiredSymb}>&#42;</span>
-                  </label>
-
-                  <Field
-                    id={`${id}-email`}
-                    name="email"
-                    type="email"
-                    className={clsx(css.formInput, values.email && css.filled)}
-                    placeholder="example@gmail.com"
-                    autoComplete="off"
-                  />
-                </div>
-
                 <div className={css.pwdInputWrap}>
-                  <label className={css.inputLabel} htmlFor={`${id}-password`}>
-                    Пароль <span className={css.requiredSymb}>&#42;</span>
-                  </label>
+                  <div className={css.pwdLabelWrap}>
+                    <label className={css.inputLabel} htmlFor="password">
+                      Новий пароль{' '}
+                      <span className={css.requiredSymb}>&#42;</span>
+                    </label>
+                  </div>
 
                   <div className={css.pwdInput}>
                     <Field
                       id={`${id}-password`}
-                      type={type}
+                      type={types}
                       name="password"
                       className={clsx(
                         css.formInput,
@@ -168,28 +144,23 @@ export default function RegisterForm() {
                   )}
                 </div>
                 {showInfo && (
-                  <p className={css.additionalInfo}>
+                  <p className={css.info}>
                     Пароль має складатись з мін. 8 та макс. 30 символів, цифр і
                     спеціальних знаків
                   </p>
                 )}
 
-                <p className={css.privacyText}>
-                  Натискаючи &#x201C;Зареєструватись&#x201D; ви приймаєте
-                  Правила користування сайтом
-                </p>
                 <button
                   className={css.styledButton}
                   type="submit"
-                  disabled={
-                    !values.email ||
-                    !values.password ||
-                    !!errors.email ||
-                    !!errors.password
-                  }
+                  disabled={!(isValid && dirty)}
                 >
-                  Зареєструватись
+                  Готово
                 </button>
+
+                <Link to="/support" className={css.supportLink}>
+                  Потрібна допомога?
+                </Link>
               </Form>
             )}
           </Formik>
