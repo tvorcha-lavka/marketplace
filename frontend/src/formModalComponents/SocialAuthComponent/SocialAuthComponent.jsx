@@ -1,5 +1,6 @@
 import FacebookAuthBtn from '../FacebookAuthBtn/FacebookAuthBtn';
 import GoogleAuthBtn from '../GoogleAuthBtn/GoogleAuthBtn';
+
 import css from './SocialAuthComponent.module.css';
 
 export default function SocialAuthComponent() {

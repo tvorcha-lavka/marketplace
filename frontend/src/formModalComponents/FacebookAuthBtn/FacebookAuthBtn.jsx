@@ -1,6 +1,8 @@
 import { useDispatch } from 'react-redux';
-import { fetchFacebookAuthUrl } from '../../redux/auth/operations';
 import { FaFacebook } from 'react-icons/fa';
+
+import { fetchFacebookAuthUrl } from '../../redux/auth/operations';
+
 import css from './FacebookAuthBtn.module.css';
 
 export default function FacebookAuthBtn() {

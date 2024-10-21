@@ -1,22 +1,28 @@
 import { useId } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import clsx from 'clsx';
 import { Formik, Form, Field } from 'formik';
 import toast from 'react-hot-toast';
+import clsx from 'clsx';
+import { LuArrowLeft } from 'react-icons/lu';
+
+import Loader from '../Loader/Loader';
+import FormImgComponent from '../FormImgComponent/FormImgComponent';
+
 import { useModal } from '../../hooks/useModal';
 import { selectLoading } from '../../redux/auth/selectors';
 import { forgotPassword } from '../../redux/auth/operations';
-import Loader from '../Loader/Loader';
-import FormImgComponent from '../FormImgComponent/FormImgComponent';
 import { forgotPasswordSchema } from '../../utils/formSchema';
-import { LuArrowLeft } from 'react-icons/lu';
+import { handleSupportClick } from '../../utils/formUtils';
+
 import css from './ForgotPassword.module.css';
 
 export default function ForgotPassword() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const isLoading = useSelector(selectLoading);
-  const { openModal } = useModal();
+  const { openModal, closeModal } = useModal();
   const id = useId();
 
   const handleSubmit = async (values, actions) => {
@@ -86,7 +92,11 @@ export default function ForgotPassword() {
               </Form>
             )}
           </Formik>
-          <Link to="/support" className={css.supportLink}>
+          <Link
+            to="#"
+            onClick={() => handleSupportClick(closeModal, navigate)}
+            className={css.supportLink}
+          >
             Потрібна допомога?
           </Link>
         </div>

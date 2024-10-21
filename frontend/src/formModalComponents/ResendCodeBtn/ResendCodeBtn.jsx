@@ -1,9 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux';
+
 import { selectUserEmail } from '../../redux/auth/selectors';
 import {
   resendRegisterCode,
   forgotPassword,
 } from '../../redux/auth/operations';
+
 import css from './ResendCodeBtn.module.css';
 
 const ResendCodeBtn = ({ type }) => {

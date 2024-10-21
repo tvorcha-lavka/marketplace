@@ -1,6 +1,8 @@
 import { useDispatch } from 'react-redux';
-import { fetchGoogleAuthUrl } from '../../redux/auth/operations';
 import { FcGoogle } from 'react-icons/fc';
+
+import { fetchGoogleAuthUrl } from '../../redux/auth/operations';
+
 import css from './GoogleAuthBtn.module.css';
 
 export default function GoogleAuthBtn() {

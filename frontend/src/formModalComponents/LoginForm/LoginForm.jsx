@@ -1,17 +1,20 @@
 import { useState, useId } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { logIn } from '../../redux/auth/operations';
 import { Formik, Form, Field } from 'formik';
 import clsx from 'clsx';
-import { useModal } from '../../hooks/useModal';
-import { selectLoading } from '../../redux/auth/selectors';
+import { FiEye, FiEyeOff } from 'react-icons/fi';
+import { FaCheck } from 'react-icons/fa6';
+
 import Loader from '../Loader/Loader';
 import FormImgComponent from '../FormImgComponent/FormImgComponent';
 import SocialAuthComponent from '../SocialAuthComponent/SocialAuthComponent';
+
+import { logIn } from '../../redux/auth/operations';
+import { useModal } from '../../hooks/useModal';
+import { selectLoading } from '../../redux/auth/selectors';
 import { schema } from '../../utils/formSchema';
-import { FiEye, FiEyeOff } from 'react-icons/fi';
-import { FaCheck } from 'react-icons/fa6';
+
 import css from '../LoginForm/LoginForm.module.css';
 
 export default function LoginForm() {
