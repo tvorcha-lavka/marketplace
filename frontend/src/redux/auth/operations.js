@@ -1,15 +1,10 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { baseApiUrl } from '../axiosConfig.js';
-
-const saveTokensToStorage = (accessToken, refreshToken) => {
-  localStorage.setItem('accessToken', accessToken);
-  localStorage.setItem('refreshToken', refreshToken);
-};
-
-export const setAuthHeader = (token) => {
-  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-};
+import {
+  baseApiUrl,
+  saveTokensToStorage,
+  setAuthHeader,
+} from '../axiosConfig.js';
 
 export const register = createAsyncThunk(
   'auth/register',
@@ -73,21 +68,16 @@ export const logOut = createAsyncThunk(
       const reduxState = thunkAPI.getState();
       const persistedRefreshToken = reduxState.auth.refreshToken;
 
-      await axios.post(
-        `${baseApiUrl}/auth/logout/`,
-        {
-          refresh: persistedRefreshToken,
-        },
-        {
-          headers: {
-            Authorization: '',
-          },
-        }
-      );
+      await axios.post(`${baseApiUrl}/auth/logout/`, {
+        refresh: persistedRefreshToken,
+      });
 
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
+
       delete axios.defaults.headers.common.Authorization;
+
+      return true;
     } catch (e) {
       return thunkAPI.rejectWithValue(e.message);
     }
@@ -110,18 +100,26 @@ export const refreshUser = createAsyncThunk(
       return thunkAPI.rejectWithValue('Unable to fetch refresh user');
     }
 
-    const res = await axios.post(`${baseApiUrl}/auth/token/refresh/`, {
-      refresh: persistedRefreshToken,
-    });
-    const newAccessToken = res.data.access;
+    try {
+      const res = await axios.post(`${baseApiUrl}/auth/token/refresh/`, {
+        refresh: persistedRefreshToken,
+      });
+      const newAccessToken = res.data.access;
 
-    saveTokensToStorage(newAccessToken, persistedRefreshToken);
+      saveTokensToStorage(newAccessToken, persistedRefreshToken);
 
-    setAuthHeader(newAccessToken);
-    return {
-      accessToken: newAccessToken,
-      refreshToken: persistedRefreshToken,
-    };
+      setAuthHeader(newAccessToken);
+      return {
+        accessToken: newAccessToken,
+        refreshToken: persistedRefreshToken,
+      };
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        return thunkAPI.rejectWithValue('Refresh token is invalid.');
+      } else {
+        return thunkAPI.rejectWithValue('Error during token refresh.');
+      }
+    }
   },
   {
     condition(_, thunkAPI) {
@@ -188,6 +186,95 @@ export const resendRegisterCode = createAsyncThunk(
       return res.data;
     } catch (e) {
       return thunkAPI.rejectWithValue(e.response?.data || e.message);
+    }
+  }
+);
+
+export const fetchGoogleAuthUrl = createAsyncThunk(
+  'auth/fetchGoogleAuthUrl',
+  async (_, thunkAPI) => {
+    try {
+      const res = await axios.get(`${baseApiUrl}/auth/login/google/`);
+
+      return res.data.auth_url;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e.message);
+    }
+  }
+);
+
+export const logInWithGoogleComplete = createAsyncThunk(
+  'auth/logInWithGoogleComplete',
+  async ({ code, state }, thunkAPI) => {
+    try {
+      const res = await axios.post(
+        `${baseApiUrl}/auth/login/google/complete/`,
+        {
+          state,
+          code,
+        }
+      );
+
+      const accessToken = res.data.token.access;
+      const refreshToken = res.data.token.refresh;
+      const user = res.data.user;
+
+      saveTokensToStorage(accessToken, refreshToken);
+
+      setAuthHeader(accessToken);
+
+      return { user, accessToken, refreshToken };
+    } catch (e) {
+      console.error(
+        'Error logging in with Google:',
+        e.response?.data || e.message
+      );
+
+      return thunkAPI.rejectWithValue(e.response?.data?.message || e.message);
+    }
+  }
+);
+
+export const fetchFacebookAuthUrl = createAsyncThunk(
+  'auth/fetchFacebookAuthUrl',
+  async (_, thunkAPI) => {
+    try {
+      const res = await axios.get(`${baseApiUrl}/auth/login/facebook/`);
+
+      return res.data.auth_url;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e.message);
+    }
+  }
+);
+
+export const logInWithFacebookComplete = createAsyncThunk(
+  'auth/logInWithFacebookComplete',
+  async ({ code, state }, thunkAPI) => {
+    try {
+      const res = await axios.post(
+        `${baseApiUrl}/auth/login/facebook/complete/`,
+        {
+          state,
+          code,
+        }
+      );
+      const accessToken = res.data.token.access;
+      const refreshToken = res.data.token.refresh;
+      const user = res.data.user;
+
+      saveTokensToStorage(accessToken, refreshToken);
+
+      setAuthHeader(accessToken);
+
+      return { user, accessToken, refreshToken };
+    } catch (e) {
+      console.error(
+        'Error logging in with Facebook:',
+        e.response?.data || e.message
+      );
+
+      return thunkAPI.rejectWithValue(e.message);
     }
   }
 );
