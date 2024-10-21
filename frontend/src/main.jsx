@@ -1,16 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import 'modern-normalize';
 import { Provider } from 'react-redux';
 import { store, persistor } from './redux/store';
 import { BrowserRouter } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/integration/react';
 import { ThemeProvider } from '@mui/material/styles';
 import { ModalProvider } from './hooks/useModal';
+import { setupAxiosInterceptors } from './redux/axiosConfig.js';
 import App from './App.jsx';
-import theme from './styles/theme.js'; 
+import 'modern-normalize';
+import theme from './styles/theme.js';
 import GlobalStylesComponent from './styles/GlobalStyles';
 import './index.css';
+
+setupAxiosInterceptors();
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -28,4 +31,3 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     </Provider>
   </React.StrictMode>
 );
-
