@@ -2,19 +2,22 @@ import { useState, useId } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { register } from '../../redux/auth/operations';
 import { Formik, Form, Field } from 'formik';
-import clsx from 'clsx';
 import toast from 'react-hot-toast';
-import { useModal } from '../../hooks/useModal';
-import { selectLoading } from '../../redux/auth/selectors';
-import Loader from '../Loader/Loader';
-import FormImgComponent from '../../components/FormImgComponent/FormImgComponent';
+import clsx from 'clsx';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
+
+import Loader from '../Loader/Loader';
+import FormImgComponent from '../FormImgComponent/FormImgComponent';
 import SocialAuthComponent from '../SocialAuthComponent/SocialAuthComponent';
 import {
   PwdStrengthLength,
   getStrengthLabel,
 } from '../PwdStrengthLength/PwdStrengthLength';
+
+import { useModal } from '../../hooks/useModal';
+import { selectLoading } from '../../redux/auth/selectors';
 import { schema } from '../../utils/formSchema';
+
 import css from '../RegisterForm/RegisterForm.module.css';
 
 export default function RegisterForm() {

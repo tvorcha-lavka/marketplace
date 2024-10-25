@@ -1,9 +1,16 @@
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+
+import Loader from '../Loader/Loader';
+import FormImgComponent from '../FormImgComponent/FormImgComponent';
+
 import { useModal } from '../../hooks/useModal';
 import { selectLoading } from '../../redux/auth/selectors';
-import Loader from '../Loader/Loader';
-import FormImgComponent from '../../components/FormImgComponent/FormImgComponent';
+import {
+  getTitleConfirmation,
+  getDescriptionConfirmation,
+} from '../../utils/formUtils';
+
 import css from './ConfirmationModal.module.css';
 
 export default function ConfirmationModal({ type }) {
@@ -11,18 +18,6 @@ export default function ConfirmationModal({ type }) {
   const { closeModal } = useModal();
 
   const isLoading = useSelector(selectLoading);
-
-  const getTitle = () => {
-    return type === 'verification-register'
-      ? 'Реєстрацію завершено'
-      : 'Ваш пароль змінено';
-  };
-
-  const getDescription = () => {
-    return type === 'verification-register'
-      ? 'Тепер ви можете зайти на cвій акаунт використовуючи свої дані для входу'
-      : 'Тепер ви можете зайти на cвій акаунт використовуючи новий пароль';
-  };
 
   const handleSubmit = async () => {
     const accessToken = localStorage.getItem('accessToken');
@@ -50,8 +45,8 @@ export default function ConfirmationModal({ type }) {
         <Loader />
       ) : (
         <div className={css.pageContent}>
-          <h2 className={css.title}>{getTitle()}</h2>
-          <p className={css.additionalInfo}>{getDescription()}</p>
+          <h2 className={css.title}>{getTitleConfirmation(type)}</h2>
+          <p className={css.additionalInfo}>{getDescriptionConfirmation(type)}</p>
           <button
             type="button"
             onClick={handleSubmit}

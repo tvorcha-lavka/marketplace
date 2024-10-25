@@ -1,14 +1,12 @@
 import { useDispatch } from 'react-redux';
-import { useModal } from '../../hooks/useModal';
 import { logOut } from '../../redux/auth/operations';
 import css from './LogoutButton.module.css';
 
-const LogoutButton = () => {
+export default function LogoutButton() {
   const dispatch = useDispatch();
-  const { openModal } = useModal();
 
   const handleLogout = () => {
-    dispatch(logOut(openModal));
+    dispatch(logOut());
   };
 
   return (
@@ -16,6 +14,4 @@ const LogoutButton = () => {
       Logout
     </button>
   );
-};
-
-export default LogoutButton;
+}

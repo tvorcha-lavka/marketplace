@@ -1,23 +1,27 @@
 import { useState, useId } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
 import clsx from 'clsx';
+import { FiEye, FiEyeOff } from 'react-icons/fi';
+
+import Loader from '../Loader/Loader';
+import FormImgComponent from '../FormImgComponent/FormImgComponent';
+
 import { useModal } from '../../hooks/useModal';
 import { resetPassword } from '../../redux/auth/operations';
 import {
   selectLoading,
-  selectUser,
+  selectUserEmail,
   selectVerificationCode,
 } from '../../redux/auth/selectors';
-import Loader from '../Loader/Loader';
-import FormImgComponent from '../../components/FormImgComponent/FormImgComponent';
 import {
   PwdStrengthLength,
   getStrengthLabel,
 } from '../PwdStrengthLength/PwdStrengthLength';
 import { passwordSchema } from '../../utils/formSchema';
-import { FiEye, FiEyeOff } from 'react-icons/fi';
+import { handleSupportClick } from '../../utils/formUtils';
+
 import css from './ChangePwdModal.module.css';
 
 export default function ChangePwdModal() {
@@ -27,11 +31,13 @@ export default function ChangePwdModal() {
   const [showInfo, setShowInfo] = useState(false);
 
   const isLoading = useSelector(selectLoading);
-  const email = useSelector(selectUser);
+  const email = useSelector(selectUserEmail);
   const verificationCode = useSelector(selectVerificationCode);
-  const { openModal } = useModal();
+  const { openModal, closeModal } = useModal();
   const id = useId();
+
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const togglePassInput = () => {
     setType(showPassword ? 'text' : 'password');
@@ -157,7 +163,11 @@ export default function ChangePwdModal() {
                   Готово
                 </button>
 
-                <Link to="/support" className={css.supportLink}>
+                <Link
+                  to="#"
+                  onClick={() => handleSupportClick(closeModal, navigate)}
+                  className={css.supportLink}
+                >
                   Потрібна допомога?
                 </Link>
               </Form>

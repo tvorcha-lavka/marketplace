@@ -1,6 +1,8 @@
+import { RxCross2 } from 'react-icons/rx';
+
 import { useModal } from '../../hooks/useModal';
 import { useClickOutsideAndEsc } from '../../hooks/useClickOutsideAndEsc';
-import { RxCross2 } from 'react-icons/rx';
+
 import css from './ModalWrapper.module.css';
 
 const ModalWrapper = ({ children }) => {

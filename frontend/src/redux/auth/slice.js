@@ -9,6 +9,10 @@ import {
   verifyCode,
   resetPassword,
   resendRegisterCode,
+  fetchGoogleAuthUrl,
+  logInWithGoogleComplete,
+  fetchFacebookAuthUrl,
+  logInWithFacebookComplete,
 } from './operations';
 
 const handlePending = (state) => {
@@ -17,11 +21,20 @@ const handlePending = (state) => {
 };
 
 const handleFulfilled = (state, action) => {
-  state.user = action.payload.email;
+  state.user = action.payload;
+  state.isRefreshing = false;
+  state.isLoggedOut = true;
+  state.isLoggedIn = false;
+  state.loading = false;
+  state.error = false;
+};
+
+const handleFulfilledAuth = (state, action) => {
+  state.user = action.payload;
   state.accessToken = action.payload.accessToken;
   state.refreshToken = action.payload.refreshToken;
-  console.log('Updated access token:', state.accessToken);
-  console.log('Updated refresh token:', state.refreshToken);
+  state.isRefreshing = false;
+  state.isLoggedOut = false;
   state.isLoggedIn = true;
   state.loading = false;
   state.error = false;
@@ -38,12 +51,13 @@ const authSlice = createSlice({
     user: {
       email: null,
       password: null,
-      code: null,
       remember_me: false,
     },
+    code: null,
     accessToken: null,
     refreshToken: null,
     isLoggedIn: false,
+    isLoggedOut: false,
     isRefreshing: false,
     loading: false,
     error: false,
@@ -51,6 +65,13 @@ const authSlice = createSlice({
   reducers: {
     setVerificationCode: (state, action) => {
       state.code = action.payload;
+    },
+    updateTokens: (state, action) => {
+      state.accessToken = action.payload.accessToken;
+      state.refreshToken = action.payload.refreshToken;
+    },
+    setRefreshing: (state, action) => {
+      state.isRefreshing = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -60,11 +81,11 @@ const authSlice = createSlice({
       .addCase(register.rejected, handleRejected)
 
       .addCase(registerComplete.pending, handlePending)
-      .addCase(registerComplete.fulfilled, handleFulfilled)
+      .addCase(registerComplete.fulfilled, handleFulfilledAuth)
       .addCase(registerComplete.rejected, handleRejected)
 
       .addCase(logIn.pending, handlePending)
-      .addCase(logIn.fulfilled, handleFulfilled)
+      .addCase(logIn.fulfilled, handleFulfilledAuth)
       .addCase(logIn.rejected, handleRejected)
 
       .addCase(logOut.pending, handlePending)
@@ -73,6 +94,7 @@ const authSlice = createSlice({
         state.accessToken = null;
         state.refreshToken = null;
         state.isRefreshing = false;
+        state.isLoggedOut = true;
         state.isLoggedIn = false;
         state.loading = false;
         state.error = false;
@@ -84,11 +106,7 @@ const authSlice = createSlice({
         state.loading = true;
         state.error = false;
       })
-			.addCase(refreshUser.fulfilled, (state, action) => {
-				state.isRefreshing = false; 
-        console.log('Refresh successful:', action.payload);
-        handleFulfilled(state, action);
-      })
+      .addCase(refreshUser.fulfilled, handleFulfilledAuth)
       .addCase(refreshUser.rejected, handleRejected)
 
       .addCase(forgotPassword.pending, handlePending)
@@ -101,6 +119,7 @@ const authSlice = createSlice({
 
       .addCase(resetPassword.pending, handlePending)
       .addCase(resetPassword.fulfilled, (state) => {
+        state.code = null;
         state.loading = false;
         state.error = false;
       })
@@ -108,9 +127,26 @@ const authSlice = createSlice({
 
       .addCase(resendRegisterCode.pending, handlePending)
       .addCase(resendRegisterCode.fulfilled, handleFulfilled)
-      .addCase(resendRegisterCode.rejected, handleRejected);
+      .addCase(resendRegisterCode.rejected, handleRejected)
+
+      .addCase(fetchGoogleAuthUrl.pending, handlePending)
+      .addCase(fetchGoogleAuthUrl.fulfilled, handleFulfilled)
+      .addCase(fetchGoogleAuthUrl.rejected, handleRejected)
+
+      .addCase(logInWithGoogleComplete.pending, handlePending)
+      .addCase(logInWithGoogleComplete.fulfilled, handleFulfilledAuth)
+      .addCase(logInWithGoogleComplete.rejected, handleRejected)
+
+      .addCase(fetchFacebookAuthUrl.pending, handlePending)
+      .addCase(fetchFacebookAuthUrl.fulfilled, handleFulfilled)
+      .addCase(fetchFacebookAuthUrl.rejected, handleRejected)
+
+      .addCase(logInWithFacebookComplete.pending, handlePending)
+      .addCase(logInWithFacebookComplete.fulfilled, handleFulfilledAuth)
+      .addCase(logInWithFacebookComplete.rejected, handleRejected);
   },
 });
 
-export const { setVerificationCode } = authSlice.actions;
+export const { setVerificationCode, updateTokens, setRefreshing } =
+  authSlice.actions;
 export const authReducer = authSlice.reducer;
