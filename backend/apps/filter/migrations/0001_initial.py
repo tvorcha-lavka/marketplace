@@ -18,6 +18,7 @@ class Migration(migrations.Migration):
             fields=[
                 ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
                 ("slug", models.SlugField(blank=True, unique=True, verbose_name="slug")),
+                ("required", models.BooleanField(default=False, verbose_name="required")),
             ],
             options={
                 "verbose_name": "filter type",

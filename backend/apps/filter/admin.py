@@ -94,7 +94,7 @@ class FilterGroupAdmin(TranslatableAdmin):
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
-        return qs.select_related("filter_type").prefetch_related("translations")
+        return qs.select_related("filter_type").prefetch_related("translations", "filter_values__translations")
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         kwargs = formfield_for_filter_type_foreignkey(db_field, request, **kwargs)
@@ -111,5 +111,5 @@ class FilterGroupAdmin(TranslatableAdmin):
             )
         )
 
-        kwargs.update({"queryset": filter_value_qs}) if db_field.name == "filter_value" else None
+        kwargs.update({"queryset": filter_value_qs}) if db_field.name == "filter_values" else None
         return super().formfield_for_manytomany(db_field, request, **kwargs)

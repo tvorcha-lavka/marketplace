@@ -17,7 +17,7 @@ class FilterValueForm(TranslatableModelForm):
 class FilterTypeForm(TranslatableModelForm):
     class Meta:
         model = FilterType
-        fields = ("name", "slug")
+        fields = ("name", "slug", "required")
 
 
 class FilterGroupForm(TranslatableModelForm):

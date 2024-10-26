@@ -12,6 +12,7 @@ class FilterType(AutoTranslatableModel):
         verbose_name_plural = _("filter types")
 
     translations = TranslatedFields(name=models.CharField(_("name"), max_length=50))
+    required = models.BooleanField(_("required"), default=False)
 
     def field_for_slug(self) -> str:
         return "name"
@@ -47,6 +48,9 @@ class FilterGroup(AutoTranslatableModel):
     translations = TranslatedFields(name=models.CharField(_("name"), max_length=50))
     filter_type = models.ForeignKey(FilterType, models.CASCADE, verbose_name=_("filter type"))
     filter_values = models.ManyToManyField(FilterValue, verbose_name=_("filter values"))
+
+    def __str__(self):
+        return f"{self.name} ({', '.join(i.value for i in self.filter_values.all())})"  # type: ignore
 
     def field_for_slug(self) -> str:
         return "name"
