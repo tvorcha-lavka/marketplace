@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "django_celery_beat",
     "mptt",
     "parler",
+    "storages",
     # --- Apps -----------
     "apps.utils",
     "apps.user",
@@ -87,6 +88,7 @@ DATABASES = {
         "PORT": os.getenv("POSTGRES_PORT"),
     }
 }
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Redis
 # https://docs.djangoproject.com/en/5.0/topics/cache/#redis
@@ -192,10 +194,24 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "apps/admin/static"),
 ]
 
-MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+# AWS configuration
+AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
 
-DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+# Basic storage configuration for AWS S3 (media only)
+AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME")
+AWS_S3_CUSTOM_DOMAIN = os.getenv("AWS_S3_CUSTOM_DOMAIN")
+AWS_S3_REGION_NAME = os.getenv("AWS_S3_REGION_NAME")
+
+# Configuration for storages in Django 5.0
+STORAGES = {
+    "default": {
+        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
+}
 
 
 # Django Rest Framework
