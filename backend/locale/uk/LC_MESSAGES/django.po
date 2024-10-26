@@ -351,6 +351,12 @@ msgstr "Код дійсний."
 msgid "Password has been changed successfully."
 msgstr "Пароль успішно змінено."
 
-#: .\apps\utils\helpers\translations.py:15
-msgid "slug"
-msgstr "унікальний ідентифікатор"
+#: .\apps\utils\image\validators.py:29
+#, python-format
+msgid "Image file too large (max: %s Mb)"
+msgstr "Файл зображення занадто великий (макс.: %s Mb)"
+
+#: .\apps\utils\image\validators.py:38
+#, python-format
+msgid "Image resolution is too high (max: %sx%s)"
+msgstr "Роздільна здатність зображення занадто висока (макс.: %sx%s)"

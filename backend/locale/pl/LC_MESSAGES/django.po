@@ -346,6 +346,12 @@ msgstr "Kod jest ważny."
 msgid "Password has been changed successfully."
 msgstr "Hasło zostało pomyślnie zmienione."
 
-#: .\apps\utils\helpers\translations.py:15
-msgid "slug"
-msgstr "unikalny identyfikator"
+#: .\apps\utils\image\validators.py:29
+#, python-format
+msgid "Image file too large (max: %s Mb)"
+msgstr "Zbyt duży plik obrazu (maks.: %s Mb)"
+
+#: .\apps\utils\image\validators.py:38
+#, python-format
+msgid "Image resolution is too high (max: %sx%s)"
+msgstr "Rozdzielczość obrazu jest zbyt wysoka (maks.: %sx%s)"
