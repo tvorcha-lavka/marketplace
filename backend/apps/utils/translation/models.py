@@ -1,3 +1,5 @@
+import time
+
 from deep_translator import DeeplTranslator
 from django.conf import settings
 from django.db import models, transaction
@@ -22,7 +24,7 @@ class AutoTranslatableModel(TranslatableModel):
         self.generate_slug()
 
         super().save(*args, **kwargs)
-        transaction.on_commit(lambda: self.add_translate_task()) if is_new_obj else None
+        transaction.on_commit(self.add_translate_task) if is_new_obj else None
 
     def field_for_slug(self) -> str:
         """The method to get the field name, needs to be overridden in the child classes."""
@@ -36,7 +38,7 @@ class AutoTranslatableModel(TranslatableModel):
     def add_translate_task(self):
         """Starts the celery task to translate each field in translatable_fields."""
         translate_fields_task.apply_async(
-            args=(self._meta.label, self.pk),  # type: ignore
+            args=(self._meta.label, self.pk, self.language_code),  # type: ignore
             queue="high_priority",
             priority=10,
         )
@@ -56,4 +58,16 @@ class AutoTranslatableModel(TranslatableModel):
     def translate(self, value: str, target_language: str = "en") -> str:
         """Translate a value to a target language and return the translated value."""
         translator = DeeplTranslator(source=self.language_code, target=target_language)
-        return translator.translate(value)
+        max_retries = 5
+
+        for attempt in range(max_retries):
+            try:
+                return translator.translate(value)
+            except ConnectionError:
+                time.sleep(1)
+
+        raise ConnectionError(
+            "Unsuccessful translation for class (%s). Instance id: (%s). Language code: (%s). "
+            "Failed to connect to the translation service after several attempts."
+            % (self.__class__.__name__, self.pk, target_language)
+        )
