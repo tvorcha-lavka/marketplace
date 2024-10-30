@@ -116,3 +116,20 @@ class TestAutoTranslatableModel:
 
         # Check that the `translate` method has tried to translate message 5 times
         assert mock_translate.call_count == 5
+
+    def test_list_formatting(self, mocker):
+        # Creating linked models
+        model_1 = DummyModel(name="Test Model 1")
+        model_2 = DummyModel(name="Test Model 2")
+        model_3 = DummyModel(name="Test Model 3")
+
+        # Mock the `values` field in the instance
+        mock_values = mocker.patch.object(DummyModel, "values")
+        mock_values.all.return_value = [model_1, model_2, model_3]
+
+        # Call `list_formatting` method
+        result = self.instance.list_formatting(field="name", related_field="values")
+
+        # Check the result
+        expected_result = "Test Model 1, Test Model 2, Test Model 3"
+        assert result == expected_result
