@@ -1,11 +1,14 @@
 import { Link } from 'react-router-dom';
 
-import styles from './Logo.module.css';
-
-export default function Logo() {
+export default function Logo({ isFooter }) {
   return (
     <Link to="/">
-      <img width="101px" height="44px" src="/images/logo.png" />
+      <img
+        width="101px"
+        height="44px"
+        src={isFooter ? '/images/logo_dark.png' : '/images/logo.png'}
+        alt="Logotype"
+      />
     </Link>
   );
 }
