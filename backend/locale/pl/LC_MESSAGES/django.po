@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-27 02:18+0300\n"
+"POT-Creation-Date: 2024-10-30 04:01+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -43,7 +43,7 @@ msgid "Categories"
 msgstr "Kategorie"
 
 #: .\apps\category\models.py:25 .\apps\filter\models.py:14
-#: .\apps\filter\models.py:48
+#: .\apps\filter\models.py:51 .\apps\filter\models.py:69
 msgid "name"
 msgstr "nazwa"
 
@@ -218,8 +218,32 @@ msgstr "Jeśli nie wysłałeś prośby o zmianę hasła, zignoruj tę wiadomoś�
 msgid "Email already verified."
 msgstr "Twój adres e-mail został już potwierdzony."
 
+#: .\apps\filter\admin.py:148 .\apps\filter\admin.py:216
+msgid "Filter type"
+msgstr "Typ filtra"
+
+#: .\apps\filter\admin.py:175
+msgid "Filter type name"
+msgstr "Nazwa typu filtra"
+
+#: .\apps\filter\admin.py:179 .\apps\filter\admin.py:225
+msgid "Filter values"
+msgstr "Wartości filtra"
+
+#: .\apps\filter\admin.py:212
+msgid "Group name"
+msgstr "Nazwa grupy"
+
+#: .\apps\filter\admin.py:252
+msgid "Group set"
+msgstr "Zestaw grupowy"
+
+#: .\apps\filter\admin.py:256
+msgid "Groups"
+msgstr "Grupy"
+
 #: .\apps\filter\models.py:11 .\apps\filter\models.py:33
-#: .\apps\filter\models.py:49
+#: .\apps\filter\models.py:52
 msgid "filter type"
 msgstr "typ filtra"
 
@@ -235,7 +259,7 @@ msgstr "obowiązkowy"
 msgid "filter value"
 msgstr "wartość filtra"
 
-#: .\apps\filter\models.py:25 .\apps\filter\models.py:50
+#: .\apps\filter\models.py:25 .\apps\filter\models.py:53
 msgid "filter values"
 msgstr "wartości filtra"
 
@@ -251,13 +275,21 @@ msgstr "opis"
 msgid "metadata"
 msgstr "metadane"
 
-#: .\apps\filter\models.py:45
+#: .\apps\filter\models.py:48
 msgid "filter group"
-msgstr "grupę filtrów"
+msgstr "grupa filtrów"
 
-#: .\apps\filter\models.py:46
+#: .\apps\filter\models.py:49 .\apps\filter\models.py:70
 msgid "filter groups"
 msgstr "grupy filtrów"
+
+#: .\apps\filter\models.py:66
+msgid "filter group set"
+msgstr "zestaw grup filtrów"
+
+#: .\apps\filter\models.py:67
+msgid "filter group sets"
+msgstr "zestawy grup filtrów"
 
 #: .\apps\user\models.py:17
 msgid "User"
@@ -355,10 +387,6 @@ msgstr "Kod jest ważny."
 msgid "Password has been changed successfully."
 msgstr "Hasło zostało pomyślnie zmienione."
 
-#: .\apps\utils\translation\models.py:15
-msgid "slug"
-msgstr "unikalny identyfikator"
-
 #: .\apps\utils\image\validators.py:29
 #, python-format
 msgid "Image file too large (max: %s Mb)"
@@ -368,3 +396,7 @@ msgstr "Zbyt duży plik obrazu (maks.: %s Mb)"
 #, python-format
 msgid "Image resolution is too high (max: %sx%s)"
 msgstr "Rozdzielczość obrazu jest zbyt wysoka (maks.: %sx%s)"
+
+#: .\apps\utils\translation\models.py:17
+msgid "slug"
+msgstr "unikalny identyfikator"

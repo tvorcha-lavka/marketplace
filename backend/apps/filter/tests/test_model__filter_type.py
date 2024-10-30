@@ -4,7 +4,6 @@ from apps.filter.models import FilterType
 
 
 class TestFilterType:
-
     @pytest.fixture(autouse=True)
     def setup(self):
         self.filter_type = FilterType(name="Test Filter Type")

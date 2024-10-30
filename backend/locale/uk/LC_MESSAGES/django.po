@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-27 02:13+0300\n"
+"POT-Creation-Date: 2024-10-30 04:00+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -44,7 +44,7 @@ msgid "Categories"
 msgstr "Категорії"
 
 #: .\apps\category\models.py:25 .\apps\filter\models.py:14
-#: .\apps\filter\models.py:48
+#: .\apps\filter\models.py:51 .\apps\filter\models.py:69
 msgid "name"
 msgstr "ім'я"
 
@@ -219,8 +219,32 @@ msgstr "Якщо ви не надсилали запит на зміну пар�
 msgid "Email already verified."
 msgstr "Електронну пошту вже підтверджено."
 
+#: .\apps\filter\admin.py:148 .\apps\filter\admin.py:216
+msgid "Filter type"
+msgstr "Тип фільтра"
+
+#: .\apps\filter\admin.py:175
+msgid "Filter type name"
+msgstr "Назва типу фільтра"
+
+#: .\apps\filter\admin.py:179 .\apps\filter\admin.py:225
+msgid "Filter values"
+msgstr "Значення фільтрів"
+
+#: .\apps\filter\admin.py:212
+msgid "Group name"
+msgstr "Назва групи"
+
+#: .\apps\filter\admin.py:252
+msgid "Group set"
+msgstr "Набір груп"
+
+#: .\apps\filter\admin.py:256
+msgid "Groups"
+msgstr "Групи"
+
 #: .\apps\filter\models.py:11 .\apps\filter\models.py:33
-#: .\apps\filter\models.py:49
+#: .\apps\filter\models.py:52
 msgid "filter type"
 msgstr "тип фільтру"
 
@@ -236,7 +260,7 @@ msgstr "обов'язковий"
 msgid "filter value"
 msgstr "значення фільтру"
 
-#: .\apps\filter\models.py:25 .\apps\filter\models.py:50
+#: .\apps\filter\models.py:25 .\apps\filter\models.py:53
 msgid "filter values"
 msgstr "значення фільтрів"
 
@@ -252,13 +276,21 @@ msgstr "опис"
 msgid "metadata"
 msgstr "метадані"
 
-#: .\apps\filter\models.py:45
+#: .\apps\filter\models.py:48
 msgid "filter group"
-msgstr "групу фільтрів"
+msgstr "група фільтрів"
 
-#: .\apps\filter\models.py:46
+#: .\apps\filter\models.py:49 .\apps\filter\models.py:70
 msgid "filter groups"
 msgstr "групи фільтрів"
+
+#: .\apps\filter\models.py:66
+msgid "filter group set"
+msgstr "набір груп фільтрів"
+
+#: .\apps\filter\models.py:67
+msgid "filter group sets"
+msgstr "набори груп фільтрів"
 
 #: .\apps\user\models.py:17
 msgid "User"
@@ -357,10 +389,6 @@ msgstr "Код дійсний."
 msgid "Password has been changed successfully."
 msgstr "Пароль успішно змінено."
 
-#: .\apps\utils\translation\models.py:15
-msgid "slug"
-msgstr "унікальний ідентифікатор"
-
 #: .\apps\utils\image\validators.py:29
 #, python-format
 msgid "Image file too large (max: %s Mb)"
@@ -370,3 +398,7 @@ msgstr "Файл зображення занадто великий (макс.: 
 #, python-format
 msgid "Image resolution is too high (max: %sx%s)"
 msgstr "Роздільна здатність зображення занадто висока (макс.: %sx%s)"
+
+#: .\apps\utils\translation\models.py:17
+msgid "slug"
+msgstr "унікальний ідентифікатор"

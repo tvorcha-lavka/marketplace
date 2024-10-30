@@ -1,7 +1,7 @@
 from django import forms
 from parler.forms import TranslatableModelForm
 
-from apps.filter.models import FilterGroup, FilterType, FilterValue
+from apps.filter.models import FilterGroup, FilterGroupSet, FilterType, FilterValue
 
 
 class FilterValueForm(TranslatableModelForm):
@@ -24,3 +24,9 @@ class FilterGroupForm(TranslatableModelForm):
     class Meta:
         model = FilterGroup
         fields = ("name", "filter_type", "filter_values", "slug")
+
+
+class FilterGroupSetForm(TranslatableModelForm):
+    class Meta:
+        model = FilterGroupSet
+        fields = ("name", "groups", "slug")
