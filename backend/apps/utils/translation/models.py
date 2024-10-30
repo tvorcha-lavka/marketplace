@@ -17,7 +17,7 @@ class AutoTranslatableModel(TranslatableModel):
     slug = models.SlugField(_("slug"), max_length=50, unique=True, blank=True)
 
     def __str__(self):
-        return getattr(self, self.field_for_slug())
+        return self.safe_translation_getter(self.field_for_slug(), "-", self.language_code)
 
     def save(self, *args, **kwargs):
         is_new_obj = self.pk is None
@@ -71,3 +71,29 @@ class AutoTranslatableModel(TranslatableModel):
             "Failed to connect to the translation service after several attempts."
             % (self.__class__.__name__, self.pk, target_language)
         )
+
+    def list_formatting(self, *, field: str, related_field: str, sep: str = ", ") -> str:
+        """
+        Formats a list of related object fields into a single string.
+
+        This method retrieves the values of a specified field from all related
+        objects and joins them into a single string, separated by a specified
+        separator.
+
+        If a related object doesn't have a translation for the
+        specified field, a default value of "-" is used.
+
+        Parameters:
+            field (str): The name of the field from the related objects to be retrieved.
+            related_field (str): The name of the related field containing the related objects.
+            sep (str): The string used to separate the values in the resulting string.
+
+        Returns:
+            str: A single string of concatenated values from the specified field of
+            related objects, separated by the specified separator.
+        """
+        obj_list = [
+            obj.safe_translation_getter(field, default="-", language_code=self.language_code)
+            for obj in getattr(self, related_field).all()
+        ]
+        return sep.join(obj_list)
