@@ -1,6 +1,38 @@
+from django.conf import settings
 from rest_framework import serializers
 
-from .models import Category, TitlePosition
+from .models import Card, CardImage, Category, CategoryImage
+
+
+class CategoryImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CategoryImage
+        fields = ["url", "alt"]
+
+    url = serializers.URLField(
+        source="absolute_url",
+        default=Meta.model().absolute_url + "category/category-name/image.jpeg",
+    )
+
+
+class CardImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CardImage
+        fields = ["url", "alt", "size", "x_axis", "y_axis"]
+
+    url = serializers.URLField(
+        source="absolute_url",
+        default=Meta.model().absolute_url + "category/category-name/card/card.png",
+    )
+
+
+class CardSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Card
+        fields = ["orientation", "title_position", "text_wrap", "bg_color", "image"]
+
+    image = CardImageSerializer(source="card_image")
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -8,20 +40,16 @@ class CategorySerializer(serializers.ModelSerializer):
         model = Category
         # fmt: off
         fields = [
-            "id", "name", "title", "title_pos", "score", "parent_id",
-            "order", "lft", "rght", "level", "active", "href", "image",
+            "id", "active", "name", "title", "popularity_score", "parent_id",
+            "order", "lft", "rght", "level", "url", "image", "card",
         ]
         # fmt: on
 
-    title = serializers.SerializerMethodField()
-    title_pos = serializers.ChoiceField(source="get_image_title_position", choices=TitlePosition)
-    href = serializers.URLField(source="absolute_url")
-    score = serializers.FloatField(source="get_popularity_score")
-
-    def get_title(self, obj):
-        request = self.context.get("request")
-        language = request.GET.get("lang", None)  # if lang in query params
-        return obj.get_translated_title(language) if language else obj.title
+    card = CardSerializer(source="category_card")
+    image = CategoryImageSerializer(source="category_image")
+    name = serializers.SlugField(source="slug", default="category-name")
+    popularity_score = serializers.FloatField(source="category_statistics.popularity_score", default=0)
+    url = serializers.URLField(source="absolute_url", default=settings.BASE_FRONTEND_URL + "/category-name")
 
 
 class CategoryDetailSerializer(CategorySerializer):

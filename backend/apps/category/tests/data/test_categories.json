@@ -1,12 +1,12 @@
 [
   {
-    "name": "ukrainian-craft",
+    "slug": "ukrainian-craft",
     "title": "Українське ремесло",
     "order": 1,
     "active": true,
     "children": [
       {
-        "name": "pottery",
+        "slug": "pottery",
         "title": "Гончарство",
         "order": 1,
         "active": true,

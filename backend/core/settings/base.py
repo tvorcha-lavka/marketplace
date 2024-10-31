@@ -152,7 +152,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTH_USER_MODEL = "user.User"
 
-LANGUAGE_CODE = "uk"
+LANGUAGE_CODE = "en"
 
 LANGUAGES = [
     ("uk", "Ukrainian"),
@@ -169,6 +169,7 @@ PARLER_LANGUAGES = {
         {"code": "pl"},
     ),
     "default": {
+        "code": "uk",
         "fallbacks": ["en"],
         "hide_untranslated": False,
     },

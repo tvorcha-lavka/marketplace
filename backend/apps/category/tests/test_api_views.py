@@ -83,7 +83,7 @@ class TestCategory:
         for lang, response in responses.items():
             assert response.status_code == test_case.expected_status
             assert isinstance(response.data, dict)
-            assert response.data.get("title") == category.get_translated_title(lang)
+            assert response.data.get("title") == category.safe_translation_getter("title", language_code=lang)
 
     @pytest.mark.parametrize("test_case", update_views_count_test_cases)
     def test_update_views_count(self, test_case: V_TestCase):

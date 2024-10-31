@@ -3,9 +3,9 @@ import json
 import sys
 from pathlib import Path
 
-from django.core.cache import cache
 from django.core.management.base import BaseCommand
 from django.db import transaction
+from django.utils.translation import activate
 
 from apps.category.models import Category
 
@@ -29,7 +29,8 @@ class Command(BaseCommand):
         parser.add_argument("--file", type=str, help=help_message)
 
     def handle(self, *args, **kwargs):
-        cache.clear()
+        activate("uk")
+
         # Step 1: Extract list of categories
         file_path = kwargs.get("file")
         categories = self.extract_categories_form_json(file_path)
@@ -52,9 +53,9 @@ class Command(BaseCommand):
             category["parent"] = parent
             children_categories = category.pop("children", [])
 
-            # Step 1: Create or Update a category by its href
-            href = f"{parent.href}/{category.get('name')}" if parent else f"/{category.get('name')}"
-            category_obj, created = self.model.objects.update_or_create(href=href, defaults=category)
+            # Step 1: Create or Update a category by its url
+            url = f"{parent.url}/{category.get('slug')}" if parent else f"/{category.get('slug')}"
+            category_obj, created = self.model.objects.update_or_create(url=url, defaults=category)
 
             # Step 2: Writing progress to the console
             self.print_progress()
