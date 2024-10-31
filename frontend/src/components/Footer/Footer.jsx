@@ -1,15 +1,15 @@
 import { Link } from 'react-router-dom';
 
-import { footerLinks } from './footerLinks.js';
 import Logo from '../Logo/Logo';
+import { footerLinks } from './footerLinks.js';
 
 import styles from './Footer.module.css';
 
 export default function Footer() {
   return (
-    <section className={styles.section}>
+    <footer className={styles.section}>
       <div className={styles.container}>
-        <Logo />
+        <Logo isFooter={true} />
         <div className={styles.wrapper}>
           {footerLinks.map(({ title, links }) => (
             <div key={title} className={styles.wrapperList}>
@@ -17,7 +17,9 @@ export default function Footer() {
               <ul className={styles.list}>
                 {links.map(({ text, url }) => (
                   <li key={text} className={styles.item}>
-                    <Link to={url}>{text}</Link>
+                    <Link to={url} className={styles.link}>
+                      {text}
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -25,6 +27,6 @@ export default function Footer() {
           ))}
         </div>
       </div>
-    </section>
+    </footer>
   );
 }
