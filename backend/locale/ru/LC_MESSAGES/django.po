@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-13 03:52+0300\n"
+"POT-Creation-Date: 2024-10-30 04:00+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,96 +30,96 @@ msgstr ""
 "Чем меньше число, тем выше категория в списке.\n"
 "Сортировка происходит по порядку [order] и древовидному уровню [level]."
 
-#: .\apps\category\admin.py:60 .\apps\category\models.py:23
+#: .\apps\category\admin.py:58 .\apps\category\models.py:21
 msgid "Category"
 msgstr "Категория"
 
-#: .\apps\category\admin.py:65
+#: .\apps\category\admin.py:63
 msgid "Parent"
 msgstr "Родительская категория"
 
-#: .\apps\category\models.py:24
+#: .\apps\category\models.py:22
 msgid "Categories"
 msgstr "Категории"
 
-#: .\apps\category\models.py:27 .\apps\filter\models.py:14
-#: .\apps\filter\models.py:47
+#: .\apps\category\models.py:25 .\apps\filter\models.py:14
+#: .\apps\filter\models.py:51 .\apps\filter\models.py:69
 msgid "name"
 msgstr "имя"
 
-#: .\apps\category\models.py:28
+#: .\apps\category\models.py:26
 msgid "href"
 msgstr "ссылка"
 
-#: .\apps\category\models.py:29
+#: .\apps\category\models.py:27
 msgid "order"
 msgstr "порядок"
 
-#: .\apps\category\models.py:30
+#: .\apps\category\models.py:28
 msgid "active"
 msgstr "активная"
 
-#: .\apps\category\models.py:33
+#: .\apps\category\models.py:31
 msgid "title"
 msgstr "название"
 
-#: .\apps\category\models.py:125
+#: .\apps\category\models.py:122
 msgid "top left"
 msgstr "верхний левый угол"
 
-#: .\apps\category\models.py:126
+#: .\apps\category\models.py:123
 msgid "top right"
 msgstr "верхний правый угол"
 
-#: .\apps\category\models.py:127
+#: .\apps\category\models.py:124
 msgid "top middle"
 msgstr "сверху посередине"
 
-#: .\apps\category\models.py:128
+#: .\apps\category\models.py:125
 msgid "bottom left"
 msgstr "нижний левый угол"
 
-#: .\apps\category\models.py:129
+#: .\apps\category\models.py:126
 msgid "bottom right"
 msgstr "нижний правый угол"
 
-#: .\apps\category\models.py:130
+#: .\apps\category\models.py:127
 msgid "bottom middle"
 msgstr "снизу посередине"
 
-#: .\apps\category\models.py:136
+#: .\apps\category\models.py:133
 msgid "Category Image"
 msgstr "Изображение Категории"
 
-#: .\apps\category\models.py:137
+#: .\apps\category\models.py:134
 msgid "Category Images"
 msgstr "Изображения Категорий"
 
-#: .\apps\category\models.py:139
+#: .\apps\category\models.py:136
 msgid "image"
 msgstr "изображение"
 
-#: .\apps\category\models.py:141
+#: .\apps\category\models.py:138
 msgid "title position"
 msgstr "позиция названия"
 
-#: .\apps\category\models.py:153
+#: .\apps\category\models.py:150
 msgid "Category Statistic"
 msgstr "Статистика для категории"
 
-#: .\apps\category\models.py:154
+#: .\apps\category\models.py:151
 msgid "Category Statistics"
 msgstr "Статистика для категорий"
 
-#: .\apps\category\models.py:156
+#: .\apps\category\models.py:153
 msgid "views count"
 msgstr "количество просмотров"
 
-#: .\apps\category\models.py:157
+#: .\apps\category\models.py:154
 msgid "purchases count"
 msgstr "количество покупок"
 
-#: .\apps\category\models.py:158
+#: .\apps\category\models.py:155
 msgid "popularity score"
 msgstr "оценка популярности"
 
@@ -146,7 +146,8 @@ msgstr ""
 
 #: .\apps\email\tasks.py:21
 msgid "Please check your email to verify your account."
-msgstr "Пожалуйста, проверьте свою электронную почту для подтверждения аккаунта."
+msgstr ""
+"Пожалуйста, проверьте свою электронную почту для подтверждения аккаунта."
 
 #: .\apps\email\tasks.py:36 .\apps\email\templates\reset_password.html:7
 msgid "Password change confirmation"
@@ -190,11 +191,14 @@ msgstr "Срок действия кода - %(expire_in)s мин."
 
 #: .\apps\email\templates\email_verification.html:20
 msgid "Please enter this code on the website to confirm your email address."
-msgstr "Пожалуйста, введите этот код на сайте, чтобы подтвердить свою электронную почту."
+msgstr ""
+"Пожалуйста, введите этот код на сайте, чтобы подтвердить свою электронную "
+"почту."
 
 #: .\apps\email\templates\email_verification.html:23
 msgid "If you have not requested this verification, please ignore this email."
-msgstr "Если вы не запрашивали эту проверку, пожалуйста, игнорируйте это письмо."
+msgstr ""
+"Если вы не запрашивали эту проверку, пожалуйста, игнорируйте это письмо."
 
 #: .\apps\email\templates\reset_password.html:12
 msgid "Hi, "
@@ -206,7 +210,8 @@ msgstr "Ваш код подтверждения изменения пароля
 
 #: .\apps\email\templates\reset_password.html:20
 msgid "Please enter this code on the website to confirm the password change."
-msgstr "Пожалуйста, введите этот код на сайте, чтобы подтвердить изменение пароля."
+msgstr ""
+"Пожалуйста, введите этот код на сайте, чтобы подтвердить изменение пароля."
 
 #: .\apps\email\templates\reset_password.html:23
 msgid "If you have not requested a password change, please ignore this email."
@@ -216,8 +221,32 @@ msgstr "Если вы не запрашивали изменение парол�
 msgid "Email already verified."
 msgstr "Электронная почта уже подтверждена."
 
-#: .\apps\filter\models.py:11 .\apps\filter\models.py:32
-#: .\apps\filter\models.py:48
+#: .\apps\filter\admin.py:148 .\apps\filter\admin.py:216
+msgid "Filter type"
+msgstr "Тип фильтра"
+
+#: .\apps\filter\admin.py:175
+msgid "Filter type name"
+msgstr "Имя типа фильтра"
+
+#: .\apps\filter\admin.py:179 .\apps\filter\admin.py:225
+msgid "Filter values"
+msgstr "Значения фильтров"
+
+#: .\apps\filter\admin.py:212
+msgid "Group name"
+msgstr "Название группы"
+
+#: .\apps\filter\admin.py:252
+msgid "Group set"
+msgstr "Набор групп"
+
+#: .\apps\filter\admin.py:256
+msgid "Groups"
+msgstr "Группы"
+
+#: .\apps\filter\models.py:11 .\apps\filter\models.py:33
+#: .\apps\filter\models.py:52
 msgid "filter type"
 msgstr "тип фильтра"
 
@@ -225,33 +254,45 @@ msgstr "тип фильтра"
 msgid "filter types"
 msgstr "типы фильтров"
 
-#: .\apps\filter\models.py:23
+#: .\apps\filter\models.py:15
+msgid "required"
+msgstr "обязательный"
+
+#: .\apps\filter\models.py:24
 msgid "filter value"
 msgstr "значение фильтра"
 
-#: .\apps\filter\models.py:24 .\apps\filter\models.py:49
+#: .\apps\filter\models.py:25 .\apps\filter\models.py:53
 msgid "filter values"
 msgstr "значения фильтров"
 
-#: .\apps\filter\models.py:28
+#: .\apps\filter\models.py:29
 msgid "value"
 msgstr "значение"
 
-#: .\apps\filter\models.py:29
+#: .\apps\filter\models.py:30
 msgid "description"
 msgstr "описание"
 
-#: .\apps\filter\models.py:31
+#: .\apps\filter\models.py:32
 msgid "metadata"
 msgstr "метаданные"
 
-#: .\apps\filter\models.py:44
+#: .\apps\filter\models.py:48
 msgid "filter group"
-msgstr "группу фильтров"
+msgstr "группа фильтров"
 
-#: .\apps\filter\models.py:45
+#: .\apps\filter\models.py:49 .\apps\filter\models.py:70
 msgid "filter groups"
 msgstr "группы фильтров"
+
+#: .\apps\filter\models.py:66
+msgid "filter group set"
+msgstr "набор групп фильтров"
+
+#: .\apps\filter\models.py:67
+msgid "filter group sets"
+msgstr "наборы групп фильтров"
 
 #: .\apps\user\models.py:17
 msgid "User"
@@ -291,12 +332,17 @@ msgstr "Введите действительное имя, содержащее
 
 #: .\apps\user\validators.py:35
 #, python-format
-msgid "Enter a valid phone number with country code. Available countries: %(list)s"
-msgstr "Введите действительный номер телефона с кодом страны. Доступные страны: %(list)s"
+msgid ""
+"Enter a valid phone number with country code. Available countries: %(list)s"
+msgstr ""
+"Введите действительный номер телефона с кодом страны. Доступные страны: "
+"%(list)s"
 
 #: .\apps\user_auth\jwt\views.py:37
 msgid "A verification code was recently sent to user email."
-msgstr "На электронную почту пользователя был уже отправлен недавно код подтверждения."
+msgstr ""
+"На электронную почту пользователя был уже отправлен недавно код "
+"подтверждения."
 
 #: .\apps\user_auth\jwt\views.py:80
 msgid "Email is not verified."
@@ -326,7 +372,7 @@ msgstr "тип почты"
 msgid "uuid"
 msgstr "uuid"
 
-#: .\apps\user_auth\social\views.py:59
+#: .\apps\user_auth\social\views.py:60
 msgid "Authentication failed."
 msgstr "Не удалось пройти аутентификацию."
 
@@ -355,3 +401,7 @@ msgstr "Слишком большой файл изображения (макс�
 #, python-format
 msgid "Image resolution is too high (max: %sx%s)"
 msgstr "Слишком высокое разрешение изображения (максимум: %sx%s)"
+
+#: .\apps\utils\translation\models.py:17
+msgid "slug"
+msgstr "уникальный идентификатор"
