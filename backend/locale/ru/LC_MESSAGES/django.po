@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-30 04:00+0200\n"
+"POT-Creation-Date: 2024-10-31 21:54+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,106 +20,201 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: .\apps\category\admin.py:32 .\apps\category\tests\test_admin_panel.py:28
-msgid ""
-"This parameter is responsible for the location of the category.\n"
-"The smaller the number, the higher the category in the list.\n"
-"Sorting occurs by [order] and tree [level]."
-msgstr ""
-"Этот параметр отвечает за расположение категории.\n"
-"Чем меньше число, тем выше категория в списке.\n"
-"Сортировка происходит по порядку [order] и древовидному уровню [level]."
+#: .\apps\category\admin.py:54
+msgid "Image exists"
+msgstr "Изображение существует"
 
-#: .\apps\category\admin.py:58 .\apps\category\models.py:21
-msgid "Category"
-msgstr "Категория"
+#: .\apps\category\choices.py:6
+msgid "Vertical"
+msgstr "Вертикально"
 
-#: .\apps\category\admin.py:63
-msgid "Parent"
-msgstr "Родительская категория"
+#: .\apps\category\choices.py:7
+msgid "Horizontal"
+msgstr "Горизонтально"
 
-#: .\apps\category\models.py:22
-msgid "Categories"
-msgstr "Категории"
+#: .\apps\category\choices.py:11
+msgid "Top left"
+msgstr "Верхний левый угол"
 
-#: .\apps\category\models.py:25 .\apps\filter\models.py:14
-#: .\apps\filter\models.py:51 .\apps\filter\models.py:69
-msgid "name"
-msgstr "имя"
+#: .\apps\category\choices.py:12
+msgid "Top right"
+msgstr "Верхний правый угол"
 
-#: .\apps\category\models.py:26
-msgid "href"
-msgstr "ссылка"
+#: .\apps\category\choices.py:13
+msgid "Top middle"
+msgstr "Сверху посередине"
 
-#: .\apps\category\models.py:27
-msgid "order"
-msgstr "порядок"
+#: .\apps\category\choices.py:14
+msgid "Bottom left"
+msgstr "Нижний левый угол"
 
-#: .\apps\category\models.py:28
-msgid "active"
-msgstr "активная"
+#: .\apps\category\choices.py:15
+msgid "Bottom right"
+msgstr "Нижний правый угол"
 
-#: .\apps\category\models.py:31
-msgid "title"
-msgstr "название"
+#: .\apps\category\choices.py:16
+msgid "Bottom middle"
+msgstr "Снизу посередине"
 
-#: .\apps\category\models.py:122
-msgid "top left"
-msgstr "верхний левый угол"
-
-#: .\apps\category\models.py:123
-msgid "top right"
-msgstr "верхний правый угол"
-
-#: .\apps\category\models.py:124
-msgid "top middle"
-msgstr "сверху посередине"
-
-#: .\apps\category\models.py:125
-msgid "bottom left"
-msgstr "нижний левый угол"
-
-#: .\apps\category\models.py:126
-msgid "bottom right"
-msgstr "нижний правый угол"
-
-#: .\apps\category\models.py:127
-msgid "bottom middle"
-msgstr "снизу посередине"
-
-#: .\apps\category\models.py:133
-msgid "Category Image"
-msgstr "Изображение Категории"
-
-#: .\apps\category\models.py:134
-msgid "Category Images"
-msgstr "Изображения Категорий"
-
-#: .\apps\category\models.py:136
+#: .\apps\category\filters.py:14 .\apps\category\models.py:126
+#: .\apps\category\models.py:215
 msgid "image"
 msgstr "изображение"
 
-#: .\apps\category\models.py:138
+#: .\apps\category\filters.py:20
+#: .\apps\category\tests\test_filter__has_image.py:18
+msgid "Exists"
+msgstr "Существует"
+
+#: .\apps\category\filters.py:21
+#: .\apps\category\tests\test_filter__has_image.py:18
+msgid "Does not exist"
+msgstr "Не существует"
+
+#: .\apps\category\filters.py:34
+msgid "Parent category"
+msgstr "Родительская категория"
+
+#: .\apps\category\forms.py:20
+msgid "URL preview"
+msgstr "Превью URL-адреса"
+
+#: .\apps\category\forms.py:38 .\apps\category\forms.py:70
+msgid "Optional"
+msgstr "Дополнительно"
+
+#: .\apps\category\models.py:19 .\apps\category\models.py:134
+#: .\apps\category\models.py:156 .\apps\category\models.py:194
+#: .\apps\category\models.py:249
+msgid "category"
+msgstr "категория"
+
+#: .\apps\category\models.py:20
+msgid "categories"
+msgstr "категории"
+
+#: .\apps\category\models.py:26
+msgid "title"
+msgstr "название"
+
+#: .\apps\category\models.py:27 .\apps\utils\translation\models.py:17
+msgid "slug"
+msgstr "уникальный идентификатор"
+
+#: .\apps\category\models.py:28
+msgid "url"
+msgstr "ссылка"
+
+#: .\apps\category\models.py:29
+msgid "active"
+msgstr "активная"
+
+#: .\apps\category\models.py:30
+msgid "order"
+msgstr "порядок"
+
+#: .\apps\category\models.py:39
+msgid "parent"
+msgstr "Родительская категория"
+
+#: .\apps\category\models.py:61
+#: .\apps\category\tests\test_model__category.py:56
+msgid "Default category image"
+msgstr "Изображение категории по умолчанию"
+
+#: .\apps\category\models.py:123
+msgid "category image"
+msgstr "изображение категории"
+
+#: .\apps\category\models.py:124
+msgid "category images"
+msgstr "изображения категорий"
+
+#: .\apps\category\models.py:127 .\apps\category\models.py:216
+msgid "alt text"
+msgstr "альтернативный текст"
+
+#: .\apps\category\models.py:148
+msgid "Category Filter Set"
+msgstr "Набор фильтров категории"
+
+#: .\apps\category\models.py:149
+msgid "Category Filter Sets"
+msgstr "Набор фильтров категорий"
+
+#: .\apps\category\models.py:161
+msgid "filters"
+msgstr "фильтры"
+
+#: .\apps\category\models.py:171
+msgid "card design"
+msgstr "дизайн карточки"
+
+#: .\apps\category\models.py:172
+msgid "card designs"
+msgstr "дизайн карточек"
+
+#: .\apps\category\models.py:175
+msgid "orientation"
+msgstr "ориентация"
+
+#: .\apps\category\models.py:181
 msgid "title position"
 msgstr "позиция названия"
 
-#: .\apps\category\models.py:150
-msgid "Category Statistic"
-msgstr "Статистика для категории"
+#: .\apps\category\models.py:186
+msgid "text wrap"
+msgstr "перенос текста"
 
-#: .\apps\category\models.py:151
-msgid "Category Statistics"
-msgstr "Статистика для категорий"
+#: .\apps\category\models.py:187
+msgid "background color"
+msgstr "цвет фона"
 
-#: .\apps\category\models.py:153
+#: .\apps\category\models.py:206 .\apps\category\tests\test_model__card.py:36
+msgid "Default card image"
+msgstr "Изображение карточки по умолчанию"
+
+#: .\apps\category\models.py:212
+msgid "category card image"
+msgstr "изображение карточки категории"
+
+#: .\apps\category\models.py:213
+msgid "category card images"
+msgstr "изображения карточек категорий"
+
+#: .\apps\category\models.py:218
+msgid "size"
+msgstr "размер"
+
+#: .\apps\category\models.py:219
+msgid "x-axis"
+msgstr "ось (x)"
+
+#: .\apps\category\models.py:220
+msgid "y-axis"
+msgstr "ось (y)"
+
+#: .\apps\category\models.py:223
+msgid "card"
+msgstr "карточка"
+
+#: .\apps\category\models.py:236
+msgid "category statistic"
+msgstr "статистика категории"
+
+#: .\apps\category\models.py:237
+msgid "category statistics"
+msgstr "статистика категорий"
+
+#: .\apps\category\models.py:240
 msgid "views count"
 msgstr "количество просмотров"
 
-#: .\apps\category\models.py:154
+#: .\apps\category\models.py:241
 msgid "purchases count"
 msgstr "количество покупок"
 
-#: .\apps\category\models.py:155
+#: .\apps\category\models.py:242
 msgid "popularity score"
 msgstr "оценка популярности"
 
@@ -202,7 +297,7 @@ msgstr ""
 
 #: .\apps\email\templates\reset_password.html:12
 msgid "Hi, "
-msgstr "Здравствуйте, "
+msgstr "Приветствую, "
 
 #: .\apps\email\templates\reset_password.html:15
 msgid "Your password change confirmation code:"
@@ -253,6 +348,11 @@ msgstr "тип фильтра"
 #: .\apps\filter\models.py:12
 msgid "filter types"
 msgstr "типы фильтров"
+
+#: .\apps\filter\models.py:14 .\apps\filter\models.py:51
+#: .\apps\filter\models.py:69
+msgid "name"
+msgstr "название"
 
 #: .\apps\filter\models.py:15
 msgid "required"
@@ -401,7 +501,3 @@ msgstr "Слишком большой файл изображения (макс�
 #, python-format
 msgid "Image resolution is too high (max: %sx%s)"
 msgstr "Слишком высокое разрешение изображения (максимум: %sx%s)"
-
-#: .\apps\utils\translation\models.py:17
-msgid "slug"
-msgstr "уникальный идентификатор"

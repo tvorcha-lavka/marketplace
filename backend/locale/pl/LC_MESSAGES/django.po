@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-30 04:01+0200\n"
+"POT-Creation-Date: 2024-10-31 21:54+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,106 +20,201 @@ msgstr ""
 "%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n"
 "%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
 
-#: .\apps\category\admin.py:32 .\apps\category\tests\test_admin_panel.py:28
-msgid ""
-"This parameter is responsible for the location of the category.\n"
-"The smaller the number, the higher the category in the list.\n"
-"Sorting occurs by [order] and tree [level]."
-msgstr ""
-"Ten parametr odpowiada za lokalizację kategorii.\n"
-"Im mniejsza liczba, tym wyższa kategoria na liście.\n"
-"Sortowanie odbywa się według kolejności [order] i poziomu drzewa [level]."
+#: .\apps\category\admin.py:54
+msgid "Image exists"
+msgstr "Obraz istnieje"
 
-#: .\apps\category\admin.py:58 .\apps\category\models.py:21
-msgid "Category"
-msgstr "Kategoria."
+#: .\apps\category\choices.py:6
+msgid "Vertical"
+msgstr "Pionowy"
 
-#: .\apps\category\admin.py:63
-msgid "Parent"
-msgstr "Kategoria rodzicielska"
+#: .\apps\category\choices.py:7
+msgid "Horizontal"
+msgstr "Poziomo"
 
-#: .\apps\category\models.py:22
-msgid "Categories"
-msgstr "Kategorie"
+#: .\apps\category\choices.py:11
+msgid "Top left"
+msgstr "Lewy górny róg"
 
-#: .\apps\category\models.py:25 .\apps\filter\models.py:14
-#: .\apps\filter\models.py:51 .\apps\filter\models.py:69
-msgid "name"
-msgstr "nazwa"
+#: .\apps\category\choices.py:12
+msgid "Top right"
+msgstr "Prawy górny róg"
 
-#: .\apps\category\models.py:26
-msgid "href"
-msgstr "link"
+#: .\apps\category\choices.py:13
+msgid "Top middle"
+msgstr "Górny środek"
 
-#: .\apps\category\models.py:27
-msgid "order"
-msgstr "porządek"
+#: .\apps\category\choices.py:14
+msgid "Bottom left"
+msgstr "Lewy dolny róg"
 
-#: .\apps\category\models.py:28
-msgid "active"
-msgstr "aktywny"
+#: .\apps\category\choices.py:15
+msgid "Bottom right"
+msgstr "Prawy dolny róg"
 
-#: .\apps\category\models.py:31
-msgid "title"
-msgstr "tytuł"
+#: .\apps\category\choices.py:16
+msgid "Bottom middle"
+msgstr "Dolny środek"
 
-#: .\apps\category\models.py:122
-msgid "top left"
-msgstr "lewy górny róg"
-
-#: .\apps\category\models.py:123
-msgid "top right"
-msgstr "prawy górny róg"
-
-#: .\apps\category\models.py:124
-msgid "top middle"
-msgstr "górny środek"
-
-#: .\apps\category\models.py:125
-msgid "bottom left"
-msgstr "lewy dolny róg"
-
-#: .\apps\category\models.py:126
-msgid "bottom right"
-msgstr "prawy dolny róg"
-
-#: .\apps\category\models.py:127
-msgid "bottom middle"
-msgstr "dolny środek"
-
-#: .\apps\category\models.py:133
-msgid "Category Image"
-msgstr "Kategorie Obrazów"
-
-#: .\apps\category\models.py:134
-msgid "Category Images"
-msgstr "Kategoria Obrazy"
-
-#: .\apps\category\models.py:136
+#: .\apps\category\filters.py:14 .\apps\category\models.py:126
+#: .\apps\category\models.py:215
 msgid "image"
 msgstr "obraz"
 
-#: .\apps\category\models.py:138
+#: .\apps\category\filters.py:20
+#: .\apps\category\tests\test_filter__has_image.py:18
+msgid "Exists"
+msgstr "Istnieje"
+
+#: .\apps\category\filters.py:21
+#: .\apps\category\tests\test_filter__has_image.py:18
+msgid "Does not exist"
+msgstr "Nie istnieje"
+
+#: .\apps\category\filters.py:34
+msgid "Parent category"
+msgstr "Kategoria rodzicielska"
+
+#: .\apps\category\forms.py:20
+msgid "URL preview"
+msgstr "Podgląd URL"
+
+#: .\apps\category\forms.py:38 .\apps\category\forms.py:70
+msgid "Optional"
+msgstr "Opcjonalnie"
+
+#: .\apps\category\models.py:19 .\apps\category\models.py:134
+#: .\apps\category\models.py:156 .\apps\category\models.py:194
+#: .\apps\category\models.py:249
+msgid "category"
+msgstr "kategoria"
+
+#: .\apps\category\models.py:20
+msgid "categories"
+msgstr "kategorie"
+
+#: .\apps\category\models.py:26
+msgid "title"
+msgstr "tytuł"
+
+#: .\apps\category\models.py:27 .\apps\utils\translation\models.py:17
+msgid "slug"
+msgstr "unikalny identyfikator"
+
+#: .\apps\category\models.py:28
+msgid "url"
+msgstr "url"
+
+#: .\apps\category\models.py:29
+msgid "active"
+msgstr "aktywny"
+
+#: .\apps\category\models.py:30
+msgid "order"
+msgstr "porządek"
+
+#: .\apps\category\models.py:39
+msgid "parent"
+msgstr "kategoria rodzicielska"
+
+#: .\apps\category\models.py:61
+#: .\apps\category\tests\test_model__category.py:56
+msgid "Default category image"
+msgstr "Domyślny obraz kategorii"
+
+#: .\apps\category\models.py:123
+msgid "category image"
+msgstr "kategorie obrazów"
+
+#: .\apps\category\models.py:124
+msgid "category images"
+msgstr "kategoria obrazy"
+
+#: .\apps\category\models.py:127 .\apps\category\models.py:216
+msgid "alt text"
+msgstr "tekst alternatywny"
+
+#: .\apps\category\models.py:148
+msgid "Category Filter Set"
+msgstr "Zestaw filtrów kategorii"
+
+#: .\apps\category\models.py:149
+msgid "Category Filter Sets"
+msgstr "Zestaw filtrów kategorii"
+
+#: .\apps\category\models.py:161
+msgid "filters"
+msgstr "filtry"
+
+#: .\apps\category\models.py:171
+msgid "card design"
+msgstr "projekt karty"
+
+#: .\apps\category\models.py:172
+msgid "card designs"
+msgstr "projekty kart"
+
+#: .\apps\category\models.py:175
+msgid "orientation"
+msgstr "orientacja"
+
+#: .\apps\category\models.py:181
 msgid "title position"
 msgstr "tytuł stanowisko"
 
-#: .\apps\category\models.py:150
-msgid "Category Statistic"
-msgstr "Statystyki dla kategorii"
+#: .\apps\category\models.py:186
+msgid "text wrap"
+msgstr "zawijanie tekstu"
 
-#: .\apps\category\models.py:151
-msgid "Category Statistics"
-msgstr "Statystyki dla kategorii"
+#: .\apps\category\models.py:187
+msgid "background color"
+msgstr "kolor tła"
 
-#: .\apps\category\models.py:153
+#: .\apps\category\models.py:206 .\apps\category\tests\test_model__card.py:36
+msgid "Default card image"
+msgstr "Domyślny obraz karty"
+
+#: .\apps\category\models.py:212
+msgid "category card image"
+msgstr "kategorie obrazów"
+
+#: .\apps\category\models.py:213
+msgid "category card images"
+msgstr "kategoria obrazy"
+
+#: .\apps\category\models.py:218
+msgid "size"
+msgstr "rozmiar"
+
+#: .\apps\category\models.py:219
+msgid "x-axis"
+msgstr "oś (x)"
+
+#: .\apps\category\models.py:220
+msgid "y-axis"
+msgstr "oś (y)"
+
+#: .\apps\category\models.py:223
+msgid "card"
+msgstr "karta"
+
+#: .\apps\category\models.py:236
+msgid "category statistic"
+msgstr "statystyka kategorii"
+
+#: .\apps\category\models.py:237
+msgid "category statistics"
+msgstr "statystyki kategorii"
+
+#: .\apps\category\models.py:240
 msgid "views count"
 msgstr "liczba wyświetleń"
 
-#: .\apps\category\models.py:154
+#: .\apps\category\models.py:241
 msgid "purchases count"
 msgstr "liczba zakupów"
 
-#: .\apps\category\models.py:155
+#: .\apps\category\models.py:242
 msgid "popularity score"
 msgstr "ocena popularności"
 
@@ -250,6 +345,11 @@ msgstr "typ filtra"
 #: .\apps\filter\models.py:12
 msgid "filter types"
 msgstr "typy filtrów"
+
+#: .\apps\filter\models.py:14 .\apps\filter\models.py:51
+#: .\apps\filter\models.py:69
+msgid "name"
+msgstr "nazwa"
 
 #: .\apps\filter\models.py:15
 msgid "required"
@@ -396,7 +496,3 @@ msgstr "Zbyt duży plik obrazu (maks.: %s Mb)"
 #, python-format
 msgid "Image resolution is too high (max: %sx%s)"
 msgstr "Rozdzielczość obrazu jest zbyt wysoka (maks.: %sx%s)"
-
-#: .\apps\utils\translation\models.py:17
-msgid "slug"
-msgstr "unikalny identyfikator"

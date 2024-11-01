@@ -24,7 +24,7 @@ repos:
 
       - id: pytest
         name: pytest
-        entry: make pytest-cov down
+        entry: make pytest down
         language: system
         types: [ python ]
         pass_filenames: false

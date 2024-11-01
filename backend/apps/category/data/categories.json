@@ -1,45 +1,45 @@
 [
   {
-    "name": "ukrainian-craft",
+    "slug": "ukrainian-craft",
     "title": "Українське ремесло",
     "order": 1,
     "active": true,
     "children": [
       {
-        "name": "pottery",
+        "slug": "pottery",
         "title": "Гончарство",
         "order": 1,
         "active": true,
         "children": [
           {
-            "name": "dishes",
+            "slug": "dishes",
             "title": "Посуд",
             "order": 1,
             "active": true,
             "children": [
               {
-                "name": "cups",
+                "slug": "cups",
                 "title": "Чашки",
                 "order": 1,
                 "active": true,
                 "children": []
               },
               {
-                "name": "plates",
+                "slug": "plates",
                 "title": "Тарілки",
                 "order": 2,
                 "active": true,
                 "children": []
               },
               {
-                "name": "teapots",
+                "slug": "teapots",
                 "title": "Чайники",
                 "order": 3,
                 "active": true,
                 "children": []
               },
               {
-                "name": "platters",
+                "slug": "platters",
                 "title": "Блюда",
                 "order": 4,
                 "active": true,
@@ -48,62 +48,62 @@
             ]
           },
           {
-            "name": "decorative-products",
+            "slug": "decorative-products",
             "title": "Декоративні вироби",
             "order": 2,
             "active": true,
             "children": [
               {
-                "name": "vases",
+                "slug": "vases",
                 "title": "Вази",
                 "order": 1,
                 "active": true,
                 "children": []
               },
               {
-                "name": "sculptures",
+                "slug": "sculptures",
                 "title": "Скульптури",
                 "order": 2,
                 "active": true,
                 "children": []
               },
               {
-                "name": "candlesticks",
+                "slug": "candlesticks",
                 "title": "Підсвічники",
                 "order": 3,
                 "active": true,
                 "children": []
               },
               {
-                "name": "plates",
+                "slug": "plates",
                 "title": "Декоративні тарілки",
                 "order": 4,
                 "active": true,
                 "children": []
               },
               {
-                "name": "panel",
+                "slug": "panel",
                 "title": "Панно",
                 "order": 5,
                 "active": true,
                 "children": []
               },
               {
-                "name": "souvenirs",
+                "slug": "souvenirs",
                 "title": "Сувеніри",
                 "order": 6,
                 "active": true,
                 "children": []
               },
               {
-                "name": "stands-for-hot",
+                "slug": "stands-for-hot",
                 "title": "Підставки під гаряче",
                 "order": 7,
                 "active": true,
                 "children": []
               },
               {
-                "name": "ceramic-photo-frames",
+                "slug": "ceramic-photo-frames",
                 "title": "Керамічні рамки для фото",
                 "order": 8,
                 "active": true,
@@ -112,20 +112,20 @@
             ]
           },
           {
-            "name": "garden-ceramics",
+            "slug": "garden-ceramics",
             "title": "Садова кераміка",
             "order": 3,
             "active": true,
             "children": [
               {
-                "name": "pots-for-plants",
+                "slug": "pots-for-plants",
                 "title": "Горщики для рослин",
                 "order": 1,
                 "active": true,
                 "children": []
               },
               {
-                "name": "figures",
+                "slug": "figures",
                 "title": "Садові фігури",
                 "order": 2,
                 "active": true,
@@ -134,48 +134,48 @@
             ]
           },
           {
-            "name": "jewelry",
+            "slug": "jewelry",
             "title": "Прикраси",
             "order": 4,
             "active": true,
             "children": [
               {
-                "name": "brooches",
+                "slug": "brooches",
                 "title": "Брошки",
                 "order": 1,
                 "active": true,
                 "children": []
               },
               {
-                "name": "earrings",
+                "slug": "earrings",
                 "title": "Сережки",
                 "order": 2,
                 "active": true,
                 "children": []
               },
               {
-                "name": "suspensions",
+                "slug": "suspensions",
                 "title": "Підвіски",
                 "order": 3,
                 "active": true,
                 "children": []
               },
               {
-                "name": "pendants",
+                "slug": "pendants",
                 "title": "Кулони",
                 "order": 4,
                 "active": true,
                 "children": []
               },
               {
-                "name": "bracelets",
+                "slug": "bracelets",
                 "title": "Браслети",
                 "order": 5,
                 "active": true,
                 "children": []
               },
               {
-                "name": "rings",
+                "slug": "rings",
                 "title": "Персні",
                 "order": 6,
                 "active": true,
@@ -186,47 +186,47 @@
         ]
       },
       {
-        "name": "decorative-painting",
+        "slug": "decorative-painting",
         "title": "Декоративний розпиc",
         "order": 2,
         "active": true,
         "children": [
           {
-            "name": "dishes",
+            "slug": "dishes",
             "title": "Посуд",
             "order": 1,
             "active": true,
             "children": [
               {
-                "name": "cups",
+                "slug": "cups",
                 "title": "Чашки",
                 "order": 1,
                 "active": true,
                 "children": []
               },
               {
-                "name": "plates",
+                "slug": "plates",
                 "title": "Тарілки",
                 "order": 2,
                 "active": true,
                 "children": []
               },
               {
-                "name": "teapots",
+                "slug": "teapots",
                 "title": "Чайники",
                 "order": 3,
                 "active": true,
                 "children": []
               },
               {
-                "name": "platters",
+                "slug": "platters",
                 "title": "Блюда",
                 "order": 4,
                 "active": true,
                 "children": []
               },
               {
-                "name": "bowls",
+                "slug": "bowls",
                 "title": "Чаші та миски",
                 "order": 5,
                 "active": true,
@@ -235,48 +235,48 @@
             ]
           },
           {
-            "name": "clothes-and-accessories",
+            "slug": "clothes-and-accessories",
             "title": "Розписний одяг та аксесуари",
             "order": 2,
             "active": true,
             "children": [
               {
-                "name": "t-shirts",
+                "slug": "t-shirts",
                 "title": "Футболки",
                 "order": 1,
                 "active": true,
                 "children": []
               },
               {
-                "name": "jackets",
+                "slug": "jackets",
                 "title": "Куртки",
                 "order": 2,
                 "active": true,
                 "children": []
               },
               {
-                "name": "dresses",
+                "slug": "dresses",
                 "title": "Сукні",
                 "order": 3,
                 "active": true,
                 "children": []
               },
               {
-                "name": "jeans",
+                "slug": "jeans",
                 "title": "Джинси",
                 "order": 4,
                 "active": true,
                 "children": []
               },
               {
-                "name": "bags",
+                "slug": "bags",
                 "title": "Сумки",
                 "order": 5,
                 "active": true,
                 "children": []
               },
               {
-                "name": "footwear",
+                "slug": "footwear",
                 "title": "Взуття",
                 "order": 6,
                 "active": true,
@@ -285,48 +285,48 @@
             ]
           },
           {
-            "name": "jewelry",
+            "slug": "jewelry",
             "title": "Прикраси",
             "order": 3,
             "active": true,
             "children": [
               {
-                "name": "brooches",
+                "slug": "brooches",
                 "title": "Брошки",
                 "order": 1,
                 "active": true,
                 "children": []
               },
               {
-                "name": "earrings",
+                "slug": "earrings",
                 "title": "Сережки",
                 "order": 2,
                 "active": true,
                 "children": []
               },
               {
-                "name": "suspensions",
+                "slug": "suspensions",
                 "title": "Підвіски",
                 "order": 3,
                 "active": true,
                 "children": []
               },
               {
-                "name": "pendants",
+                "slug": "pendants",
                 "title": "Кулони",
                 "order": 4,
                 "active": true,
                 "children": []
               },
               {
-                "name": "bracelets",
+                "slug": "bracelets",
                 "title": "Браслети",
                 "order": 5,
                 "active": true,
                 "children": []
               },
               {
-                "name": "rings",
+                "slug": "rings",
                 "title": "Персні",
                 "order": 6,
                 "active": true,
@@ -335,76 +335,76 @@
             ]
           },
           {
-            "name": "products",
+            "slug": "products",
             "title": "Декоративні вироби",
             "order": 4,
             "active": true,
             "children": [
               {
-                "name": "vases",
+                "slug": "vases",
                 "title": "Вази",
                 "order": 1,
                 "active": true,
                 "children": []
               },
               {
-                "name": "sculptures",
+                "slug": "sculptures",
                 "title": "Скульптури",
                 "order": 2,
                 "active": true,
                 "children": []
               },
               {
-                "name": "candlesticks",
+                "slug": "candlesticks",
                 "title": "Підсвічники",
                 "order": 3,
                 "active": true,
                 "children": []
               },
               {
-                "name": "decor-plates",
+                "slug": "decor-plates",
                 "title": "Декоративні тарілки",
                 "order": 4,
                 "active": true,
                 "children": []
               },
               {
-                "name": "decore-boards",
+                "slug": "decore-boards",
                 "title": "Декоративні дошки",
                 "order": 5,
                 "active": true,
                 "children": []
               },
               {
-                "name": "stands-for-hot",
+                "slug": "stands-for-hot",
                 "title": "Підставки під гаряче",
                 "order": 6,
                 "active": true,
                 "children": []
               },
               {
-                "name": "photo-frames",
+                "slug": "photo-frames",
                 "title": "Рамки для фото",
                 "order": 7,
                 "active": true,
                 "children": []
               },
               {
-                "name": "wall-clocks",
+                "slug": "wall-clocks",
                 "title": "Настінні годинники",
                 "order": 8,
                 "active": true,
                 "children": []
               },
               {
-                "name": "key-holders",
+                "slug": "key-holders",
                 "title": "Ключниці",
                 "order": 9,
                 "active": true,
                 "children": []
               },
               {
-                "name": "trays-and-stands",
+                "slug": "trays-and-stands",
                 "title": "Підноси та підставки",
                 "order": 10,
                 "active": true,
@@ -413,20 +413,20 @@
             ]
           },
           {
-            "name": "garden-decor",
+            "slug": "garden-decor",
             "title": "Садовий декор",
             "order": 5,
             "active": true,
             "children": [
               {
-                "name": "pots-for-plants",
+                "slug": "pots-for-plants",
                 "title": "Горщики для рослин",
                 "order": 1,
                 "active": true,
                 "children": []
               },
               {
-                "name": "figures",
+                "slug": "figures",
                 "title": "Садові фігури",
                 "order": 2,
                 "active": true,
@@ -437,47 +437,47 @@
         ]
       },
       {
-        "name": "weaving-and-carpet-making",
+        "slug": "weaving-and-carpet-making",
         "title": "Ткацтво і килимарство",
         "order": 3,
         "active": true,
         "children": [
           {
-            "name": "scarves-and-handkerchiefs",
+            "slug": "scarves-and-handkerchiefs",
             "title": "Шарфи та хустки",
             "order": 1,
             "active": true,
             "children": []
           },
           {
-            "name": "decorative-textile-products",
+            "slug": "decorative-textile-products",
             "title": "Декоративні текстильні вироби",
             "order": 2,
             "active": true,
             "children": [
               {
-                "name": "pillows",
+                "slug": "pillows",
                 "title": "Декоративні подушки",
                 "order": 1,
                 "active": true,
                 "children": []
               },
               {
-                "name": "bedspreads-and-capes",
+                "slug": "bedspreads-and-capes",
                 "title": "Покривала і накидки",
                 "order": 2,
                 "active": true,
                 "children": []
               },
               {
-                "name": "curtains-and-blinds",
+                "slug": "curtains-and-blinds",
                 "title": "Завіси та штори",
                 "order": 3,
                 "active": true,
                 "children": []
               },
               {
-                "name": "carpets-and-carpeting",
+                "slug": "carpets-and-carpeting",
                 "title": "Килими та доріжки",
                 "order": 4,
                 "active": true,
@@ -488,53 +488,53 @@
         ]
       },
       {
-        "name": "embroidery",
+        "slug": "embroidery",
         "title": "Вишивка",
         "order": 4,
         "active": true,
         "children": [
           {
-            "name": "clothing",
+            "slug": "clothing",
             "title": "Одяг",
             "order": 1,
             "active": true,
             "children": [
               {
-                "name": "female",
+                "slug": "female",
                 "title": "Жіночий",
                 "order": 1,
                 "active": true,
                 "children": [
                   {
-                    "name": "vyshyvanka",
+                    "slug": "vyshyvanka",
                     "title": "Вишиванки",
                     "order": 1,
                     "active": true,
                     "children": []
                   },
                   {
-                    "name": "embroidered-pants",
+                    "slug": "embroidered-pants",
                     "title": "Штанці",
                     "order": 2,
                     "active": true,
                     "children": []
                   },
                   {
-                    "name": "embroidered-dresses",
+                    "slug": "embroidered-dresses",
                     "title": "Сукні",
                     "order": 3,
                     "active": true,
                     "children": []
                   },
                   {
-                    "name": "embroidered-blouses",
+                    "slug": "embroidered-blouses",
                     "title": "Блузки",
                     "order": 4,
                     "active": true,
                     "children": []
                   },
                   {
-                    "name": "embroidered-skirts",
+                    "slug": "embroidered-skirts",
                     "title": "Спідниці",
                     "order": 5,
                     "active": true,
@@ -543,13 +543,13 @@
                 ]
               },
               {
-                "name": "male",
+                "slug": "male",
                 "title": "Чоловічий",
                 "order": 2,
                 "active": true,
                 "children": [
                   {
-                    "name": "vyshyvanka",
+                    "slug": "vyshyvanka",
                     "title": "Вишиванки",
                     "order": 1,
                     "active": true,
@@ -558,34 +558,34 @@
                 ]
               },
               {
-                "name": "child",
+                "slug": "child",
                 "title": "Дитячий",
                 "order": 3,
                 "active": true,
                 "children": [
                   {
-                    "name": "vyshyvanka-for-boys",
+                    "slug": "vyshyvanka-for-boys",
                     "title": "Вишиванка для хлопчиків",
                     "order": 1,
                     "active": true,
                     "children": []
                   },
                   {
-                    "name": "vyshyvanka-for-girls",
+                    "slug": "vyshyvanka-for-girls",
                     "title": "Вишиванка для дівчаток",
                     "order": 2,
                     "active": true,
                     "children": []
                   },
                   {
-                    "name": "embroidered-dresses",
+                    "slug": "embroidered-dresses",
                     "title": "Дитячі сукні",
                     "order": 3,
                     "active": true,
                     "children": []
                   },
                   {
-                    "name": "embroidered-pajamas",
+                    "slug": "embroidered-pajamas",
                     "title": "Дитячі піжами",
                     "order": 4,
                     "active": true,
@@ -596,41 +596,41 @@
             ]
           },
           {
-            "name": "textiles-for-home",
+            "slug": "textiles-for-home",
             "title": "Текстиль для дому",
             "order": 2,
             "active": true,
             "children": [
               {
-                "name": "towels",
+                "slug": "towels",
                 "title": "Рушники",
                 "order": 1,
                 "active": true,
                 "children": []
               },
               {
-                "name": "tablecloths",
+                "slug": "tablecloths",
                 "title": "Скатертини",
                 "order": 2,
                 "active": true,
                 "children": []
               },
               {
-                "name": "napkins-and-paths",
+                "slug": "napkins-and-paths",
                 "title": "Серветки та доріжки",
                 "order": 3,
                 "active": true,
                 "children": []
               },
               {
-                "name": "decorative-pillows",
+                "slug": "decorative-pillows",
                 "title": "Декоративні подушки",
                 "order": 4,
                 "active": true,
                 "children": []
               },
               {
-                "name": "paintings-and-panels",
+                "slug": "paintings-and-panels",
                 "title": "Картини та панно",
                 "order": 5,
                 "active": true,
@@ -639,27 +639,27 @@
             ]
           },
           {
-            "name": "accessories",
+            "slug": "accessories",
             "title": "Аксесуари",
             "order": 3,
             "active": true,
             "children": [
               {
-                "name": "bags",
+                "slug": "bags",
                 "title": "Сумки",
                 "order": 1,
                 "active": true,
                 "children": []
               },
               {
-                "name": "wallets",
+                "slug": "wallets",
                 "title": "Гаманці",
                 "order": 2,
                 "active": true,
                 "children": []
               },
               {
-                "name": "jewelry",
+                "slug": "jewelry",
                 "title": "Прикраси (брошки, кулони, браслети)",
                 "order": 3,
                 "active": true,
@@ -670,61 +670,61 @@
         ]
       },
       {
-        "name": "artistic-carving",
+        "slug": "artistic-carving",
         "title": "Художнє різьблення",
         "order": 5,
         "active": true,
         "children": [
           {
-            "name": "decorative-products",
+            "slug": "decorative-products",
             "title": "Декоративні вироби",
             "order": 1,
             "active": true,
             "children": [
               {
-                "name": "figurines-and-sculptures",
+                "slug": "figurines-and-sculptures",
                 "title": "Фігурки та скульптури",
                 "order": 1,
                 "active": true,
                 "children": []
               },
               {
-                "name": "jewelry-boxes",
+                "slug": "jewelry-boxes",
                 "title": "Шкатулки",
                 "order": 2,
                 "active": true,
                 "children": []
               },
               {
-                "name": "plates-and-dishes",
+                "slug": "plates-and-dishes",
                 "title": "Тарілки та блюда",
                 "order": 3,
                 "active": true,
                 "children": []
               },
               {
-                "name": "photo-frames",
+                "slug": "photo-frames",
                 "title": "Рамки для фотографій",
                 "order": 4,
                 "active": true,
                 "children": []
               },
               {
-                "name": "mirror-frames",
+                "slug": "mirror-frames",
                 "title": "Рами до дзеркал",
                 "order": 5,
                 "active": true,
                 "children": []
               },
               {
-                "name": "key-holders",
+                "slug": "key-holders",
                 "title": "Ключниці",
                 "order": 6,
                 "active": true,
                 "children": []
               },
               {
-                "name": "stands-for-phone-or-equipment",
+                "slug": "stands-for-phone-or-equipment",
                 "title": "Підставки під телефон/техніку",
                 "order": 7,
                 "active": true,
@@ -733,41 +733,41 @@
             ]
           },
           {
-            "name": "jewelry-and-accessories",
+            "slug": "jewelry-and-accessories",
             "title": "Прикраси та аксесуари",
             "order": 2,
             "active": true,
             "children": [
               {
-                "name": "pendants",
+                "slug": "pendants",
                 "title": "Кулони",
                 "order": 1,
                 "active": true,
                 "children": []
               },
               {
-                "name": "bracelets",
+                "slug": "bracelets",
                 "title": "Браслети",
                 "order": 2,
                 "active": true,
                 "children": []
               },
               {
-                "name": "brooches",
+                "slug": "brooches",
                 "title": "Брошки",
                 "order": 3,
                 "active": true,
                 "children": []
               },
               {
-                "name": "combs-and-pins",
+                "slug": "combs-and-pins",
                 "title": "Гребінці та шпильки",
                 "order": 4,
                 "active": true,
                 "children": []
               },
               {
-                "name": "keychains",
+                "slug": "keychains",
                 "title": "Брелоки",
                 "order": 5,
                 "active": true,
@@ -776,34 +776,34 @@
             ]
           },
           {
-            "name": "kitchen-items",
+            "slug": "kitchen-items",
             "title": "Предмети для кухні",
             "order": 3,
             "active": true,
             "children": [
               {
-                "name": "boards",
+                "slug": "boards",
                 "title": "Дощечки",
                 "order": 1,
                 "active": true,
                 "children": []
               },
               {
-                "name": "spoons-and-forks",
+                "slug": "spoons-and-forks",
                 "title": "Ложки та виделки",
                 "order": 2,
                 "active": true,
                 "children": []
               },
               {
-                "name": "dish-stands",
+                "slug": "dish-stands",
                 "title": "Підставки для посуду",
                 "order": 3,
                 "active": true,
                 "children": []
               },
               {
-                "name": "napkin-holders-and-coasters",
+                "slug": "napkin-holders-and-coasters",
                 "title": "Серветниці та підставки",
                 "order": 4,
                 "active": true,
@@ -814,40 +814,40 @@
         ]
       },
       {
-        "name": "vine-weaving",
+        "slug": "vine-weaving",
         "title": "Лозоплетіння",
         "order": 6,
         "active": true,
         "children": [
           {
-            "name": "baskets",
+            "slug": "baskets",
             "title": "Кошики та корзинки",
             "order": 1,
             "active": true,
             "children": [
               {
-                "name": "storage-baskets",
+                "slug": "storage-baskets",
                 "title": "Кошики для зберігання",
                 "order": 1,
                 "active": true,
                 "children": []
               },
               {
-                "name": "picnic-baskets",
+                "slug": "picnic-baskets",
                 "title": "Кошики для пікніка",
                 "order": 2,
                 "active": true,
                 "children": []
               },
               {
-                "name": "laundry-baskets",
+                "slug": "laundry-baskets",
                 "title": "Кошики для білизни",
                 "order": 3,
                 "active": true,
                 "children": []
               },
               {
-                "name": "fruit-baskets",
+                "slug": "fruit-baskets",
                 "title": "Кошики для фруктів",
                 "order": 4,
                 "active": true,
@@ -856,27 +856,27 @@
             ]
           },
           {
-            "name": "decorative-items",
+            "slug": "decorative-items",
             "title": "Декоративні предмети",
             "order": 2,
             "active": true,
             "children": [
               {
-                "name": "wreaths",
+                "slug": "wreaths",
                 "title": "Декоративні вінки",
                 "order": 1,
                 "active": true,
                 "children": []
               },
               {
-                "name": "photo-frames",
+                "slug": "photo-frames",
                 "title": "Рамки для фотографій",
                 "order": 2,
                 "active": true,
                 "children": []
               },
               {
-                "name": "vine-candle-holders",
+                "slug": "vine-candle-holders",
                 "title": "Лозові підсвічники",
                 "order": 3,
                 "active": true,
@@ -885,41 +885,41 @@
             ]
           },
           {
-            "name": "jewelry-and-accessories",
+            "slug": "jewelry-and-accessories",
             "title": "Прикраси та аксесуари",
             "order": 3,
             "active": true,
             "children": [
               {
-                "name": "vine-bags",
+                "slug": "vine-bags",
                 "title": "Лозові сумки",
                 "order": 1,
                 "active": true,
                 "children": []
               },
               {
-                "name": "hats-and-headgear",
+                "slug": "hats-and-headgear",
                 "title": "Капелюхи та головні убори",
                 "order": 2,
                 "active": true,
                 "children": []
               },
               {
-                "name": "bracelets",
+                "slug": "bracelets",
                 "title": "Браслети",
                 "order": 3,
                 "active": true,
                 "children": []
               },
               {
-                "name": "necklaces",
+                "slug": "necklaces",
                 "title": "Намиста",
                 "order": 4,
                 "active": true,
                 "children": []
               },
               {
-                "name": "pendants",
+                "slug": "pendants",
                 "title": "Кулони",
                 "order": 5,
                 "active": true,
@@ -930,20 +930,20 @@
         ]
       },
       {
-        "name": "blacksmithing",
+        "slug": "blacksmithing",
         "title": "Ковальство",
         "order": 7,
         "active": true,
         "children": [
           {
-            "name": "sculptures",
+            "slug": "sculptures",
             "title": "Скульптури",
             "order": 1,
             "active": true,
             "children": []
           },
           {
-            "name": "decorative-products",
+            "slug": "decorative-products",
             "title": "Декоративні вироби",
             "order": 2,
             "active": true,
@@ -952,48 +952,48 @@
         ]
       },
       {
-        "name": "toy-and-amulet-making",
+        "slug": "toy-and-amulet-making",
         "title": "Виготовлення іграшок і оберегів",
         "order": 8,
         "active": true,
         "children": [
           {
-            "name": "traditional-motanka-dolls",
+            "slug": "traditional-motanka-dolls",
             "title": "Традиційні ляльки-мотанки",
             "order": 1,
             "active": true,
             "children": []
           },
           {
-            "name": "knitted-amigurumi-toys",
+            "slug": "knitted-amigurumi-toys",
             "title": "В'язані іграшки (амігурумі)",
             "order": 2,
             "active": true,
             "children": []
           },
           {
-            "name": "soft-toys",
+            "slug": "soft-toys",
             "title": "М'які іграшки",
             "order": 3,
             "active": true,
             "children": []
           },
           {
-            "name": "wooden-toys",
+            "slug": "wooden-toys",
             "title": "Дерев'яні іграшки",
             "order": 4,
             "active": true,
             "children": []
           },
           {
-            "name": "ceramic-amulets",
+            "slug": "ceramic-amulets",
             "title": "Керамічні обереги",
             "order": 5,
             "active": true,
             "children": []
           },
           {
-            "name": "ritual-dolls-and-amulets",
+            "slug": "ritual-dolls-and-amulets",
             "title": "Обрядові ляльки та обереги",
             "order": 6,
             "active": true,
@@ -1002,14 +1002,14 @@
         ]
       },
       {
-        "name": "pysanky",
+        "slug": "pysanky",
         "title": "Писанки",
         "order": 9,
         "active": true,
         "children": []
       },
       {
-        "name": "iconography",
+        "slug": "iconography",
         "title": "Іконопис",
         "order": 10,
         "active": true,

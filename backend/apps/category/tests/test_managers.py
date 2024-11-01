@@ -1,11 +1,9 @@
-import pytest
 from mptt.managers import TreeManager
 from parler.managers import TranslatableManager
 
 from apps.category.managers import CategoryManager, CategoryQuerySet
 
 
-@pytest.mark.django_db
 class TestCategoryManager:
     def test_as_manager_returns_category_manager(self):
         manager = CategoryQuerySet.as_manager()

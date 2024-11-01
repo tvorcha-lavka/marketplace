@@ -1,6 +1,6 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils.decorators import method_decorator
-from django.utils.translation import get_language_from_request
+from django.utils.translation import activate
 from django.views.decorators.cache import cache_page
 from rest_framework import status
 from rest_framework.generics import GenericAPIView, get_object_or_404
@@ -9,7 +9,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from .filters import CategoryFilter
-from .models import Category, CategoryStatistics
+from .models import Category, Statistics
 from .serializers import CategoryDetailSerializer, CategorySerializer
 
 
@@ -24,11 +24,14 @@ class CategoryViewSet(ModelViewSet):
             return CategoryDetailSerializer
         return CategorySerializer
 
+    def dispatch(self, request, *args, **kwargs):
+        activate(request.GET.get("lang", request.LANGUAGE_CODE))
+        return super().dispatch(request, *args, **kwargs)
+
     def get_queryset(self):
         return (
             Category.objects.filter(active=True)
-            .language(get_language_from_request(self.request))
-            .select_related("image", "statistics")
+            .select_related("image", "card", "card__image", "statistics")
             .prefetch_related("translations")
         )
 
@@ -49,7 +52,7 @@ class UpdateCategoryStatisticAPIView(GenericAPIView):
         try:
             category.statistics
         except ObjectDoesNotExist:
-            CategoryStatistics.objects.create(category=category)
+            Statistics.objects.create(category=category)
 
         getattr(category.statistics, method)()
         return Response(status=status.HTTP_200_OK)
