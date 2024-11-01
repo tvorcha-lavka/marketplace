@@ -1,0 +1,73 @@
+.errorSection {
+  max-width: 1440px;
+  padding: 60px 125px 73px 125px;
+  margin: 0 auto;
+  background-color: var(--default-white);
+}
+
+.container {
+  position: relative;
+  max-width: 1195px;
+  padding: 81px 354px 126px 349px;
+  border-radius: var(--border-radius-medium);
+  background-color: var(--primary-yellow);
+}
+
+.imgFirst {
+  transform: rotate(24deg);
+  position: absolute;
+  left: 3px;
+  top: 190px;
+  width: 268px;
+  height: 186px;
+}
+
+.error {
+  font-weight: var(--font-weight-extra-bold);
+  font-size: var(--font-size-biggest);
+  text-align: center;
+  color: var(--default-black);
+}
+
+.errorText {
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 26px;
+  width: 346px;
+  font-weight: var(--font-weight-normal);
+  font-size: var(--font-size-medium-small);
+  text-align: center;
+  color: var(--default-black);
+}
+
+.link {
+  display: block;
+  margin: 0 auto;
+  border: 1px solid var(--default-black);
+  border-radius: var(--border-radius);
+  padding: 10px;
+  width: 342px;
+  height: var(--component-height);
+  text-align: center;
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-extra-small);
+  color: var(--default-black);
+}
+
+.imgSecond {
+  transform: rotate(15deg);
+  position: absolute;
+  right: 88px;
+  top: 2px;
+  width: 219px;
+  height: 144px;
+}
+
+.imgThird {
+  transform: rotate(-30deg);
+  position: absolute;
+  right: 0px;
+  bottom: -10px;
+  width: 312px;
+  height: 226px;
+}
