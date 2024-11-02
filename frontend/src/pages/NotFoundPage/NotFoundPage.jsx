@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import media from '../../utils/config';
+import { media } from '../../utils/mediaConfig';
 
 import css from './NotFoundPage.module.css';
 
