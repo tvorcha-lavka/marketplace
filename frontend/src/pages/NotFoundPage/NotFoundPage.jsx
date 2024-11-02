@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 
+import domain from '../../utils/config';
+
 import css from './NotFoundPage.module.css';
 
 export default function NotFoundPage() {
@@ -8,7 +10,7 @@ export default function NotFoundPage() {
       <div className={css.container}>
         <img
           className={css.imgFirst}
-          src="../../../public/images/errorPage/butterfly-first.png"
+          src={`${domain}/page/404/butterfly-first.png`}
           alt="Butterfly"
         />
         <h1 className={css.error}>404</h1>
@@ -20,12 +22,12 @@ export default function NotFoundPage() {
         </Link>
         <img
           className={css.imgSecond}
-          src="../../../public/images/errorPage/butterfly-second.png"
+          src={`${domain}/page/404/butterfly-second.png`}
           alt="Butterfly"
         />
         <img
           className={css.imgThird}
-          src="../../../public/images/errorPage/butterfly-third.png"
+          src={`${domain}/page/404/butterfly-third.png`}
           alt="Butterfly"
         />
       </div>
