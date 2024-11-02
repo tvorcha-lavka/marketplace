@@ -43,7 +43,7 @@
 .link {
   display: block;
   margin: 0 auto;
-  border: 1px solid var(--default-black);
+  border: var(--border-width) var(--border-style) var(--default-black);
   border-radius: var(--border-radius);
   padding: 10px;
   width: 342px;
