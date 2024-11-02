@@ -3,6 +3,7 @@ import { createTheme } from '@mui/material/styles';
 const theme = createTheme({
   typography: {
     fontFamily: '"Mulish", sans-serif',
+    fontWeightExtraBold: 800,
     fontWeightBold: 700,
     fontWeightMedium: 600,
     fontWeightNormal: 400,
@@ -43,7 +44,8 @@ const theme = createTheme({
       backgroundBackdrop: 'rgba(0, 0, 0, 0.9)',
       backgroundModal: '#fffdf9',
     },
-    sizes: {
+		sizes: {
+			fontSizeBiggest: '200px',
       fontSizeLarge: '44px',
       fontSizeLargeMedium: '32px',
       fontSizeMedium: '24px',
