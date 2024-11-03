@@ -12,7 +12,7 @@ const GlobalStylesComponent = () => {
           padding: 0,
         },
         body: {
-          fontFamily: theme.typography.fontFamily,
+          fontFamily: theme.typography.fontFamily,          
         },
         'p:last-child': {
           marginBottom: 0,

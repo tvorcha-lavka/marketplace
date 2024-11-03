@@ -1,0 +1,13 @@
+
+.page_container {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  height: 100vh;
+}
+
+.content{
+  padding-block-start: 50px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 700;
+}
