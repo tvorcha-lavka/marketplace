@@ -2,27 +2,13 @@
   display: flex;
 }
 
+.formWrapper {
+  padding: 12px 20px;
+}
+
 .headerWrapper {
   display: flex;
   margin-bottom: 24px;
-}
-
-.headerBtn {
-  text-align: center;
-  font-size: var(--font-size-small);
-  font-weight: var(--font-weight-bold);
-  border: none;
-  background-color: transparent;
-  color: var(--grey-darker);
-}
-
-.headerBtnActive {
-  text-align: center;
-  font-size: var(--font-size-small);
-  font-weight: var(--font-weight-bold);
-  border: none;
-  background-color: transparent;
-  color: var(--default-black);
 }
 
 .headerWrapLogin,
@@ -46,8 +32,58 @@
   content: '';
 }
 
-.formWrapper {
-  padding: 12px 20px;
+.headerBtnActive {
+  text-align: center;
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-bold);
+  border: none;
+  background-color: transparent;
+  color: var(--default-black);
+}
+
+.headerBtn {
+  text-align: center;
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-bold);
+  border: none;
+  background-color: transparent;
+  color: var(--grey-darker);
+}
+
+/*=========START PWD INPUT=========*/
+.pwdInputWrap {
+  margin-bottom: 8px;
+}
+
+.pwdLabelWrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.inputLabel {
+  margin-right: 4px;
+  font-size: var(--font-size-tiny);
+  font-weight: var(--font-weight-bold);
+  color: var(--default-black);
+}
+
+.requiredSymb {
+  font-size: var(--font-size-extra-small);
+  font-weight: var(--font-weight-bold);
+  color: var(--default-black);
+}
+
+.resetPwd {
+  font-size: var(--font-size-tiny);
+  font-weight: var(--font-weight-normal);
+  border: none;
+  background-color: transparent;
+  color: var(--default-black);
+}
+
+.pwdInputBox {
+  position: relative;
 }
 
 .formInput {
@@ -64,11 +100,7 @@
   appearance: none;
 }
 
-.formInputError {
-  border: var(--border-width) var(--border-style) var(--error-red);
-}
-
-.formInput.filled {
+.filled {
   border-color: var(--default-black);
 }
 
@@ -87,55 +119,8 @@
   color: var(--grey-dark);
 }
 
-.inputWrapEmail,
-.inputWrapPwd {
-  display: flex;
-  flex-direction: column;
-}
-
-.formInput.formInputError {
+.formInputError {
   border: var(--border-width) var(--border-style) var(--error-red);
-}
-/*=========START EMAIL INPUT=========*/
-.inputWrapEmail {
-  margin-bottom: 20px;
-}
-
-.inputLabel {
-  margin-right: 4px;
-  font-size: var(--font-size-tiny);
-  font-weight: var(--font-weight-bold);
-  color: var(--default-black);
-}
-
-.requiredSymb {
-  font-size: var(--font-size-extra-small);
-  font-weight: var(--font-weight-bold);
-  color: var(--default-black);
-}
-/*=========END EMAIL INPUT=========*/
-
-/*=========START INPUT PWD=========*/
-.pwdLabelWrap {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.resetPwd {
-  font-size: var(--font-size-tiny);
-  font-weight: var(--font-weight-normal);
-  border: none;
-  background-color: transparent;
-  color: var(--default-black);
-}
-
-.pwdInput {
-  position: relative;
-}
-
-.pwdInputWrap {
-  margin-bottom: 8px;
 }
 
 .fiEyeOff {
@@ -163,7 +148,6 @@
 .iconError {
   stroke: var(--error-red);
 }
-/*=========END INPUT PWD=========*/
 
 .additionalInfo {
   margin-top: 4px;
@@ -171,6 +155,7 @@
   font-weight: var(--font-weight-normal);
   color: var(--error-red);
 }
+/*=========END INPUT PWD=========*/
 
 /*=========START CHECKBOX=========*/
 .visuallyHidden {
@@ -253,24 +238,3 @@ input[type='checkbox']:focus
   color: var(--default-black);
 }
 /*=========END CHECKBOX=========*/
-
-.styledButton {
-  width: 368px;
-  height: var(--component-height);
-  padding: 10px;
-  justify-content: center;
-  align-items: center;
-  border: none;
-  border-radius: var(--border-radius);
-  font-size: var(--font-size-extra-small);
-  font-weight: var(--font-weight-bold);
-  color: var(--default-black);
-  background-color: var(--primary-yellow);
-  cursor: pointer;
-}
-
-.styledButton:disabled {
-  background-color: var(--grey-lighter);
-  color: var(--default-white);
-  cursor: not-allowed;
-}

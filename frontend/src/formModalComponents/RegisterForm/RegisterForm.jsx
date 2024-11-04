@@ -1,18 +1,15 @@
-import { useState, useId } from 'react';
+import { useId } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { register } from '../../redux/auth/operations';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form } from 'formik';
 import toast from 'react-hot-toast';
-import clsx from 'clsx';
-import { FiEye, FiEyeOff } from 'react-icons/fi';
 
 import Loader from '../Loader/Loader';
 import FormImgComponent from '../FormImgComponent/FormImgComponent';
 import SocialAuthComponent from '../SocialAuthComponent/SocialAuthComponent';
-import {
-  PwdStrengthLength,
-  getStrengthLabel,
-} from '../PwdStrengthLength/PwdStrengthLength';
+import CustomButton from '../../components/CustomButton/CustomButton';
+import EmailField from '../EmailField/EmailField';
+import PasswordField from '../PasswordField/PasswordField';
 
 import { useModal } from '../../hooks/useModal';
 import { selectLoading } from '../../redux/auth/selectors';
@@ -21,27 +18,16 @@ import { schema } from '../../utils/formSchema';
 import css from '../RegisterForm/RegisterForm.module.css';
 
 export default function RegisterForm() {
-  const [showPassword, setShowPassword] = useState(true);
-  const [type, setType] = useState('password');
-  const [strengthLabel, setStrengthLabel] = useState('');
-  const [showInfo, setShowInfo] = useState(false);
-
+  const id = useId();
   const isLoading = useSelector(selectLoading);
   const { openModal } = useModal();
   const dispatch = useDispatch();
-  const id = useId();
 
   const handleSubmit = async (values, actions) => {
     const newUser = {
       email: values.email,
       password: values.password,
     };
-
-    function resetFormData() {
-      setShowInfo(false);
-      setStrengthLabel({ label: '', color: '', lines: 0 });
-      actions.resetForm();
-    }
 
     dispatch(register(newUser))
       .unwrap()
@@ -51,17 +37,12 @@ export default function RegisterForm() {
       })
       .catch((e) => {
         if (e === 'Request failed with status code 307') {
-          resetFormData();
+          actions.resetForm();
           openModal('verification-register');
         } else {
           toast('Користувач з такою поштою вже зареєстрований');
         }
       });
-  };
-
-  const togglePassInput = () => {
-    setType(showPassword ? 'text' : 'password');
-    setShowPassword(!showPassword);
   };
 
   return (
@@ -103,86 +84,25 @@ export default function RegisterForm() {
           >
             {({ setFieldValue, values, errors }) => (
               <Form>
-                <div className={css.inputWrapEmail}>
-                  <label className={css.inputLabel} htmlFor={`${id}-email`}>
-                    Електронна пошта{' '}
-                    <span className={css.requiredSymb}>&#42;</span>
-                  </label>
+                <EmailField id={id} values={values}>
+                  Електронна пошта
+                </EmailField>
 
-                  <Field
-                    id={`${id}-email`}
-                    name="email"
-                    type="email"
-                    className={clsx(css.formInput, values.email && css.filled)}
-                    placeholder="example@gmail.com"
-                    autoComplete="off"
-                  />
-                </div>
-
-                <div className={css.pwdInputWrap}>
-                  <label className={css.inputLabel} htmlFor={`${id}-password`}>
-                    Пароль <span className={css.requiredSymb}>&#42;</span>
-                  </label>
-
-                  <div className={css.pwdInput}>
-                    <Field
-                      id={`${id}-password`}
-                      type={type}
-                      name="password"
-                      className={clsx(
-                        css.formInput,
-                        values.password && css.filled
-                      )}
-                      placeholder="password"
-                      autoComplete="off"
-                      onChange={(e) => {
-                        const password = e.target.value;
-                        setFieldValue('password', password);
-                        if (password === '') {
-                          setStrengthLabel('');
-                          setShowInfo(false);
-                        } else {
-                          const strength = getStrengthLabel(password);
-                          setStrengthLabel(strength);
-                          setShowInfo(true);
-                        }
-                      }}
-                    />
-
-                    {showPassword ? (
-                      <FiEyeOff
-                        name="password"
-                        id={`${id}-password`}
-                        className={css.fiEyeOff}
-                        onClick={togglePassInput}
-                      />
-                    ) : (
-                      <FiEye
-                        name="password"
-                        id={`${id}-password`}
-                        className={css.fiEye}
-                        onClick={togglePassInput}
-                      />
-                    )}
-                  </div>
-
-                  {showInfo && (
-                    <PwdStrengthLength strengthLabel={strengthLabel} />
-                  )}
-                </div>
-                {showInfo && (
-                  <p className={css.additionalInfo}>
-                    Пароль має складатись з мін. 8 та макс. 30 символів, цифр і
-                    спеціальних знаків
-                  </p>
-                )}
+                <PasswordField
+                  id={id}
+                  values={values}
+                  setFieldValue={setFieldValue}
+                >
+                  Пароль
+                </PasswordField>
 
                 <p className={css.privacyText}>
                   Натискаючи &#x201C;Зареєструватись&#x201D; ви приймаєте
                   Правила користування сайтом
                 </p>
-                <button
-                  className={css.styledButton}
+
+                <CustomButton
+                  size="medium"
                   type="submit"
                   disabled={
                     !values.email ||
@@ -192,7 +112,7 @@ export default function RegisterForm() {
                   }
                 >
                   Зареєструватись
-                </button>
+                </CustomButton>
               </Form>
             )}
           </Formik>

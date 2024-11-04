@@ -1,0 +1,55 @@
+.emailFieldWrapper {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.emailFieldLabel {
+  margin-right: 4px;
+  font-size: var(--font-size-tiny);
+  font-weight: var(--font-weight-bold);
+  color: var(--default-black);
+}
+
+.requiredSymb {
+  font-size: var(--font-size-extra-small);
+  font-weight: var(--font-weight-bold);
+  color: var(--default-black);
+}
+
+.emailField {
+  width: 368px;
+  margin-top: 4px;
+  height: var(--component-height);
+  padding: 0 12px;
+  font-size: var(--font-size-tiny);
+  font-weight: var(--font-weight-normal);
+  border-radius: var(--border-radius);
+  border: var(--border-width) var(--border-style) var(--grey-dark);
+  color: var(--default-black);
+  background-color: transparent;
+  appearance: none;
+}
+
+.emailFieldFilled {
+  border-color: var(--default-black);
+}
+
+.emailField:hover {
+  border-color: var(--primary-yellow);
+}
+
+.emailField:focus {
+  outline: var(--border-width) var(--border-style) transparent;
+  border-color: var(--primary-yellow);
+}
+
+.emailField::placeholder {
+  font-size: var(--font-size-tiny);
+  font-weight: var(--font-weight-normal);
+  color: var(--grey-dark);
+}
+
+.emailFieldError {
+  border: var(--border-width) var(--border-style) var(--error-red);
+}
