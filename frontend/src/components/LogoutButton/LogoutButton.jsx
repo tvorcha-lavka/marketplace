@@ -1,6 +1,8 @@
 import { useDispatch } from 'react-redux';
+
 import { logOut } from '../../redux/auth/operations';
-import css from './LogoutButton.module.css';
+
+import CustomButton from '../CustomButton/CustomButton';
 
 export default function LogoutButton() {
   const dispatch = useDispatch();
@@ -10,8 +12,8 @@ export default function LogoutButton() {
   };
 
   return (
-    <button className={css.logoutBtn} onClick={handleLogout}>
+    <CustomButton onClick={handleLogout} size="small">
       Logout
-    </button>
+    </CustomButton>
   );
 }
