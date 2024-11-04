@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-export const useClickOutsideAndEsc = (closeModal) => {
+export const useClickEsc = (closeModal) => {
   const modalRef = useRef(null);
 
   useEffect(() => {
