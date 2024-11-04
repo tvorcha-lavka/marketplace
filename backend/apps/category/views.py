@@ -3,14 +3,14 @@ from django.utils.decorators import method_decorator
 from django.utils.translation import activate
 from django.views.decorators.cache import cache_page
 from rest_framework import status
-from rest_framework.generics import GenericAPIView, get_object_or_404
+from rest_framework.generics import GenericAPIView, ListAPIView, get_object_or_404
 from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from .filters import CategoryFilter
 from .models import Category, Statistics
-from .serializers import CategoryDetailSerializer, CategorySerializer
+from .serializers import CatalogSerializer, CategoryDetailSerializer, CategorySerializer
 
 
 class CategoryViewSet(ModelViewSet):
@@ -70,3 +70,21 @@ class UpdatePurchasesCountAPIView(UpdateCategoryStatisticAPIView):
 
     def post(self, request, *args, **kwargs):  # noqa: F841
         return self.update_statistic(method="increment_purchases")
+
+
+class CatalogListAPIView(ListAPIView):
+    serializer_class = CatalogSerializer
+    permission_classes = [AllowAny]
+    pagination_class = None
+
+    def get_queryset(self):
+        return (
+            Category.objects.filter(active=True, level__in=[0, 1, 2])
+            .select_related("image")
+            .prefetch_related("translations")
+            .order_by("level", "order")
+        )
+
+    @method_decorator(cache_page(3600, key_prefix="catalog"))  # server-side cache for 1 hour
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
