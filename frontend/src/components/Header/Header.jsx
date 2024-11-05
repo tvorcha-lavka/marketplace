@@ -1,14 +1,14 @@
 import { Link } from 'react-router-dom';
 import { useModal } from '../../hooks/useModal';
+import { useRef, useState } from 'react';
 import sprite from '../../../public/icons/sprite.svg';
-
 import Logo from '../Logo/Logo';
 import Searchbar from '../Searchbar/SearchBar';
 import AddItemButton from '../AddItemButton/AddItemButton';
-
-import styles from './Header.module.css';
-import { useRef, useState } from 'react';
 import CatalogModal from '../CatalogModal/CatalogModal';
+import HeaderDown from '../HeaderDown/HeaderDown';
+import styles from './Header.module.css';
+
 
 export default function Header() {
   const { openModal } = useModal();
@@ -28,7 +28,7 @@ export default function Header() {
       if (!modalRef.current.contains(document.activeElement)) {
         setIsFocused(false);
       }
-    }, 200); 
+    }, 100); 
   };
 
   const handleFocus = () => {
@@ -40,7 +40,7 @@ export default function Header() {
       if (!modalRef.current.contains(document.activeElement)) {
         setIsFocused(true);
       }
-    }, 200); 
+    }, 100); 
   };
 	
   return (
@@ -65,7 +65,7 @@ export default function Header() {
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
               >
-                <CatalogModal />
+                <CatalogModal noFocuseModal={() => setIsFocused(false)} />
               </div>
             )}
           <Searchbar />
@@ -84,6 +84,7 @@ export default function Header() {
           </button>
         </div>
       </div>
+      <HeaderDown />
     </section>
   );
 }

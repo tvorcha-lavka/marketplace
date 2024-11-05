@@ -16,9 +16,8 @@ export default function CatalogModal() {
 
   const dispatch = useDispatch();
   const categories = useSelector(selectCategories);
-  const isLoading = useSelector(selectIsLoading);
-  const error = useSelector(selectError);
-
+  // const isLoading = useSelector(selectIsLoading);
+  
   console.log(categories);
 
   const focusedCategory = categories.find((_, index) => index === focusId);
@@ -35,9 +34,6 @@ export default function CatalogModal() {
   const handleMouseLeave = () => {
     setFocusId(null);
   };
-
-  if (isLoading) return <p>Завантаження...</p>;
-  if (error) return <p>Помилка: {error}</p>;
 
   return (
     <div
