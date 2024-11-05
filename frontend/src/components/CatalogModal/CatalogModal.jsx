@@ -75,7 +75,7 @@ export default function CatalogModal() {
                       {focusedCategory.title}
                     </h2>
                     <img
-                      src={item.url ? `${item.url}` : fotoAlternate}
+                      src={item.image ? `${item.image.url}` : fotoAlternate}
                       alt={item.title}
                       className={css.item_img}
                     />

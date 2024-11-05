@@ -25,7 +25,7 @@ console.log(allCategories)
         <h2 className={css.title}> Всі категорії</h2>
         <ul className={css.list}>
           {allCategories?.map(({ title, image, card, id }, index) => (
-            index  !== 4 || index !== 9 ?
+            index !==4 && index !== 9?
 
               (<Link
                 key={id}
@@ -40,7 +40,8 @@ console.log(allCategories)
                   }}
                 >{title}</h3>
                 <img src={card.image.url} alt={card.image.alt} className={css.img1}
-                style={{width: `${card.image.size}`}}/>
+                  style={{ size: `${card.image.size}` }}
+                />
               </Link>)
               : (
                 <Link
@@ -55,7 +56,7 @@ console.log(allCategories)
                       position: `${card.title_position}`,
                     }}
                   >{title}</h3>
-                  <img src={image.url} alt={image.alt} className={css.img1} />
+                  <img src={image.url} alt={image.alt} className={css.img2} />
                 </Link>)
           )           
             

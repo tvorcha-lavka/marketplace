@@ -61,10 +61,20 @@
   color: #fff;
 }
 
-.item:last-child .item_title {
+/* .item:last-child .item_title {
   width: 205px;
   margin-top: 412px;
   padding-inline-start: 24px;
   padding-block-start: 0;
+} */
+
+.img1{
+  /* width: 390px; */
+  height: 180px;
 }
+
+.img2{
+  width: 390px; 
+}
+
 
