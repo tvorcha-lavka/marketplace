@@ -1,7 +1,7 @@
 import { useRef } from 'react';
-import PropTypes from 'prop-types';
-import arrow from '../../images/arrow-icon.svg';
+
 import { GoChevronDown } from 'react-icons/go';
+
 import css from './QuestionItem.module.css';
 
 export default function QuestionItem({ faqItem, onClick, isOpen }) {
@@ -14,11 +14,8 @@ export default function QuestionItem({ faqItem, onClick, isOpen }) {
       >
         {faqItem.q}
         <GoChevronDown
-          className={
-            isOpen ? `${css.icon_active}` : `${css.accordion_icon}`
-          }
+          className={isOpen ? `${css.icon_active}` : `${css.accordion_icon}`}
         />
-       
       </button>
       <div
         className={css.collapse}
@@ -33,10 +30,3 @@ export default function QuestionItem({ faqItem, onClick, isOpen }) {
     </li>
   );
 }
-
-QuestionItem.propTypes = {
-  faqItem: PropTypes.object,
-  onClick: PropTypes.func,
-  isOpen: PropTypes.bool,
-};
-

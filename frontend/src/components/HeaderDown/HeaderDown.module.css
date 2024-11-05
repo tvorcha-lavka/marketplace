@@ -1,7 +1,7 @@
 .navbox {
   padding: 10px 122px;
-  border-top: 1px solid #d2d2d2;
-  border-bottom: 1px solid #d2d2d2;
+  border-top: var(--border-width) var(--border-style) var(--grey-lighter);
+  border-bottom: var(--border-width) var(--border-style) var(--grey-lighter);
 }
 
 .nav_list {
@@ -14,18 +14,19 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  color: #414141;
+  color: var(--grey-darkest);
 }
 
 .nav_text {
-  font-size: 14px;
-  color: #414141;
+  font-size: var(--font-size-tiny);
+  color: var(--grey-darkest);
 }
+
 .nav_text_color {
-  color: #da5135;
+  color: var(--primary-dark-orange);
 }
 
 .icon_color {
-  font-size: 18px;
-  fill: #da5135;
+  font-size: var(--font-size-small);
+  fill: var(--primary-dark-orange);
 }

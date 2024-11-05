@@ -3,8 +3,9 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getPopCategories } from '../../redux/categories/categoriesOperations';
 import { selectPopCategories } from '../../redux/categories/categoriesSelectors';
-import css from './PopularCategories.module.css';
 import popImg3 from '../../images/popImg3.png';
+
+import css from './PopularCategories.module.css';
 
 export default function PopularCategories() {
   const dispatch = useDispatch();
@@ -20,7 +21,7 @@ export default function PopularCategories() {
     <section className={css.container}>
       <div className={css.title_box}>
         <h2 className={css.title}>Популярні категорії</h2>
-        <Link to="/categories/" className={css.link}>
+        <Link to="/categories" className={css.link}>
           Всі категорії
         </Link>
       </div>

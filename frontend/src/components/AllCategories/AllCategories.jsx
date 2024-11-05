@@ -1,5 +1,6 @@
-import { NavLink, Link, useParams } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+
 import { selectCategories } from '../../redux/categories/categoriesSelectors';
 import css from './AllCategories.module.css';
 
@@ -32,44 +33,32 @@ export default function AllCategories() {
                   backgroundColor: `${card.bg_color}`,
                 }}
               >
-                <h3
-                  className={css.item_title}
-                  // style={{
-                  //   position: `${card.title_position}`,
-                  // }}
-                >
-                  {title}
-                </h3>
-                <img
-                  src={card.image.url}
-                  alt={image.alt}
-                  className={css.img1}
-                  // style={{ size: `${card.image.size}` }}
-                />
-              </Link>
-            ) : (
-              <Link
-                key={id}
-                className={css.item}
-                style={{
-                  backgroundColor: `${card.bg_color}`,
-                }}
-              >
-                <h3
-                  className={css.item_title}
+                <h3 className={css.item_title}
                   style={{
                     position: `${card.title_position}`,
                   }}
-                >
-                  {title}
-                </h3>
-                <img
-                  src={card.image.url}
-                  alt={image.alt}
-                  className={css.img2}
+                >{title}</h3>
+                <img src={card.image.url} alt={card.image.alt} className={css.img1}
+                  style={{ size: `${card.image.size}` }}
                 />
-              </Link>
-            )
+              </Link>)
+              : (
+                <Link
+                  key={id}
+                  className={css.item}
+                  style={{
+                    backgroundColor: `${card.bg_color}`,
+                  }}
+                >
+                  <h3 className={css.item_title}
+                    style={{
+                      position: `${card.title_position}`,
+                    }}
+                  >{title}</h3>
+                  <img src={image.url} alt={image.alt} className={css.img2} />
+                </Link>)
+          )           
+            
           )}
         </ul>
       </div>

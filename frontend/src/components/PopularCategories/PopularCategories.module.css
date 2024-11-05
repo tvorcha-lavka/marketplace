@@ -4,7 +4,7 @@
     margin-block-end: 140px;
 }
 
-.title_box{
+.title_box {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -17,7 +17,7 @@
     line-height: 1.2;
 }
 
-.link{
+.link {
     font-size: 14px;
     text-decoration: underline;
     color: #000;

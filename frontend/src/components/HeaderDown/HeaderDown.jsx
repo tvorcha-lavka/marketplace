@@ -1,10 +1,11 @@
+import { Link } from 'react-router-dom';
 import {
   CiDiscount1,
   CiHeart,
   CiDeliveryTruck,
 } from 'react-icons/ci';
 import { PiHeadphones } from 'react-icons/pi';
-import { Link } from 'react-router-dom';
+
 import css from './HeaderDown.module.css';
 
 export default function HeaderDown() {
