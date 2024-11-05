@@ -1,31 +1,26 @@
-import styles from './CatalogModal.module.css';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { GoChevronRight } from 'react-icons/go';
-import { useDispatch, useSelector } from 'react-redux';
 import fotoAlternate from '../../images/not-found.png';
 import {
   selectCategories,
   selectIsLoading,
   selectError,
 } from '../../redux/categories/categoriesSelectors';
-import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { getAllCategories } from '../../redux/categories/categoriesOperations';
+import css from './CatalogModal.module.css';
 
 export default function CatalogModal() {
   const [focusId, setFocusId] = useState(null);
 
-  const dispatch = useDispatch();
   const categories = useSelector(selectCategories);
   // const isLoading = useSelector(selectIsLoading);
   
-  console.log(categories);
+  // console.log(categories);
 
-  const focusedCategory = categories.find((_, index) => index === focusId);
+  const focusedCategory = categories?.find((_, index) => index === focusId);
   const subcategories = focusedCategory?.children || [];
 
-  useEffect(() => {
-    dispatch(getAllCategories());
-  }, [dispatch]);
 
   const handleMouseEnter = (id) => {
     setFocusId(id);
@@ -37,32 +32,32 @@ export default function CatalogModal() {
 
   return (
     <div
-      className={styles.modal_box}
+      className={css.modal_box}
       onMouseLeave={handleMouseLeave}
     >
       <div
         className={
           focusId !== null && subcategories.length > 0
-            ? `${styles.box_categories_open}`
-            : `${styles.box_categories}`
+            ? `${css.box_categories_open}`
+            : `${css.box_categories}`
         }
       >
         <ul
           className={
             focusId !== null
-              ? `${styles.list_categories_open}`
-              : `${styles.list_categories}`
+              ? `${css.list_categories_open}`
+              : `${css.list_categories}`
           }
         >
           {categories?.map((category, id) => (
-            <li key={id} className={styles.category_item}>
+            <li key={id} className={css.category_item}>
               <Link
-                className={styles.category}
+                className={css.category}
                 onMouseEnter={() => handleMouseEnter(id)}
               >
                 {category.title}
                 {category.children && category.children.length > 0 && (
-                  <GoChevronRight className={styles.icon_right} />
+                  <GoChevronRight className={css.icon_right} />
                 )}
               </Link>
             </li>
@@ -70,22 +65,22 @@ export default function CatalogModal() {
         </ul>
       </div>
       {focusId !== null && subcategories.length > 0 && (
-        <div className={styles.category_menu}>
-          <div className={styles.scrollbox}>
-            <div className={styles.scrollbox_inner}>
-              <ul className={styles.list_cards}>
+        <div className={css.category_menu}>
+          <div className={css.scrollbox}>
+            <div className={css.scrollbox_inner}>
+              <ul className={css.list_cards}>
                 {subcategories.map((item, index) => (
-                  <li key={index} className={styles.item_card}>
-                    <h2 className={styles.list_title}>
+                  <li key={index} className={css.item_card}>
+                    <h2 className={css.list_title}>
                       {focusedCategory.title}
                     </h2>
                     <img
-                      src={item.url ? `${item.url}` : fotoAlternate}
+                      src={item.image ? `${item.image.url}` : fotoAlternate}
                       alt={item.title}
-                      className={styles.item_img}
+                      className={css.item_img}
                     />
-                    <div className={styles.box_text}>
-                      <p className={styles.ttitle}>{item.title}</p>
+                    <div className={css.box_text}>
+                      <p className={css.ttitle}>{item.title}</p>
                     </div>
                   </li>
                 ))}

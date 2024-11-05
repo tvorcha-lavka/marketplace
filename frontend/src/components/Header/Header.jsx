@@ -1,13 +1,14 @@
 import { Link } from 'react-router-dom';
 import { useModal } from '../../hooks/useModal';
 import { useRef, useState } from 'react';
+import { FiShoppingCart } from "react-icons/fi";
 import sprite from '../../../public/icons/sprite.svg';
 import Logo from '../Logo/Logo';
 import Searchbar from '../Searchbar/SearchBar';
 import AddItemButton from '../AddItemButton/AddItemButton';
 import CatalogModal from '../CatalogModal/CatalogModal';
 import HeaderDown from '../HeaderDown/HeaderDown';
-import styles from './Header.module.css';
+import css from './Header.module.css';
 
 
 export default function Header() {
@@ -44,12 +45,12 @@ export default function Header() {
   };
 	
   return (
-    <section className={styles.section}>
-      <div className={styles.firstPart}>
-        <div className={styles.leftPart} >
+    <section className={css.section}>
+      <div className={css.firstPart}>
+        <div className={css.leftPart} >
           <Logo />
             <button
-              className={styles.catalogBtn}
+              className={css.catalogBtn}
               onMouseEnter={handleMouseEnter}
               onFocus={handleFocus}
               onBlur={handleBlur}
@@ -71,13 +72,11 @@ export default function Header() {
           <Searchbar />
           <AddItemButton />
         </div>
-        <div className={styles.rightPart}>
+        <div className={css.rightPart}>
           <Link to="/cart">
-            <svg width={24} height={24}>
-              <use href={`${sprite}#icon-cart`} />
-            </svg>
+            <FiShoppingCart size={24} color='#000'/>
           </Link>
-          <button className={styles.loginButton} onClick={handleLoginClick}>
+          <button className={css.loginButton} onClick={handleLoginClick}>
             <svg width={32} height={32} stroke="black">
               <use href={`${sprite}#icon-user`} />
             </svg>
