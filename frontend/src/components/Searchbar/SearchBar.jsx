@@ -1,17 +1,17 @@
 import sprite from '../../../public/icons/sprite.svg';
 
-import styles from './SearchBar.module.css';
+import css from './SearchBar.module.css';
 
 export default function Searchbar() {
   return (
-    <div className={styles.searchBar}>
-      <input placeholder="Пошук товару" className={styles.input} />
+    <div className={css.searchBar}>
+      <input placeholder="Пошук товару" className={css.input} />
       <svg
         width={24}
         height={24}
         stroke="black"
         fill="transparent"
-        className={styles.icon}
+        className={css.icon}
       >
         <use href={`${sprite}#icon-search`} />
       </svg>

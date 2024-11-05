@@ -15,9 +15,9 @@ export const getAllCategories = createAsyncThunk(
       console.log(res.data)
       const tree = res.data
       const categoryTrees = buildCategoryTree(tree);
-        console.log(categoryTrees)
+        // console.log(categoryTrees)
       const categories = categoryTrees[0].children;
-      console.log(categories)
+      // console.log(categories)
         return categories;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);

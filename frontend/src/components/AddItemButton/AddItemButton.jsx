@@ -1,9 +1,9 @@
-import styles from './AddItemButton.module.css';
+import css from './AddItemButton.module.css';
 
 export default function AddItemButton() {
   return (
     <>
-      <button className={styles.btn}>Додати товар</button>
+      <button className={css.btn}>Додати товар</button>
     </>
   );
 }

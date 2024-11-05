@@ -8,9 +8,9 @@ import ModalParentComponent from './formModalComponents/ModalParentComponent/Mod
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 import LogoutButton from './components/LogoutButton/LogoutButton';
 import SocialAuthHandler from './formModalComponents/SocialAuthHandler/SocialAuthHandler';
-import UnderDevelopPage from './pages/UnderDevelopPage/UnderDevelopPage';
 
 const HomePage = lazy(() => import('./pages/HomePage/HomePage'));
+const AllCategoriesPage = lazy(() => import('./pages/AllCategoriesPage/AllCategoriesPage'))
 const CartPage = lazy(() => import('./pages/CartPage/CartPage'));
 const SupportPage = lazy(() => import('./pages/SupportPage/SupportPage'));
 
@@ -26,7 +26,9 @@ export default function App() {
       <Routes>
         <Route path="/" element={<SharedLayout />}>
           <Route index element={<HomePage />} />
-          <Route path="/cart" element={<CartPage />} />          
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/categories" element={<AllCategoriesPage />}
+          />
           <Route path="/support" element={<SupportPage />} />
 
           <Route
@@ -37,7 +39,6 @@ export default function App() {
             path="/login/facebook/complete"
             element={<SocialAuthHandler provider="facebook" />}
           />
-           <Route path="/under-development" element={<UnderDevelopPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>

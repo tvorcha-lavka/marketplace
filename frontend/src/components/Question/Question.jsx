@@ -1,25 +1,25 @@
 import { useState } from 'react';
-import styles from './Question.module.css';
 import questionImg from '../../images/questionImg.jpg';
 import { faqList } from '../../utils/faqList';
 import QuestionItem from '../QuestionItem/QuestionItem';
+import css from './Question.module.css';
 
 
 export default function Question() {
   const [openId, setOpenId] = useState(null);
 
   return (
-    <div className={styles.container}>
-      <h2 className={styles.title}>
+    <div className={css.container}>
+      <h2 className={css.title}>
         Найчастіші питання до
-        <span className={styles.span_title}> Tvorcha Lavka</span>
+        <span className={css.span_title}> Tvorcha Lavka</span>
       </h2>
-      <div className={styles.contentbox}>
-        <div className={styles.imgbox}>
-          <img src={questionImg} alt="" className={styles.img} />
+      <div className={css.contentbox}>
+        <div className={css.imgbox}>
+          <img src={questionImg} alt="" className={css.img} />
         </div>
 
-        <ul className={styles.accordion}>
+        <ul className={css.accordion}>
           {faqList?.map((faqItem, id) => (
             <QuestionItem
               key={id}
