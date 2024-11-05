@@ -100,12 +100,12 @@ const GlobalStylesComponent = () => {
           '--icon-size': theme.custom.sizes.iconSize, //16
 
           '--border-style': theme.custom.borders.borderStyle, //solid
+          '--border-width-bigger': theme.custom.borders.borderWidthBigger, //1.2px
           '--border-width': theme.custom.borders.borderWidth, //1px
 
           '--cart-shadow': theme.custom.shadows.cartShadow, //0px 1px 12px 0px rgba(130, 84, 8, 0.15)
 
-          '--component-width': theme.custom.dimensions.componentWidth, //358
-          '--component-height': theme.custom.dimensions.componentHeight, //44
+          '--component-height': theme.custom.dimensions.componentHeight, //44//button
         },
       }}
     />

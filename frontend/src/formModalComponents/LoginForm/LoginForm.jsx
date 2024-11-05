@@ -9,6 +9,8 @@ import { FaCheck } from 'react-icons/fa6';
 import Loader from '../Loader/Loader';
 import FormImgComponent from '../FormImgComponent/FormImgComponent';
 import SocialAuthComponent from '../SocialAuthComponent/SocialAuthComponent';
+import CustomButton from '../../components/CustomButton/CustomButton';
+import EmailField from '../EmailField/EmailField';
 
 import { logIn } from '../../redux/auth/operations';
 import { useModal } from '../../hooks/useModal';
@@ -107,27 +109,17 @@ export default function LoginForm() {
             onSubmit={handleSubmit}
           >
             {({ errors, touched, values }) => (
-              <Form>
-                <div className={css.inputWrapEmail}>
-                  <label className={css.inputLabel} htmlFor={`${id}-email`}>
-                    Електронна пошта{' '}
-                    <span className={css.requiredSymb}>&#42;</span>
-                  </label>
-                  <Field
-                    id={`${id}-email`}
-                    name="email"
-                    type="email"
-                    className={clsx(
-                      css.formInput,
-                      values.email && css.filled,
-                      (errors.email && touched.email) || inputError.email
-                        ? css.formInputError
-                        : ''
-                    )}
-                    placeholder="example@gmail.com"
-                    autoComplete="off"
-                  />
-                </div>
+								<Form>
+									
+                <EmailField
+                  id={id}
+                  errors={errors}
+                  touched={touched}
+                  values={values}
+                  inputError={inputError}
+                >
+                  Електронна пошта
+                </EmailField>
 
                 <div className={css.pwdInputWrap}>
                   <div className={css.pwdLabelWrap}>
@@ -146,7 +138,7 @@ export default function LoginForm() {
                     </button>
                   </div>
 
-                  <div className={css.pwdInput}>
+                  <div className={css.pwdInputBox}>
                     <Field
                       id={`${id}-password`}
                       name="password"
@@ -215,8 +207,9 @@ export default function LoginForm() {
                   Натискаючи &#x201C;Увійти&#x201D; ви приймаєте умови
                   Публічного договору (Оферти) про надання послуг
                 </p>
-                <button
-                  className={css.styledButton}
+
+                <CustomButton
+                  size="medium"
                   type="submit"
                   disabled={
                     !values.email ||
@@ -226,7 +219,7 @@ export default function LoginForm() {
                   }
                 >
                   Увійти
-                </button>
+                </CustomButton>
               </Form>
             )}
           </Formik>

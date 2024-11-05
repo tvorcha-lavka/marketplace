@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import Loader from '../Loader/Loader';
 import FormImgComponent from '../FormImgComponent/FormImgComponent';
+import CustomButton from '../../components/CustomButton/CustomButton';
 
 import { useModal } from '../../hooks/useModal';
 import { selectLoading } from '../../redux/auth/selectors';
@@ -46,14 +47,18 @@ export default function ConfirmationModal({ type }) {
       ) : (
         <div className={css.pageContent}>
           <h2 className={css.title}>{getTitleConfirmation(type)}</h2>
-          <p className={css.additionalInfo}>{getDescriptionConfirmation(type)}</p>
-          <button
+          <p className={css.additionalInfo}>
+            {getDescriptionConfirmation(type)}
+          </p>
+
+          <CustomButton
+            className={css.btn}
+            size="medium"
             type="button"
             onClick={handleSubmit}
-            className={css.loginLink}
           >
             Увійти
-          </button>
+          </CustomButton>
         </div>
       )}
     </div>
