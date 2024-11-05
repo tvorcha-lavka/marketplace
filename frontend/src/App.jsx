@@ -8,7 +8,6 @@ import ModalParentComponent from './formModalComponents/ModalParentComponent/Mod
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 import LogoutButton from './components/LogoutButton/LogoutButton';
 import SocialAuthHandler from './formModalComponents/SocialAuthHandler/SocialAuthHandler';
-import UnderDevelopPage from './pages/UnderDevelopPage/UnderDevelopPage';
 
 const HomePage = lazy(() => import('./pages/HomePage/HomePage'));
 const CartPage = lazy(() => import('./pages/CartPage/CartPage'));
@@ -37,7 +36,6 @@ export default function App() {
             path="/login/facebook/complete"
             element={<SocialAuthHandler provider="facebook" />}
           />
-           <Route path="/under-development" element={<UnderDevelopPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
