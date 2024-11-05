@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     "apps.email",
     "apps.category",
     "apps.filter",
+    "apps.product",
 ]
 
 MIDDLEWARE = [

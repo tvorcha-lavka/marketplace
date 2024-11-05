@@ -8,6 +8,8 @@ import { LuArrowLeft } from 'react-icons/lu';
 
 import Loader from '../Loader/Loader';
 import FormImgComponent from '../FormImgComponent/FormImgComponent';
+import CustomButton from '../../components/CustomButton/CustomButton';
+import EmailField from '../EmailField/EmailField';
 
 import { useModal } from '../../hooks/useModal';
 import { selectLoading } from '../../redux/auth/selectors';
@@ -66,29 +68,16 @@ export default function ForgotPassword() {
           >
             {({ values, errors }) => (
               <Form>
-                <div className={css.inputWrapEmail}>
-                  <label htmlFor={`${id}-email`}>
-                    <Field
-                      id={`${id}-email`}
-                      name="email"
-                      type="email"
-                      className={clsx(
-                        css.formInput,
-                        values.email && css.filled
-                      )}
-                      placeholder="example@gmail.com"
-                      autoComplete="off"
-                    />
-                  </label>
-                </div>
+                <EmailField showLabel={false} id={id} values={values} />
 
-                <button
-                  className={css.styledButton}
+                <CustomButton
+                  className={css.btn}
+                  size="medium"
                   disabled={!values.email || !!errors.email}
                   type="submit"
                 >
                   Надіслати посилання
-                </button>
+                </CustomButton>
               </Form>
             )}
           </Formik>

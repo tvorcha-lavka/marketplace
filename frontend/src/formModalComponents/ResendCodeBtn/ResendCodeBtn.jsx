@@ -5,6 +5,7 @@ import {
   resendRegisterCode,
   forgotPassword,
 } from '../../redux/auth/operations';
+import CustomButton from '../../components/CustomButton/CustomButton';
 
 import css from './ResendCodeBtn.module.css';
 
@@ -30,9 +31,14 @@ const ResendCodeBtn = ({ type }) => {
   };
 
   return (
-    <button type="button" onClick={handleSubmit} className={css.submitButton}>
+    <CustomButton
+      onClick={handleSubmit}
+      className={css.btn}
+      size="medium"
+      variant="another"
+    >
       Надіслати код
-    </button>
+    </CustomButton>
   );
 };
 

@@ -8,6 +8,15 @@ from dotenv import load_dotenv
 load_dotenv()
 
 environment = os.getenv("MODE", "dev")
+postgres_host = os.getenv("POSTGRES_HOST")
+
+
+def check_db_host():
+    if environment == "dev" and postgres_host != "host.docker.internal":
+        print(
+            "\n\033[91m" + "WARNING: Your environment is DEV.\033[0m"
+            "\n\033[91m" + "Note that you will be working with a remote database!\n\033[0m"
+        )
 
 
 def main():
@@ -25,4 +34,5 @@ def main():
 
 
 if __name__ == "__main__":
+    check_db_host()
     main()

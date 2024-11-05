@@ -20,18 +20,6 @@
   color: var(--default-black);
 }
 
-.loginLink {
-  display: block;
+.btn {
   margin-bottom: 8px;
-  width: var(--component-width);
-  height: var(--component-height);
-  padding: 10px;
-  border: none;
-  border-radius: var(--border-radius);
-  text-align: center;
-  font-size: var(--font-size-extra-small);
-  font-weight: var(--font-weight-bold);
-  cursor: pointer;
-  color: var(--default-black);
-  background-color: var(--primary-yellow);
 }

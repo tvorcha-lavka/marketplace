@@ -59,3 +59,12 @@ class CategoryDetailSerializer(CategorySerializer):
 
     parents = serializers.ListField(child=CategorySerializer(), source="get_ancestors")
     children = serializers.ListField(child=CategorySerializer(), source="get_children")
+
+
+class CatalogSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ["id", "parent_id", "name", "title", "url", "image"]
+
+    name = serializers.SlugField(source="slug", default="category-name")
+    image = CategoryImageSerializer(source="category_image")
