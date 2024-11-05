@@ -1,13 +1,13 @@
 import { RxCross2 } from 'react-icons/rx';
 
 import { useModal } from '../../hooks/useModal';
-import { useClickOutsideAndEsc } from '../../hooks/useClickOutsideAndEsc';
+import { useClickEsc } from '../../hooks/useClickEsc';
 
 import css from './ModalWrapper.module.css';
 
-const ModalWrapper = ({ children }) => {
-	const { activeModal, closeModal } = useModal();
-	const modalRef = useClickOutsideAndEsc(closeModal);
+export default function ModalWrapper({ children }) {
+  const { activeModal, closeModal } = useModal();
+  const modalRef = useClickEsc(closeModal);
 
   return (
     <>
@@ -27,8 +27,4 @@ const ModalWrapper = ({ children }) => {
       )}
     </>
   );
-};
-
-export default ModalWrapper;
-
-
+}

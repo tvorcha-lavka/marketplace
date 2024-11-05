@@ -75,10 +75,12 @@ const GlobalStylesComponent = () => {
           '--background-modal': theme.custom.colors.backgroundModal, //#fffdf9
 
           '--font-family': theme.typography.fontFamily,
+          '--font-weight-extra-bold': theme.typography.fontWeightExtraBold, //800
           '--font-weight-bold': theme.typography.fontWeightBold, //700
           '--font-weight-medium': theme.typography.fontWeightMedium, //600
           '--font-weight-normal': theme.typography.fontWeightNormal, //400
 
+          '--font-size-biggest': theme.custom.sizes.fontSizeBiggest, //200
           '--font-size-large': theme.custom.sizes.fontSizeLarge, //44
           '--font-size-large-medium': theme.custom.sizes.fontSizeLargeMedium, //32
           '--font-size-medium': theme.custom.sizes.fontSizeMedium, //24
@@ -98,12 +100,12 @@ const GlobalStylesComponent = () => {
           '--icon-size': theme.custom.sizes.iconSize, //16
 
           '--border-style': theme.custom.borders.borderStyle, //solid
+          '--border-width-bigger': theme.custom.borders.borderWidthBigger, //1.2px
           '--border-width': theme.custom.borders.borderWidth, //1px
 
           '--cart-shadow': theme.custom.shadows.cartShadow, //0px 1px 12px 0px rgba(130, 84, 8, 0.15)
 
-          '--component-width': theme.custom.dimensions.componentWidth, //358
-          '--component-height': theme.custom.dimensions.componentHeight, //44
+          '--component-height': theme.custom.dimensions.componentHeight, //44//button
         },
       }}
     />

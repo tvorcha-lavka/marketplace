@@ -3,6 +3,7 @@ import { createTheme } from '@mui/material/styles';
 const theme = createTheme({
   typography: {
     fontFamily: '"Mulish", sans-serif',
+    fontWeightExtraBold: 800,
     fontWeightBold: 700,
     fontWeightMedium: 600,
     fontWeightNormal: 400,
@@ -40,10 +41,11 @@ const theme = createTheme({
       backgroundColor: '#FEFCFA',
       backgroundGrey: '#D9D9D9',
       backgroundPale: '#FFEBCC',
-      backgroundBackdrop: 'rgba(0, 0, 0, 0.9)',
+      backgroundBackdrop: 'rgba(0, 0, 0, 0.7)',
       backgroundModal: '#fffdf9',
     },
     sizes: {
+      fontSizeBiggest: '200px',
       fontSizeLarge: '44px',
       fontSizeLargeMedium: '32px',
       fontSizeMedium: '24px',
@@ -64,13 +66,13 @@ const theme = createTheme({
     },
     borders: {
       borderStyle: 'solid',
+      borderWidthBigger: '1.2px',
       borderWidth: '1px',
     },
     shadows: {
       cartShadow: '0px 1px 12px 0px rgba(130, 84, 8, 0.15)',
     },
     dimensions: {
-      componentWidth: '358px',
       componentHeight: '44px',
     },
   },

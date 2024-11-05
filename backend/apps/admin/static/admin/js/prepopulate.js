@@ -43,7 +43,7 @@
         const slugField = $('#id_slug');
         const urlField = $('#id_url');
 
-        if (urlField) {
+        if (urlField.length) {
             if (!defaultUrlField) {
                 defaultUrlField = urlField.val()
             }
@@ -127,7 +127,7 @@
 
                 let currentValue = values.join(' ');
 
-                if (prepopulatedFieldID === 'id_slug' && translatableForm) {
+                if (prepopulatedFieldID.endsWith('slug') && translatableForm) {
                     if (!currentValue || currentValue === previousValue) {
                         return;
                     }

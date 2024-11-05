@@ -1,10 +1,11 @@
 from django.urls import path
 from drf_spectacular.utils import extend_schema
 
-from .views import CategoryViewSet, UpdatePurchasesCountAPIView, UpdateViewsCountAPIView
+from .views import CatalogListAPIView, CategoryViewSet, UpdatePurchasesCountAPIView, UpdateViewsCountAPIView
 
 SchemaTag = "Category"
 CategoryViewSet = extend_schema(tags=[SchemaTag], auth=[])(CategoryViewSet)
+CatalogListAPIView = extend_schema(tags=[SchemaTag], auth=[])(CatalogListAPIView)
 
 SchemaTag = "Category Statistics"
 UpdateViewsCountAPIView = extend_schema(tags=[SchemaTag])(UpdateViewsCountAPIView)
@@ -15,4 +16,5 @@ urlpatterns = [
     path("<int:pk>/", CategoryViewSet.as_view({"get": "retrieve"}), name="category-detail"),
     path("<int:pk>/update-views/", UpdateViewsCountAPIView.as_view(), name="update-category-views"),
     path("<int:pk>/update-purchases/", UpdatePurchasesCountAPIView.as_view(), name="update-category-purchases"),
+    path("catalog/", CatalogListAPIView.as_view(), name="catalog-list"),
 ]
