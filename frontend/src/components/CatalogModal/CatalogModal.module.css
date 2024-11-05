@@ -6,7 +6,7 @@
     transform: translateX(-50%);
     width: 981px;
     max-height: 420px;
-    z-index: 100;
+    z-index: 9999;
 }
 
 .box_categories {

@@ -1,0 +1,22 @@
+.searchBar {
+  position: relative;
+}
+
+.input {
+  border: var(--border-width) var(--border-style) var(--grey-lighter);
+  border-radius: var(--border-radius);
+  padding: 13px 12px;
+  width: 492px;
+}
+
+.input::placeholder {
+  color: var(--grey-darker);
+}
+
+.icon {
+  width: var(--icon-size-normal);
+  height: var(--icon-size-normal);
+  position: absolute;
+  right: 12px;
+  top: 10px;
+}

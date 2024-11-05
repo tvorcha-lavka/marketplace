@@ -2,12 +2,14 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { GoChevronRight } from 'react-icons/go';
-import fotoAlternate from '../../images/not-found.png';
+
+import { media } from '../../utils/mediaConfig';
 import {
   selectCategories,
   selectIsLoading,
   selectError,
 } from '../../redux/categories/categoriesSelectors';
+
 import css from './CatalogModal.module.css';
 
 export default function CatalogModal() {
@@ -15,12 +17,11 @@ export default function CatalogModal() {
 
   const categories = useSelector(selectCategories);
   // const isLoading = useSelector(selectIsLoading);
-  
+
   // console.log(categories);
 
   const focusedCategory = categories?.find((_, index) => index === focusId);
   const subcategories = focusedCategory?.children || [];
-
 
   const handleMouseEnter = (id) => {
     setFocusId(id);
@@ -31,10 +32,7 @@ export default function CatalogModal() {
   };
 
   return (
-    <div
-      className={css.modal_box}
-      onMouseLeave={handleMouseLeave}
-    >
+    <div className={css.modal_box} onMouseLeave={handleMouseLeave}>
       <div
         className={
           focusId !== null && subcategories.length > 0
@@ -71,11 +69,13 @@ export default function CatalogModal() {
               <ul className={css.list_cards}>
                 {subcategories.map((item, index) => (
                   <li key={index} className={css.item_card}>
-                    <h2 className={css.list_title}>
-                      {focusedCategory.title}
-                    </h2>
+                    <h2 className={css.list_title}>{focusedCategory.title}</h2>
                     <img
-                      src={item.image ? `${item.image.url}` : fotoAlternate}
+                      src={
+                        item.image
+                          ? `${item.image.url}`
+                          : `{media}/page/404/not-found.png`
+                      }
                       alt={item.title}
                       className={css.item_img}
                     />

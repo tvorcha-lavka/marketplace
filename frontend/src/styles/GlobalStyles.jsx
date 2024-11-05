@@ -41,6 +41,8 @@ const GlobalStylesComponent = () => {
         },
         ':root': {
           '--default-white': theme.custom.colors.defaultWhite, //fff
+          '--grey-extra-light': theme.custom.colors.greyExtraLight, //#c8c8c8
+          '--grey-lightest': theme.custom.colors.greyLightest, //rgba(255, 255, 255, 0.8);
           '--grey-light': theme.custom.colors.greyLight, //E8E8E8
           '--grey-lighter': theme.custom.colors.greyLighter, //D2D2D2
           '--grey-dark': theme.custom.colors.greyDark, //B1B1B1
@@ -69,9 +71,12 @@ const GlobalStylesComponent = () => {
           '--success-green': theme.custom.colors.successGreen, //5D8348
 
           '--background-color': theme.custom.colors.backgroundColor, //FEFCFA
+          '--background-cart': theme.custom.colors.backgroundCart, //F5F5F5
           '--background-grey': theme.custom.colors.backgroundGrey, //D9D9D9
           '--background-pale': theme.custom.colors.backgroundPale, //FFEBCC
-          '--background-backdrop': theme.custom.colors.backgroundBackdrop,
+          '--background-backdrop': theme.custom.colors.backgroundBackdrop, //rgba(0, 0, 0, 0.7);
+          '--background-small-backdrop':
+            theme.custom.colors.backgroundSmallBackdrop, //rgba(0, 0, 0, 0.5);
           '--background-modal': theme.custom.colors.backgroundModal, //#fffdf9
 
           '--font-family': theme.typography.fontFamily,
@@ -79,6 +84,7 @@ const GlobalStylesComponent = () => {
           '--font-weight-bold': theme.typography.fontWeightBold, //700
           '--font-weight-medium': theme.typography.fontWeightMedium, //600
           '--font-weight-normal': theme.typography.fontWeightNormal, //400
+          '--font-weight-small': theme.typography.fontWeightSmall, //300
 
           '--font-size-biggest': theme.custom.sizes.fontSizeBiggest, //200
           '--font-size-large': theme.custom.sizes.fontSizeLarge, //44
@@ -90,22 +96,26 @@ const GlobalStylesComponent = () => {
           '--font-size-tiny': theme.custom.sizes.fontSizeTiny, //14
           '--font-size-extra-tiny': theme.custom.sizes.fontSizeExtraTiny, //12
 
+          '--border-radius-avatar': theme.custom.sizes.borderRadiusAvatar, //80
           '--border-radius-medium': theme.custom.sizes.borderRadiusMedium, //16
           '--border-radius': theme.custom.sizes.borderRadius, //8
           '--border-radius-small': theme.custom.sizes.borderRadiusSmall, //4
 
           '--icon-size-large': theme.custom.sizes.iconSizeLarge, //32
           '--icon-size-normal': theme.custom.sizes.iconSizeNormal, //24
+          '--icon-size-medium': theme.custom.sizes.iconSizeMedium, //22
           '--checkbox-size': theme.custom.sizes.checkboxSize, //20
           '--icon-size': theme.custom.sizes.iconSize, //16
 
           '--border-style': theme.custom.borders.borderStyle, //solid
+          '--border-width-big': theme.custom.borders.borderWidthBig, //2px
           '--border-width-bigger': theme.custom.borders.borderWidthBigger, //1.2px
           '--border-width': theme.custom.borders.borderWidth, //1px
+          '--border-width-small': theme.custom.borders.borderWidthSmall, //0.5px
 
           '--cart-shadow': theme.custom.shadows.cartShadow, //0px 1px 12px 0px rgba(130, 84, 8, 0.15)
 
-          '--component-height': theme.custom.dimensions.componentHeight, //44//button
+          '--component-height': theme.custom.dimensions.componentHeight, //44//button/input
         },
       }}
     />
