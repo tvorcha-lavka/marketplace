@@ -22,19 +22,36 @@
   display: flex;
   gap: 4px;
   align-items: center;
-  font-size: 16px;
+  font-size: var(--font-size-extra-small);
   line-height: 1.255;
   background-color: transparent;
   border: none;
 }
 
 .burgerIcon {
-  fill: black;
-  stroke: black;
+  width: var(--icon-size-normal);
+  height: var(--icon-size-normal);
+  fill: var(--default-black);
+  stroke: var(--default-black);
+}
+
+.shoppingIcon {
+  width: var(--icon-size-normal);
+  height: var(--icon-size-normal);
+  stroke: var(--default-black);
 }
 
 .loginButton {
-	background-color: transparent;
-	border: none;
-  outline: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: var(--border-width-big) var(--border-style) var(--primary-yellow);
+  background-color: transparent;
+  outline: var(--border-width) var(--border-style) transparent;
+}
+
+.userIcon {
+  width: var(--icon-size-medium);
+  height: var(--icon-size-medium);
+  stroke: var(--default-black);
 }
