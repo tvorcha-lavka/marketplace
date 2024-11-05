@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { GoChevronRight } from 'react-icons/go';
 import fotoAlternate from '../../images/not-found.png';
 import {
@@ -10,15 +10,16 @@ import {
 } from '../../redux/categories/categoriesSelectors';
 import css from './CatalogModal.module.css';
 
-export default function CatalogModal() {
+export default function CatalogModal({noFocuseModal}) {
   const [focusId, setFocusId] = useState(null);
+  const navigate = useNavigate();
 
   const categories = useSelector(selectCategories);
   // const isLoading = useSelector(selectIsLoading);
   
   // console.log(categories);
 
-  const focusedCategory = categories?.find((_, index) => index === focusId);
+  const focusedCategory = categories?.find((category) => category.id === focusId);
   const subcategories = focusedCategory?.children || [];
 
 
@@ -28,6 +29,10 @@ export default function CatalogModal() {
 
   const handleMouseLeave = () => {
     setFocusId(null);
+  };
+  const handleCategoryClick = (categoryId) => {
+    noFocuseModal();
+    navigate(`/categories/${categoryId}`);
   };
 
   return (
@@ -49,17 +54,17 @@ export default function CatalogModal() {
               : `${css.list_categories}`
           }
         >
-          {categories?.map((category, id) => (
-            <li key={id} className={css.category_item}>
-              <Link
-                className={css.category}
-                onMouseEnter={() => handleMouseEnter(id)}
-              >
-                {category.title}
-                {category.children && category.children.length > 0 && (
+          {categories?.map((category) => (
+            <li key={category.id}
+              className={css.category_item}
+              onMouseEnter={() => handleMouseEnter(category.id)}
+              onClick={() => handleCategoryClick(category.id)}
+            >              
+              <p>{category.title}</p>
+
+              {category.children && category.children.length > 0 && (
                   <GoChevronRight className={css.icon_right} />
                 )}
-              </Link>
             </li>
           ))}
         </ul>

@@ -1,0 +1,41 @@
+.slider_container {
+  margin-block-end: 31px;
+}
+
+.slider_item {
+  outline: none;
+}
+
+.item_img {
+  width: 288px;
+  height: 120px;
+  border-radius: 8px;
+  border: 1px solid #949494;
+  margin-bottom: 8px;
+  background-color: rgb(243, 178, 229);
+  /* object-fit: cover; */
+}
+
+.icon_right {
+  position: absolute;
+  top: -16px;
+  left: -50px;
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+
+.category_list {
+  display: flex;
+  gap: 16px;
+  margin-block-end: 31px;
+}
+
+.child_title {
+  font-size: 14px;
+  color: #000;
+}
+
+.child_title_color {
+  color: #949494;
+}

@@ -10,7 +10,10 @@ import LogoutButton from './components/LogoutButton/LogoutButton';
 import SocialAuthHandler from './formModalComponents/SocialAuthHandler/SocialAuthHandler';
 
 const HomePage = lazy(() => import('./pages/HomePage/HomePage'));
-const AllCategoriesPage = lazy(() => import('./pages/AllCategoriesPage/AllCategoriesPage'))
+const AllCategoriesPage = lazy(
+  () => import('./pages/AllCategoriesPage/AllCategoriesPage')
+);
+const CategoryPage = lazy(() => import('./pages/CategoryPage/CategoryPage'));
 const CartPage = lazy(() => import('./pages/CartPage/CartPage'));
 const SupportPage = lazy(() => import('./pages/SupportPage/SupportPage'));
 
@@ -27,10 +30,9 @@ export default function App() {
         <Route path="/" element={<SharedLayout />}>
           <Route index element={<HomePage />} />
           <Route path="/cart" element={<CartPage />} />
-          <Route path="/categories" element={<AllCategoriesPage />}
-          />
+          <Route path="/categories/" element={<AllCategoriesPage />} />
+          <Route path="/categories/:categoryId" element={<CategoryPage />} />
           <Route path="/support" element={<SupportPage />} />
-
           <Route
             path="/login/google/complete"
             element={<SocialAuthHandler provider="google" />}

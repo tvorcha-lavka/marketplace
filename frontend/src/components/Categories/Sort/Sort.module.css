@@ -1,0 +1,31 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.count {
+  font-size: 14px;
+  color: #949494;
+}
+
+.sortbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 26px;
+}
+
+label {
+  color: #414141;
+  margin-inline-end: 8px;
+}
+
+select {
+  border: none;
+  outline: none;
+}
+
+option {
+  color: #000;
+}
