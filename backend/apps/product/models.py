@@ -34,7 +34,6 @@ class Product(models.Model):
         verbose_name_plural = _("Products")
 
     id = models.UUIDField(primary_key=True, default=uuid6.uuid7, editable=False)  # noqa: VNE003
-    slug = models.SlugField(_("slug"), max_length=100, db_index=True)
     name = models.CharField(_("name"), max_length=100, db_index=True)
     description = models.TextField(_("description"), blank=True)
     price = models.DecimalField(_("price"), max_digits=10, decimal_places=2, validators=[validate_price])
