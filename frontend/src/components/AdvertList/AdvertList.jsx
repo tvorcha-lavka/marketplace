@@ -20,7 +20,7 @@ export default function AdvertList() {
         {adverts.map((item) => (
           <li
             className={`${css.item} ${activeCardId === item.id ? css.active : ''}`}
-            onClick={() => handleCardClick(item.id)}
+            // onClick={() => handleCardClick(item.id)}
             onBlur={handleCardBlur}
             key={item.id}
           >

@@ -33,32 +33,40 @@ export default function AllCategories() {
                   backgroundColor: `${card.bg_color}`,
                 }}
               >
-                <h3 className={css.item_title}
+                <h3
+                  className={css.item_title}
                   style={{
                     position: `${card.title_position}`,
                   }}
-                >{title}</h3>
-                <img src={card.image.url} alt={card.image.alt} className={css.img1}
+                >
+                  {title}
+                </h3>
+                <img
+                  src={card.image.url}
+                  alt={card.image.alt}
+                  className={css.img1}
                   style={{ size: `${card.image.size}` }}
                 />
-              </Link>)
-              : (
-                <Link
-                  key={id}
-                  className={css.item}
+              </Link>
+            ) : (
+              <Link
+                key={id}
+                className={css.item}
+                style={{
+                  backgroundColor: `${card.bg_color}`,
+                }}
+              >
+                <h3
+                  className={css.item_title}
                   style={{
-                    backgroundColor: `${card.bg_color}`,
+                    position: `${card.title_position}`,
                   }}
                 >
-                  <h3 className={css.item_title}
-                    style={{
-                      position: `${card.title_position}`,
-                    }}
-                  >{title}</h3>
-                  <img src={image.url} alt={image.alt} className={css.img2} />
-                </Link>)
-          )           
-            
+                  {title}
+                </h3>
+                <img src={image.url} alt={image.alt} className={css.img2} />
+              </Link>
+            )
           )}
         </ul>
       </div>

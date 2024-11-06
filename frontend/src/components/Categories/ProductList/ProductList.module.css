@@ -8,15 +8,28 @@
 
 .item {
   position: relative;
-  width: 288px;
-  height: 341px;
+  max-width: 288px;
+  /* height: 341px; */
   padding: 8px 8px 16px 8px;
   border-radius: 16px;
   background-color: #fff;
+  border: var(--border-width-small) var(--border-style) transparent;
   box-shadow: 0 1px 8px 0 rgba(130, 84, 8, 0.1);
 }
 
-.img {
+.item:hover {
+  border: var(--border-width-small) var(--border-style) var(--primary-yellow);
+}
+
+.item:focus {
+  outline: none;
+}
+
+.active {
+  border: var(--border-width) var(--border-style) var(--primary-yellow);
+}
+
+/* .img {
   width: 100%;
   height: 215px;
   margin-block-end: 8px;
@@ -44,7 +57,7 @@
   background: #fff;
   border-radius: 4px;
   border: none;
-}
+} */
 
 .icon {
   width: 16px;

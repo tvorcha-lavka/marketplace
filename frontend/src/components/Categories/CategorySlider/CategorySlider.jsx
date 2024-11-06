@@ -5,8 +5,8 @@ import 'slick-carousel/slick/slick-theme.css';
 import { useSelector } from 'react-redux';
 import { RiArrowRightSLine } from 'react-icons/ri';
 import { selectCategoryById } from '../../../redux/categories/categoriesSelectors';
-// import { media } from '../../../utils/mediaConfig';
-import photoAlternate from '../../../images/not-found.png';
+import { media } from '../../../utils/mediaConfig';
+// import photoAlternate from '../../../images/not-found.png';
 
 import css from './CategorySlider.module.css';
 
@@ -21,6 +21,7 @@ function CustomPrevArrow(props) {
         top: '60px',
         zIndex: 1,
         display: 'block',
+        size: '24px',
       }}
       onClick={onClick}
     ></div>
@@ -39,7 +40,7 @@ function CustomNextArrow(props) {
         fontSize: '24px',
         zIndex: 1,
         display: 'block',
-        background: 'rgda(f, f, f, 0.8)',
+        // background: 'rgda(f, f, f, 0.8)',
       }}
       onClick={onClick}
     ></div>
@@ -52,7 +53,6 @@ export default function CategorySlider({ category }) {
   console.log(categoryChildren);
   const settings = {
     dots: false,
-
     className: 'center',
     infinite: true,
     centerPadding: '60px',
@@ -95,7 +95,7 @@ export default function CategorySlider({ category }) {
           {categoryChildren.map((item, id) => (
             <li key={id} className={css.slider_item}>
               <img
-                src={photoAlternate}
+                src={`${media}/page/404/not-found.png`}
                 alt={item.title}
                 className={css.item_img}
               />
@@ -108,7 +108,11 @@ export default function CategorySlider({ category }) {
           {categoryChildren.map((item, id) => (
             <li key={id} className={css.slider_item}>
               <img
-                src={item.image ? item.image.url : photoAlternate}
+                src={
+                  item.image
+                    ? item.image.url
+                    : `${media}/page/404/not-found.png`
+                }
                 alt={item.title}
                 className={css.item_img}
               />
