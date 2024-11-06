@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-
 import { getPopCategories } from '../../redux/categories/categoriesOperations';
 import { selectPopCategories } from '../../redux/categories/categoriesSelectors';
 import popImg3 from '../../images/popImg3.png';
@@ -22,19 +21,19 @@ export default function PopularCategories() {
     <section className={css.container}>
       <div className={css.title_box}>
         <h2 className={css.title}>Популярні категорії</h2>
-        <Link to="/categories" className={css.link}>
+        <Link to="/categories/" className={css.link}>
           Всі категорії
         </Link>
       </div>
 
       <ul className={css.list}>
-        {fivePopCategories?.map(({ title, image, card }, index) => (
+        {fivePopCategories?.map(({ title, image, card, id }, index) => (
           <li
             key={index}
             className={css.item}
-            style={{
-              backgroundColor: getRandomColor(),
-            }}
+            // style={{
+            //   backgroundColor: getRandomColor(),
+            // }}
           >
             <h3 className={css.item_title}>{title}</h3>
             <img src={popImg3} alt="" className={css.img1} />

@@ -11,7 +11,7 @@
 }
 
 .way {
-  margin-block: 20px ;
+  margin-block: 20px;
   display: flex;
   align-items: center;
   gap: 4px;
@@ -26,7 +26,6 @@
   font-size: 14px;
   color: #000;
 }
-
 
 .list {
   display: grid;
@@ -68,12 +67,10 @@
   padding-block-start: 0;
 } */
 
-.img1{
- width: 180px;
+.img1 {
+  width: 180px;
 }
 
-.img2{
-  width: 390px; 
+.img2 {
+  width: 390px;
 }
-
-

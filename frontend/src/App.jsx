@@ -12,6 +12,7 @@ const HomePage = lazy(() => import('./pages/HomePage/HomePage'));
 const AllCategoriesPage = lazy(
   () => import('./pages/AllCategoriesPage/AllCategoriesPage')
 );
+const CategoryPage = lazy(() => import('./pages/CategoryPage/CategoryPage'));
 const CartPage = lazy(() => import('./pages/CartPage/CartPage'));
 const CartDetailsPage = lazy(
   () => import('./pages/CartDetailsPage/CartDetailsPage')
@@ -33,10 +34,9 @@ export default function App() {
           <Route index element={<HomePage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/cart/:cartId" element={<CartDetailsPage />} />
-
           <Route path="/categories" element={<AllCategoriesPage />} />
+          <Route path="/categories/:categoryId" element={<CategoryPage />} />
           <Route path="/support" element={<SupportPage />} />
-
           <Route
             path="/login/google/complete"
             element={<SocialAuthHandler provider="google" />}

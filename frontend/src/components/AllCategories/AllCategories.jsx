@@ -2,7 +2,6 @@ import { NavLink, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import { selectCategories } from '../../redux/categories/categoriesSelectors';
-
 import css from './AllCategories.module.css';
 
 export default function AllCategories() {
@@ -27,6 +26,7 @@ export default function AllCategories() {
           {allCategories?.map(({ title, image, card, id }, index) =>
             index !== 4 && index !== 9 ? (
               <Link
+                to="/categoryId"
                 key={id}
                 className={css.item}
                 style={{

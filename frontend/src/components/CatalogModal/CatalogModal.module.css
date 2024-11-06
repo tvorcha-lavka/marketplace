@@ -12,45 +12,44 @@
 .box_categories {
     width: 321px;
     height: 420px;
-    border-radius: 40px;
+    border-radius: 16px;
     background-color: #fff;
 }
 
 .box_categories_open {
     width: 321px;
     height: 420px;
-    border-top-left-radius: 40px;
-    border-bottom-left-radius: 40px;
+    border-top-left-radius: 16px;
+    border-bottom-left-radius: 16px;
     background-color: #fff;
 }
 
 .list_categories,
-.list_categories_open {
-    height: 340px;
-    margin: 40px 0 40px 36px;
+.list_categories_open {    
+  position: relative;
+  height: 340px;
+  margin: 40px 0 40px 36px;
 }
 
 .list_categories_open {
-    border-right: 1px solid #d2d2d2;
+  border-right: 1px solid #d2d2d2;
 }
 
 .category_item {
-    margin-block-end: 12px;
-    font-size: 16px;
+  position: relative;
+  margin-block-end: 12px;
+  font-size: 16px;
+  color: black;
 }
 
 .category_item:last-child {
-    margin-block-end: 0;
+  margin-block-end: 0;
 }
 
-.category {
-    position: relative;
-    display: block;
-    color: black;
-}
 
-.category:is(:hover, :focus) {
+.category_item:is(:hover, :focus) {
     font-weight: 700;
+  cursor: pointer;
 }
 
 .icon_right {
