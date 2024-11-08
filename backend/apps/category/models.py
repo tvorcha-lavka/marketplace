@@ -257,6 +257,8 @@ class Statistics(models.Model):
         self.views_count = round(self.views_count + self._step, 3)  # type: ignore
         self.update_popularity()
 
+    # TODO: Decide when we will increment purchases stats for a category.
+    #  Maybe make a signal in `product.views` or directly in the middleware?
     def increment_purchases(self) -> None:
         """Increasing the number of purchases by a given step."""
         self.purchases_count = round(self.purchases_count + self._step, 3)  # type: ignore

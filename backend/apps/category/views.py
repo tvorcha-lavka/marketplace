@@ -1,19 +1,16 @@
-from django.core.exceptions import ObjectDoesNotExist
 from django.utils.decorators import method_decorator
 from django.utils.translation import activate
 from django.views.decorators.cache import cache_page
-from rest_framework import status
-from rest_framework.generics import GenericAPIView, ListAPIView, get_object_or_404
-from rest_framework.permissions import AllowAny, IsAdminUser
-from rest_framework.response import Response
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.generics import ListAPIView
+from rest_framework.permissions import AllowAny
+from rest_framework.viewsets import ReadOnlyModelViewSet
 
 from .filters import CategoryFilter
-from .models import Category, Statistics
+from .models import Category
 from .serializers import CatalogSerializer, CategoryDetailSerializer, CategorySerializer
 
 
-class CategoryViewSet(ModelViewSet):
+class CategoryReadOnlyViewSet(ReadOnlyModelViewSet):
     serializer_class = CategoryDetailSerializer
     filterset_class = CategoryFilter
     permission_classes = [AllowAny]
@@ -35,41 +32,11 @@ class CategoryViewSet(ModelViewSet):
             .prefetch_related("translations")
         )
 
+    # TODO: Make a cache for all & popular categories
+
     @method_decorator(cache_page(3600))  # server-side cache for 1 hour
     def retrieve(self, request, *args, **kwargs):
         return super().retrieve(request, *args, **kwargs)
-
-
-class UpdateCategoryStatisticAPIView(GenericAPIView):
-    permission_classes = [IsAdminUser]
-
-    def get_object(self):
-        return get_object_or_404(Category, pk=self.kwargs["pk"])
-
-    def update_statistic(self, *, method: str):
-        category = self.get_object()
-
-        try:
-            category.statistics
-        except ObjectDoesNotExist:
-            Statistics.objects.create(category=category)
-
-        getattr(category.statistics, method)()
-        return Response(status=status.HTTP_200_OK)
-
-
-class UpdateViewsCountAPIView(UpdateCategoryStatisticAPIView):
-    """Update view count for the category."""
-
-    def post(self, request, *args, **kwargs):  # noqa: F841
-        return self.update_statistic(method="increment_views")
-
-
-class UpdatePurchasesCountAPIView(UpdateCategoryStatisticAPIView):
-    """Update purchases count for the category."""
-
-    def post(self, request, *args, **kwargs):  # noqa: F841
-        return self.update_statistic(method="increment_purchases")
 
 
 class CatalogListAPIView(ListAPIView):

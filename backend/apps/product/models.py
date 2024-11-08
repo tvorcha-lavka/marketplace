@@ -6,13 +6,8 @@ from django.utils.translation import gettext_lazy as _
 from apps.category.models import Category
 from apps.filter.models import FilterValue
 from apps.product.utils import product_image_path
-from apps.product.validators import (
-    validate_image_priority,
-    validate_price,
-    validate_product_quantity,
-)
+from apps.product.validators import validate_image_priority, validate_price, validate_product_quantity
 from core.settings.base import AUTH_USER_MODEL
-
 
 # TODO: Подумать как реализовать проверку количества изображений при первом создании,
 #  так как при первом создании всегда 0 изображений (изображения сохраняются только после
@@ -36,6 +31,7 @@ class Product(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid6.uuid7, editable=False)  # noqa: VNE003
     name = models.CharField(_("name"), max_length=100, db_index=True)
     description = models.TextField(_("description"), blank=True)
+
     price = models.DecimalField(_("price"), max_digits=10, decimal_places=2, validators=[validate_price])
     quantity = models.IntegerField(_("quantity"), default=1, validators=[validate_product_quantity])
     date_published = models.DateField(_("date published"), db_index=True, null=True, blank=True)
