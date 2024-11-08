@@ -1,20 +1,14 @@
 from django.urls import path
 from drf_spectacular.utils import extend_schema
 
-from .views import CatalogListAPIView, CategoryViewSet, UpdatePurchasesCountAPIView, UpdateViewsCountAPIView
+from .views import CatalogListAPIView, CategoryReadOnlyViewSet
 
 SchemaTag = "Category"
-CategoryViewSet = extend_schema(tags=[SchemaTag], auth=[])(CategoryViewSet)
+CategoryReadOnlyViewSet = extend_schema(tags=[SchemaTag], auth=[])(CategoryReadOnlyViewSet)
 CatalogListAPIView = extend_schema(tags=[SchemaTag], auth=[])(CatalogListAPIView)
 
-SchemaTag = "Category Statistics"
-UpdateViewsCountAPIView = extend_schema(tags=[SchemaTag])(UpdateViewsCountAPIView)
-UpdatePurchasesCountAPIView = extend_schema(tags=[SchemaTag])(UpdatePurchasesCountAPIView)
-
 urlpatterns = [
-    path("", CategoryViewSet.as_view({"get": "list"}), name="category-list"),
-    path("<int:pk>/", CategoryViewSet.as_view({"get": "retrieve"}), name="category-detail"),
-    path("<int:pk>/update-views/", UpdateViewsCountAPIView.as_view(), name="update-category-views"),
-    path("<int:pk>/update-purchases/", UpdatePurchasesCountAPIView.as_view(), name="update-category-purchases"),
+    path("", CategoryReadOnlyViewSet.as_view({"get": "list"}), name="category-list"),
+    path("<int:pk>/", CategoryReadOnlyViewSet.as_view({"get": "retrieve"}), name="category-detail"),
     path("catalog/", CatalogListAPIView.as_view(), name="catalog-list"),
 ]

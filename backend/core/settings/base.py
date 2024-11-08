@@ -71,6 +71,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     # --- Custom -----------------------------------
     "django.middleware.locale.LocaleMiddleware",
+    "apps.category.middleware.CategoryStatisticMiddleware",
 ]
 
 ROOT_URLCONF = "core.urls"
