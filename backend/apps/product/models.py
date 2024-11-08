@@ -2,7 +2,6 @@ import uuid6
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from parler.models import TranslatedFields
 
 from apps.category.models import Category
 from apps.filter.models import FilterValue
@@ -12,7 +11,6 @@ from apps.product.validators import (
     validate_price,
     validate_product_quantity,
 )
-from apps.utils.translation.models import AutoTranslatableModel
 from core.settings.base import AUTH_USER_MODEL
 
 
@@ -29,24 +27,15 @@ from core.settings.base import AUTH_USER_MODEL
 #  Думаю нужно будет еще реализовать функцию которая будет авто инкрементировать значения приоритета, но не факт.
 
 
-class Product(AutoTranslatableModel):
+class Product(models.Model):
     class Meta:
         db_table = "product"
         verbose_name = _("Product")
         verbose_name_plural = _("Products")
 
     id = models.UUIDField(primary_key=True, default=uuid6.uuid7, editable=False)  # noqa: VNE003
-    # TODO: Я наверное удалю slug из AutoTranslatableModel, так как это делает доп не нужную фигню в продукте,
-    #  так еще и юзает апи переводчика, в котором у нас пока ограниченное количество символов на месяц.
-    #  Я уже задумывался над этим ранее, но теперь точно понял что не нужен.
-    #  Тот slug нужен был только для категорий по факту. Вот в них и оставлю.
-    slug = models.SlugField(_("slug"), max_length=100, db_index=True)
-
-    translations = TranslatedFields(
-        name=models.CharField(_("name"), max_length=100, db_index=True),
-        description=models.TextField(_("description"), blank=True),
-    )
-
+    name = models.CharField(_("name"), max_length=100, db_index=True)
+    description = models.TextField(_("description"), blank=True)
     price = models.DecimalField(_("price"), max_digits=10, decimal_places=2, validators=[validate_price])
     quantity = models.IntegerField(_("quantity"), default=1, validators=[validate_product_quantity])
     date_published = models.DateField(_("date published"), db_index=True, null=True, blank=True)
@@ -54,6 +43,7 @@ class Product(AutoTranslatableModel):
     active = models.BooleanField(_("active"), default=True)
     is_vip = models.BooleanField(_("vip"), default=False)
 
+    objects = models.Manager()
     seller = models.ForeignKey(
         to=AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -74,20 +64,11 @@ class Product(AutoTranslatableModel):
         verbose_name=_("filters"),
     )
 
-    # TODO: можно будет удалить метод `save` после фикса в AutoTranslatableModel
-    def save(self, *args, **kwargs):
-        self.slug = "slug"
-        super().save(*args, **kwargs)
-
     def clean(self):
         self.set_published_date()
 
     def set_published_date(self):
         self.date_published = timezone.now().date() if self.active else None
-
-    # TODO: можно будет удалить метод `field_for_slug` после фикса в AutoTranslatableModel
-    def field_for_slug(self) -> str:
-        return "name"
 
 
 class ProductImage(models.Model):

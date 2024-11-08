@@ -11,8 +11,8 @@ class ProductAPIView(ModelViewSet):
 
     def get_queryset(self):
         return Product.objects.prefetch_related(
-            "image", "filters", "translations", "filters__translations", "filters__filter_type"
-        )
+            "image", "filters", "filters__translations", "filters__filter_type", "filters__filter_type__translations"
+        ).order_by("pk")
 
 
 class ProductImageAPIView(ModelViewSet):

@@ -1,10 +1,10 @@
+from django import forms
 from django.contrib import admin
-from parler.forms import TranslatableModelForm
 
 from .models import Product, ProductImage
 
 
-class ProductAdminForm(TranslatableModelForm):
+class ProductAdminForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = ("name", "description", "category", "price", "active", "is_vip", "date_published", "filters")
