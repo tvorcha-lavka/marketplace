@@ -12,16 +12,19 @@ import {
 
 import css from './CatalogModal.module.css';
 
-export default function CatalogModal({noFocuseModal}) {
+export default function CatalogModal({ noFocuseModal }) {
   const [focusId, setFocusId] = useState(null);
   const navigate = useNavigate();
 
   const categories = useSelector(selectCategories);
+  const allCategories = [...categories].reverse();
   // const isLoading = useSelector(selectIsLoading);
 
   // console.log(categories);
 
-  const focusedCategory = categories?.find((category) => category.id === focusId);
+  const focusedCategory = allCategories?.find(
+    (category) => category.id === focusId
+  );
   const subcategories = focusedCategory?.children || [];
 
   const handleMouseEnter = (id) => {
@@ -52,17 +55,18 @@ export default function CatalogModal({noFocuseModal}) {
               : `${css.list_categories}`
           }
         >
-          {categories?.map((category) => (
-            <li key={category.id}
+          {allCategories?.map((category) => (
+            <li
+              key={category.id}
               className={css.category_item}
               onMouseEnter={() => handleMouseEnter(category.id)}
               onClick={() => handleCategoryClick(category.id)}
-            >              
+            >
               <p>{category.title}</p>
 
               {category.children && category.children.length > 0 && (
-                  <GoChevronRight className={css.icon_right} />
-                )}
+                <GoChevronRight className={css.icon_right} />
+              )}
             </li>
           ))}
         </ul>

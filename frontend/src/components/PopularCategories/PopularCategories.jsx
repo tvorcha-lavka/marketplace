@@ -1,21 +1,17 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getPopCategories } from '../../redux/categories/categoriesOperations';
-import { selectPopCategories } from '../../redux/categories/categoriesSelectors';
-import popImg3 from '../../images/popImg3.png';
-
+import { selectCategories } from '../../redux/categories/categoriesSelectors';
+import { positionTitle, cardOrientation } from '../../utils/positionTitle';
 import css from './PopularCategories.module.css';
 
 export default function PopularCategories() {
-  const dispatch = useDispatch();
-  const popCategories = useSelector(selectPopCategories);
-
-  const fivePopCategories = popCategories.slice(0, 5);
-
-  useEffect(() => {
-    dispatch(getPopCategories());
-  }, [dispatch]);
+  const categories = useSelector(selectCategories);
+  const allCategories = [...categories].reverse();
+  const fivePopCategories = allCategories
+    .filter(({ popularity_score }) => popularity_score >= 0)
+    .slice(0, 5);
+  console.log(fivePopCategories);
+  let verticalCounter = 0;
 
   return (
     <section className={css.container}>
@@ -27,18 +23,44 @@ export default function PopularCategories() {
       </div>
 
       <ul className={css.list}>
-        {fivePopCategories?.map(({ title, image, card, id }, index) => (
-          <li
-            key={index}
-            className={css.item}
-            // style={{
-            //   backgroundColor: getRandomColor(),
-            // }}
-          >
-            <h3 className={css.item_title}>{title}</h3>
-            <img src={popImg3} alt="" className={css.img1} />
-          </li>
-        ))}
+        {fivePopCategories?.map(({ title, card, id }) => {
+          let orientationStyles = {};
+          if (card.orientation === 'vertical') {
+            orientationStyles = cardOrientation(
+              card.orientation,
+              verticalCounter
+            );
+            verticalCounter += 1;
+          }
+          // console.log(title);
+          const styles = positionTitle(card.title_position);
+
+          return (
+            <Link
+              to={`/categories/${id}`}
+              key={id}
+              className={css.item}
+              style={{
+                ...orientationStyles,
+                backgroundColor: `${card.bg_color}`,
+              }}
+            >
+              <h3 className={css.item_title} style={styles}>
+                {title}
+              </h3>
+              <img
+                src={card.image.url}
+                alt={card.image.alt}
+                className={css.img}
+                style={{
+                  width: `${card.image.size}px`,
+                  top: `${card.image.y_axis}px`,
+                  left: `${card.image.x_axis}px`,
+                }}
+              />
+            </Link>
+          );
+        })}
       </ul>
     </section>
   );

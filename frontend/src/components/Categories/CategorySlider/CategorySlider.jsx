@@ -49,8 +49,8 @@ function CustomNextArrow(props) {
 
 export default function CategorySlider({ category }) {
   const categoryChildren = category.children || [];
-  console.log(category);
-  console.log(categoryChildren);
+  // console.log(category);
+  // console.log(categoryChildren);
   const settings = {
     dots: false,
     className: 'center',

@@ -21,6 +21,10 @@
   color: #949494;
 }
 
+.navLink:is(:hover, :focus) {
+  color: #000;
+}
+
 .active {
   font-size: 14px;
   color: #000;
