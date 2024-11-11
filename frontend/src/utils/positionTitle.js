@@ -17,3 +17,16 @@ export const positionTitle = (position) => {
       return {};
   }
 };
+export const cardOrientation = (orientation, verticalIndex) => {
+  if (orientation === 'vertical') {
+    switch (verticalIndex) {
+      case 0:
+        return { gridArea: '1 / 3 / 3 / 3', height: '480px' };
+      case 1:
+        return { gridArea: '3 / 3/ 5/3', height: '480px' };
+      default:
+        return {};
+    }
+  }
+  return {};
+};
