@@ -22,7 +22,7 @@ export default function VipCartsList({ item }) {
             src={item.img ? item.img : `${media}/page/404/not-found.png`}
             alt={item.title}
           />
-          <h3 className={css.titleVip}>VIP-ОГОЛОШЕННЯ</h3>
+          {/* <h3 className={css.titleVip}>VIP-ОГОЛОШЕННЯ</h3> */}
         </div>
         <p className={css.publicDate}>{item.date}</p>
         <h1 className={css.cartTitle}>{item.title}</h1>

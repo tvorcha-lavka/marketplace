@@ -1,9 +1,11 @@
 import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import { FaStar } from 'react-icons/fa';
 import { HiOutlinePencilAlt } from 'react-icons/hi';
 import { RxCross2 } from 'react-icons/rx';
 import { IoIosArrowBack } from 'react-icons/io';
 import { IoIosArrowForward } from 'react-icons/io';
+import clsx from 'clsx';
 
 import RecommendedCarts from '../../components/RecommendedCarts/RecommendedCarts';
 import BasketModal from '../../components/BasketModal/BasketModal';
@@ -66,17 +68,28 @@ export default function CartDetailsPage() {
 
   const modalRef = useClickEsc(closeModal);
 
+  const getActiveClass = ({ isActive }) => {
+    return clsx(css.pathItem, isActive && css.active);
+  };
+
   return (
     <>
       <section className={css.section}>
         <ul className={css.pathList}>
           <li className={css.pathItem}>
-            <p className={css.pathText}>
-              Українське ремесло/ Ганчарство/&nbsp;
-            </p>
+            <NavLink className={getActiveClass} to={'/'}>
+              Українське ремесло/&nbsp;
+            </NavLink>
           </li>
           <li className={css.pathItem}>
-            <p className={css.pathText}>Для кухні</p>
+            <NavLink className={getActiveClass} to={'/'}>
+              Гончарство/&nbsp;
+            </NavLink>
+          </li>
+          <li className={css.pathItem}>
+            <NavLink className={getActiveClass} to={`/cart/:cartId`}>
+              Для кухні
+            </NavLink>
           </li>
         </ul>
 

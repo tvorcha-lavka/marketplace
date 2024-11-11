@@ -1,44 +1,49 @@
-import { Link } from 'react-router-dom';
-import {
-  CiDiscount1,
-  CiHeart,
-  CiDeliveryTruck,
-} from 'react-icons/ci';
+import { NavLink } from 'react-router-dom';
+import clsx from 'clsx';
+import { CiDiscount1, CiHeart, CiDeliveryTruck } from 'react-icons/ci';
 import { PiHeadphones } from 'react-icons/pi';
 
 import css from './HeaderDown.module.css';
 
 export default function HeaderDown() {
+  const getActiveClass = ({ isActive }) => {
+    return clsx(css.nav_link, isActive && css.active);
+  };
+
+  const getActiveTextClass = ({ isActive }) => {
+    return clsx(css.nav_text, isActive && css.nav_text_active);
+  };
+
   return (
     <nav className={css.navbox}>
-      <ul className={css.nav_list}>
-        <li className={css.nav_item}>
-          <Link to="/discount" className={css.nav_link}>           
-          <CiDiscount1 size={24} color="#da5135"/>
-
-            <p className={css.nav_text_color}>Знижки</p>
-          </Link>
-        </li>
-        <li className={css.nav_item}>
-          <Link to="/love_day" className={css.nav_link}>
-            <CiHeart size={24} />            
-            <p className={css.nav_text}>День закоханих</p>
-          </Link>
-        </li>
-        <li className={css.nav_item}>
-          <Link to="/support" className={css.nav_link}>
-            <PiHeadphones size={24} />            
-            <p className={css.nav_text}>Потрібна допомога</p>
-          </Link>
-        </li>
-        <li className={css.nav_item}>
-          <Link to="/payment-delivery" className={css.nav_link}>
-            <CiDeliveryTruck size={24} />           
-            <p className={css.nav_text}>Оплата і доставка</p>
-          </Link>
-        </li>
-      </ul>
+      <div className={css.nav_container}>
+        <ul className={css.nav_list}>
+          <li className={css.nav_item}>
+            <NavLink to="/discount" className={getActiveClass}>
+              <CiDiscount1 size={24} />
+              <p className={getActiveTextClass}>Знижки</p>
+            </NavLink>
+          </li>
+          <li className={css.nav_item}>
+            <NavLink to="/love_day" className={getActiveClass}>
+              <CiHeart size={24} />
+              <p className={getActiveTextClass}>День закоханих</p>
+            </NavLink>
+          </li>
+          <li className={css.nav_item}>
+            <NavLink to="/support" className={getActiveClass}>
+              <PiHeadphones size={24} />
+              <p className={getActiveTextClass}>Потрібна допомога</p>
+            </NavLink>
+          </li>
+          <li className={css.nav_item}>
+            <NavLink to="/payment-delivery" className={getActiveClass}>
+              <CiDeliveryTruck size={24} />
+              <p className={getActiveTextClass}>Оплата і доставка</p>
+            </NavLink>
+          </li>
+        </ul>
+      </div>
     </nav>
   );
 }
-

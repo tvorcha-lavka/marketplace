@@ -19,7 +19,7 @@ export default function FilterBar() {
           <ul className={css.filter_field}>
             {filters.map(({ subtitle, color }, id) => (
               <li key={id} className={css.field_item}>
-                <input type="checkbox" name="" value={subtitle} id={subtitle} />
+                <input className={css.input} type="checkbox" name="" value={subtitle} id={subtitle} />
                 <label htmlFor={subtitle} className={css.filter_label}>
                   {subtitle}
                 </label>
