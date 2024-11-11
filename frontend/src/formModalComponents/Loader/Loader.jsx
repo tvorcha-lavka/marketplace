@@ -1,5 +1,7 @@
 import { Oval } from 'react-loader-spinner';
 
+import { media } from '../../utils/mediaConfig';
+
 import css from './Loader.module.css';
 
 export default function Loader() {
@@ -18,7 +20,13 @@ export default function Loader() {
           wrapperStyle={{}}
           wrapperClass=""
         />
-        <img src="/images/logo.png" alt="Logo" className={css.logo} />
+        <img
+          src={`${media}/logo/Logo.svg`}
+          width="101px"
+          height="44px"
+          alt="Logo"
+          className={css.logo}
+        />
         <p className={css.loaderText}>Обробка запиту...</p>
       </div>
     </div>

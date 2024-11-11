@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 import { useModal } from '../../hooks/useModal';
 import { useRef, useState } from 'react';
-import { FiShoppingCart } from 'react-icons/fi';
+import { FiShoppingCart, FiUser } from 'react-icons/fi';
 import { HiMiniBars4 } from 'react-icons/hi2';
-import { FiUser } from 'react-icons/fi';
+import { FaRegHeart } from 'react-icons/fa';
 
 import Logo from '../Logo/Logo';
 import SearchFieldBar from '../SearchFieldBar/SearchFieldBar';
@@ -48,9 +48,9 @@ export default function Header() {
 
   return (
     <section className={css.section}>
-      <div className={css.firstPart}>
+      <div className={css.container}>
         <div className={css.leftPart}>
-          <Logo />
+          <Logo className={css.logoIndent} />
           <button
             className={css.catalogBtn}
             onMouseEnter={handleMouseEnter}
@@ -69,11 +69,15 @@ export default function Header() {
               <CatalogModal noFocuseModal={() => setIsFocused(false)} />
             </div>
           )}
+
           <SearchFieldBar />
 
           <CustomButton size="small">Додати товар</CustomButton>
         </div>
         <div className={css.rightPart}>
+          <Link to="/like-cart">
+            <FaRegHeart className={css.likeIcon} />
+          </Link>
           <Link to="/cart">
             <FiShoppingCart className={css.shoppingIcon} />
           </Link>

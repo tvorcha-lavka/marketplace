@@ -8,6 +8,7 @@ export default function Logo({ isFooter }) {
       <img
         width="101px"
         height="44px"
+        style={{ marginRight: '24px' }}
         src={
           isFooter ? `${media}/logo/logo_dark.svg` : `${media}/logo/Logo.svg`
         }

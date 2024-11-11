@@ -13,11 +13,11 @@
 .pathItem {
   font-weight: var(--font-weight-normal);
   font-size: var(--font-size-tiny);
-  color: var(--default-black);
+  color: var(--grey-darker);
 }
 
-.pathItem:not(:last-child) {
-  color: var(--grey-darker);
+.active {
+	color: var(--default-black);
 }
 
 .container {
