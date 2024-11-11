@@ -32,6 +32,7 @@ export default function PopularCategories() {
             );
             verticalCounter += 1;
           }
+          // console.log(title);
           const styles = positionTitle(card.title_position);
 
           return (
@@ -49,7 +50,7 @@ export default function PopularCategories() {
               </h3>
               <img
                 src={card.image.url}
-                alt=""
+                alt={card.image.alt}
                 className={css.img}
                 style={{
                   width: `${card.image.size}px`,

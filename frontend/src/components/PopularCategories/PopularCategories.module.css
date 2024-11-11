@@ -1,7 +1,6 @@
 .container {
-  margin: 122px auto 0;
+  margin: 122px auto 140px;
   max-width: 1200px;
-  margin-block-end: 140px;
 }
 
 .title_box {
@@ -39,19 +38,11 @@
 
 .item_title {
   position: absolute;
-  width: 144px;
   font-size: 18px;
   font-weight: 700;
   line-height: 1.255;
   color: #fff;
   z-index: 100;
-}
-
-.item:last-child .item_title {
-  width: 205px;
-  margin-top: 412px;
-  padding-inline-start: 24px;
-  padding-block-start: 0;
 }
 
 .img {
