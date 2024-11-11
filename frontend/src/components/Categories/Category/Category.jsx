@@ -21,10 +21,6 @@ export default function Category() {
   const error = useSelector(selectError);
 
   const { title } = category;
-
-  const activeClass = ({ isActive }) =>
-    isActive ? `${css.active}` : `${css.navLink}`;
-
   const dispatch = useDispatch();
   useEffect(() => {
     if (categoryId) {
@@ -36,13 +32,13 @@ export default function Category() {
   return (
     <div className={css.container}>
       <div className={css.way}>
-        <NavLink className={activeClass} to="/">
+        <NavLink className={css.navLink} to="/">
           Головна /
         </NavLink>
-        <NavLink className={activeClass} to="/">
+        <NavLink className={css.navLink} to="/categories">
           Всі категорії /
         </NavLink>
-        <NavLink className={activeClass} to="/categories">
+        <NavLink className={css.active} to={`/categories/${categoryId}`}>
           {title}
         </NavLink>
       </div>
