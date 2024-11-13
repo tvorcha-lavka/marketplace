@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { GoChevronRight } from 'react-icons/go';
 
 import { media } from '../../utils/mediaConfig';
 import {
-  selectCategories,
+  selectAllCategories,
   selectIsLoading,
   selectError,
 } from '../../redux/categories/categoriesSelectors';
@@ -16,7 +16,7 @@ export default function CatalogModal({ noFocuseModal }) {
   const [focusId, setFocusId] = useState(null);
   const navigate = useNavigate();
 
-  const categories = useSelector(selectCategories);
+  const categories = useSelector(selectAllCategories);
   const allCategories = [...categories].reverse();
   // const isLoading = useSelector(selectIsLoading);
 

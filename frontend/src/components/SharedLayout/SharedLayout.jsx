@@ -22,7 +22,7 @@ export default function SharedLayout() {
       <Suspense fallback={null}>
         <Outlet />
       </Suspense>
-			<Footer />
+      <Footer />
     </div>
   );
 }

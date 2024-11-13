@@ -1,11 +1,11 @@
 import { NavLink, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { selectCategories } from '../../redux/categories/categoriesSelectors';
+import { selectAllCategories } from '../../redux/categories/categoriesSelectors';
 import { positionTitle, cardOrientation } from '../../utils/positionTitle.js';
 import css from './AllCategories.module.css';
 
 export default function AllCategories() {
-  const сategories = useSelector(selectCategories);
+  const сategories = useSelector(selectAllCategories);
   const allCategories = [...сategories].reverse();
   console.log(allCategories);
   let verticalCounter = 0;
