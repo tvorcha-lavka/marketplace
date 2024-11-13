@@ -11,10 +11,24 @@ export const getAllCategories = createAsyncThunk(
 
       const tree = res.data;
       const categoryTrees = buildCategoryTree(tree);
-
       const categories = categoryTrees[0].children;
       // console.log(categories);
       return categories;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+export const getPopCategories = createAsyncThunk(
+  'categories/getPop',
+  async (_, thunkAPI) => {
+    try {
+      const res = await axios.get(
+        `${baseApiUrl}/categories/?lang=uk&popular=true`
+      );
+
+      return res.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -26,7 +40,6 @@ export const getCategoryById = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       const res = await axios.get(`${baseApiUrl}/categories/${id}/`);
-      // console.log(res.data);
       return res.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);

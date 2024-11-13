@@ -10,10 +10,6 @@ export default function HeaderDown() {
     return clsx(css.nav_link, isActive && css.active);
   };
 
-  const getActiveTextClass = ({ isActive }) => {
-    return clsx(css.nav_text, isActive && css.nav_text_active);
-  };
-
   return (
     <nav className={css.navbox}>
       <div className={css.nav_container}>
@@ -21,25 +17,25 @@ export default function HeaderDown() {
           <li className={css.nav_item}>
             <NavLink to="/discount" className={getActiveClass}>
               <CiDiscount1 size={24} />
-              <p className={getActiveTextClass}>Знижки</p>
+              <p>Знижки</p>
             </NavLink>
           </li>
           <li className={css.nav_item}>
             <NavLink to="/love_day" className={getActiveClass}>
               <CiHeart size={24} />
-              <p className={getActiveTextClass}>День закоханих</p>
+              <p>День закоханих</p>
             </NavLink>
           </li>
           <li className={css.nav_item}>
             <NavLink to="/support" className={getActiveClass}>
               <PiHeadphones size={24} />
-              <p className={getActiveTextClass}>Потрібна допомога</p>
+              <p>Потрібна допомога</p>
             </NavLink>
           </li>
           <li className={css.nav_item}>
             <NavLink to="/payment-delivery" className={getActiveClass}>
               <CiDeliveryTruck size={24} />
-              <p className={getActiveTextClass}>Оплата і доставка</p>
+              <p>Оплата і доставка</p>
             </NavLink>
           </li>
         </ul>

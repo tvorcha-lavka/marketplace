@@ -1,17 +1,23 @@
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { selectCategories } from '../../redux/categories/categoriesSelectors';
+import { selectPopCategories } from '../../redux/categories/categoriesSelectors';
+import { getPopCategories } from '../../redux/categories/categoriesOperations';
 import { positionTitle, cardOrientation } from '../../utils/positionTitle';
 import css from './PopularCategories.module.css';
 
 export default function PopularCategories() {
-  const categories = useSelector(selectCategories);
-  const allCategories = [...categories].reverse();
-  const fivePopCategories = allCategories
-    .filter(({ popularity_score }) => popularity_score >= 0)
-    .slice(0, 5);
-  console.log(fivePopCategories);
+  const dispatch = useDispatch();
+  const popCategories = useSelector(selectPopCategories);
+  const fivePopCategories = popCategories.slice(0, 5);
+  // console.log(fivePopCategories);
   let verticalCounter = 0;
+
+  useEffect(() => {
+    if (popCategories.length === 0) {
+      dispatch(getPopCategories());
+    }
+  }, [dispatch]);
 
   return (
     <section className={css.container}>
@@ -32,7 +38,6 @@ export default function PopularCategories() {
             );
             verticalCounter += 1;
           }
-          // console.log(title);
           const styles = positionTitle(card.title_position);
 
           return (

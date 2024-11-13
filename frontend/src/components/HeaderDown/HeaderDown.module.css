@@ -10,31 +10,19 @@
 }
 
 .nav_container {
-	width: 1440px;
-	padding: 10px 122px;
-	margin: 0 auto;
+  width: 1440px;
+  padding: 10px 122px;
+  margin: 0 auto;
 }
 
 .nav_link {
   display: flex;
   align-items: center;
   gap: 6px;
-  color: var(--grey-darkest);
-}
-
-.active {
-  color: var(--primary-dark-orange); 
-}
-
-.nav_text {
   font-size: var(--font-size-tiny);
   color: var(--grey-darkest);
 }
 
-.nav_text_active {
-  color: var(--primary-dark-orange); 
-}
-
-.nav_text_color {
+.active {
   color: var(--primary-dark-orange);
 }
