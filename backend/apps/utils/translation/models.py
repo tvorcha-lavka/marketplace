@@ -52,8 +52,10 @@ class AutoTranslatableModel(TranslatableModel):
         languages = [code for (code, lang) in settings.LANGUAGES if code != self.language_code]
 
         for language in languages:
-            translated_value = self.translate(field_value, language)
-            self.create_translation(language, **{field_name: translated_value})
+            translated_value = self.translate(field_value, language).capitalize()
+
+            for translation in self._set_translated_fields(language, **{field_name: translated_value}):
+                self.save_translation(translation)
 
     def translate(self, value: str, target_language: str = "en") -> str:
         """Translate a value to a target language and return the translated value."""
