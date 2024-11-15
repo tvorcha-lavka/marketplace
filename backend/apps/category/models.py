@@ -5,7 +5,6 @@ from django.utils.translation import gettext_lazy as _
 from mptt.models import MPTTModel, TreeForeignKey
 from parler.models import TranslatedFields
 
-from apps.filter.models import FilterGroupSet
 from apps.utils.translation.models import AutoTranslatableModel
 
 from .choices import CardOrientation, TitlePosition
@@ -140,29 +139,6 @@ class CategoryImage(models.Model):
     @property
     def absolute_url(self) -> str:
         return f"https://{settings.AWS_S3_CUSTOM_DOMAIN}/{self.image.name}"
-
-
-class CategoryFilterSet(models.Model):
-    class Meta:
-        db_table = "category_filter_set"
-        verbose_name = _("Category Filter Set")
-        verbose_name_plural = _("Category Filter Sets")
-
-    objects = models.Manager()
-    category = models.OneToOneField(
-        to=Category,
-        on_delete=models.CASCADE,
-        related_name="filter_set",
-        verbose_name=_("category"),
-    )
-    filters = models.ManyToManyField(
-        to=FilterGroupSet,
-        related_name="category_filters",
-        verbose_name=_("filters"),
-    )
-
-    def __str__(self):
-        return self.category.title if hasattr(self, "category") else self.__class__.__name__  # type: ignore
 
 
 class Card(models.Model):
