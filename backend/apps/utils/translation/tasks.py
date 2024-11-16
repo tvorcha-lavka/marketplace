@@ -8,7 +8,7 @@ redis_client = caches["default"].client.get_client()
 @shared_task
 def translate_fields_task(app_label: str, instance_pk: int, language_code: str):
     """Create translations to each field in translatable_fields."""
-    lock_key = f"translate_task_lock_{instance_pk}"
+    lock_key = f"translate_task_lock_{app_label}:{instance_pk}"
 
     # Trying to capture the lock
     lock_acquired = redis_client.setnx(lock_key, "locked")

@@ -2,6 +2,7 @@ import time
 
 import pytest
 from deep_translator import DeeplTranslator
+from django.conf import settings
 from django.db import transaction
 from django.utils.text import slugify
 from parler.models import TranslatableModelMixin
@@ -19,6 +20,11 @@ class TestAutoTranslatableModel:
 
         self.translated_name = f"Translated {self.instance_name}"
         self.mock_translate = mocker.patch.object(DeeplTranslator, "translate", return_value=self.translated_name)
+
+        self.mock_set_translated_fields = mocker.patch.object(
+            self.instance, "_set_translated_fields", side_effect=self.instance._set_translated_fields
+        )
+        self.mock_save_translation = mocker.patch.object(TranslatableModelMixin, "save_translation")
 
     def test_str_method(self):
         assert str(self.instance) == self.instance_name
@@ -78,14 +84,24 @@ class TestAutoTranslatableModel:
         assert translated_fields == ["name"]
 
     def test_translate_field(self, mocker):
-        # Mock `create_translation` method
-        mocker.patch.object(TranslatableModelMixin, "create_translation")
-
         # Translating a specific field
-        self.instance.translate_field("name", "Test Name")
+        self.instance.translate_field("name", self.instance_name)
 
-        # Check that the `translate` method has been called
-        self.mock_translate.assert_called()
+        # Get a language list
+        languages = [code for (code, lang) in settings.LANGUAGES if code != self.instance.language_code]
+
+        # Check that the `translate` method has been called with instance name
+        expected_calls = [mocker.call(self.instance_name) for _ in range(len(languages))]
+        self.mock_translate.assert_has_calls(expected_calls, any_order=False)
+        assert self.mock_translate.call_count == len(expected_calls)
+
+        # Check that the `_set_translated_fields` method has been called with available languages
+        expected_calls = [mocker.call(lang, name=self.translated_name.capitalize()) for lang in languages]
+        self.mock_set_translated_fields.assert_has_calls(expected_calls, any_order=False)
+        assert self.mock_set_translated_fields.call_count == len(expected_calls)
+
+        # Check that the `save_translation` method has been called the correct number of times
+        assert self.mock_save_translation.call_count == len(expected_calls)
 
     def test_translate(self, mocker):
         # Mock `translate` method in DeeplTranslator
