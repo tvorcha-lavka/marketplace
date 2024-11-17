@@ -4,8 +4,8 @@ from drf_spectacular.utils import extend_schema
 from .views import CatalogListAPIView, CategoryReadOnlyViewSet
 
 SchemaTag = "Category"
-CategoryReadOnlyViewSet = extend_schema(tags=[SchemaTag], auth=[])(CategoryReadOnlyViewSet)
-CatalogListAPIView = extend_schema(tags=[SchemaTag], auth=[])(CatalogListAPIView)
+CategoryReadOnlyViewSet = extend_schema(tags=[SchemaTag])(CategoryReadOnlyViewSet)
+CatalogListAPIView = extend_schema(tags=[SchemaTag])(CatalogListAPIView)
 
 urlpatterns = [
     path("", CategoryReadOnlyViewSet.as_view({"get": "list"}), name="category-list"),
