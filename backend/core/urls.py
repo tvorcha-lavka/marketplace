@@ -27,7 +27,7 @@ urlpatterns = [
     path("api/users/", include("apps.user.urls")),
     path("api/send-mail/", include("apps.email.urls")),
     path("api/categories/", include("apps.category.urls")),
-    path("api/products/", include("apps.product.urls")),
+    # path("api/products/", include("apps.product.urls")),
 ]
 
 if settings.DEBUG:

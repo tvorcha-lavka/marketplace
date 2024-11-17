@@ -2,9 +2,7 @@ import time
 
 from deep_translator import DeeplTranslator
 from django.conf import settings
-from django.db import models, transaction
-from django.utils.text import slugify
-from django.utils.translation import gettext_lazy as _
+from django.db import transaction
 from parler.models import TranslatableModel
 
 from .tasks import translate_fields_task
@@ -14,26 +12,11 @@ class AutoTranslatableModel(TranslatableModel):
     class Meta:
         abstract = True
 
-    slug = models.SlugField(_("slug"), max_length=50, unique=True, blank=True)
-
-    def __str__(self):
-        return self.safe_translation_getter(self.field_for_slug(), "-", self.language_code)
-
     def save(self, *args, **kwargs):
         is_new_obj = self.pk is None
-        self.generate_slug()
 
         super().save(*args, **kwargs)
         transaction.on_commit(self.add_translate_task) if is_new_obj else None
-
-    def field_for_slug(self) -> str:
-        """The method to get the field name, needs to be overridden in the child classes."""
-        raise NotImplementedError("Subclasses must implement `field_for_slug` method.")
-
-    def generate_slug(self):
-        """Generates a slug based on the value of a field if not set."""
-        self_value = getattr(self, self.field_for_slug())
-        self.slug = slugify(self.translate(self_value) if not self.slug else self.slug)
 
     def add_translate_task(self):
         """Starts the celery task to translate each field in translatable_fields."""

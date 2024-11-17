@@ -4,12 +4,11 @@ import pytest
 from deep_translator import DeeplTranslator
 from django.conf import settings
 from django.db import transaction
-from django.utils.text import slugify
 from parler.models import TranslatableModelMixin
 
 from apps.utils.translation.tasks import translate_fields_task
 
-from .conftest import DummyModel, NoImplementedDummyModel
+from .conftest import DummyModel
 
 
 class TestAutoTranslatableModel:
@@ -26,13 +25,9 @@ class TestAutoTranslatableModel:
         )
         self.mock_save_translation = mocker.patch.object(TranslatableModelMixin, "save_translation")
 
-    def test_str_method(self):
-        assert str(self.instance) == self.instance_name
-
     def test_save(self, mocker):
         # Mock methods in `save` methods
         mock_save = mocker.patch.object(TranslatableModelMixin, "save")
-        mock_generate_slug = mocker.patch.object(self.instance, "generate_slug")
         mock_on_commit = mocker.patch.object(transaction, "on_commit")
 
         # Save instance
@@ -40,28 +35,7 @@ class TestAutoTranslatableModel:
 
         # Check that methods are called
         mock_save.assert_called_once()
-        mock_generate_slug.assert_called_once()
         mock_on_commit.assert_called_once_with(self.instance.add_translate_task)
-
-    def test_field_for_slug_implementation(self):
-        # Check that the `field_for_slug` rise NotImplementedError
-        with pytest.raises(NotImplementedError):
-            NoImplementedDummyModel().field_for_slug()
-
-    def test_field_for_slug(self):
-        # Check that the `field_for_slug` method returns the expected value
-        assert self.instance.field_for_slug() == "name"
-
-    def test_generate_slug(self, mocker):
-        name = "Slug Test"
-        return_translation = f"Translated {name}"
-        mocker.patch.object(DeeplTranslator, "translate", return_value=return_translation)
-
-        self.instance.name = name
-        self.instance.generate_slug()
-
-        # Check that the slug was generated correctly
-        assert self.instance.slug == slugify(return_translation)
 
     def test_add_translate_task(self, mocker):
         # Mock `apply_async` method

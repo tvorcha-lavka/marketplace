@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-02 05:17+0200\n"
+"POT-Creation-Date: 2024-11-17 05:05+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,6 +31,5 @@ msgstr "Файл зображення занадто великий (макс.: 
 msgid "Image resolution is too high (max: %sx%s)"
 msgstr "Роздільна здатність зображення занадто висока (макс.: %sx%s)"
 
-#: .\apps\utils\translation\models.py:17
-msgid "slug"
-msgstr "унікальний ідентифікатор"
+#~ msgid "slug"
+#~ msgstr "унікальний ідентифікатор"
