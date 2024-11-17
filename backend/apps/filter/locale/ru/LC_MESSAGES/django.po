@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-02 05:18+0200\n"
+"POT-Creation-Date: 2024-11-17 05:05+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,80 +20,71 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: .\apps\filter\admin.py:148 .\apps\filter\admin.py:216
+#: .\apps\filter\admin.py:100 .\apps\filter\admin.py:160
 msgid "Filter type"
 msgstr "Тип фильтра"
 
-#: .\apps\filter\admin.py:175
+#: .\apps\filter\admin.py:123
 msgid "Filter type name"
 msgstr "Имя типа фильтра"
 
-#: .\apps\filter\admin.py:179 .\apps\filter\admin.py:225
+#: .\apps\filter\admin.py:127 .\apps\filter\admin.py:168
 msgid "Filter values"
 msgstr "Значения фильтров"
 
-#: .\apps\filter\admin.py:212
-msgid "Group name"
-msgstr "Название группы"
-
-#: .\apps\filter\admin.py:252
-msgid "Group set"
-msgstr "Набор групп"
-
-#: .\apps\filter\admin.py:256
-msgid "Groups"
-msgstr "Группы"
-
-#: .\apps\filter\models.py:11 .\apps\filter\models.py:33
-#: .\apps\filter\models.py:52
+#: .\apps\filter\filters.py:11 .\apps\filter\models.py:15
+#: .\apps\filter\models.py:43 .\apps\filter\models.py:79
 msgid "filter type"
 msgstr "тип фильтра"
 
-#: .\apps\filter\models.py:12
+#: .\apps\filter\models.py:16
 msgid "filter types"
 msgstr "типы фильтров"
 
-#: .\apps\filter\models.py:14 .\apps\filter\models.py:51
-#: .\apps\filter\models.py:69
+#: .\apps\filter\models.py:20
 msgid "name"
 msgstr "название"
 
-#: .\apps\filter\models.py:15
+#: .\apps\filter\models.py:22
+msgid "list position"
+msgstr "положение в списке"
+
+#: .\apps\filter\models.py:23
 msgid "required"
 msgstr "обязательный"
 
-#: .\apps\filter\models.py:24
+#: .\apps\filter\models.py:35
 msgid "filter value"
 msgstr "значение фильтра"
 
-#: .\apps\filter\models.py:25 .\apps\filter\models.py:53
+#: .\apps\filter\models.py:36 .\apps\filter\models.py:80
 msgid "filter values"
 msgstr "значения фильтров"
 
-#: .\apps\filter\models.py:29
+#: .\apps\filter\models.py:39
 msgid "value"
 msgstr "значение"
 
-#: .\apps\filter\models.py:30
+#: .\apps\filter\models.py:40
 msgid "description"
 msgstr "описание"
 
-#: .\apps\filter\models.py:32
+#: .\apps\filter\models.py:42
 msgid "metadata"
 msgstr "метаданные"
 
-#: .\apps\filter\models.py:48
+#: .\apps\filter\models.py:63
+msgid "The combination of filter type and value must be unique."
+msgstr "Комбинация типа фильтра и значения должна быть уникальной."
+
+#: .\apps\filter\models.py:73
 msgid "filter group"
 msgstr "группа фильтров"
 
-#: .\apps\filter\models.py:49 .\apps\filter\models.py:70
+#: .\apps\filter\models.py:74
 msgid "filter groups"
 msgstr "группы фильтров"
 
-#: .\apps\filter\models.py:66
-msgid "filter group set"
-msgstr "набор групп фильтров"
-
-#: .\apps\filter\models.py:67
-msgid "filter group sets"
-msgstr "наборы групп фильтров"
+#: .\apps\filter\models.py:78
+msgid "category"
+msgstr "категория"

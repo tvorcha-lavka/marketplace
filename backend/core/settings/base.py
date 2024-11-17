@@ -55,8 +55,8 @@ INSTALLED_APPS = [
     "apps.user_auth",
     "apps.email",
     "apps.category",
-    # "apps.filter",
-    # "apps.product",
+    "apps.filter",
+    "apps.product",
 ]
 
 MIDDLEWARE = [

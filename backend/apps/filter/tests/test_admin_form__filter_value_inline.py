@@ -3,8 +3,7 @@ from parler.admin import TranslatableTabularInline
 from parler.managers import TranslatableQuerySet
 
 from apps.admin.sites import AdminSite
-from apps.filter.admin import FilterValueInline
-from apps.filter.forms import FilterValueForm
+from apps.filter.forms import FilterValueForm, FilterValueInline
 from apps.filter.models import FilterValue
 
 
@@ -33,10 +32,3 @@ class TestFilterValueInline:
         # Check that the required fields for `select_related` and `prefetch_related` are selected
         assert "filter_type" in queryset.query.select_related
         assert "translations" and "filter_type__translations" in queryset._prefetch_related_lookups
-
-    def test_get_prepopulated_fields(self, rf):
-        request = rf.get(self.app_url)
-        prepopulated_fields = self.inline.get_prepopulated_fields(request)
-
-        # Check that the slug is generated based on the value field
-        assert prepopulated_fields == {"slug": ("value",)}
