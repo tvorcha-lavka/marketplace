@@ -8,11 +8,13 @@ from .forms import (
     CardImageInline,
     CategoryAdminForm,
     CategoryCardAdminForm,
-    CategoryFilterSetInline,
     CategoryImageInline,
     CategoryStatisticInline,
 )
 from .models import Card, Category
+
+# TODO: update `inlines` with FilterGroupInline
+# from apps.filter.forms import FilterGroupInline
 
 
 @admin.register(Category)
@@ -26,7 +28,7 @@ class CategoryAdmin(TranslatableAdmin, MPTTModelAdmin):
 
     # object settings
     form = CategoryAdminForm
-    inlines = (CategoryFilterSetInline, CategoryImageInline, CategoryStatisticInline)
+    inlines = (CategoryImageInline, CategoryStatisticInline)
 
     def get_prepopulated_fields(self, request, obj=None):
         return {"slug": ("title",), "url": ("slug",)}

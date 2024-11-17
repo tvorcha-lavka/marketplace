@@ -1,6 +1,8 @@
 import pytest
+from deep_translator import DeeplTranslator
 from django.conf import settings
 from django.db import transaction
+from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from mptt.models import MPTTModel
 
@@ -8,6 +10,11 @@ from apps.category.models import Card, Category, CategoryImage, Statistics
 
 
 class TestModelCategory:
+    def test_str_method(self):
+        category_title = "Test Category"
+        category = Category(title=category_title)
+        assert str(category) == category_title
+
     def test_save(self, mocker):
         # Mock methods in `save` methods
         mock_save = mocker.patch.object(MPTTModel, "save")
@@ -92,16 +99,6 @@ class TestModelCategory:
         else:  # Check that property returns default data
             assert isinstance(statistics_instance, Statistics)
 
-    def test_field_for_slug(self):
-        # Create category instance
-        category = Category()
-
-        # Call `field_for_slug` method
-        field_for_slug = category.field_for_slug()
-
-        # Check that `field_for_slug` method returns correct value
-        assert field_for_slug == "title"
-
     def test_clean(self, mocker):
         # Mock `clean_url` method
         mock_clean_url = mocker.patch.object(Category, "clean_url")
@@ -126,6 +123,17 @@ class TestModelCategory:
 
         # Check that `clean_url` method clean base url
         assert category.url == f"/{category.slug}"
+
+    def test_generate_slug(self, mocker):
+        title = "Slug Test"
+        return_translation = f"Translated {title}"
+        mocker.patch.object(DeeplTranslator, "translate", return_value=return_translation)
+
+        category = Category(title=title)
+        category.generate_slug()
+
+        # Check that the slug was generated correctly
+        assert category.slug == slugify(return_translation)
 
     def test_generate_url(self, mocker):
         # Create category instance

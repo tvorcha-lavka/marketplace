@@ -5,7 +5,7 @@ from django.core.cache import cache
 from django.urls import reverse
 from rest_framework import status
 
-from apps.category.models import Category  # предположим, что модель называется Catalog
+from apps.category.models import Category
 
 from .conftest import UserSchema
 
