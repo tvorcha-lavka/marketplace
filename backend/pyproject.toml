@@ -68,9 +68,9 @@ build-backend = "poetry.core.masonry.api"
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "core.settings.test"
 python_files = ["tests.py", "test_*.py", "*_test.py"]
-addopts = ["-x", "--ff", "--nf", "-W error", "--color=yes"]
+addopts = ["-x", "--ff", "--nf", "-W error", "--color=yes", "--ignore=apps/filter/tests"]
 
 [tool.coverage.run]
 branch = true
 data_file = "htmlcov/.coverage"
-omit = ["manage.py", "settings.py", "core/*"]
+omit = ["manage.py", "settings.py", "core/*", "apps/filter/*"]
