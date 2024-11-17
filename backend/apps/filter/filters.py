@@ -1,0 +1,52 @@
+from django.contrib import admin
+from django.db.models import Count, Prefetch
+from django.utils.translation import gettext_lazy as _
+from django_filters import NumberFilter
+from django_filters.filterset import FilterSet
+
+from .models import FilterType, FilterValue
+
+
+class FilterTypeFilterAdmin(admin.SimpleListFilter):
+    title = _("filter type")
+    parameter_name = "filter_id"
+
+    def lookups(self, request, model_admin):
+        qs = FilterType.objects.filter(id=self.value()) if self.value() else FilterType.objects.all()
+        queryset = qs.prefetch_related("translations")
+
+        return [(obj.id, obj.name) for obj in queryset]
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(id=self.value())
+        return queryset
+
+
+class FilterTypeFilter(FilterSet):
+    class Meta:
+        model = FilterType
+        fields = ["category_id"]
+
+    category_id = NumberFilter(required=True, method="filter_by_category_id")
+
+    @staticmethod
+    def filter_by_category_id(queryset, name, value):  # noqa: F841
+        filter_value_qs = (
+            FilterValue.objects.filter(group__category_id=value)
+            .prefetch_related("translations", "product")
+            .annotate(product_count=Count("product"))
+            .order_by("product_count")
+        )
+        return (
+            queryset.filter(group__category_id=value)
+            .order_by("list_position")
+            .prefetch_related(
+                "translations",
+                Prefetch(
+                    lookup="filter_values",
+                    queryset=filter_value_qs,
+                    to_attr="filtered_values",
+                ),
+            )
+        )

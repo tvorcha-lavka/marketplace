@@ -6,8 +6,9 @@ from apps.filter.models import FilterType
 class TestFilterType:
     @pytest.fixture(autouse=True)
     def setup(self):
-        self.filter_type = FilterType(name="Test Filter Type")
+        self.name = "Test Filter Type"
+        self.filter_type = FilterType(name=self.name)
 
-    def test_field_for_slug(self):
-        # Check that the `field_for_slug` method returns the expected value
-        assert self.filter_type.field_for_slug() == "name"
+    def test_str_method(self):
+        # Check that the `__str__` method returns the expected value
+        assert str(self.filter_type) == self.name

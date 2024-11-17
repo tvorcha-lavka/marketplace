@@ -4,6 +4,7 @@ from parler.managers import TranslatableQuerySet
 
 from apps.admin.sites import AdminSite
 from apps.filter.admin import FilterValueAdmin
+from apps.filter.filters import FilterTypeFilterAdmin
 from apps.filter.forms import FilterValueForm
 from apps.filter.models import FilterValue
 
@@ -23,7 +24,7 @@ class TestFilterValueAdmin:
         mocker.patch.object(TranslatableAdmin, "get_queryset", return_value=TranslatableQuerySet(self.model))
 
     def test_list_display(self):
-        list_display = ("display_filter_type", "value", "all_languages_column")
+        list_display = ("display_filter_type", "value", "description", "all_languages_column")
         assert self.admin.list_display == list_display
 
     def test_list_display_links(self):
@@ -31,7 +32,7 @@ class TestFilterValueAdmin:
         assert self.admin.list_display_links == list_display_links
 
     def test_list_filter(self):
-        list_filter = ("filter_type",)
+        list_filter = (FilterTypeFilterAdmin,)
         assert self.admin.list_filter == list_filter
 
     def test_search_fields(self):
@@ -51,13 +52,6 @@ class TestFilterValueAdmin:
         assert "filter_type" in queryset.query.select_related
         assert "translations" and "filter_type__translations" in queryset._prefetch_related_lookups
         assert queryset.query.distinct
-
-    def test_get_prepopulated_fields(self, rf):
-        request = rf.get(self.app_url)
-        prepopulated_fields = self.admin.get_prepopulated_fields(request)
-
-        # Check that the slug is generated based on the value field
-        assert prepopulated_fields == {"slug": ("value",)}
 
     def test_display_filter_type(self, mocker):
         # Mock object

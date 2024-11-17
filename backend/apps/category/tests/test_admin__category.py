@@ -7,8 +7,7 @@ from apps.category.admin import CategoryAdmin
 from apps.category.filters import HasImageFilter, ParentCategoryFilter
 from apps.category.forms import CategoryAdminForm, CategoryImageInline, CategoryStatisticInline
 from apps.category.models import Category
-
-# from apps.filter.forms import FilterGroupInline
+from apps.filter.forms import FilterGroupInline
 
 
 class TestCategoryAdmin:
@@ -41,7 +40,7 @@ class TestCategoryAdmin:
         assert self.admin.form == form
 
     def test_inlines(self):
-        inlines = (CategoryImageInline, CategoryStatisticInline)
+        inlines = (FilterGroupInline, CategoryImageInline, CategoryStatisticInline)
         assert self.admin.inlines == inlines
 
     def test_get_prepopulated_fields(self, rf):

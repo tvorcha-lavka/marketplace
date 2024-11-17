@@ -3,6 +3,8 @@ from django.utils.translation import gettext_lazy as _
 from mptt.admin import MPTTModelAdmin
 from parler.admin import TranslatableAdmin, TranslatableModelForm  # noqa
 
+from apps.filter.forms import FilterGroupInline
+
 from .filters import HasImageFilter, ParentCategoryFilter
 from .forms import (
     CardImageInline,
@@ -12,9 +14,6 @@ from .forms import (
     CategoryStatisticInline,
 )
 from .models import Card, Category
-
-# TODO: update `inlines` with FilterGroupInline
-# from apps.filter.forms import FilterGroupInline
 
 
 @admin.register(Category)
@@ -28,7 +27,7 @@ class CategoryAdmin(TranslatableAdmin, MPTTModelAdmin):
 
     # object settings
     form = CategoryAdminForm
-    inlines = (CategoryImageInline, CategoryStatisticInline)
+    inlines = (FilterGroupInline, CategoryImageInline, CategoryStatisticInline)
 
     def get_prepopulated_fields(self, request, obj=None):
         return {"slug": ("title",), "url": ("slug",)}

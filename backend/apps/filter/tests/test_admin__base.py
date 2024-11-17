@@ -10,11 +10,10 @@ class TestBaseAdmin:
     @pytest.fixture(autouse=True)
     def setup(self, mocker):
         self.obj = mocker.Mock()
-        self.obj.language_code = "en"
 
         self.related_field_obj = mocker.Mock()
-        self.related_field_obj.id = 1
-        self.related_field_obj.safe_translation_getter.return_value = "Test Name"
+        self.related_field_obj.pk = 1
+        self.related_field_obj.name = "Test Name"
 
     @pytest.mark.parametrize("with_related_object", (True, False))
     def test_display_field(self, mocker, with_related_object):
@@ -25,9 +24,8 @@ class TestBaseAdmin:
 
         # Call `_display_field` method
         result = BaseFilterAdmin._display_field(
-            obj=self.obj,
             field="name",
-            related_field="related_field",
+            obj=self.obj.related_field,
             reverse_path="admin:path",
         )
 
@@ -45,13 +43,13 @@ class TestBaseAdmin:
             mocker.Mock(
                 all=mocker.Mock(
                     return_value=[
-                        mocker.Mock(id=1, safe_translation_getter=mocker.Mock(return_value="Value 1")),
-                        mocker.Mock(id=2, safe_translation_getter=mocker.Mock(return_value="Value 2")),
+                        mocker.Mock(pk=1, value="Value 1"),
+                        mocker.Mock(pk=2, value="Value 2"),
                     ]
                 )
             )
             if with_related_object
-            else None
+            else mocker.Mock(all=mocker.Mock(return_value=[]))
         )
 
         # Mock `reverse` method
@@ -59,9 +57,8 @@ class TestBaseAdmin:
 
         # Call `_display_list_field` method
         result = BaseFilterAdmin._display_list_field(
-            obj=self.obj,
-            field="name",
-            related_field="related_field",
+            field="value",
+            queryset=self.obj.related_field.all(),
             reverse_path="admin:path",
         )
 
