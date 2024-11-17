@@ -5,8 +5,10 @@ from parler.managers import TranslatableQuerySet
 from apps.admin.sites import AdminSite
 from apps.category.admin import CategoryAdmin
 from apps.category.filters import HasImageFilter, ParentCategoryFilter
-from apps.category.forms import CategoryAdminForm
+from apps.category.forms import CategoryAdminForm, CategoryImageInline, CategoryStatisticInline
 from apps.category.models import Category
+
+# from apps.filter.forms import FilterGroupInline
 
 
 class TestCategoryAdmin:
@@ -37,6 +39,10 @@ class TestCategoryAdmin:
     def test_form(self):
         form = CategoryAdminForm
         assert self.admin.form == form
+
+    def test_inlines(self):
+        inlines = (CategoryImageInline, CategoryStatisticInline)
+        assert self.admin.inlines == inlines
 
     def test_get_prepopulated_fields(self, rf):
         request = rf.get(self.app_url)

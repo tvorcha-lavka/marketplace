@@ -60,8 +60,8 @@ class CategoryFilter(FilterSet):
         fields = ["lang", "popular", "level"]
 
     TOP_N_ELEMENTS = 30
-    HORIZONTAL_COUNT = 8
-    VERTICAL_COUNT = 2
+    HORIZONTAL_COUNT = 4
+    VERTICAL_COUNT = 1
 
     lang = ChoiceFilter(field_name="translations__language_code", label="Language", choices=settings.LANGUAGES)
     popular = BooleanFilter(method="get_popular_categories", label="Return popular categories")
@@ -78,7 +78,7 @@ class CategoryFilter(FilterSet):
             top_elements = list(sorted_qs[: self.TOP_N_ELEMENTS])
             return random.sample(top_elements, min(element_count, len(top_elements)))
 
-        # Get popular categories with horizontal & vertical card orientation
+        # Get popular categories with horizontal and vertical card orientation
         horizontal_qs = get_queryset(CardOrientation.HORIZONTAL, self.HORIZONTAL_COUNT)
         vertical_qs = get_queryset(CardOrientation.VERTICAL, self.VERTICAL_COUNT)
 

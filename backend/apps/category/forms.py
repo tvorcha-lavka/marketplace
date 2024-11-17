@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 from mptt.forms import MPTTAdminForm  # noqa
 from parler.forms import TranslatableModelForm
 
-from .models import Card, CardImage, Category, CategoryFilterSet, CategoryImage, Statistics
+from .models import Card, CardImage, Category, CategoryImage, Statistics
 
 
 # --- Category ---------------------------------------------------------------------------------------------------------
@@ -80,29 +80,3 @@ class CardImageInline(admin.StackedInline):
 # --- Category Statistic -----------------------------------------------------------------------------------------------
 class CategoryStatisticInline(admin.StackedInline):
     model = Statistics
-
-
-# --- Category Filter Set ----------------------------------------------------------------------------------------------
-class CategoryFilterSetAdminForm(forms.ModelForm):
-    class Meta:
-        model = CategoryFilterSet
-        fields = ("filters",)
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        request = self._meta.formfield_callback.keywords.get("request")
-        lang = request.GET.get("language", request.LANGUAGE_CODE)
-
-        filters_qs = self.fields["filters"].queryset
-        self.fields["filters"].queryset = filters_qs.language(lang).prefetch_related(
-            "translations", "groups__translations"
-        )
-
-
-class CategoryFilterSetInline(admin.StackedInline):
-    form = CategoryFilterSetAdminForm
-    model = CategoryFilterSet
-    filter_horizontal = ("filters",)
-    extra = 1
-    max_num = 1
