@@ -1,0 +1,23 @@
+.cart_container {
+  margin: 20px auto 114px;
+  max-width: 1200px;
+  background: #fefcfa;
+}
+.navbox {
+  margin-block-end: 20px;
+}
+
+.navLink {
+  margin-inline-end: 4px;
+  font-size: 14px;
+  color: #949494;
+}
+
+.navLink:last-child {
+  margin-inline-end: 0;
+}
+
+.active {
+  font-size: 14px;
+  color: black;
+}
