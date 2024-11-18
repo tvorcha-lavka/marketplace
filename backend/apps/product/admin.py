@@ -7,7 +7,7 @@ from apps.product.models import Product, ProductImage
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     # list settings
-    list_display = ("id", "seller", "category", "price", "active", "is_vip")
+    list_display = ("id", "owner", "category", "price", "active", "is_vip")
     list_display_links = ("id",)
 
     # object settings
@@ -18,14 +18,14 @@ class ProductAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
         if not change:
-            obj.seller = request.user
+            obj.owner = request.user
         super().save_model(request, obj, form, change)
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
 
         if request.path.endswith("/product/"):
-            return qs.select_related("seller", "category").prefetch_related("category__translations")
+            return qs.select_related("owner", "category").prefetch_related("category__translations")
 
         return qs
 
