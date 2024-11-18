@@ -1,16 +1,20 @@
 from django.contrib import admin
+from django.db.models import Model, QuerySet
 from django.urls import reverse
 from django.utils.html import format_html, format_html_join
 from django.utils.translation import gettext_lazy as _
-from parler.admin import TranslatableAdmin, TranslatableTabularInline
+from parler.admin import TranslatableAdmin
 
-from .forms import FilterGroupForm, FilterGroupSetForm, FilterTypeForm, FilterValueForm
-from .models import FilterGroup, FilterGroupSet, FilterType, FilterValue
+from apps.category.models import Category
+
+from .filters import FilterTypeFilterAdmin
+from .forms import FilterGroupForm, FilterTypeForm, FilterValueForm, FilterValueInline
+from .models import FilterGroup, FilterType, FilterValue
 
 
-class BaseFilterAdmin(TranslatableAdmin):
+class BaseFilterAdmin(admin.ModelAdmin):
     @staticmethod
-    def _display_field(*, obj, field: str, related_field: str, reverse_path: str):
+    def _display_field(*, field: str, obj: Model, reverse_path: str):
         """
         Generates an HTML link to display the linked field.
 
@@ -18,35 +22,22 @@ class BaseFilterAdmin(TranslatableAdmin):
         If the linked object is not found, returns a dash (`-`) character.
 
         Parameters:
+            obj: The object for which to display the linked field.
 
-        - obj: The object for which to display the linked field.
+            field: The name of the field used to retrieve the value from
+            the linked object (for example, `name`).
 
-        - field: The name of the field used to retrieve the value from
-          the linked object (for example, `name`).
-
-        - related_field: The name of the related field in the current object
-          from which the related object will be retrieved (e.g. `name`).
-
-        - reverse_path: The path to the view in the admin to
-          which the link will be referenced (e.g. `admin:filter_filtertype_change`).
+            reverse_path: The path to the view in the admin to
+            which the link will be referenced (e.g. `admin:filter_filtertype_change`).
 
         Returns:
-        - str: An HTML link to the linked object, or a dash (`-`) if the linked object does not exist.
+            str: An HTML link to the linked object, or a dash (`-`) if the linked object does not exist.
         """
-        related_field_obj = getattr(obj, related_field)
-
-        return (
-            format_html(
-                '<a href="{}">{}</a>',
-                reverse(reverse_path, args=[related_field_obj.id]),
-                related_field_obj.safe_translation_getter(field, default="-", language_code=obj.language_code),
-            )
-            if related_field_obj
-            else "-"
-        )
+        args = (reverse(reverse_path, args=[obj.pk]), getattr(obj, field)) if obj else None
+        return format_html('<a href="{}">{}</a>', *args) if obj else "-"
 
     @staticmethod
-    def _display_list_field(*, obj, field: str, related_field: str, reverse_path: str):
+    def _display_list_field(*, field: str, queryset: QuerySet, reverse_path: str):
         """
         Generates HTML links to display a list of related fields.
 
@@ -55,44 +46,25 @@ class BaseFilterAdmin(TranslatableAdmin):
         If there are no related objects, return a dash (`-`) character.
 
         Parameters:
+            field: The name of the field used to retrieve the value from
+            the linked object (for example, `value`).
 
-        - obj: The object for which to display the linked field.
+            queryset: The queryset to which the linked object will be retrieved.
 
-        - field: The name of the field used to retrieve the value from
-          the linked object (for example, `value`).
-
-        - related_field: The name of the related field in the current object
-          from which the related object will be retrieved (e.g. `value`).
-
-        - reverse_path: The path to the view in the admin to
-          which the link will be referenced (e.g. `admin:filter_filtervalue_change`).
+            reverse_path: The path to the view in the admin to
+            which the link will be referenced (e.g. `admin:filter_filtervalue_change`).
 
         Returns:
-        - str: HTML list of links to related objects, or a dash (`-`) if there are no related objects.
+            str: HTML list of links to related objects or a dash (`-`) if there are no related objects.
         """
-        related_field_obj = getattr(obj, related_field)
-
-        return (
-            format_html_join(
-                sep=", ",
-                format_string='<a href="{}">{}</a>',
-                args_generator=(
-                    (
-                        reverse(reverse_path, args=[i.id]),
-                        i.safe_translation_getter(field, default="-", language_code=obj.language_code),
-                    )
-                    for i in related_field_obj.all()
-                ),
-            )
-            if related_field_obj
-            else "-"
-        )
+        args = ((reverse(reverse_path, args=[obj.pk]), getattr(obj, field)) for obj in queryset)
+        return format_html_join(", ", '<a href="{}">{}</a>', args) if queryset else "-"
 
     def formfield_for_dbfield(self, db_field, request, **kwargs):
         queryset_dict = {
+            "category": Category.objects.all(),
             "filter_type": FilterType.objects.all(),
             "filter_values": FilterValue.objects.select_related("filter_type"),
-            "groups": FilterGroup.objects.prefetch_related("filter_values", "filter_values__translations"),
         }
 
         if db_field.name in queryset_dict:
@@ -104,29 +76,12 @@ class BaseFilterAdmin(TranslatableAdmin):
 
 
 # ---- Filter Value ----------------------------------------------------------------------------------------------------
-class FilterValueInline(TranslatableTabularInline):
-    model = FilterValue
-    form = FilterValueForm
-    extra = 0
-
-    def get_queryset(self, request):
-        return (
-            super()
-            .get_queryset(request)
-            .select_related("filter_type")
-            .prefetch_related("translations", "filter_type__translations")
-        )
-
-    def get_prepopulated_fields(self, request, obj=None):
-        return {"slug": ("value",)}
-
-
 @admin.register(FilterValue)
-class FilterValueAdmin(BaseFilterAdmin):
+class FilterValueAdmin(TranslatableAdmin, BaseFilterAdmin):
     # list settings
-    list_display = ("display_filter_type", "value", "all_languages_column")
+    list_display = ("display_filter_type", "value", "description", "all_languages_column")
     list_display_links = ("value",)
-    list_filter = ("filter_type",)
+    list_filter = (FilterTypeFilterAdmin,)
     search_fields = ("filter_type__translations__name", "translations__value")
 
     # object settings
@@ -142,35 +97,28 @@ class FilterValueAdmin(BaseFilterAdmin):
             .distinct()
         )
 
-    def get_prepopulated_fields(self, request, obj=None):
-        return {"slug": ("value",)}
-
     @admin.display(description=_("Filter type"))
     def display_filter_type(self, obj):
         return self._display_field(
-            obj=obj,
             field="name",
-            related_field="filter_type",
+            obj=obj.filter_type,
             reverse_path="admin:filter_filtertype_change",
         )
 
 
 # ---- Filter Type -----------------------------------------------------------------------------------------------------
 @admin.register(FilterType)
-class FilterTypeAdmin(BaseFilterAdmin):
+class FilterTypeAdmin(TranslatableAdmin, BaseFilterAdmin):
     # list settings
-    list_display = ("display_name", "display_filter_values", "all_languages_column")
+    list_display = ("display_name", "display_filter_values", "list_position", "all_languages_column")
     search_fields = ("translations__name",)
 
     # object settings
     form = FilterTypeForm
-    inlines = [FilterValueInline]
+    inlines = (FilterValueInline,)
 
     def get_queryset(self, request):
-        return super().get_queryset(request).prefetch_related("values", "values__translations")
-
-    def get_prepopulated_fields(self, request, obj=None):
-        return {"slug": ("name",)}
+        return super().get_queryset(request).prefetch_related("filter_values", "filter_values__translations")
 
     @admin.display(description=_("Filter type name"))
     def display_name(self, obj):
@@ -179,9 +127,8 @@ class FilterTypeAdmin(BaseFilterAdmin):
     @admin.display(description=_("Filter values"))
     def display_filter_values(self, obj):
         return self._display_list_field(
-            obj=obj,
             field="value",
-            related_field="values",
+            queryset=obj.filter_values.all(),
             reverse_path="admin:filter_filtervalue_change",
         )
 
@@ -190,74 +137,38 @@ class FilterTypeAdmin(BaseFilterAdmin):
 @admin.register(FilterGroup)
 class FilterGroupAdmin(BaseFilterAdmin):
     # list settings
-    list_display = ("display_name", "display_filter_type", "display_filter_values", "all_languages_column")
-    list_filter = ("filter_type",)
-    search_fields = ("translations__name",)
+    list_display = ("category", "display_filter_type", "display_filter_values")
+    search_fields = ("category__translations__name", "filter_type__translations__name")
+    list_filter = (FilterTypeFilterAdmin,)
 
     # object settings
     form = FilterGroupForm
     filter_horizontal = ("filter_values",)
 
     def get_queryset(self, request):
-        return (
-            super()
-            .get_queryset(request)
-            .select_related("filter_type")
-            .prefetch_related("filter_type__translations", "filter_values__translations")
-        )
+        qs = super().get_queryset(request)
 
-    def get_prepopulated_fields(self, request, obj=None):
-        return {"slug": ("name",)}
+        if request.path.endswith("/filtergroup/"):
+            return qs.prefetch_related(
+                "category__translations",
+                "filter_type__translations",
+                "filter_values__translations",
+            )
 
-    @admin.display(description=_("Group name"))
-    def display_name(self, obj):
-        return obj.name
+        return qs.select_related("category", "filter_type")
 
     @admin.display(description=_("Filter type"))
     def display_filter_type(self, obj):
         return self._display_field(
-            obj=obj,
             field="name",
-            related_field="filter_type",
+            obj=obj.filter_type,
             reverse_path="admin:filter_filtertype_change",
         )
 
     @admin.display(description=_("Filter values"))
     def display_filter_values(self, obj):
         return self._display_list_field(
-            obj=obj,
             field="value",
-            related_field="filter_values",
+            queryset=obj.filter_values.all(),
             reverse_path="admin:filter_filtervalue_change",
-        )
-
-
-# ---- Filter Group Set ------------------------------------------------------------------------------------------------
-@admin.register(FilterGroupSet)
-class FilterGroupSetAdmin(BaseFilterAdmin):
-    # list settings
-    list_display = ("display_name", "display_filter_groups", "all_languages_column")
-    search_fields = ("translations__name",)
-
-    # object settings
-    form = FilterGroupSetForm
-    filter_horizontal = ("groups",)
-
-    def get_queryset(self, request):
-        return super().get_queryset(request).prefetch_related("groups__translations")
-
-    def get_prepopulated_fields(self, request, obj=None):
-        return {"slug": ("name",)}
-
-    @admin.display(description=_("Group set"))
-    def display_name(self, obj):
-        return obj.name
-
-    @admin.display(description=_("Groups"))
-    def display_filter_groups(self, obj):
-        return self._display_list_field(
-            obj=obj,
-            field="name",
-            related_field="groups",
-            reverse_path="admin:filter_filtergroup_change",
         )

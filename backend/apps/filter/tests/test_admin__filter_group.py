@@ -4,6 +4,7 @@ from parler.managers import TranslatableQuerySet
 
 from apps.admin.sites import AdminSite
 from apps.filter.admin import FilterGroupAdmin
+from apps.filter.filters import FilterTypeFilterAdmin
 from apps.filter.forms import FilterGroupForm
 from apps.filter.models import FilterGroup
 
@@ -24,48 +25,45 @@ class TestFilterGroupAdmin:
         mocker.patch.object(TranslatableAdmin, "get_queryset", return_value=TranslatableQuerySet(self.model))
 
     def test_list_display(self):
-        list_display = ("display_name", "display_filter_type", "display_filter_values", "all_languages_column")
+        list_display = ("category", "display_filter_type", "display_filter_values")
         assert self.admin.list_display == list_display
 
     def test_list_filter(self):
-        list_filter = ("filter_type",)
+        list_filter = (FilterTypeFilterAdmin,)
         assert self.admin.list_filter == list_filter
 
     def test_search_fields(self):
-        search_fields = ("translations__name",)
+        search_fields = ("category__translations__name", "filter_type__translations__name")
         assert self.admin.search_fields == search_fields
 
     def test_form(self):
         assert self.admin.form == FilterGroupForm
 
+    def test_filter_horizontal(self):
+        filter_horizontal = ("filter_values",)
+        assert self.admin.filter_horizontal == filter_horizontal
+
     def test_get_queryset(self, rf):
-        request = rf.get(self.app_url)
+        select_related_values = ["category", "filter_type"]
+        prefetch_related_values = [
+            "category__translations",
+            "filter_type__translations",
+            "filter_values__translations",
+        ]
+
+        request_1 = rf.get(self.app_url)
+        request_2 = rf.get(self.app_url + "1/change/")
 
         # Get model queryset
-        queryset = self.admin.get_queryset(request)
+        queryset_1 = self.admin.get_queryset(request_1)
+        queryset_2 = self.admin.get_queryset(request_2)
 
         # Check that filtering and sorting are set correctly
-        assert "filter_type" in queryset.query.select_related
-        assert "filter_type__translations" and "filter_values__translations" in queryset._prefetch_related_lookups
+        assert not queryset_1.query.select_related
+        assert all(lookup in queryset_1._prefetch_related_lookups for lookup in prefetch_related_values)
 
-    def test_get_prepopulated_fields(self, rf):
-        request = rf.get(self.app_url)
-        prepopulated_fields = self.admin.get_prepopulated_fields(request)
-
-        # Check that the slug is generated based on the value field
-        assert prepopulated_fields == {"slug": ("name",)}
-
-    def test_display_name(self, mocker):
-        # Mock object
-        name = "Test Name"
-        obj = mocker.Mock()
-        obj.name = name
-
-        # Call `display_name` method
-        display_value = self.admin.display_name(obj)
-
-        # Check that `display_name` returns correct value
-        assert display_value == name
+        assert all(lookup in queryset_2.query.select_related for lookup in select_related_values)
+        assert all(lookup not in queryset_2._prefetch_related_lookups for lookup in prefetch_related_values)
 
     def test_display_filter_type(self, mocker):
         # Mock object

@@ -1,11 +1,11 @@
 from django.conf import settings
 from django.core.validators import MinLengthValidator
 from django.db import models, transaction
+from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from mptt.models import MPTTModel, TreeForeignKey
 from parler.models import TranslatedFields
 
-from apps.filter.models import FilterGroupSet
 from apps.utils.translation.models import AutoTranslatableModel
 
 from .choices import CardOrientation, TitlePosition
@@ -38,6 +38,9 @@ class Category(MPTTModel, AutoTranslatableModel):
         related_name="children",
         verbose_name=_("parent"),
     )
+
+    def __str__(self):
+        return self.safe_translation_getter("title", self.language_code)
 
     def save(self, *args, **kwargs):
         is_new_obj = self.pk is None
@@ -76,14 +79,15 @@ class Category(MPTTModel, AutoTranslatableModel):
         # Return default statistics
         return Statistics()
 
-    def field_for_slug(self) -> str:
-        return "title"
-
     def clean(self):
         self.clean_url()
 
     def clean_url(self):
         self.url = self.url.replace(settings.BASE_FRONTEND_URL, "")
+
+    def generate_slug(self):
+        """Generates a slug based on the title if slug field not set."""
+        self.slug = slugify(self.translate(self.title) if not self.slug else self.slug)  # type: ignore
 
     def generate_url(self) -> None:
         """Sets the url for the category based on slug or parent category slug."""
@@ -140,29 +144,6 @@ class CategoryImage(models.Model):
     @property
     def absolute_url(self) -> str:
         return f"https://{settings.AWS_S3_CUSTOM_DOMAIN}/{self.image.name}"
-
-
-class CategoryFilterSet(models.Model):
-    class Meta:
-        db_table = "category_filter_set"
-        verbose_name = _("Category Filter Set")
-        verbose_name_plural = _("Category Filter Sets")
-
-    objects = models.Manager()
-    category = models.OneToOneField(
-        to=Category,
-        on_delete=models.CASCADE,
-        related_name="filter_set",
-        verbose_name=_("category"),
-    )
-    filters = models.ManyToManyField(
-        to=FilterGroupSet,
-        related_name="category_filters",
-        verbose_name=_("filters"),
-    )
-
-    def __str__(self):
-        return self.category.title if hasattr(self, "category") else self.__class__.__name__  # type: ignore
 
 
 class Card(models.Model):

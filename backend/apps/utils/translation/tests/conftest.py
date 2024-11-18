@@ -8,10 +8,3 @@ from core.conftest import app  # noqa: F401
 class DummyModel(AutoTranslatableModel):
     translations = TranslatedFields(name=models.CharField("name", max_length=50))
     values = models.ManyToManyField("self", symmetrical=False)
-
-    def field_for_slug(self):
-        return "name"
-
-
-class NoImplementedDummyModel(AutoTranslatableModel):
-    pass
