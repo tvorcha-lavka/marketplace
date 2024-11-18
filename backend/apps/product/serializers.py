@@ -18,25 +18,22 @@ class ProductFilterSerializer(serializers.ModelSerializer):
         fields = ["id", "value", "filter_type"]
 
 
-class ProductSerializer(serializers.ModelSerializer):
-
+class ProductListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = [
-            "id",
-            "name",
+        fields = ["id", "name", "price", "date_published", "is_vip"]
+
+
+class ProductDetailSerializer(ProductListSerializer):
+    class Meta(ProductListSerializer.Meta):
+        fields = ProductListSerializer.Meta.fields + [
             "description",
-            "seller",
+            "owner",
             "category",
-            "price",
-            "date_published",
-            "active",
-            "is_vip",
             "quantity",
             "filters",
             "images",
         ]
-        read_only_fields = ["id", "seller", "date_published", "created_at", "is_vip"]
 
     images = ProductImageSerializer(many=True, source="image")
     filters = ProductFilterSerializer(many=True)

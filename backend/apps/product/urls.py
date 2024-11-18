@@ -1,15 +1,23 @@
-from django.urls import include, path
+from django.urls import path
 from drf_spectacular.utils import extend_schema
-from rest_framework.routers import DefaultRouter
 
-from apps.product.views import ProductAPIView
+from apps.product.views import ProductReadOnlyViewSet, ProductViewSet
 
 SchemaTag = "Product"
-ProductAPIView = extend_schema(tags=[SchemaTag])(ProductAPIView)
+ProductViewSet = extend_schema(tags=[SchemaTag])(ProductViewSet)
+ProductReadOnlyViewSet = extend_schema(tags=[SchemaTag])(ProductReadOnlyViewSet)
 
-router = DefaultRouter()
-router.register(r"", ProductAPIView, basename="product")
+product_readonly_list = ProductReadOnlyViewSet.as_view({"get": "list"})
+product_readonly_detail = ProductReadOnlyViewSet.as_view({"get": "retrieve"})
+
+product_viewset_create = ProductViewSet.as_view({"post": "create"})
+product_viewset_update = ProductViewSet.as_view({"patch": "partial_update"})
+product_viewset_delete = ProductViewSet.as_view({"delete": "destroy"})
 
 urlpatterns = [
-    path("", include(router.urls)),
+    path("", product_readonly_list, name="product-list"),
+    path("<int:pk>/", product_readonly_detail, name="product-detail"),
+    path("create/", product_viewset_create, name="product-create"),
+    path("<int:pk>/update/", product_viewset_update, name="product-update"),
+    path("<int:pk>/delete/", product_viewset_delete, name="product-delete"),
 ]
