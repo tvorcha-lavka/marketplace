@@ -232,27 +232,4 @@ REST_FRAMEWORK = {
 }
 
 
-# DRF SPECTACULAR
-SPECTACULAR_SETTINGS = {
-    "TITLE": "Tvorcha Lavka",
-    "DESCRIPTION": "API Tvorcha Lavka",
-    "VERSION": "1.0.0",
-    "SERVE_PERMISSIONS": [
-        "rest_framework.permissions.IsAdminUser",
-    ],
-    "SERVE_AUTHENTICATION": [
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
-    ],
-    "SWAGGER_UI_SETTINGS": {
-        "defaultModelsExpandDepth": -1,
-        "displayRequestDuration": True,
-        "filter": True,
-        "requestSnippetsEnabled": True,
-    },
-    "COMPONENT_SPLIT_REQUEST": True,
-    "DISABLE_ERRORS_AND_WARNINGS": True,
-    "SERVE_INCLUDE_SCHEMA": False,
-}
-
-
 BASE_FRONTEND_URL = os.getenv("PROD_FRONTEND_URL")

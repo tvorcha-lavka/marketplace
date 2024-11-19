@@ -30,6 +30,7 @@ class Product(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid6.uuid7, editable=False)  # noqa: VNE003
     name = models.CharField(_("name"), max_length=100, db_index=True)
+    # TODO: сделать ограничение от 40 до 4000 символов, возможно использовать CharField
     description = models.TextField(_("description"), blank=True)
 
     price = models.DecimalField(_("price"), max_digits=10, decimal_places=2, validators=[validate_price])
@@ -39,13 +40,18 @@ class Product(models.Model):
     active = models.BooleanField(_("active"), default=True)
     is_vip = models.BooleanField(_("vip"), default=False)
 
+    # TODO: verified = models.BooleanField(_("verified"), default=False)
+    #  Не обязательный параметр, но в будущем полезно.
+    #  Что-то на подобии верификации, что продукт соответствует реальности.
+    #  Я думаю это будет реализовано через модераторов или в идеале AI.
+
     objects = models.Manager()
-    seller = models.ForeignKey(
+    owner = models.ForeignKey(
         to=AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         db_index=True,
-        related_name="product",
-        verbose_name=_("seller"),
+        related_name="products",
+        verbose_name=_("owner"),
     )
     category = models.ForeignKey(
         to=Category,
