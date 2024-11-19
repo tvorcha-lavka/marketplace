@@ -16,8 +16,8 @@ product_viewset_delete = ProductViewSet.as_view({"delete": "destroy"})
 
 urlpatterns = [
     path("", product_readonly_list, name="product-list"),
-    path("<int:pk>/", product_readonly_detail, name="product-detail"),
-    path("create/", product_viewset_create, name="product-create"),
-    path("<int:pk>/update/", product_viewset_update, name="product-update"),
-    path("<int:pk>/delete/", product_viewset_delete, name="product-delete"),
+    path("<uuid:pk>/", product_readonly_detail, name="product-detail"),
+    # path("create/", product_viewset_create, name="product-create"),
+    # path("<uuid:pk>/update/", product_viewset_update, name="product-update"),
+    # path("<uuid:pk>/delete/", product_viewset_delete, name="product-delete"),
 ]

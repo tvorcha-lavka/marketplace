@@ -6,7 +6,13 @@ from django.utils.translation import gettext_lazy as _
 from apps.category.models import Category
 from apps.filter.models import FilterValue
 from apps.product.utils import product_image_path
-from apps.product.validators import validate_image_priority, validate_price, validate_product_quantity
+from apps.product.validators import (
+    validate_description,
+    validate_image_priority,
+    validate_price,
+    validate_product_quantity,
+    validate_title,
+)
 from core.settings.base import AUTH_USER_MODEL
 
 # TODO: Подумать как реализовать проверку количества изображений при первом создании,
@@ -29,9 +35,8 @@ class Product(models.Model):
         verbose_name_plural = _("Products")
 
     id = models.UUIDField(primary_key=True, default=uuid6.uuid7, editable=False)  # noqa: VNE003
-    name = models.CharField(_("name"), max_length=100, db_index=True)
-    # TODO: сделать ограничение от 40 до 4000 символов, возможно использовать CharField
-    description = models.TextField(_("description"), blank=True)
+    title = models.CharField(_("title"), db_index=True, max_length=50, validators=[validate_title])
+    description = models.TextField(_("description"), validators=[validate_description])
 
     price = models.DecimalField(_("price"), max_digits=10, decimal_places=2, validators=[validate_price])
     quantity = models.IntegerField(_("quantity"), default=1, validators=[validate_product_quantity])
@@ -56,13 +61,13 @@ class Product(models.Model):
     category = models.ForeignKey(
         to=Category,
         on_delete=models.CASCADE,
-        related_name="product",
+        related_name="products",
         verbose_name=_("category"),
     )
     filters = models.ManyToManyField(
         to=FilterValue,
         blank=True,
-        related_name="product",
+        related_name="products",
         verbose_name=_("filters"),
     )
 
@@ -86,7 +91,13 @@ class ProductImage(models.Model):
     priority = models.PositiveSmallIntegerField(_("priority"), default=1, validators=[validate_image_priority])
 
     objects = models.Manager()
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="image", verbose_name=_("product"))
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="images", verbose_name=_("product"))
+
+    # TODO: подумать как реализовать разное разрешение изображений для оптимизации (оригинал не сохраняем).
+    #  Должны быть такие типы разрешений:
+    #   `low` - для карточек товара и репрезентации маленьких изображений на странице товара (30% от оригинала)
+    #   `medium` - для репрезентации активных изображений на странице товара (50% от оригинала)
+    #   `high` - открытое изображение во весь экран на странице товара (70% от оригинала)
 
     def __str__(self):
         return f"{self.product} - {self.image.name.split('/')[-1]}"
@@ -97,6 +108,3 @@ class ProductImage(models.Model):
     def rename_image(self):
         extension = self.image.name.split(".", 1)[-1]
         self.image.name = f"{self.priority}.{extension}"
-
-    # TODO: Возникает ошибка при пересохранении продукта в полях для изображения, пишет что типа не заполненные.
-    #  P.S. Возможно был временный баг, сейчас уже не наблюдаю, но проверь на всякий

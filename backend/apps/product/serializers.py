@@ -1,39 +1,37 @@
 from rest_framework import serializers
 
-from apps.filter.models import FilterValue
 from apps.product.models import Product, ProductImage
+from apps.user.models import User
 
 
 class ProductImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductImage
-        fields = ("id", "url", "product", "priority")
+        fields = ("id", "url", "priority")
 
     url = serializers.CharField(source="image.url", read_only=True)
 
 
-class ProductFilterSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = FilterValue
-        fields = ["id", "value", "filter_type"]
-
-
-class ProductListSerializer(serializers.ModelSerializer):
+class ProductReadOnlyListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ["id", "name", "price", "date_published", "is_vip"]
+        fields = ["id", "date_published", "is_vip", "images", "price", "title"]
+
+    images = ProductImageSerializer(many=True)
 
 
-class ProductDetailSerializer(ProductListSerializer):
-    class Meta(ProductListSerializer.Meta):
-        fields = ProductListSerializer.Meta.fields + [
-            "description",
-            "owner",
-            "category",
-            "quantity",
-            "filters",
-            "images",
-        ]
+class ProductOwnerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["id", "username", "first_name", "last_name", "date_joined", "last_active"]  # TODO: rating
 
-    images = ProductImageSerializer(many=True, source="image")
-    filters = ProductFilterSerializer(many=True)
+    date_joined = serializers.DateTimeField(format="%d-%m-%Y")
+    last_active = serializers.DateTimeField(source="last_login", format="%d-%m-%Y %H:%M")
+
+
+class ProductReadOnlyDetailSerializer(ProductReadOnlyListSerializer):
+    class Meta:
+        model = Product
+        fields = ProductReadOnlyListSerializer.Meta.fields + ["description", "owner", "quantity"]
+
+    owner = ProductOwnerSerializer()
