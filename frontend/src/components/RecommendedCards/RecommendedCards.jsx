@@ -3,15 +3,15 @@ import { useState } from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
 import { IoIosArrowForward } from 'react-icons/io';
 
-import VipCartsList from '../VipCartsList/VipCartsList';
+import CardCollection from '../CardCollection/CardCollection';
 
 import { adverts } from '../AdvertList/adverts';
 
-import css from './RecommendedCarts.module.css';
+import css from './RecommendedCards.module.css';
 
-export default function RecommendedCarts() {
+export default function RecommendedCards() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [activeCardId, setActiveCardId] = useState(null);
+	const [activeCardId, setActiveCardId] = useState(null);
 
   const itemsPerSlide = 4;
 
@@ -25,7 +25,7 @@ export default function RecommendedCarts() {
     );
   };
 
-  const visibleCards = adverts
+  const cards = adverts
     .slice(currentIndex, currentIndex + itemsPerSlide)
     .concat(
       adverts.slice(
@@ -51,7 +51,7 @@ export default function RecommendedCarts() {
         </button>
 
         <ul className={css.card}>
-          {visibleCards.map((item) => (
+          {cards.map((item) => (
             <li
               className={`${css.container} ${
                 activeCardId === item.id ? css.active : ''
@@ -60,7 +60,7 @@ export default function RecommendedCarts() {
               onBlur={handleCardBlur}
               key={item.id}
             >
-              <VipCartsList item={item} />
+              <CardCollection item={item} />
             </li>
           ))}
         </ul>

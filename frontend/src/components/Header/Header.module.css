@@ -27,7 +27,7 @@
 .likeIcon {
   width: var(--icon-size-normal);
   height: var(--icon-size-normal);
-  stroke: var(--default-black);
+  color: var(--default-black);
 	outline: var(--default-black);
 }
 
