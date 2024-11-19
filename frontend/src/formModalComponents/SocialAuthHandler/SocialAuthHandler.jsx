@@ -19,13 +19,15 @@ export default function SocialAuthHandler({ provider }) {
 
     if (!code || !state) {
       console.error('Code or state not found in URL params');
+      navigate('/');
       return;
     }
 
     if (provider === 'google') {
     } else if (provider === 'facebook') {
     }
-    if (code && state) {
+		if (code && state) {
+			
       let loginAction;
 
       if (provider === 'google') {
@@ -41,10 +43,11 @@ export default function SocialAuthHandler({ provider }) {
             navigate('/');
           })
           .catch((e) => {
-            navigate('/');
             console.error(`${provider} login error:`, e);
+            navigate('/');
           });
       }
     }
   }, [dispatch, navigate, provider]);
+  return null;
 }

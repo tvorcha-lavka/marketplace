@@ -4,10 +4,11 @@ import { useDispatch } from 'react-redux';
 
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
+import Loader from '../../formModalComponents/Loader/Loader';
 
 import { getAllCategories } from '../../redux/categories/categoriesOperations';
 
-//import css from './SharedLayout.module.css';
+import css from './SharedLayout.module.css';
 
 export default function SharedLayout() {
   const dispatch = useDispatch();
@@ -19,9 +20,17 @@ export default function SharedLayout() {
   return (
     <div>
       <Header />
-      <Suspense fallback={null}>
-        <Outlet />
-      </Suspense>
+      <main className={css.layout}>
+        <Suspense
+          fallback={
+            <div className={css.layoutLoader}>
+              <Loader />
+            </div>
+          }
+        >
+          <Outlet />
+        </Suspense>
+      </main>
       <Footer />
     </div>
   );

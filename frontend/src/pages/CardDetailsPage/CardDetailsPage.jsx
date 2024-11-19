@@ -7,7 +7,7 @@ import { IoIosArrowBack } from 'react-icons/io';
 import { IoIosArrowForward } from 'react-icons/io';
 import clsx from 'clsx';
 
-import RecommendedCarts from '../../components/RecommendedCarts/RecommendedCarts';
+import RecommendedCards from '../../components/RecommendedCards/RecommendedCards';
 import BasketModal from '../../components/BasketModal/BasketModal';
 
 import { details } from './details';
@@ -15,7 +15,7 @@ import { media } from '../../utils/mediaConfig';
 import { useClickEsc } from '../../hooks/useClickEsc';
 import useNoScroll from '../../hooks/useNoScroll';
 
-import css from './CartDetailsPage.module.css';
+import css from './CardDetailsPage.module.css';
 
 const stars = [
   {
@@ -40,7 +40,7 @@ const stars = [
   },
 ];
 
-export default function CartDetailsPage() {
+export default function CardDetailsPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -267,7 +267,7 @@ export default function CartDetailsPage() {
         </div>
       </section>
 
-      <RecommendedCarts />
+      <RecommendedCards />
 
       {isModalOpen && (
         <div className={css.modalBackdrop}>
