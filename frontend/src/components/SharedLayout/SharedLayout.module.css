@@ -1,0 +1,11 @@
+.layout {
+	max-width: 1440px;
+	margin: 0 auto;
+	position: relative;
+}
+
+.layoutLoader {
+	margin-top: 150px;
+	margin-bottom: 650px;
+	margin-left: 500px;
+}
