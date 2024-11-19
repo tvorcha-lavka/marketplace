@@ -43,6 +43,10 @@ export const setupAxiosInterceptors = () => {
         return Promise.reject(error);
       }
 
+      if (!originalRequest.headers.Authorization) {
+        return Promise.reject(error);
+      }
+
       if (error.response && error.response.status === 401) {
         if (originalRequest.url.includes('/auth/token/refresh/')) {
           store.dispatch(logOut());
