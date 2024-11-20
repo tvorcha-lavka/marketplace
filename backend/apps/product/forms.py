@@ -7,7 +7,7 @@ from .models import Product, ProductImage
 class ProductAdminForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ("name", "description", "category", "price", "active", "is_vip", "date_published", "filters")
+        fields = ("title", "description", "category", "price", "active", "is_vip", "date_published", "filters")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

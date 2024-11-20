@@ -34,8 +34,8 @@ class FilterTypeFilter(FilterSet):
     def filter_by_category_id(queryset, name, value):  # noqa: F841
         filter_value_qs = (
             FilterValue.objects.filter(group__category_id=value)
-            .prefetch_related("translations", "product")
-            .annotate(product_count=Count("product"))
+            .prefetch_related("translations", "products")
+            .annotate(product_count=Count("products"))
             .order_by("product_count")
         )
         return (
