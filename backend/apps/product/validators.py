@@ -53,6 +53,9 @@ class TitleValidator(RangeValidator):
     def __init__(self, min_symbol_count=15, max_symbol_count=50):
         super().__init__(min_symbol_count, max_symbol_count)
 
+    def __call__(self, value):
+        super().__call__(len(value))
+
 
 validate_title = TitleValidator()
 
@@ -61,6 +64,9 @@ validate_title = TitleValidator()
 class DescriptionValidator(RangeValidator):
     def __init__(self, min_symbol_count=40, max_symbol_count=4_000):
         super().__init__(min_symbol_count, max_symbol_count)
+
+    def __call__(self, value):
+        super().__call__(len(value))
 
 
 validate_description = DescriptionValidator()

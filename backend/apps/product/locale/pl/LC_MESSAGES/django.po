@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-19 21:19+0200\n"
+"POT-Creation-Date: 2024-11-21 13:29+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,29 +20,33 @@ msgstr ""
 "%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n"
 "%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
 
-#: .\apps\product\choices.py:6
+#: .\apps\product\choices.py:14
 msgid "24 items per page"
 msgstr "24 elementy na stronę"
 
-#: .\apps\product\choices.py:7
+#: .\apps\product\choices.py:15
 msgid "48 items per page"
 msgstr "48 elementów na stronę"
 
-#: .\apps\product\choices.py:8
+#: .\apps\product\choices.py:16
 msgid "96 items per page"
 msgstr "96 elementów na stronę"
 
-#: .\apps\product\choices.py:12
+#: .\apps\product\choices.py:20
 msgid "From cheap to expensive"
 msgstr "Od tanich do drogich"
 
-#: .\apps\product\choices.py:13
+#: .\apps\product\choices.py:21
 msgid "From expensive to cheap"
 msgstr "Od drogich do tanich"
 
-#: .\apps\product\choices.py:14
+#: .\apps\product\choices.py:22
 msgid "New items"
 msgstr "Nowości"
+
+#: .\apps\product\forms.py:37
+msgid "Upload image"
+msgstr "Prześlij obraz"
 
 #: .\apps\product\models.py:34
 msgid "Product"
@@ -101,14 +105,22 @@ msgid "Product Images"
 msgstr "Zdjęcia produktów"
 
 #: .\apps\product\models.py:90
-msgid "image"
-msgstr "obraz"
-
-#: .\apps\product\models.py:91
 msgid "priority"
 msgstr "priorytet"
 
+#: .\apps\product\models.py:93
+msgid "large image"
+msgstr "duży obraz"
+
 #: .\apps\product\models.py:94
+msgid "medium image"
+msgstr "średni obraz"
+
+#: .\apps\product\models.py:95
+msgid "small image"
+msgstr "mały obraz"
+
+#: .\apps\product\models.py:98
 msgid "product"
 msgstr "produkt"
 
