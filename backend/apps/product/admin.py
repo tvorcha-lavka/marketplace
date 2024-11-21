@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from apps.product.forms import ProductAdminForm, ProductImageInline
+from apps.product.forms import ProductAdminForm, ProductImageAdminForm, ProductImageInline
 from apps.product.models import Product, ProductImage
 
 
@@ -30,5 +30,9 @@ class ProductAdmin(admin.ModelAdmin):
         return qs
 
 
-# TODO: нужно оптимизировать метод `get_queryset` для ProductImage
-admin.site.register(ProductImage)
+@admin.register(ProductImage)
+class ProductImageAdmin(admin.ModelAdmin):
+    form = ProductImageAdminForm
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).select_related("product")

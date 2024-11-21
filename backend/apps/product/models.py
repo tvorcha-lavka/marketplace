@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 
 from apps.category.models import Category
 from apps.filter.models import FilterValue
-from apps.product.utils import product_image_path
+from apps.product.utils import product_image_large_path, product_image_medium_path, product_image_small_path
 from apps.product.validators import (
     validate_description,
     validate_image_priority,
@@ -87,24 +87,19 @@ class ProductImage(models.Model):
         constraints = [models.UniqueConstraint(fields=("product", "priority"), name="unique_product_image_priority")]
 
     id = models.UUIDField(primary_key=True, default=uuid6.uuid7, editable=False)  # noqa: VNE003
-    image = models.ImageField(_("image"), upload_to=product_image_path)
     priority = models.PositiveSmallIntegerField(_("priority"), default=1, validators=[validate_image_priority])
+
+    image_temp = None  # TODO: Попробовать реализовать TempImageField, поле которое не будет фиксироваться миграциями
+    image_large = models.ImageField(_("large image"), null=True, blank=True, upload_to=product_image_large_path)
+    image_medium = models.ImageField(_("medium image"), null=True, blank=True, upload_to=product_image_medium_path)
+    image_small = models.ImageField(_("small image"), null=True, blank=True, upload_to=product_image_small_path)
 
     objects = models.Manager()
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="images", verbose_name=_("product"))
 
-    # TODO: подумать как реализовать разное разрешение изображений для оптимизации (оригинал не сохраняем).
-    #  Должны быть такие типы разрешений:
-    #   `low` - для карточек товара и репрезентации маленьких изображений на странице товара (30% от оригинала)
-    #   `medium` - для репрезентации активных изображений на странице товара (50% от оригинала)
-    #   `high` - открытое изображение во весь экран на странице товара (70% от оригинала)
-
     def __str__(self):
-        return f"{self.product} - {self.image.name.split('/')[-1]}"
-
-    def clean(self):
-        self.rename_image()
+        return f"{self.product} - {self.priority}.jpg"
 
     def rename_image(self):
-        extension = self.image.name.split(".", 1)[-1]
-        self.image.name = f"{self.priority}.{extension}"
+        extension = self.image_temp.name.split(".", 1)[-1]
+        self.image_temp.name = f"{self.priority}.{extension}"

@@ -1,5 +1,13 @@
+from enum import Enum
+
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+
+
+class ProductImageSize(Enum):
+    SMALL = (225, 300)
+    MEDIUM = (450, 600)
+    LARGE = (900, 1200)
 
 
 class ProductPagePagination(models.IntegerChoices):
