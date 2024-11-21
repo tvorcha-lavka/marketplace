@@ -15,8 +15,12 @@ class ProductReadOnlyViewSet(ReadOnlyModelViewSet):
     permission_classes = [AllowAny]
 
     def get_queryset(self):
-        # TODO: order_by("-owner__rating")
-        return Product.objects.filter(active=True).order_by("-date_published").prefetch_related("images")
+        return (
+            Product.objects.filter(active=True)
+            .order_by("-date_published")  # TODO: order_by("-owner__rating")
+            .prefetch_related("images")
+            .select_related("owner")
+        )
 
     def get_serializer_class(self):
         if self.action == "list":

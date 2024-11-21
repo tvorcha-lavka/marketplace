@@ -7,9 +7,11 @@ from apps.user.models import User
 class ProductImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductImage
-        fields = ("id", "url", "priority")
+        fields = ["id", "small", "medium", "large"]
 
-    url = serializers.CharField(source="image.url", read_only=True)
+    small = serializers.URLField(source="image_small.url", read_only=True)
+    medium = serializers.URLField(source="image_medium.url", read_only=True)
+    large = serializers.URLField(source="image_large.url", read_only=True)
 
 
 class ProductReadOnlyListSerializer(serializers.ModelSerializer):
@@ -25,13 +27,12 @@ class ProductOwnerSerializer(serializers.ModelSerializer):
         model = User
         fields = ["id", "username", "first_name", "last_name", "date_joined", "last_active"]  # TODO: rating
 
-    date_joined = serializers.DateTimeField(format="%d-%m-%Y")
-    last_active = serializers.DateTimeField(source="last_login", format="%d-%m-%Y %H:%M")
+    last_active = serializers.DateTimeField(source="last_login")
 
 
 class ProductReadOnlyDetailSerializer(ProductReadOnlyListSerializer):
     class Meta:
         model = Product
-        fields = ProductReadOnlyListSerializer.Meta.fields + ["description", "owner", "quantity"]
+        fields = ProductReadOnlyListSerializer.Meta.fields + ["description", "quantity", "owner"]
 
     owner = ProductOwnerSerializer()
