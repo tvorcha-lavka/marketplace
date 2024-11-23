@@ -1,3 +1,5 @@
+import hashlib
+
 from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 
@@ -69,7 +71,23 @@ class ProductEditSerializer(serializers.ModelSerializer):
 
     @staticmethod
     def validate_filters(value: str):
+        """Validate and converts a string value to a list of unique integers."""
         try:
-            return [int(i) for i in value.split(",")]
+            return set([int(i) for i in value.split(",")])
         except ValueError:
-            raise serializers.ValidationError(_("Filters must be a comma-separated list of integers."))
+            message = _("Filters must be a comma-separated list of integers.")
+            raise serializers.ValidationError(message, code="invalid")
+
+    @staticmethod
+    def validate_images(images: list):
+        """Check uniqueness of images through hashing."""
+        unique_hashes, unique_images = set(), []
+
+        for image in images:
+            file_hash = hashlib.md5(b"".join(image.chunks())).hexdigest()
+
+            if file_hash not in unique_hashes:
+                unique_hashes.add(file_hash)
+                unique_images.append(image)
+
+        return unique_images
