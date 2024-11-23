@@ -21,5 +21,6 @@ def resize_product_image(sender, instance, **kwargs):  # noqa: F841
 
 @receiver(pre_delete, sender=ProductImage)
 def delete_category_image(sender, instance, **kwargs):  # noqa: F841
+    # TODO: реализовать удаление изображений через селери
     for size in ["small", "medium", "large"]:
         getattr(instance, f"image_{size}").delete(save=False)
