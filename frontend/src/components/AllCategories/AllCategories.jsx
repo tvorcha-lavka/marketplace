@@ -1,14 +1,23 @@
+import { useEffect } from 'react';
 import { NavLink, Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectAllCategories } from '../../redux/categories/categoriesSelectors';
 import { positionTitle, cardOrientation } from '../../utils/positionTitle.js';
 import css from './AllCategories.module.css';
+import { getAllCategories } from '../../redux/categories/categoriesOperations.js';
 
 export default function AllCategories() {
   const сategories = useSelector(selectAllCategories);
   const allCategories = [...сategories].reverse();
-  console.log(allCategories);
+  console.log(сategories);
+  const dispatch = useDispatch();
   let verticalCounter = 0;
+
+  useEffect(() => {
+    if (сategories.length === 0) {
+      dispatch(getAllCategories());
+    }
+  }, [dispatch, сategories]);
 
   return (
     <div className={css.container}>

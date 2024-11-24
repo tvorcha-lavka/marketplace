@@ -3,43 +3,73 @@ import {
   getAllCategories,
   getPopCategories,
   getCategoryById,
+  getCatalog,
+  filtersCategory,
 } from './categoriesOperations';
+
+const handlePending = (state) => {
+  state.isLoading = true;
+  state.error = null;
+};
+
+const handleRejected = (state, action) => {
+  state.isLoading = false;
+  state.error = action.payload;
+};
 
 const categoriesSlice = createSlice({
   name: 'categories',
   initialState: {
     items: [],
+    catalog: [],
     popular: [],
     categoryById: {},
+    filters: [],
     loading: false,
     error: null,
   },
+  reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getAllCategories.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-
+      .addCase(getAllCategories.pending, handlePending)
       .addCase(getAllCategories.fulfilled, (state, action) => {
         state.items = action.payload;
         state.loading = false;
         state.error = null;
       })
-      .addCase(getAllCategories.rejected, (state, action) => {
-        state.error = action.payload;
+      .addCase(getAllCategories.rejected, handleRejected)
+
+      .addCase(getCatalog.pending, handlePending)
+      .addCase(getCatalog.fulfilled, (state, action) => {
+        state.catalog = action.payload;
         state.loading = false;
+        state.error = null;
       })
+      .addCase(getCatalog.rejected, handleRejected)
+
+      .addCase(getPopCategories.pending, handlePending)
       .addCase(getPopCategories.fulfilled, (state, action) => {
         state.popular = action.payload;
         state.loading = false;
         state.error = null;
       })
+      .addCase(getPopCategories.rejected, handleRejected)
+
+      .addCase(getCategoryById.pending, handlePending)
       .addCase(getCategoryById.fulfilled, (state, action) => {
         state.categoryById = action.payload;
         state.loading = false;
         state.error = null;
-      });
+      })
+      .addCase(getCategoryById.rejected, handleRejected)
+
+      .addCase(filtersCategory.pending, handlePending)
+      .addCase(filtersCategory.fulfilled, (state, action) => {
+        state.filters = action.payload;
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(filtersCategory.rejected, handleRejected);
   },
 });
 

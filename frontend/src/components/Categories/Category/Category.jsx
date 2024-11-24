@@ -66,7 +66,7 @@ export default function Category() {
 
       <div className={css.wrapper}>
         <div className={css.filter}>
-          <FilterBar />
+          <FilterBar id={categoryId} />
         </div>
         <section className={css.product_view_sort}>
           <div className={css.sort_filter}>

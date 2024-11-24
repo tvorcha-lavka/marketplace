@@ -9,15 +9,14 @@ import css from './PopularCategories.module.css';
 export default function PopularCategories() {
   const dispatch = useDispatch();
   const popCategories = useSelector(selectPopCategories);
-  const fivePopCategories = popCategories.slice(0, 5);
-  // console.log(fivePopCategories);
+  console.log(popCategories);
   let verticalCounter = 0;
 
   useEffect(() => {
     if (popCategories.length === 0) {
       dispatch(getPopCategories());
     }
-  }, [dispatch]);
+  }, [dispatch, popCategories]);
 
   return (
     <section className={css.container}>
@@ -29,7 +28,7 @@ export default function PopularCategories() {
       </div>
 
       <ul className={css.list}>
-        {fivePopCategories?.map(({ title, card, id }) => {
+        {popCategories?.map(({ title, card, id }) => {
           let orientationStyles = {};
           if (card.orientation === 'vertical') {
             orientationStyles = cardOrientation(
