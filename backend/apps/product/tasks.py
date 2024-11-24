@@ -15,4 +15,4 @@ def resize_image_task(instance_pk: int, image_bytes: bytes, image_name: str):
         resized_image = resize_image(image_bytes, image_name, *dimensions)
         setattr(instance, f"image_{size}", resized_image)
 
-    instance.save()
+    super(ProductImage, instance).save()

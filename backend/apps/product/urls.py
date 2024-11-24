@@ -1,23 +1,25 @@
 from django.urls import path
 from drf_spectacular.utils import extend_schema
 
-from apps.product.views import ProductReadOnlyViewSet, ProductViewSet
+from apps.product.views import ProductPrivateViewSet, ProductPublicViewSet
 
 SchemaTag = "Product"
-ProductViewSet = extend_schema(tags=[SchemaTag])(ProductViewSet)
-ProductReadOnlyViewSet = extend_schema(tags=[SchemaTag])(ProductReadOnlyViewSet)
+ProductPublicViewSet = extend_schema(tags=[SchemaTag])(ProductPublicViewSet)
+ProductPrivateViewSet = extend_schema(tags=[SchemaTag])(ProductPrivateViewSet)
 
-product_readonly_list = ProductReadOnlyViewSet.as_view({"get": "list"})
-product_readonly_detail = ProductReadOnlyViewSet.as_view({"get": "retrieve"})
+product_public_list = ProductPublicViewSet.as_view({"get": "list"})
+product_public_detail = ProductPublicViewSet.as_view({"get": "retrieve"})
 
-product_viewset_create = ProductViewSet.as_view({"post": "create"})
-product_viewset_update = ProductViewSet.as_view({"patch": "partial_update"})
-product_viewset_delete = ProductViewSet.as_view({"delete": "destroy"})
+product_private_list = ProductPrivateViewSet.as_view({"get": "list"})
+product_private_create = ProductPrivateViewSet.as_view({"post": "create"})
+product_private_update = ProductPrivateViewSet.as_view({"put": "update"})
+product_private_delete = ProductPrivateViewSet.as_view({"delete": "destroy"})
 
 urlpatterns = [
-    path("", product_readonly_list, name="product-list"),
-    path("<uuid:pk>/", product_readonly_detail, name="product-detail"),
-    # path("create/", product_viewset_create, name="product-create"),
-    # path("<uuid:pk>/update/", product_viewset_update, name="product-update"),
-    # path("<uuid:pk>/delete/", product_viewset_delete, name="product-delete"),
+    path("", product_public_list, name="product-list"),
+    path("my/", product_private_list, name="my-product-list"),
+    path("<uuid:pk>/", product_public_detail, name="product-detail"),
+    path("manage/create/", product_private_create, name="product-create"),
+    # path("manage/<uuid:pk>/update/", product_private_update, name="product-update"),
+    path("manage/<uuid:pk>/delete/", product_private_delete, name="product-delete"),
 ]

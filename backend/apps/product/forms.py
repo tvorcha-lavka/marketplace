@@ -11,7 +11,7 @@ from .models import Product, ProductImage
 class ProductAdminForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ("title", "description", "category", "price", "active", "is_vip", "date_published", "filters")
+        fields = ("title", "description", "category", "price", "draft", "is_vip", "date_published", "filters")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -46,15 +46,11 @@ class ProductImageAdminForm(forms.ModelForm):
 
     def save(self, commit=True):
         instance = super().save(commit=False)
-        upload_image = self.cleaned_data.get("upload_image")
 
-        if upload_image:
+        if upload_image := self.cleaned_data.get("upload_image"):
             instance.image_temp = upload_image
-            instance.rename_image()
 
-        if commit:
-            instance.save()
-
+        instance.save()
         return instance
 
 

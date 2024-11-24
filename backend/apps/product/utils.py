@@ -1,13 +1,13 @@
-def product_image_large_path(instance, filename):
+def path_to_large_image(instance, filename):
     uuid_folder = instance.product.pk
     return f"products/{uuid_folder}/large/{filename}"
 
 
-def product_image_medium_path(instance, filename):
+def path_to_medium_image(instance, filename):
     uuid_folder = instance.product.pk
     return f"products/{uuid_folder}/medium/{filename}"
 
 
-def product_image_small_path(instance, filename):
+def path_to_small_image(instance, filename):
     uuid_folder = instance.product.pk
     return f"products/{uuid_folder}/small/{filename}"

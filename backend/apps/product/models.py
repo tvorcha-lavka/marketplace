@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 
 from apps.category.models import Category
 from apps.filter.models import FilterValue
-from apps.product.utils import product_image_large_path, product_image_medium_path, product_image_small_path
+from apps.product.utils import path_to_large_image, path_to_medium_image, path_to_small_image
 from apps.product.validators import (
     validate_description,
     validate_image_priority,
@@ -43,6 +43,7 @@ class Product(models.Model):
     date_published = models.DateField(_("date published"), db_index=True, null=True, blank=True)
 
     active = models.BooleanField(_("active"), default=True)
+    draft = models.BooleanField(_("draft"), default=False)
     is_vip = models.BooleanField(_("vip"), default=False)
 
     # TODO: verified = models.BooleanField(_("verified"), default=False)
@@ -71,10 +72,15 @@ class Product(models.Model):
         verbose_name=_("filters"),
     )
 
-    def clean(self):
-        self.set_published_date()
+    def save(self, *args, **kwargs):
+        self.active_setter()
+        self.published_date_setter()
+        super().save(*args, **kwargs)
 
-    def set_published_date(self):
+    def active_setter(self):
+        self.active = False if self.draft else True
+
+    def published_date_setter(self):
         self.date_published = timezone.now().date() if self.active else None
 
 
@@ -90,9 +96,9 @@ class ProductImage(models.Model):
     priority = models.PositiveSmallIntegerField(_("priority"), default=1, validators=[validate_image_priority])
 
     image_temp = None  # TODO: Попробовать реализовать TempImageField, поле которое не будет фиксироваться миграциями
-    image_large = models.ImageField(_("large image"), null=True, blank=True, upload_to=product_image_large_path)
-    image_medium = models.ImageField(_("medium image"), null=True, blank=True, upload_to=product_image_medium_path)
-    image_small = models.ImageField(_("small image"), null=True, blank=True, upload_to=product_image_small_path)
+    image_large = models.ImageField(_("large image"), null=True, blank=True, upload_to=path_to_large_image)
+    image_medium = models.ImageField(_("medium image"), null=True, blank=True, upload_to=path_to_medium_image)
+    image_small = models.ImageField(_("small image"), null=True, blank=True, upload_to=path_to_small_image)
 
     objects = models.Manager()
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="images", verbose_name=_("product"))
@@ -100,6 +106,18 @@ class ProductImage(models.Model):
     def __str__(self):
         return f"{self.product} - {self.priority}.jpg"
 
-    def rename_image(self):
+    def save(self, *args, **kwargs):
+        self.image_name_setter()
+        self.image_upload_setter()
+        super().save(*args, **kwargs)
+
+    def image_name_setter(self) -> None:
+        """Sets temporary image name for retrieve it in soon."""
         extension = self.image_temp.name.split(".", 1)[-1]
         self.image_temp.name = f"{self.priority}.{extension}"
+
+    def image_upload_setter(self) -> None:
+        """Sets upload urls for each image size for immediate data retrieval."""
+        for size in ["small", "medium", "large"]:
+            upload_to = globals()[f"path_to_{size}_image"]
+            setattr(self, f"image_{size}", upload_to(self, self.image_temp.name))

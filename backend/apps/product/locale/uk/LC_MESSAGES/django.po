@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-21 13:28+0200\n"
+"POT-Creation-Date: 2024-11-24 00:23+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -45,7 +45,7 @@ msgstr "Від дорогого до дешевого"
 msgid "New items"
 msgstr "Новинки"
 
-#: .\apps\product\forms.py:37
+#: .\apps\product\forms.py:38
 msgid "Upload image"
 msgstr "Завантажити зображення"
 
@@ -82,46 +82,50 @@ msgid "active"
 msgstr "активно"
 
 #: .\apps\product\models.py:46
+msgid "draft"
+msgstr "чернетка"
+
+#: .\apps\product\models.py:47
 msgid "vip"
 msgstr "віп-оголошення"
 
-#: .\apps\product\models.py:59
+#: .\apps\product\models.py:60
 msgid "owner"
 msgstr "власник"
 
-#: .\apps\product\models.py:65
+#: .\apps\product\models.py:66
 msgid "category"
 msgstr "категорія"
 
-#: .\apps\product\models.py:71
+#: .\apps\product\models.py:72
 msgid "filters"
 msgstr "фільтри"
 
-#: .\apps\product\models.py:84
+#: .\apps\product\models.py:90
 msgid "Product Image"
 msgstr "Зображення продукту"
 
-#: .\apps\product\models.py:85
+#: .\apps\product\models.py:91
 msgid "Product Images"
 msgstr "Зображення продуктів"
 
-#: .\apps\product\models.py:90
+#: .\apps\product\models.py:96
 msgid "priority"
 msgstr "пріоритет"
 
-#: .\apps\product\models.py:93
+#: .\apps\product\models.py:99
 msgid "large image"
 msgstr "велике зображення"
 
-#: .\apps\product\models.py:94
+#: .\apps\product\models.py:100
 msgid "medium image"
 msgstr "середнє зображення"
 
-#: .\apps\product\models.py:95
+#: .\apps\product\models.py:101
 msgid "small image"
 msgstr "маленьке зображення"
 
-#: .\apps\product\models.py:98
+#: .\apps\product\models.py:104
 msgid "product"
 msgstr "продукт"
 
@@ -129,3 +133,19 @@ msgstr "продукт"
 #, python-format
 msgid "Available number of results per page: %s"
 msgstr "Доступна кількість результатів на сторінці: %s"
+
+#: .\apps\product\serializers.py:55
+msgid "Category ID"
+msgstr "ID Категорії"
+
+#: .\apps\product\serializers.py:57
+msgid "Comma-separated list of integers (e.g., '1,2,3')"
+msgstr "Список цілих чисел, розділених комами (наприклад, '1,2,3')"
+
+#: .\apps\product\serializers.py:64
+msgid "Max. number of images = 10"
+msgstr "Максимальна кількість зображень = 10"
+
+#: .\apps\product\serializers.py:78
+msgid "Filters must be a comma-separated list of integers."
+msgstr "Фільтри повинні бути списком цілих чисел, розділених комами."

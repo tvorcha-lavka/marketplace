@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-02 05:17+0200\n"
+"POT-Creation-Date: 2024-11-23 22:37+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,27 +29,27 @@ msgstr "Користувач"
 msgid "Users"
 msgstr "Користувачі"
 
-#: .\apps\user\models.py:23
+#: .\apps\user\models.py:24
 msgid "email"
 msgstr "електронна пошта"
 
-#: .\apps\user\models.py:24
+#: .\apps\user\models.py:25
 msgid "username"
 msgstr "ім'я користувача"
 
-#: .\apps\user\models.py:25
+#: .\apps\user\models.py:26
 msgid "first name"
 msgstr "ім'я"
 
-#: .\apps\user\models.py:26
+#: .\apps\user\models.py:27
 msgid "last name"
 msgstr "прізвище"
 
-#: .\apps\user\models.py:28
+#: .\apps\user\models.py:29
 msgid "phone number"
 msgstr "номер телефону"
 
-#: .\apps\user\models.py:30
+#: .\apps\user\models.py:31
 msgid "is email verified"
 msgstr "підтверджено пошту"
 
