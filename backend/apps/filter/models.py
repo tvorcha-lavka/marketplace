@@ -25,9 +25,6 @@ class FilterType(AutoTranslatableModel):
     def __str__(self):
         return self.safe_translation_getter("name", self.language_code)
 
-    def save(self, *args, **kwargs):
-        return super().save(*args, **kwargs)
-
 
 class FilterValue(AutoTranslatableModel):
     class Meta:

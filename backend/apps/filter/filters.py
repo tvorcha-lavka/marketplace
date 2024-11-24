@@ -36,7 +36,7 @@ class FilterTypeFilter(FilterSet):
             FilterValue.objects.filter(group__category_id=value)
             .prefetch_related("translations", "products")
             .annotate(product_count=Count("products"))
-            .order_by("product_count")
+            .order_by("-product_count")
         )
         return (
             queryset.filter(group__category_id=value)
