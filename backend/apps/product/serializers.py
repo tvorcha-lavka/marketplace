@@ -1,5 +1,6 @@
 import hashlib
 
+from django.core.files.uploadedfile import TemporaryUploadedFile
 from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 
@@ -47,7 +48,7 @@ class ProductPrivateDetailSerializer(ProductDetailSerializer):
         fields = ProductDetailSerializer.Meta.fields + ["draft"]
 
 
-class ProductEditSerializer(serializers.ModelSerializer):
+class ProductCrateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = ["category_id", "title", "description", "price", "images", "filters", "draft"]
@@ -70,7 +71,7 @@ class ProductEditSerializer(serializers.ModelSerializer):
     )
 
     @staticmethod
-    def validate_filters(value: str):
+    def validate_filters(value: str) -> set[int]:
         """Validate and converts a string value to a list of unique integers."""
         try:
             return set([int(i) for i in value.split(",")])
@@ -79,7 +80,7 @@ class ProductEditSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(message, code="invalid")
 
     @staticmethod
-    def validate_images(images: list):
+    def validate_images(images: list[TemporaryUploadedFile]) -> list[TemporaryUploadedFile]:
         """Check uniqueness of images through hashing."""
         unique_hashes, unique_images = set(), []
 
@@ -91,3 +92,11 @@ class ProductEditSerializer(serializers.ModelSerializer):
                 unique_images.append(image)
 
         return unique_images
+
+
+class ProductUpdateSerializer(ProductCrateSerializer):
+    pass
+
+    # def validate_images(self, images: list[TemporaryUploadedFile]) -> list[tuple[int, bool, TemporaryUploadedFile]]:
+    #     unique_images = super().validate_images(images)
+    #     pass

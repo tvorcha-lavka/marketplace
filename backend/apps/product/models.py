@@ -73,14 +73,14 @@ class Product(models.Model):
     )
 
     def save(self, *args, **kwargs):
-        self.check_draft_parameter()
-        self.set_published_date()
+        self.active_setter()
+        self.published_date_setter()
         super().save(*args, **kwargs)
 
-    def check_draft_parameter(self):
+    def active_setter(self):
         self.active = False if self.draft else True
 
-    def set_published_date(self):
+    def published_date_setter(self):
         self.date_published = timezone.now().date() if self.active else None
 
 
@@ -111,12 +111,12 @@ class ProductImage(models.Model):
         self.image_upload_setter()
         super().save(*args, **kwargs)
 
-    def image_name_setter(self):
+    def image_name_setter(self) -> None:
         """Sets temporary image name for retrieve it in soon."""
         extension = self.image_temp.name.split(".", 1)[-1]
         self.image_temp.name = f"{self.priority}.{extension}"
 
-    def image_upload_setter(self):
+    def image_upload_setter(self) -> None:
         """Sets upload urls for each image size for immediate data retrieval."""
         for size in ["small", "medium", "large"]:
             upload_to = globals()[f"path_to_{size}_image"]

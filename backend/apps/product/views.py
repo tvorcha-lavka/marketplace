@@ -11,11 +11,12 @@ from .models import Product, ProductImage
 from .pagination import ProductPageNumberPagination
 from .permissions import IsProductOwnerOrAdmin
 from .serializers import (
+    ProductCrateSerializer,
     ProductDetailSerializer,
-    ProductEditSerializer,
     ProductListSerializer,
     ProductPrivateDetailSerializer,
     ProductPrivateListSerializer,
+    ProductUpdateSerializer,
 )
 
 
@@ -51,9 +52,12 @@ class ProductPrivateViewSet(ModelViewSet):
     filterset_class = ProductPrivateFilter
 
     def get_serializer_class(self):
-        if self.action == "list":
-            return ProductPrivateListSerializer
-        return ProductEditSerializer
+        serializer_class_map = {
+            "list": ProductPrivateListSerializer,
+            "create": ProductCrateSerializer,
+            "update": ProductUpdateSerializer,
+        }
+        return serializer_class_map.get(self.action)
 
     def get_permissions(self):
         if self.action in ["update", "partial_update", "destroy"]:
@@ -69,7 +73,7 @@ class ProductPrivateViewSet(ModelViewSet):
             .order_by("-draft")
         )
 
-    @extend_schema(request=ProductEditSerializer, responses=ProductPrivateDetailSerializer)
+    @extend_schema(request=ProductCrateSerializer, responses=ProductPrivateDetailSerializer)
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -93,9 +97,32 @@ class ProductPrivateViewSet(ModelViewSet):
         response_data = ProductPrivateDetailSerializer(product).data
         return Response(response_data, status=status.HTTP_201_CREATED)
 
-    @extend_schema(request=ProductEditSerializer, responses=ProductPrivateDetailSerializer)
+    @extend_schema(request=ProductUpdateSerializer, responses=ProductPrivateDetailSerializer)
     def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data)
+        serializer.is_valid(raise_exception=True)
+
         # TODO: Реализовать обновление продукта.
-        #  Возможно понадобиться в изображения вшивать и проверять EXIF данные о том что объект уже загружен,
-        #  чтобы предотвратить повторного сохранения уже и так существующего изображения
-        pass
+        #  Метод PATCH поменял на PUT, чтобы контролировать полный набор обновления,
+        #  так как если будет передаваться пустой список изображений и фильтров,
+        #  мы будем засчитывать это как удаление данных.
+        #  -
+        #  Frontend будет загружать на backend изображения с S3 как будто это новые изображения.
+        #  Изображения будут `image_small` + новые пользовательские (если будут).
+        #  Нужен будет в сериалайзер `ProductUpdateSerializer`, который будет наследоваться от
+        #  `ProductCrateSerializer` и переопределять `validate_images`.
+        #  -
+        #  Метод `validate_images` должен будет получать изображения из текущего instance и сравнивать изображения
+        #  из новой полученной пачки. Тут я думаю нужно будет немного магии и как итог вернуть:
+        #  list[tuple[int, bool, TemporaryUploadedFile]] - список из tuple в котором:
+        #   `int` - это новая позиция изображения в списке
+        #   `bool` - передаем True/False (новый файл требующий оптимизации / была только поменяна позиция в списке)
+        #   `TemporaryUploadedFile` - это новый или уже существующий файл
+        #  -
+        #  После пройденной валидации возвращаемся в эту функцию и уже проводим правильное сохранение.
+        #  -
+        #  Учесть что каждое сохранение ProductImage запускает сигнал. Там где нужно будет обновить только позицию,
+        #  используем конструкцию `super(ProductImage, instance).save(force_update=True, update_fields=["priority"])`
+
+        return Response({"detail": "all ok!"}, status=status.HTTP_200_OK)
