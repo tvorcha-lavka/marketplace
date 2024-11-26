@@ -55,11 +55,11 @@ class CategoryCardAdminForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.fields["category"].queryset = (
-            Category.objects.filter(pk=self.instance.category.pk)
-            if self.instance.pk
-            else Category.objects.filter(card=None)
-        ).prefetch_related("translations")
+        if self.instance.pk:
+            self.fields["category"].widget = forms.HiddenInput()
+
+        category_qs = self.fields["category"].queryset
+        self.fields["category"].queryset = category_qs.filter(card=None).prefetch_related("translations")
 
 
 # --- Card Image -------------------------------------------------------------------------------------------------------
@@ -75,6 +75,14 @@ class CardImageInline(admin.StackedInline):
     model = CardImage
     extra = 1
     max_num = 1
+
+    def get_queryset(self, *args, **kwargs):
+        return (
+            super()
+            .get_queryset(*args, **kwargs)
+            .select_related("card__category")
+            .prefetch_related("card__category__translations")
+        )
 
 
 # --- Category Statistic -----------------------------------------------------------------------------------------------
