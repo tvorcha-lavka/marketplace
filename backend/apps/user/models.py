@@ -1,3 +1,4 @@
+import uuid6
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -20,13 +21,17 @@ class User(AbstractUser):
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username"]
 
-    # TODO: id = models.UUIDField(primary_key=True, default=uuid6.uuid7, editable=False)  # noqa: VNE003
+    id = models.UUIDField(primary_key=True, default=uuid6.uuid7, editable=False)  # noqa: VNE003
     email = models.EmailField(_("email"), unique=True, validators=[validate_email])
     username = models.CharField(_("username"), max_length=150, validators=[validate_username])
     first_name = models.CharField(_("first name"), max_length=150, blank=True, validators=[validate_name])
     last_name = models.CharField(_("last name"), max_length=150, blank=True, validators=[validate_name])
     phone_number = models.CharField(
-        _("phone number"), unique=True, max_length=20, null=True, validators=[validate_phone_number]
+        _("phone number"),
+        max_length=20,
+        unique=True,
+        null=True,
+        validators=[validate_phone_number],
     )
     is_email_verified = models.BooleanField(_("is email verified"), default=False)
     # TODO: rating = models.DecimalField(_("rating"), max_digits=3, decimal_places=2, default=0.0)
