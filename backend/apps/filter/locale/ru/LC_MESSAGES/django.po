@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-17 05:05+0200\n"
+"POT-Creation-Date: 2024-11-23 22:37+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,7 +33,7 @@ msgid "Filter values"
 msgstr "Значения фильтров"
 
 #: .\apps\filter\filters.py:11 .\apps\filter\models.py:15
-#: .\apps\filter\models.py:43 .\apps\filter\models.py:79
+#: .\apps\filter\models.py:40 .\apps\filter\models.py:76
 msgid "filter type"
 msgstr "тип фильтра"
 
@@ -53,38 +53,38 @@ msgstr "положение в списке"
 msgid "required"
 msgstr "обязательный"
 
-#: .\apps\filter\models.py:35
+#: .\apps\filter\models.py:32
 msgid "filter value"
 msgstr "значение фильтра"
 
-#: .\apps\filter\models.py:36 .\apps\filter\models.py:80
+#: .\apps\filter\models.py:33 .\apps\filter\models.py:77
 msgid "filter values"
 msgstr "значения фильтров"
 
-#: .\apps\filter\models.py:39
+#: .\apps\filter\models.py:36
 msgid "value"
 msgstr "значение"
 
-#: .\apps\filter\models.py:40
+#: .\apps\filter\models.py:37
 msgid "description"
 msgstr "описание"
 
-#: .\apps\filter\models.py:42
+#: .\apps\filter\models.py:39
 msgid "metadata"
 msgstr "метаданные"
 
-#: .\apps\filter\models.py:63
+#: .\apps\filter\models.py:60
 msgid "The combination of filter type and value must be unique."
 msgstr "Комбинация типа фильтра и значения должна быть уникальной."
 
-#: .\apps\filter\models.py:73
+#: .\apps\filter\models.py:70
 msgid "filter group"
 msgstr "группа фильтров"
 
-#: .\apps\filter\models.py:74
+#: .\apps\filter\models.py:71
 msgid "filter groups"
 msgstr "группы фильтров"
 
-#: .\apps\filter\models.py:78
+#: .\apps\filter\models.py:75
 msgid "category"
 msgstr "категория"

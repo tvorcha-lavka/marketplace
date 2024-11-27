@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-02 05:18+0200\n"
+"POT-Creation-Date: 2024-11-26 08:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,35 +20,35 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: .\apps\user\models.py:17
+#: .\apps\user\models.py:18
 msgid "User"
 msgstr "Пользователь"
 
-#: .\apps\user\models.py:18
+#: .\apps\user\models.py:19
 msgid "Users"
 msgstr "Пользователи"
 
-#: .\apps\user\models.py:23
+#: .\apps\user\models.py:25
 msgid "email"
 msgstr "электронная почта"
 
-#: .\apps\user\models.py:24
+#: .\apps\user\models.py:26
 msgid "username"
 msgstr "имя пользователя"
 
-#: .\apps\user\models.py:25
+#: .\apps\user\models.py:27
 msgid "first name"
 msgstr "имя"
 
-#: .\apps\user\models.py:26
+#: .\apps\user\models.py:28
 msgid "last name"
 msgstr "фамилия"
 
-#: .\apps\user\models.py:28
+#: .\apps\user\models.py:30
 msgid "phone number"
 msgstr "номер телефона"
 
-#: .\apps\user\models.py:30
+#: .\apps\user\models.py:36
 msgid "is email verified"
 msgstr "подтверждена почта"
 
