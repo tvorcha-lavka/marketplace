@@ -1,8 +1,12 @@
 import { BsShieldFillExclamation, BsChevronDoubleRight } from 'react-icons/bs';
 import css from './SummaryCart.module.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function SummaryBlock() {
+  const navigate = useNavigate();
+  const transferOrder = () => {
+    navigate('/order');
+  };
   return (
     <div className={css.summary_block}>
       <div className={css.summarybox}>
@@ -28,7 +32,7 @@ export default function SummaryBlock() {
             </p>
           </div>
         </div>
-        <button className={css.btn_order} disabled>
+        <button className={css.btn_order} onClick={transferOrder}>
           Оформити замовлення
         </button>
         <button className={css.btn}>Продовжити покупки</button>

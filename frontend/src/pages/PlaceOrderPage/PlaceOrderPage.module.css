@@ -1,1 +1,30 @@
+.order_container {
+  width: 1440px;
+  margin-inline: auto;
+  padding: 0 120px;
+}
 
+.navbox {
+  padding-block: 20px;
+}
+
+.navLink {
+  margin-inline-end: 4px;
+  font-size: 14px;
+  color: #949494;
+}
+
+.navLink:last-child {
+  margin-inline-end: 0;
+}
+
+.active {
+  font-size: 14px;
+  color: black;
+}
+
+.orderbox {
+  display: grid;
+  grid-template-columns: 694px 490px;
+  gap: 16px;
+}

@@ -1,10 +1,10 @@
 .cart_container {
-  margin: 20px auto 114px;
-  max-width: 1200px;
+  margin-inline: auto;
+  max-width: 1440px;
   background: #fefcfa;
 }
 .navbox {
-  margin-block-end: 20px;
+  padding: 20px 120px;
 }
 
 .navLink {
