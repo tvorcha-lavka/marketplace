@@ -2,7 +2,7 @@ from io import BytesIO
 from typing import Literal
 
 from django.core.files.base import ContentFile
-from PIL import Image
+from PIL import Image, ImageOps
 
 
 def compress_image_to_jpeg(image: Image, quality: int = 60) -> ContentFile:
@@ -52,3 +52,32 @@ def admin_compress_image(image: Image, output_format: Literal["JPEG", "PNG"], qu
         return image
 
     return compress_image_to_jpeg(image, quality)
+
+
+def resize_image(image: bytes, image_name: str, max_width: int, max_height: int) -> ContentFile:
+    # Open the image
+    img = Image.open(BytesIO(image))
+    output = BytesIO()
+
+    # Apply EXIF orientation if it exists
+    img = ImageOps.exif_transpose(img)
+
+    # Remove all metadata by creating a new image without it
+    img = img.copy()
+
+    # Remove transparency if it exists
+    if img.mode in ("RGBA", "P"):
+        img = img.convert("RGB")
+
+    # Resizing
+    img.thumbnail((max_width, max_height), Image.Resampling.LANCZOS)
+
+    # Save the result to memory
+    img.save(output, format="JPEG", quality=90)
+    output.seek(0)
+
+    # Create a new file name
+    base_name = image_name.rsplit(".", 1)[0]
+    new_filename = base_name + ".jpg"
+
+    return ContentFile(output.read(), new_filename)

@@ -1,5 +1,9 @@
 from django import forms
 from django.contrib import admin
+from django.utils.html import format_html
+from django.utils.translation import gettext_lazy as _
+
+from apps.utils.image.validators import image_validators
 
 from .models import Product, ProductImage
 
@@ -7,7 +11,7 @@ from .models import Product, ProductImage
 class ProductAdminForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ("name", "description", "category", "price", "active", "is_vip", "date_published", "filters")
+        fields = ("title", "description", "category", "price", "active", "is_vip", "date_published", "filters")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -26,9 +30,45 @@ class ProductAdminForm(forms.ModelForm):
         )
 
 
+class ProductImageAdminForm(forms.ModelForm):
+    class Meta:
+        model = ProductImage
+        fields = ["product", "upload_image", "priority"]
+
+    upload_image = forms.ImageField(label=_("Upload image"), required=True, validators=image_validators)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # noinspection PyProtectedMember
+        if not self.instance._state.adding:
+            self.fields["upload_image"].required = False
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        upload_image = self.cleaned_data.get("upload_image")
+
+        if upload_image:
+            instance.image_temp = upload_image
+            instance.rename_image()
+
+        if commit:
+            instance.save()
+
+        return instance
+
+
 class ProductImageInline(admin.TabularInline):
-    fields = ("image", "priority")
-    ordering = ("priority",)
+    form = ProductImageAdminForm
     model = ProductImage
     extra = 0
     max_num = 10
+    ordering = ("priority",)
+    readonly_fields = ("small_image_preview",)
+
+    @staticmethod
+    def small_image_preview(obj):
+        return format_html('<img src="{}" style="max-height: 100px;" />', obj.image_small.url)
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).select_related("product")

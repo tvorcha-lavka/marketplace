@@ -1,49 +1,49 @@
-from rest_framework.viewsets import ModelViewSet
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 
-from apps.product.models import Product, ProductImage
-from apps.product.serializers import ProductImageSerializer, ProductSerializer
+from .filters import ProductFilter
+from .models import Product
+from .pagination import ProductPageNumberPagination
+from .serializers import ProductReadOnlyDetailSerializer, ProductReadOnlyListSerializer
 
 
-class ProductAPIView(ModelViewSet):
-    queryset = Product.objects.all()
-    serializer_class = ProductSerializer
-    http_method_names = ["get", "post", "patch", "delete"]
+class ProductReadOnlyViewSet(ReadOnlyModelViewSet):
+    pagination_class = ProductPageNumberPagination
+    filterset_class = ProductFilter
+    permission_classes = [AllowAny]
 
     def get_queryset(self):
-        return Product.objects.prefetch_related(
-            "image", "filters", "filters__translations", "filters__filter_type", "filters__filter_type__translations"
-        ).order_by("pk")
+        # TODO: order_by("-owner__rating")
+        return Product.objects.filter(active=True).order_by("-date_published").prefetch_related("images")
+
+    def get_serializer_class(self):
+        if self.action == "list":
+            return ProductReadOnlyListSerializer
+        return ProductReadOnlyDetailSerializer
+
+    @method_decorator(cache_page(300, key_prefix="products:read-list"))  # server-side cache for 5 minutes
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+
+    @method_decorator(cache_page(300, key_prefix="products:read-detail"))  # server-side cache for 5 minutes
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
 
 
-class ProductImageAPIView(ModelViewSet):
-    queryset = ProductImage.objects.all()
-    serializer_class = ProductImageSerializer
+class ProductViewSet(ModelViewSet):
+    serializer_class = ProductReadOnlyDetailSerializer  # ProductDetailSerializer
+    permission_classes = [IsAuthenticated]  # IsProductOwner, IsAdmin
 
+    def get_queryset(self):
+        return Product.objects.filter(active=True)
 
-# TODO: `ProductAPIView` переименуем в `ProductReadOnlyViewSet` и переделать соответственно под `ReadOnlyModelViewSet`.
-#  `ProductReadOnlyViewSet` будет иметь два стандартных url `GET /api/products/` и `GET /api/products/<pk>/`.
+        # if self.request.user.is_staff:
+        #     return Product.objects.all()
+        # return Product.objects.filter(owner=self.request.user)
 
-# TODO: В атрибутах класса `ProductReadOnlyViewSet` нужно будет добавить `filterset_class = ProductFilter`
-#  `ProductFilter` - это класс фильтрации продуктов, который наследуется от класса FilterSet.
-
-# TODO: В `ProductFilter` реализовать такие поля фильтрации:
-#  `seller` - фильтрация по id юзера - /api/products/?seller=1
-#  `category` - фильтрация по id категории - /api/products/?category=1
-#  `filters_in` - фильтрация по id's модели FilterValue через запятую - /api/products/?filters_in=1,2,3,4,5
-
-# TODO: `ProductSerializer` переименуем в `ProductListSerializer`. Его будем использовать на старание с товарами.
-#  `ProductListSerializer` должен иметь только id, name, price, date_published, is_vip.
-
-# TODO: Реализация `ProductDetailSerializer`. Его будем использовать на станице с одним товаром.
-#  Наследуем поля от `ProductListSerializer` и добавляем остальные.
-
-# TODO: В `ProductReadOnlyViewSet` через метод get_serializer_class и self.action
-#  определяем какой будет использоваться сериализатор `ProductListSerializer` или `ProductDetailSerializer`.
 
 # TODO: Реализация `ProductViewSet`, тут вся остальная бизнес логика с которой будут взаимодействовать клиенты.
-#  Нужно уже будет добавить `IsAuthenticated` пермишен.
-
-# TODO: Для `ProductReadOnlyViewSet` и `ProductViewSet`:
-#  В методе `get_queryset` не забываем фильтровать за параметром `active=True`
-
-# TODO: Отказываемся от DefaultRouter в urls.py и прописываем логику вручную, для более явного управления url.
+#  Нужно уже будет добавить `IsAuthenticated` и `IsProductOwner` пермишены для доступа публикации
+#  и редактированию продукта.

@@ -3,9 +3,9 @@ import { FaRegHeart } from 'react-icons/fa';
 
 import { media } from '../../utils/mediaConfig';
 
-import css from './VipCartsList.module.css';
+import css from './CardCollection.module.css';
 
-export default function VipCartsList({ item }) {
+export default function CardCollection({ item }) {
   const handleLikeButtonClick = (e) => {
     e.stopPropagation();
   };
@@ -15,7 +15,7 @@ export default function VipCartsList({ item }) {
       <button className={css.likeBtn} onClick={handleLikeButtonClick}>
         <FaRegHeart />
       </button>
-      <Link to={`/cart/${item.id}`} className={css.link}>
+      <Link to={`/card/${item.id}`} className={css.link}>
         <div className={css.item}>
           <img
             className={css.image}

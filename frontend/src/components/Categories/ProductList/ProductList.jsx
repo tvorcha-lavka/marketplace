@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { HiArrowPath } from 'react-icons/hi2';
 import { adverts } from '../../AdvertList/adverts';
-import VipCartsList from '../../VipCartsList/VipCartsList';
+import CardCollection from '../../CardCollection/CardCollection';
 import Pagination from '../Pagination/Pagination';
 import css from './ProductList.module.css';
 
@@ -36,7 +36,7 @@ export default function ProductList() {
             onBlur={handleCardBlur}
             key={item.id}
           >
-            <VipCartsList item={item} />
+            <CardCollection item={item} />
           </li>
         ))}
       </ul>

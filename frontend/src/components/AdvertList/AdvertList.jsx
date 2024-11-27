@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import VipCartsList from '../VipCartsList/VipCartsList';
+import CardCollection from '../CardCollection/CardCollection';
 
 import { adverts } from './adverts';
 
@@ -24,7 +24,7 @@ export default function AdvertList() {
             onBlur={handleCardBlur}
             key={item.id}
           >
-            <VipCartsList item={item} />
+            <CardCollection item={item} />
           </li>
         ))}
       </ul>

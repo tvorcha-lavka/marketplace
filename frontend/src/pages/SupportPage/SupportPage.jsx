@@ -1,3 +1,9 @@
+import css from "./SupportPage.module.css";
+
 export default function SupportPage() {
-  return <h1>Support Page</h1>;
+  return (
+    <section className={css.support}>
+      <h1 className={css.header}>Support Page</h1>
+    </section>
+  );
 }

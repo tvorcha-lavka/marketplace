@@ -5,8 +5,14 @@ from django.utils.translation import gettext_lazy as _
 
 from apps.category.models import Category
 from apps.filter.models import FilterValue
-from apps.product.utils import product_image_path
-from apps.product.validators import validate_image_priority, validate_price, validate_product_quantity
+from apps.product.utils import product_image_large_path, product_image_medium_path, product_image_small_path
+from apps.product.validators import (
+    validate_description,
+    validate_image_priority,
+    validate_price,
+    validate_product_quantity,
+    validate_title,
+)
 from core.settings.base import AUTH_USER_MODEL
 
 # TODO: Подумать как реализовать проверку количества изображений при первом создании,
@@ -29,8 +35,8 @@ class Product(models.Model):
         verbose_name_plural = _("Products")
 
     id = models.UUIDField(primary_key=True, default=uuid6.uuid7, editable=False)  # noqa: VNE003
-    name = models.CharField(_("name"), max_length=100, db_index=True)
-    description = models.TextField(_("description"), blank=True)
+    title = models.CharField(_("title"), db_index=True, max_length=50, validators=[validate_title])
+    description = models.TextField(_("description"), validators=[validate_description])
 
     price = models.DecimalField(_("price"), max_digits=10, decimal_places=2, validators=[validate_price])
     quantity = models.IntegerField(_("quantity"), default=1, validators=[validate_product_quantity])
@@ -39,24 +45,29 @@ class Product(models.Model):
     active = models.BooleanField(_("active"), default=True)
     is_vip = models.BooleanField(_("vip"), default=False)
 
+    # TODO: verified = models.BooleanField(_("verified"), default=False)
+    #  Не обязательный параметр, но в будущем полезно.
+    #  Что-то на подобии верификации, что продукт соответствует реальности.
+    #  Я думаю это будет реализовано через модераторов или в идеале AI.
+
     objects = models.Manager()
-    seller = models.ForeignKey(
+    owner = models.ForeignKey(
         to=AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         db_index=True,
-        related_name="product",
-        verbose_name=_("seller"),
+        related_name="products",
+        verbose_name=_("owner"),
     )
     category = models.ForeignKey(
         to=Category,
         on_delete=models.CASCADE,
-        related_name="product",
+        related_name="products",
         verbose_name=_("category"),
     )
     filters = models.ManyToManyField(
         to=FilterValue,
         blank=True,
-        related_name="product",
+        related_name="products",
         verbose_name=_("filters"),
     )
 
@@ -76,21 +87,19 @@ class ProductImage(models.Model):
         constraints = [models.UniqueConstraint(fields=("product", "priority"), name="unique_product_image_priority")]
 
     id = models.UUIDField(primary_key=True, default=uuid6.uuid7, editable=False)  # noqa: VNE003
-    image = models.ImageField(_("image"), upload_to=product_image_path)
     priority = models.PositiveSmallIntegerField(_("priority"), default=1, validators=[validate_image_priority])
 
+    image_temp = None  # TODO: Попробовать реализовать TempImageField, поле которое не будет фиксироваться миграциями
+    image_large = models.ImageField(_("large image"), null=True, blank=True, upload_to=product_image_large_path)
+    image_medium = models.ImageField(_("medium image"), null=True, blank=True, upload_to=product_image_medium_path)
+    image_small = models.ImageField(_("small image"), null=True, blank=True, upload_to=product_image_small_path)
+
     objects = models.Manager()
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="image", verbose_name=_("product"))
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="images", verbose_name=_("product"))
 
     def __str__(self):
-        return f"{self.product} - {self.image.name.split('/')[-1]}"
-
-    def clean(self):
-        self.rename_image()
+        return f"{self.product} - {self.priority}.jpg"
 
     def rename_image(self):
-        extension = self.image.name.split(".", 1)[-1]
-        self.image.name = f"{self.priority}.{extension}"
-
-    # TODO: Возникает ошибка при пересохранении продукта в полях для изображения, пишет что типа не заполненные.
-    #  P.S. Возможно был временный баг, сейчас уже не наблюдаю, но проверь на всякий
+        extension = self.image_temp.name.split(".", 1)[-1]
+        self.image_temp.name = f"{self.priority}.{extension}"
