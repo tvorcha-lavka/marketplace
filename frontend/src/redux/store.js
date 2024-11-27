@@ -2,6 +2,8 @@ import { configureStore } from '@reduxjs/toolkit';
 import { authReducer } from './auth/slice';
 import { categoriesReducer } from './categories/categoriesSlice';
 import { productReducer } from './products/slice';
+import { filtersReducer } from './filters/filtersSlice';
+
 import storage from 'redux-persist/lib/storage';
 import {
   persistStore,
@@ -28,6 +30,7 @@ export const store = configureStore({
     auth: persistedAuthReducer,
     categories: categoriesReducer,
     product: productReducer,
+    filters: filtersReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

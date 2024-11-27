@@ -4,7 +4,6 @@ import {
   getPopCategories,
   getCategoryById,
   getCatalog,
-  filtersCategory,
 } from './categoriesOperations';
 
 const handlePending = (state) => {
@@ -24,7 +23,6 @@ const categoriesSlice = createSlice({
     catalog: [],
     popular: [],
     categoryById: {},
-    filters: [],
     loading: false,
     error: null,
   },
@@ -61,15 +59,7 @@ const categoriesSlice = createSlice({
         state.loading = false;
         state.error = null;
       })
-      .addCase(getCategoryById.rejected, handleRejected)
-
-      .addCase(filtersCategory.pending, handlePending)
-      .addCase(filtersCategory.fulfilled, (state, action) => {
-        state.filters = action.payload;
-        state.loading = false;
-        state.error = null;
-      })
-      .addCase(filtersCategory.rejected, handleRejected);
+      .addCase(getCategoryById.rejected, handleRejected);
   },
 });
 
