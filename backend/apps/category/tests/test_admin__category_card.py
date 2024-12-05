@@ -51,4 +51,5 @@ class TestCategoryCardAdmin:
         request = rf.get("/admin/category/card/")
         queryset = self.admin.get_queryset(request)
 
-        assert "category" in queryset.query.select_related
+        assert "category" and "image" in queryset.query.select_related
+        assert "category__translations" in queryset._prefetch_related_lookups

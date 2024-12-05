@@ -57,4 +57,5 @@ class CategoryCardAdmin(admin.ModelAdmin):
         return bool(obj.image.image) if hasattr(obj, "image") else False
 
     def get_queryset(self, request):
-        return super().get_queryset(request).select_related("category")
+        qs = super().get_queryset(request)
+        return qs.select_related("category", "image").prefetch_related("category__translations")
