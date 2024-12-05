@@ -1,4 +1,5 @@
 from collections import namedtuple
+from typing import Union
 
 import pytest
 from rest_framework.test import APIClient
@@ -37,12 +38,24 @@ def admin_auth(client, users):
 
 # ----- User Fixtures --------------------------------------------------------------------------------------------------
 @pytest.fixture(scope="session")
-def users(django_db_setup, django_db_blocker):  # noqa: django_db_setup
+def users(django_db_setup, django_db_blocker):  # noqa: F841
     with django_db_blocker.unblock():
         return get_users() if UserModel.objects.exists() else create_users()
 
 
 # ----- Data -----------------------------------------------------------------------------------------------------------
+def deep_check(data: Union[list, dict], keys: Union[list, tuple]) -> bool:
+    """Checks that all keys from keys are present somewhere in data, including nested dictionaries."""
+    result = False
+
+    if isinstance(data, dict):
+        result = all(key in data or any(deep_check(value, [key]) for value in data.values()) for key in keys)
+    elif isinstance(data, list):
+        result = all(deep_check(item, keys) for item in data)
+    elif not data and not keys:
+        result = True
+
+    return result
 
 
 def create_users():

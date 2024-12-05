@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     "apps.category",
     "apps.filter",
     "apps.product",
+    "apps.review",
 ]
 
 MIDDLEWARE = [
