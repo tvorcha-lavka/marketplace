@@ -61,11 +61,13 @@ class UserReviewManager(models.Manager):
 
         # if isinstance(instance, SellerProfile):
         #     if not Order.objects.filter(user=user, seller=instance).exists():
-        #         raise ValidationError(_("You can't leave a review for this seller without having bought from them."))
+        #         message = _("You can't leave a review for this seller without having bought from them.")
+        #         raise ValidationError({"detail": message})
 
         # elif isinstance(instance, Product):
         #     if not Order.objects.filter(user=user, items__product=instance).exists():
-        #         raise ValidationError(_("You can't leave a review for this product without buying it."))
+        #         message = _("You can't leave a review for this product without buying it.")
+        #         raise ValidationError({"detail": message})
 
         pass
 

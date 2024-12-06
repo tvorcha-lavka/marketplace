@@ -10,9 +10,9 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from apps.review.models import UserReview
 from apps.review.models.manager import UserReviewManager
+from apps.review.views import RateAndReviewAPIView
 from core.conftest import deep_check
 
-from ..views import RateAndReviewAPIView
 from .conftest import UserSchema
 
 # ----- Test Case Schemas ----------------------------------------------------------------------------------------------
@@ -140,7 +140,6 @@ class TestRateAndReviewAPIView:
 
         if not test_case.review:
             # Check that the review has been created
-
             created_data = UserReview.objects.get_review_by_user(self.to_user, self.from_user)
 
             assert created_data.review.content_object == self.to_user

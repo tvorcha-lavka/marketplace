@@ -60,7 +60,6 @@ class TestReviewManager:
         kwargs = {"score": 5, "message": "test message"}
 
         # Mock main dependencies
-        mocker.patch.object(UserReviewManager, "can_review")
         mocker.patch.object(UserReviewManager, "get_review_by_user", return_value=review_by_user)
 
         if not review_exists:
@@ -83,7 +82,6 @@ class TestReviewManager:
         review_by_user = self.review_object if review_exists else None
 
         # Mock main dependencies
-        mocker.patch.object(UserReviewManager, "can_review")
         mocker.patch.object(UserReviewManager, "get_review_by_user", return_value=review_by_user)
 
         if not review_exists:

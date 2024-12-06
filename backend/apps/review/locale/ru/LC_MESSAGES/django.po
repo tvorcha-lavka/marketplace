@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-12-05 17:44+0200\n"
+"POT-Creation-Date: 2024-12-06 14:15+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: .\apps\review\apps.py:8 .\apps\review\models\review.py:17
+#: .\apps\review\apps.py:8 .\apps\review\models\review.py:19
 msgid "Review"
 msgstr "Отзыв"
 
@@ -33,19 +33,19 @@ msgstr "Отзыв пользователя уже существует."
 msgid "There are no reviews from %s"
 msgstr "Нет ни единого отзыва от %s"
 
-#: .\apps\review\models\review.py:18
+#: .\apps\review\models\review.py:20
 msgid "Reviews"
 msgstr "Отзывы"
 
-#: .\apps\review\models\review.py:58
+#: .\apps\review\models\review.py:60
 msgid "User review"
 msgstr "Отзыв пользователя"
 
-#: .\apps\review\models\review.py:59
+#: .\apps\review\models\review.py:61
 msgid "User reviews"
 msgstr "Отзывы пользователя"
 
-#: .\apps\review\models\review.py:64
+#: .\apps\review\models\review.py:66
 msgid "message"
 msgstr "сообщение"
 

@@ -8,10 +8,12 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from model_utils.models import TimeStampedModel
 
+from apps.utils.models import UUIDv7Model
+
 from .manager import ReviewManager, UserReviewManager
 
 
-class Review(models.Model):
+class Review(UUIDv7Model):
     class Meta:
         db_table = "review"
         verbose_name = _("Review")
@@ -52,7 +54,7 @@ class Review(models.Model):
         self.save()
 
 
-class UserReview(TimeStampedModel):
+class UserReview(UUIDv7Model, TimeStampedModel):
     class Meta:
         db_table = "review_userreview"
         verbose_name = _("User review")
