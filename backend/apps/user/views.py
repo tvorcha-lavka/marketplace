@@ -16,4 +16,4 @@ class UserViewSet(ModelViewSet):
         return get_list_or_404(self.model)
 
     def get_object(self):
-        return get_object_or_404(self.model, pk=self.kwargs.get("user_id"))
+        return get_object_or_404(self.model, pk=self.kwargs.get("pk"))

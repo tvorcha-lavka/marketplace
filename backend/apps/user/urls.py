@@ -11,5 +11,6 @@ detail_view = {"get": "retrieve", "patch": "partial_update", "delete": "destroy"
 
 urlpatterns = [
     path("", UserViewSet.as_view(list_view), name="user-list"),
-    path("<uuid:user_id>/", UserViewSet.as_view(detail_view), name="user-detail"),
+    path("<uuid:pk>/", UserViewSet.as_view(detail_view), name="user-detail"),
+    # path("<uuid:pk>/reviews/", SellerRateAndReviewAPIView.as_view(), name="user-reviews"),
 ]

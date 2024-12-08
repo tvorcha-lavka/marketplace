@@ -14,5 +14,6 @@ def testcase_data():
         "username": "anthony_hopkins",
         "first_name": "Anthony",
         "last_name": "Hopkins",
+        "language": "en",
     }
     return Data(for_partial_update)
