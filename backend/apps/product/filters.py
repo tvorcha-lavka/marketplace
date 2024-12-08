@@ -15,7 +15,7 @@ class ProductPublicFilter(FilterSet):
         ProductOrdering.CHEAP_TO_EXPENSIVE: "price",
         ProductOrdering.EXPENSIVE_TO_CHEAP: "-price",
         ProductOrdering.NEW_ITEMS: "-date_published",
-        # TODO: ProductOrdering.SELLER_RATING: "-owner__rating",
+        ProductOrdering.SELLER_RATING: "-seller_rating",
     }
 
     seller = NumberFilter(field_name="owner", distinct=True)
