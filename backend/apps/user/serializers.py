@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from apps.user.models import User
+from apps.user.models import SellerProfile, User
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -18,9 +18,13 @@ class UserSerializer(serializers.ModelSerializer):
         return super().save(**kwargs)
 
 
-class PublicProfileSerializer(serializers.ModelSerializer):
+class SellerProfileSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
-        fields = ["id", "username", "first_name", "last_name", "date_joined", "last_active"]  # TODO: rating
+        model = SellerProfile
+        fields = ["id", "username", "date_joined", "last_active", "rating"]
 
-    last_active = serializers.DateTimeField(source="last_login")
+    id = serializers.UUIDField(source="pk")  # noqa: VNE003
+    username = serializers.CharField(source="public_username")
+    date_joined = serializers.DateTimeField(source="user.date_joined")
+    last_active = serializers.DateTimeField(source="user.last_login")
+    rating = serializers.FloatField(source="average_rating")

@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 
 from apps.product.models import Product, ProductImage
-from apps.user.serializers import PublicProfileSerializer
+from apps.user.serializers import SellerProfileSerializer
 from apps.utils.image import DEFAULT_IMAGE
 
 
@@ -39,7 +39,7 @@ class ProductDetailSerializer(serializers.ModelSerializer):
         fields = ["id", "title", "description", "date_published", "price", "images", "owner"]
 
     images = ProductImageSerializer(many=True, read_only=True)
-    owner = PublicProfileSerializer(read_only=True)
+    owner = SellerProfileSerializer(read_only=True)
 
 
 class ProductPrivateDetailSerializer(ProductDetailSerializer):
