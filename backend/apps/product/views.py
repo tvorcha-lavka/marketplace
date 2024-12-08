@@ -67,7 +67,7 @@ class ProductPrivateViewSet(ModelViewSet):
 
     def get_queryset(self):
         return (
-            Product.objects.filter(owner=self.request.user)
+            Product.objects.filter(owner_id=self.request.user.pk)
             .prefetch_related("images")
             .select_related("owner")
             .order_by("-draft")
@@ -81,7 +81,7 @@ class ProductPrivateViewSet(ModelViewSet):
         images = serializer.validated_data.pop("images", [])
         filters = serializer.validated_data.pop("filters", [])
 
-        product = serializer.save(owner=self.request.user)
+        product = serializer.save(owner_id=self.request.user.pk)
 
         for index, image in enumerate(images, start=1):
             instance = ProductImage(product=product, priority=index)

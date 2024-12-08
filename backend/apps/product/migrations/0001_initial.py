@@ -2,7 +2,6 @@
 
 import django.db.models.deletion
 import uuid6
-from django.conf import settings
 from django.db import migrations, models
 
 import apps.product.utils
@@ -16,7 +15,7 @@ class Migration(migrations.Migration):
     dependencies = [
         ("category", "0001_initial"),
         ("filter", "0001_initial"),
-        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+        ("user", "0002_seller_profile"),
     ]
 
     operations = [
@@ -81,7 +80,7 @@ class Migration(migrations.Migration):
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
                         related_name="products",
-                        to=settings.AUTH_USER_MODEL,
+                        to="user.sellerprofile",
                         verbose_name="owner",
                     ),
                 ),
