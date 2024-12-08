@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-19 21:19+0200\n"
+"POT-Creation-Date: 2024-11-23 22:37+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -57,8 +57,8 @@ msgstr "Нижній правий кут"
 msgid "Bottom middle"
 msgstr "Знизу посередині"
 
-#: .\apps\category\filters.py:14 .\apps\category\models.py:130
-#: .\apps\category\models.py:196
+#: .\apps\category\filters.py:14 .\apps\category\models.py:131
+#: .\apps\category\models.py:197
 msgid "image"
 msgstr "зображення"
 
@@ -84,124 +84,124 @@ msgstr "Превью URL-адреси"
 msgid "Optional"
 msgstr "Необов'язково"
 
-#: .\apps\category\models.py:19 .\apps\category\models.py:138
-#: .\apps\category\models.py:175 .\apps\category\models.py:230
+#: .\apps\category\models.py:20 .\apps\category\models.py:139
+#: .\apps\category\models.py:176 .\apps\category\models.py:231
 msgid "category"
 msgstr "категорія"
 
-#: .\apps\category\models.py:20
+#: .\apps\category\models.py:21
 msgid "categories"
 msgstr "категорії"
 
-#: .\apps\category\models.py:26
+#: .\apps\category\models.py:27
 msgid "title"
 msgstr "назва"
 
-#: .\apps\category\models.py:27
+#: .\apps\category\models.py:28
 msgid "slug"
 msgstr "унікальний ідентифікатор"
 
-#: .\apps\category\models.py:28
+#: .\apps\category\models.py:29
 msgid "url"
 msgstr "посилання"
 
-#: .\apps\category\models.py:29
+#: .\apps\category\models.py:30
 msgid "active"
 msgstr "активний"
 
-#: .\apps\category\models.py:30
+#: .\apps\category\models.py:31
 msgid "order"
 msgstr "порядок"
 
-#: .\apps\category\models.py:39
+#: .\apps\category\models.py:40
 msgid "parent"
 msgstr "батьківська категорія"
 
-#: .\apps\category\models.py:64
+#: .\apps\category\models.py:65
 #: .\apps\category\tests\test_model__category.py:63
-msgid "Default category image"
-msgstr "Зображення категорії за замовчуванням"
+msgid "No image"
+msgstr "Немає зображення"
 
-#: .\apps\category\models.py:127
+#: .\apps\category\models.py:128
 msgid "category image"
 msgstr "зображення категорії"
 
-#: .\apps\category\models.py:128
+#: .\apps\category\models.py:129
 msgid "category images"
 msgstr "зображення категорій"
 
-#: .\apps\category\models.py:131 .\apps\category\models.py:197
+#: .\apps\category\models.py:132 .\apps\category\models.py:198
 msgid "alt text"
 msgstr "альтернативний текст"
 
-#: .\apps\category\models.py:152
+#: .\apps\category\models.py:153
 msgid "card design"
 msgstr "дизайн картки"
 
-#: .\apps\category\models.py:153
+#: .\apps\category\models.py:154
 msgid "card designs"
 msgstr "дизайн карток"
 
-#: .\apps\category\models.py:156
+#: .\apps\category\models.py:157
 msgid "orientation"
 msgstr "орієнтація"
 
-#: .\apps\category\models.py:162
+#: .\apps\category\models.py:163
 msgid "title position"
 msgstr "позиція назви"
 
-#: .\apps\category\models.py:167
+#: .\apps\category\models.py:168
 msgid "text wrap"
 msgstr "перенос тексту"
 
-#: .\apps\category\models.py:168
+#: .\apps\category\models.py:169
 msgid "background color"
 msgstr "колір фону"
 
-#: .\apps\category\models.py:187 .\apps\category\tests\test_model__card.py:36
+#: .\apps\category\models.py:188 .\apps\category\tests\test_model__card.py:36
 msgid "Default card image"
 msgstr "Зображення картки за замовчуванням"
 
-#: .\apps\category\models.py:193
+#: .\apps\category\models.py:194
 msgid "category card image"
 msgstr "зображення картки категорії"
 
-#: .\apps\category\models.py:194
+#: .\apps\category\models.py:195
 msgid "category card images"
 msgstr "зображення карток категорій"
 
-#: .\apps\category\models.py:199
+#: .\apps\category\models.py:200
 msgid "size"
 msgstr "розмір"
 
-#: .\apps\category\models.py:200
+#: .\apps\category\models.py:201
 msgid "x-axis"
 msgstr "вісь (x)"
 
-#: .\apps\category\models.py:201
+#: .\apps\category\models.py:202
 msgid "y-axis"
 msgstr "вісь (y)"
 
-#: .\apps\category\models.py:204
+#: .\apps\category\models.py:205
 msgid "card"
 msgstr "картка"
 
-#: .\apps\category\models.py:217
+#: .\apps\category\models.py:218
 msgid "category statistic"
 msgstr "статистика категорії"
 
-#: .\apps\category\models.py:218
+#: .\apps\category\models.py:219
 msgid "category statistics"
 msgstr "статистика категорій"
 
-#: .\apps\category\models.py:221
+#: .\apps\category\models.py:222
 msgid "views count"
 msgstr "кількість переглядів"
 
-#: .\apps\category\models.py:222
+#: .\apps\category\models.py:223
 msgid "purchases count"
 msgstr "кількість покупок"
 
-#: .\apps\category\models.py:223
+#: .\apps\category\models.py:224
 msgid "popularity score"
 msgstr "оцінка популярності"

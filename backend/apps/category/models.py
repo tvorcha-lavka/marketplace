@@ -6,6 +6,7 @@ from django.utils.translation import gettext_lazy as _
 from mptt.models import MPTTModel, TreeForeignKey
 from parler.models import TranslatedFields
 
+from apps.utils.image import AWS_S3_DOMAIN
 from apps.utils.translation.models import AutoTranslatableModel
 
 from .choices import CardOrientation, TitlePosition
@@ -61,7 +62,7 @@ class Category(MPTTModel, AutoTranslatableModel):
             return self.image
 
         # Return the default image
-        return CategoryImage(image="category/default/category.jpg", alt=_("Default category image"))
+        return CategoryImage(image="defaults/no-image.jpg", alt=_("No image"))
 
     @property
     def category_card(self):
@@ -143,7 +144,7 @@ class CategoryImage(models.Model):
 
     @property
     def absolute_url(self) -> str:
-        return f"https://{settings.AWS_S3_CUSTOM_DOMAIN}/{self.image.name}"
+        return f"{AWS_S3_DOMAIN}/{self.image.name}"
 
 
 class Card(models.Model):
@@ -184,7 +185,7 @@ class Card(models.Model):
             return self.image
 
         # Return default card image
-        return CardImage(image="category/default/card.png", alt=_("Default card image"))
+        return CardImage(image="logo/logo_white.svg", alt=_("Default card image"))
 
 
 class CardImage(models.Model):
@@ -208,7 +209,7 @@ class CardImage(models.Model):
 
     @property
     def absolute_url(self) -> str:
-        return f"https://{settings.AWS_S3_CUSTOM_DOMAIN}/{self.image.name}"
+        return f"{AWS_S3_DOMAIN}/{self.image.name}"
 
 
 class Statistics(models.Model):
