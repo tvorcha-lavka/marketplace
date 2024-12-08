@@ -24,7 +24,7 @@ class Review(UUIDv7Model):
 
     ratings_count = models.PositiveIntegerField(default=0)
     reviews_count = models.PositiveIntegerField(default=0)
-    avg_rating = models.DecimalField(max_digits=6, decimal_places=3, default=Decimal(0.0))
+    avg_rating = models.DecimalField(db_index=True, max_digits=4, decimal_places=3, default=Decimal(0.0))
 
     objects = ReviewManager()
     content_object = GenericForeignKey()

@@ -27,7 +27,10 @@ class Migration(migrations.Migration):
                 ("object_id", models.UUIDField(blank=True, null=True)),
                 ("ratings_count", models.PositiveIntegerField(default=0)),
                 ("reviews_count", models.PositiveIntegerField(default=0)),
-                ("avg_rating", models.DecimalField(decimal_places=3, default=Decimal("0"), max_digits=6)),
+                (
+                    "avg_rating",
+                    models.DecimalField(db_index=True, decimal_places=3, default=Decimal("0"), max_digits=4),
+                ),
                 (
                     "content_type",
                     models.ForeignKey(
