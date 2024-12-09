@@ -9,7 +9,10 @@ import clsx from 'clsx';
 
 import RecommendedCards from '../../components/RecommendedCards/RecommendedCards';
 import BasketModal from '../../components/BasketModal/BasketModal';
-import ProductIdGallery from '../../components/ProductIdGallery/ProductIdGallery';
+import CardDetailsGallery from '../../components/CardDetailsGallery/CardDetailsGallery';
+import CardDetailsDescription from '../../components/CardDetailsDescription/CardDetailsDescription';
+import CustomButton from '../../components/CustomButton/CustomButton';
+import Loader from '../../formModalComponents/Loader/Loader';
 
 import { stars } from './details';
 import { media } from '../../utils/mediaConfig';
@@ -24,6 +27,7 @@ import css from './CardDetailsPage.module.css';
 
 export default function CardDetailsPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const { cardId, categoryId } = useParams();
   const dispatch = useDispatch();
@@ -32,13 +36,16 @@ export default function CardDetailsPage() {
   const category = useSelector(selectCategoryById);
 
   useEffect(() => {
+    if (product) {
+      setIsLoading(false);
+    }
     if (cardId) {
       dispatch(getProductsId(cardId));
     }
     if (categoryId) {
       dispatch(getCategoryById(categoryId));
     }
-  }, [dispatch, cardId, categoryId]);
+  }, [dispatch, cardId, categoryId, product]);
 
   useNoScroll(isModalOpen);
 
@@ -54,7 +61,7 @@ export default function CardDetailsPage() {
 
   const formatDate = (dateString) => {
     const date = parseISO(dateString);
-    return format(date, 'eeee, d MMMM yyyy, HH:mm:ss', { locale: uk }); 
+    return format(date, 'eeee, d MMMM yyyy, HH:mm:ss', { locale: uk });
   };
 
   const getActiveClass = ({ isActive }) => {
@@ -63,7 +70,13 @@ export default function CardDetailsPage() {
 
   return (
     <>
-      {product && (
+      {isLoading && (
+        <div className={css.loader}>
+          <Loader />
+        </div>
+      )}
+
+      {!isLoading && product && (
         <section className={css.section}>
           <ul className={css.pathList}>
             <li className={css.pathItem}>
@@ -83,19 +96,9 @@ export default function CardDetailsPage() {
 
           <div className={css.container}>
             <div className={css.galleryContainer}>
-              <ProductIdGallery product={product} />
+              <CardDetailsGallery product={product} />
 
-              <div className={css.description}>
-                <h2 className={css.descriptionTitle}>Характеристики та опис</h2>
-                <ul className={css.descriptionMenu}>
-                  <li className={css.descriptionText}>
-                    <p>{product.description}</p>
-                  </li>
-                </ul>
-                {/* <button type="button" className={css.descriptionBtn}>
-                  Докладніше
-                </button> */}
-              </div>
+              <CardDetailsDescription product={product} />
             </div>
 
             <div className={css.productDetails}>
@@ -105,16 +108,17 @@ export default function CardDetailsPage() {
                 </p>
                 <h1 className={css.cartTitle}>{product.title}</h1>
                 <p className={css.price}>{product.price}&nbsp;грн.</p>
-                <button type="button" className={css.deliveryBtn}>
+                <CustomButton size="large" className={css.deliveryBtn}>
                   Замовити з доставкою
-                </button>
-                <button
-                  type="button"
+                </CustomButton>
+                <CustomButton
+                  size="large"
+                  variant="another"
                   onClick={openModal}
                   className={css.basketBtn}
                 >
                   Додати до кошика
-                </button>
+                </CustomButton>
               </div>
 
               <div className={css.sellerInfo}>

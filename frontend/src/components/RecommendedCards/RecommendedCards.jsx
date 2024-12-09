@@ -19,9 +19,12 @@ export default function RecommendedCards() {
   const dispatch = useDispatch();
   const allProducts = useSelector(selectProducts);
 
-  useEffect(() => {
-    dispatch(getProducts());
-  }, [dispatch]);
+  useEffect(
+    (e) => {
+      dispatch(getProducts());
+    },
+    [dispatch]
+  );
 
   const nextSlide = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % allProducts.length);
@@ -52,31 +55,35 @@ export default function RecommendedCards() {
 
   return (
     <>
-      <h2 className={css.title}>Вам також може сподобатись:</h2>
-      <div className={css.slider}>
-        <button className={css.prevBtn} onClick={prevSlide}>
-          <IoIosArrowBack className={css.arrowIcon} />
-        </button>
+      {allProducts.length > 0 && (
+        <div>
+          <h2 className={css.title}>Вам також може сподобатись:</h2>
+          <div className={css.slider}>
+            <button className={css.prevBtn} onClick={prevSlide}>
+              <IoIosArrowBack className={css.arrowIcon} />
+            </button>
 
-        <ul className={css.card}>
-          {cards.map((item) => (
-            <li
-              className={`${css.container} ${
-                activeCardId === item.id ? css.active : ''
-              }`}
-              onClick={() => handleCardClick(item.id)}
-              onBlur={handleCardBlur}
-              key={item.id}
-            >
-              <CardCollection item={item} />
-            </li>
-          ))}
-        </ul>
+            <ul className={css.card}>
+              {cards.map((item) => (
+                <li
+                  className={`${css.container} ${
+                    activeCardId === item.id ? css.active : ''
+                  }`}
+                  onClick={() => handleCardClick(item.id)}
+                  onBlur={handleCardBlur}
+                  key={item.id}
+                >
+                  <CardCollection item={item} />
+                </li>
+              ))}
+            </ul>
 
-        <button className={css.nextBtn} onClick={nextSlide}>
-          <IoIosArrowForward className={css.arrowIcon} />
-        </button>
-      </div>
+            <button className={css.nextBtn} onClick={nextSlide}>
+              <IoIosArrowForward className={css.arrowIcon} />
+            </button>
+          </div>
+        </div>
+      )}
     </>
   );
 }

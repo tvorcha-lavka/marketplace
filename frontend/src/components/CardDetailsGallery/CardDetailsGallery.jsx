@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
 import { IoIosArrowForward } from 'react-icons/io';
 
-import css from './ProductIdGallery.module.css';
+import css from './CardDetailsGallery.module.css';
 
-export default function ProductIdGallery({ product }) {
+export default function CardDetailsGallery({ product }) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const prevSlide = () => {
