@@ -1,25 +1,32 @@
 import { NavLink, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+
 import { selectAllCategories } from '../../redux/categories/categoriesSelectors';
 import { positionTitle, cardOrientation } from '../../utils/positionTitle.js';
+
 import css from './AllCategories.module.css';
 
 export default function AllCategories() {
-  const сategories = useSelector(selectAllCategories);
-  const allCategories = [...сategories].reverse();
-  console.log(allCategories);
+  const categories = useSelector(selectAllCategories);
+  const allCategories = [...categories].reverse();
+
   let verticalCounter = 0;
 
   return (
     <div className={css.container}>
-      <div className={css.way}>
-        <NavLink className={css.navLink} to="/">
-          Головна /
-        </NavLink>
-        <NavLink className={css.active} to="/categories">
-          Всі категорії /
-        </NavLink>
-      </div>
+      <ul className={css.way}>
+        <li>
+          <NavLink className={css.navLink} to="/">
+            Головна/&nbsp;
+          </NavLink>
+        </li>
+        <li>
+          <NavLink className={css.active} to="/categories">
+            Всі категорії/&nbsp;
+          </NavLink>
+        </li>
+      </ul>
+
       <div className={css.box}>
         <h2 className={css.title}> Всі категорії</h2>
         <ul className={css.list}>

@@ -6,6 +6,7 @@ import { media } from '../../utils/mediaConfig';
 import css from './CardCollection.module.css';
 
 export default function CardCollection({ item }) {
+  const { id, date_published, price, s_image_url, title } = item;
   const handleLikeButtonClick = (e) => {
     e.stopPropagation();
   };
@@ -15,18 +16,17 @@ export default function CardCollection({ item }) {
       <button className={css.likeBtn} onClick={handleLikeButtonClick}>
         <FaRegHeart />
       </button>
-      <Link to={`/card/${item.id}`} className={css.link}>
+      <Link to={`/cards/${id}`} className={css.link}>
         <div className={css.item}>
           <img
             className={css.image}
-            src={item.img ? item.img : `${media}/page/404/not-found.png`}
-            alt={item.title}
+            src={s_image_url ? s_image_url : `${media}/page/404/not-found.png`}
+            alt={title}
           />
-          {/* <h3 className={css.titleVip}>VIP-ОГОЛОШЕННЯ</h3> */}
         </div>
-        <p className={css.publicDate}>{item.date}</p>
-        <h1 className={css.cartTitle}>{item.title}</h1>
-        <p className={css.price}>{item.price}</p>
+        <p className={css.publicDate}>Опубліковано&nbsp;{date_published}</p>
+        <h1 className={css.cartTitle}>{title}</h1>
+        <p className={css.price}>{price}&nbsp;грн</p>
       </Link>
     </div>
   );

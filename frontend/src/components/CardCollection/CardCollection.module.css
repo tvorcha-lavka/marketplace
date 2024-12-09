@@ -5,19 +5,19 @@
   border-radius: 8px;
 }
 
-.titleVip {
+/* .titleVip {
   position: absolute;
   top: 16px;
   left: 16px;
   border-radius: var(--border-radius-small);
-  padding: 4px 12px;
+  padding: 4px 12px; */
   /* width: 140px;
   height: 24px; */
-  font-weight: var(--font-weight-medium);
+  /* font-weight: var(--font-weight-medium);
   font-size: var(--font-size-extra-tiny);
   color: var(--default-black);
   background-color: var(--grey-lighter);
-}
+} */
 
 .likeBtn {
   position: absolute;

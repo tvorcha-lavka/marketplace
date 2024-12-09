@@ -1,60 +1,44 @@
-import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import { FaStar } from 'react-icons/fa';
+import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { NavLink, useParams } from 'react-router-dom';
 import { HiOutlinePencilAlt } from 'react-icons/hi';
 import { RxCross2 } from 'react-icons/rx';
-import { IoIosArrowBack } from 'react-icons/io';
-import { IoIosArrowForward } from 'react-icons/io';
+import { format, parseISO } from 'date-fns';
+import { uk } from 'date-fns/locale';
 import clsx from 'clsx';
 
 import RecommendedCards from '../../components/RecommendedCards/RecommendedCards';
 import BasketModal from '../../components/BasketModal/BasketModal';
+import ProductIdGallery from '../../components/ProductIdGallery/ProductIdGallery';
 
-import { details } from './details';
+import { stars } from './details';
 import { media } from '../../utils/mediaConfig';
 import { useClickEsc } from '../../hooks/useClickEsc';
 import useNoScroll from '../../hooks/useNoScroll';
+import { getProductsId } from '../../redux/products/operations';
+import { getCategoryById } from '../../redux/categories/categoriesOperations';
+import { selectProductDetails } from '../../redux/products/selectors';
+import { selectCategoryById } from '../../redux/categories/categoriesSelectors';
 
 import css from './CardDetailsPage.module.css';
 
-const stars = [
-  {
-    id: 1,
-    image: <FaStar />,
-  },
-  {
-    id: 2,
-    image: <FaStar />,
-  },
-  {
-    id: 3,
-    image: <FaStar />,
-  },
-  {
-    id: 4,
-    image: <FaStar />,
-  },
-  {
-    id: 5,
-    image: <FaStar />,
-  },
-];
-
 export default function CardDetailsPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(0);
 
-  const prevSlide = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? details.length - 1 : prevIndex - 1
-    );
-  };
+  const { cardId, categoryId } = useParams();
+  const dispatch = useDispatch();
 
-  const nextSlide = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === details.length - 1 ? 0 : prevIndex + 1
-    );
-  };
+  const product = useSelector(selectProductDetails);
+  const category = useSelector(selectCategoryById);
+
+  useEffect(() => {
+    if (cardId) {
+      dispatch(getProductsId(cardId));
+    }
+    if (categoryId) {
+      dispatch(getCategoryById(categoryId));
+    }
+  }, [dispatch, cardId, categoryId]);
 
   useNoScroll(isModalOpen);
 
@@ -68,211 +52,179 @@ export default function CardDetailsPage() {
 
   const modalRef = useClickEsc(closeModal);
 
+  const formatDate = (dateString) => {
+    const date = parseISO(dateString);
+    return format(date, 'eeee, d MMMM yyyy, HH:mm:ss', { locale: uk }); 
+  };
+
   const getActiveClass = ({ isActive }) => {
     return clsx(css.pathItem, isActive && css.active);
   };
 
   return (
     <>
-      <section className={css.section}>
-        <ul className={css.pathList}>
-          <li className={css.pathItem}>
-            <NavLink className={getActiveClass} to={'/'}>
-              Українське ремесло/&nbsp;
-            </NavLink>
-          </li>
-          <li className={css.pathItem}>
-            <NavLink className={getActiveClass} to={'/'}>
-              Гончарство/&nbsp;
-            </NavLink>
-          </li>
-          <li className={css.pathItem}>
-            <NavLink className={getActiveClass} to={`/cart/:cartId`}>
-              Для кухні
-            </NavLink>
-          </li>
-        </ul>
-
-        <div className={css.container}>
-          <div className={css.galleryContainer}>
-            <div className={css.gallery}>
-              <div className={css.galleryList}>
-                {details.slice(1).map((card) => (
-                  <ul key={card.id}>
-                    <li className={css.galleryItem}>
-                      <img
-                        className={css.images}
-                        src={card.img}
-                        //alt={card.title}
-                      />
-                    </li>
-                  </ul>
-                ))}
-              </div>
-
-              <div>
-                <div className={css.swiperContainer}>
-                  <div className={css.swiper}>
-                    <button className={css.prevBtn} onClick={prevSlide}>
-                      <IoIosArrowBack className={css.arrowIcon} />
-                    </button>
-                    <img
-                      className={css.image}
-                      src={details[currentIndex].img}
-                      //alt={card.title}
-                    />
-                    <button className={css.nextBtn} onClick={nextSlide}>
-                      <IoIosArrowForward className={css.arrowIcon} />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className={css.description}>
-              <h2 className={css.descriptionTitle}>Характеристики та опис</h2>
-              <ul className={css.descriptionMenu}>
-                <li className={css.descriptionText}>
-                  Настоящий защитный льняной ангел-хранитель в традиции
-                  изготовления кукол мотанка. Украинская этническая кукла. Эти
-                  ангелы традиционно считались безликими, поскольку у них нет
-                  характера. Они получают это только тогда, когда принадлежат
-                  тому, кого призваны защищать
-                </li>
-                <li className={css.descriptionText}>
-                  Настоящий защитный льняной ангел-хранитель в традиции
-                  изготовления кукол мотанка.
-                </li>
-              </ul>
-              <button type="button" className={css.descriptionBtn}>
-                Докладніше
-              </button>
-            </div>
-          </div>
-
-          <div className={css.productDetails}>
-            <div className={css.orderInfo}>
-              <p className={css.publicDate}>Опубліковано 22 вересня 2024 р.</p>
-              <h1 className={css.cartTitle}>
-                Картина &#x201C;Залежний від сонця&#x201D; 50.8 &#x78; 60.9 см
-              </h1>
-              <p className={css.price}>1599 грн.</p>
-              <button type="button" className={css.deliveryBtn}>
-                Замовити з доставкою
-              </button>
-              <button
-                type="button"
-                onClick={openModal}
-                className={css.basketBtn}
+      {product && (
+        <section className={css.section}>
+          <ul className={css.pathList}>
+            <li className={css.pathItem}>
+              <NavLink
+                className={getActiveClass}
+                to={`/categories/${categoryId}`}
               >
-                Додати до кошика
-              </button>
-            </div>
+                {category?.title}/&nbsp;
+              </NavLink>
+            </li>
+            <li className={css.pathItem}>
+              <NavLink className={getActiveClass} to={`/cards/${cardId}`}>
+                {product?.title}
+              </NavLink>
+            </li>
+          </ul>
 
-            <div className={css.sellerInfo}>
-              <img
-                className={css.avatar}
-                src={details[3].img}
-                width="80"
-                height="80"
-                alt="Seller avatar"
-              />
+          <div className={css.container}>
+            <div className={css.galleryContainer}>
+              <ProductIdGallery product={product} />
 
-              <div>
-                <div className={css.seller}>
-                  <p className={css.sellerName}>Марія Іванівна</p>
-
-                  <div className={css.reviewsBox}>
-                    {stars.map((star) => (
-                      <ul key={star.id} className={css.starsList}>
-                        <li className={css.star}>
-                          <FaStar className={css.iconStar} />
-                        </li>
-                      </ul>
-                    ))}
-                    <p className={css.reviews}>(123 відгуки)</p>
-                  </div>
-
-                  <p className={css.startStore}>
-                    на Tvorcha Lavka з вересня 2023 р.
-                  </p>
-                  <p className={css.sellerOnline}>Онлайн в 14.33</p>
-                </div>
-
-                <div className={css.startChat}>
-                  <button type="button" className={css.chatBtn}>
-                    Зв&#x2019;язатись з продавцем
-                  </button>
-                  <span className={css.pencilIcon}>
-                    <HiOutlinePencilAlt />
-                  </span>
-                </div>
+              <div className={css.description}>
+                <h2 className={css.descriptionTitle}>Характеристики та опис</h2>
+                <ul className={css.descriptionMenu}>
+                  <li className={css.descriptionText}>
+                    <p>{product.description}</p>
+                  </li>
+                </ul>
+                {/* <button type="button" className={css.descriptionBtn}>
+                  Докладніше
+                </button> */}
               </div>
             </div>
 
-            <div className={css.delivery}>
-              <h3 className={css.deliveryTitle}>Способи доставки</h3>
-              <ul className={css.deliveryList}>
-                <li className={css.deliveryItem}>
-                  <img
-                    className={css.novaPostLogo}
-                    src={`${media}/logo/nova_post.svg`}
-                    width="21"
-                    height="21"
-                    alt="NovaPost logotype"
-                  />
-                  <p className={css.deliveryPost}>Нова Пошта</p>
-                </li>
-                <li className={css.deliveryItem}>
-                  <img
-                    className={css.ukrPostLogo}
-                    src={`${media}/logo/ukr_post.svg`}
-                    width="21"
-                    height="21"
-                    alt="UkrPost logotype"
-                  />
-                  <p className={css.deliveryPost}>Укр Пошта</p>
-                </li>
-              </ul>
-            </div>
+            <div className={css.productDetails}>
+              <div className={css.orderInfo}>
+                <p className={css.publicDate}>
+                  Опубліковано&nbsp;{product.date_published}
+                </p>
+                <h1 className={css.cartTitle}>{product.title}</h1>
+                <p className={css.price}>{product.price}&nbsp;грн.</p>
+                <button type="button" className={css.deliveryBtn}>
+                  Замовити з доставкою
+                </button>
+                <button
+                  type="button"
+                  onClick={openModal}
+                  className={css.basketBtn}
+                >
+                  Додати до кошика
+                </button>
+              </div>
 
-            <div className={css.paymentInfo}>
-              <h3 className={css.paymentTitle}>Оплата та гарантії</h3>
-              <div className={css.payment}>
+              <div className={css.sellerInfo}>
                 <img
-                  className={css.liqpayLogo}
-                  src={`${media}/logo/logo_liqpay.svg`}
-                  width="71"
-                  height="22"
-                  alt="Liqpay logotype"
+                  className={css.avatar}
+                  src={`${media}/page/404/not-found.png`}
+                  width="80"
+                  height="80"
+                  alt={product.owner.username}
                 />
-                <ol className={css.paymentList}>
-                  <li className={css.paymentItem}>
-                    <p className={css.paymentText}>Безпечна оплата карткою</p>
-                  </li>
-                  <li className={css.paymentItem}>
-                    <p className={css.paymentText}>
-                      Без передоплати - Tvorcha Lavka гарантує безпеку
+
+                <div>
+                  <div className={css.seller}>
+                    <p className={css.sellerName}>{product.owner.username}</p>
+
+                    <div className={css.reviewsBox}>
+                      {stars.map((star) => (
+                        <ul key={star.id} className={css.starsList}>
+                          <li className={css.star}>
+                            <span className={css.iconStar}>{star.image}</span>
+                          </li>
+                        </ul>
+                      ))}
+                      <p className={css.reviews}>(0 відгуків)</p>
+                    </div>
+
+                    <p className={css.startStore}>
+                      на Tvorcha Lavka з&nbsp;
+                      {formatDate(product.owner.date_joined)}
                     </p>
-                  </li>
-                  <li className={css.paymentItem}>
-                    <p className={css.paymentText}>
-                      Повернемо гроші при відмові від посилки
+                    <p className={css.sellerOnline}>
+                      Онлайн в&nbsp;{formatDate(product.owner.last_active)}
                     </p>
+                  </div>
+
+                  <div className={css.startChat}>
+                    <button type="button" className={css.chatBtn}>
+                      Зв&#x2019;язатись з продавцем
+                    </button>
+                    <span className={css.pencilIcon}>
+                      <HiOutlinePencilAlt />
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className={css.delivery}>
+                <h3 className={css.deliveryTitle}>Способи доставки</h3>
+                <ul className={css.deliveryList}>
+                  <li className={css.deliveryItem}>
+                    <img
+                      className={css.novaPostLogo}
+                      src={`${media}/logo/nova_post.svg`}
+                      width="21"
+                      height="21"
+                      alt="NovaPost logotype"
+                    />
+                    <p className={css.deliveryPost}>Нова Пошта</p>
                   </li>
-                </ol>
+                  <li className={css.deliveryItem}>
+                    <img
+                      className={css.ukrPostLogo}
+                      src={`${media}/logo/ukr_post.svg`}
+                      width="21"
+                      height="21"
+                      alt="UkrPost logotype"
+                    />
+                    <p className={css.deliveryPost}>Укр Пошта</p>
+                  </li>
+                </ul>
+              </div>
+
+              <div className={css.paymentInfo}>
+                <h3 className={css.paymentTitle}>Оплата та гарантії</h3>
+                <div className={css.payment}>
+                  <img
+                    className={css.liqpayLogo}
+                    src={`${media}/logo/logo_liqpay.svg`}
+                    width="71"
+                    height="22"
+                    alt="Liqpay logotype"
+                  />
+                  <ol className={css.paymentList}>
+                    <li className={css.paymentItem}>
+                      <p className={css.paymentText}>Безпечна оплата карткою</p>
+                    </li>
+                    <li className={css.paymentItem}>
+                      <p className={css.paymentText}>
+                        Без передоплати - Tvorcha Lavka гарантує безпеку
+                      </p>
+                    </li>
+                    <li className={css.paymentItem}>
+                      <p className={css.paymentText}>
+                        Повернемо гроші при відмові від посилки
+                      </p>
+                    </li>
+                  </ol>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
 
-      <RecommendedCards />
+          <RecommendedCards />
+        </section>
+      )}
 
       {isModalOpen && (
         <div className={css.modalBackdrop}>
           <div className={css.modalContent} ref={modalRef}>
-            <BasketModal />
+            <BasketModal product={product} />
             <button
               className={css.crossBtn}
               onClick={closeModal}

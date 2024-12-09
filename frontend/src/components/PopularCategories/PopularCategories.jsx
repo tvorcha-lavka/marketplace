@@ -1,16 +1,18 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+
 import { selectPopCategories } from '../../redux/categories/categoriesSelectors';
 import { getPopCategories } from '../../redux/categories/categoriesOperations';
 import { positionTitle, cardOrientation } from '../../utils/positionTitle';
+
 import css from './PopularCategories.module.css';
 
 export default function PopularCategories() {
   const dispatch = useDispatch();
   const popCategories = useSelector(selectPopCategories);
   const fivePopCategories = popCategories.slice(0, 5);
-  // console.log(fivePopCategories);
+
   let verticalCounter = 0;
 
   useEffect(() => {
