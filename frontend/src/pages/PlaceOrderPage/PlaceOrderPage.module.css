@@ -28,3 +28,9 @@
   grid-template-columns: 694px 490px;
   gap: 16px;
 }
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}

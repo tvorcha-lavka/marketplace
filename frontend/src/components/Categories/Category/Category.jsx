@@ -12,6 +12,7 @@ import {
   selectIsLoading,
 } from '../../../redux/categories/categoriesSelectors';
 import css from './Category.module.css';
+import SelectedFilters from '../SelectedFilters/SelectedFilters';
 
 export default function Category() {
   const { categoryId } = useParams();
@@ -44,37 +45,21 @@ export default function Category() {
       </div>
 
       <h2 className={css.category_title}> {title}</h2>
-      {/* <ul className={css.category_list}>
-        {
-          children?.length > 0 &&
-            children.map((item, id) => (
-              <li key={id} className={css.category_item}>
-                <img
-                  src={item.image ? `${item.image}` : photoAlternate}
-                  alt={item.title}
-                  className={css.item_img}
-                />
-                <p className={css.child_title}>
-                  {item.title}
-                  <span className={css.child_title_color}>({item.lft})</span>
-                </p>
-              </li>
-            ))
-        }
-      </ul> */}
+
       <CategorySlider category={category} />
 
       <div className={css.wrapper}>
         <div className={css.filter}>
-          <FilterBar id={categoryId} />
+          <FilterBar categoryId={categoryId} />
         </div>
         <section className={css.product_view_sort}>
-          <div className={css.sort_filter}>
-            <Sort />
+          <SelectedFilters />
+          <Sort />
+          <ProductList />
+          {/* <div className={css.sort_filter}>
           </div>
           <div className={css.main_product}>
-            <ProductList />
-          </div>
+          </div> */}
         </section>
       </div>
     </div>

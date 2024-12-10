@@ -10,20 +10,29 @@ import {
 } from '../../../redux/filters/filtersSelector';
 import { toggleFilter } from '../../../redux/filters/filtersSlice';
 
-export default function FilterBar({ id }) {
+export default function FilterBar({ categoryId }) {
   const filters = useSelector(selectFiltersCategory);
   const activeFilters = useSelector(selectActiveFilters);
-  console.log(filters);
   const dispatch = useDispatch();
-  const [openFilters, setOpenFilters] = useState(() =>
-    filters.reduce((acc, filter) => {
-      acc[filter.id] = true;
-      return acc[filter.id];
-    }, {})
-  );
+  const [openFilters, setOpenFilters] = useState({});
+
   useEffect(() => {
-    dispatch(getFiltersCategory(id));
-  }, [dispatch]);
+    if (categoryId) {
+      dispatch(getFiltersCategory(categoryId));
+    }
+  }, [dispatch, categoryId]);
+
+  useEffect(() => {
+    if (filters.length > 0) {
+      setOpenFilters((prev) => {
+        const newFilters = filters.reduce((acc, filter) => {
+          acc[filter.id] = prev[filter.id] ?? true;
+          return acc;
+        }, {});
+        return newFilters;
+      });
+    }
+  }, [filters]);
 
   const toggleFilterOpen = (filterId) => {
     setOpenFilters((prev) => ({
@@ -32,9 +41,10 @@ export default function FilterBar({ id }) {
     }));
   };
 
-  const handleToggle = (filterId, value) => {
-    dispatch(toggleFilter({ filterId, value }));
+  const handleToggleFilter = (filterId, value) => {
+    dispatch(toggleFilter({ id: filterId, value }));
   };
+
   return (
     <form className={css.filters} onSubmit={(e) => e.preventDefault()}>
       {filters?.map((filter) => (
@@ -60,8 +70,10 @@ export default function FilterBar({ id }) {
                     className={css.input}
                     type="checkbox"
                     value={option.value}
-                    checked={activeFilters[filter.id]?.includes(option.value)}
-                    onChange={() => handleToggle(filter.id, option.value)}
+                    checked={
+                      activeFilters[filter.id]?.includes(option.value) ?? false
+                    }
+                    onChange={() => handleToggleFilter(filter.id, option.value)}
                   />
                   {option.value}
                 </label>

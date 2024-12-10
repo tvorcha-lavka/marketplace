@@ -1,9 +1,13 @@
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { BsShieldFillExclamation, BsChevronDoubleRight } from 'react-icons/bs';
 import css from './SummaryCart.module.css';
-import { Link, useNavigate } from 'react-router-dom';
 
 export default function SummaryBlock() {
+  const location = useLocation();
   const navigate = useNavigate();
+
+  const isOrderPage = location.pathname === '/order';
+
   const transferOrder = () => {
     navigate('/order');
   };
@@ -33,9 +37,16 @@ export default function SummaryBlock() {
           </div>
         </div>
         <button className={css.btn_order} onClick={transferOrder}>
-          Оформити замовлення
+          Перейти до оформлення
         </button>
-        <button className={css.btn}>Продовжити покупки</button>
+        {isOrderPage ? (
+          <p className={css.coordination}>
+            Натискаючи “Оформити замовлення” я погоджуюсь <br /> з Публічним
+            договором (офертою) і обробкою персональних даних{' '}
+          </p>
+        ) : (
+          <button className={css.btn}>Продовжити покупки</button>
+        )}
       </div>
       <div className={css.infobox}>
         <BsShieldFillExclamation size={24} />

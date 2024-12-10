@@ -22,42 +22,45 @@ const filterSlice = createSlice({
   },
   reducers: {
     toggleFilter: (state, action) => {
-      const { filterId, value } = action.payload;
+      const { id, value } = action.payload;
 
       // Отримуємо поточний стан фільтра
-      const currentFilterValues = state.activeFilters[filterId] || [];
+      const currentFilterValues = state.activeFilters[id] || [];
 
       // Оновлюємо список активних значень
       const newFilterValues = currentFilterValues.includes(value)
         ? currentFilterValues.filter((v) => v !== value)
         : [...currentFilterValues, value];
 
-      state.activeFilters[filterId] = newFilterValues;
+      state.activeFilters[id] = newFilterValues;
 
       // Оновлюємо список активних фільтрів для відображення
       state.selectedFilters = Object.entries(state.activeFilters).flatMap(
         ([id, values]) =>
           values.map((val) => ({
-            filterId: Number(id),
+            id: id,
             value: val,
           }))
       );
     },
-    removeFilter: (state, action) => {
-      const { filterId, value } = action.payload;
+    removeActiveFilters: (state, action) => {
+      const { id, value } = action.payload;
 
       // Видаляємо значення з активних фільтрів
-      state.activeFilters[filterId] = state.activeFilters[filterId]?.filter(
-        (v) => v !== value
-      );
+      if (Array.isArray(state.activeFilters[id])) {
+        state.activeFilters[id] = state.activeFilters[id].filter(
+          (v) => v !== value
+        );
+      }
 
-      if (state.activeFilters[filterId]?.length === 0) {
-        delete state.activeFilters[filterId];
+      // Видаляємо ключ з об'єкта
+      if (state.activeFilters[id]?.length === 0) {
+        delete state.activeFilters[id];
       }
 
       // Оновлюємо список вибраних фільтрів
       state.selectedFilters = state.selectedFilters.filter(
-        (f) => !(f.filterId === filterId && f.value === value)
+        (f) => !(String(f.id) === String(id) && f.value === value)
       );
     },
     clearAllFilters: (state) => {
@@ -76,6 +79,11 @@ const filterSlice = createSlice({
   },
 });
 
-export const { toggleFilter, removeFilter, clearAllFilters } =
-  filterSlice.actions;
+export const {
+  setFilters,
+  toggleFilter,
+  toggleFilterVisibility,
+  removeActiveFilters,
+  clearAllFilters,
+} = filterSlice.actions;
 export const filtersReducer = filterSlice.reducer;

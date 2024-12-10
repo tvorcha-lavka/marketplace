@@ -6,7 +6,7 @@ import SelectedProducts from '../../components/Cart/SelectedProducts/SelectedPro
 import SummaryCart from '../../components/Cart/SummaryCart/SummaryCart';
 import css from './PlaceOrderPage.module.css';
 
-export default function PlaceAnOrder() {
+export default function PlaceOrder() {
   const activeClass = ({ isActive }) =>
     isActive ? `${css.active}` : `${css.navLink}`;
 
@@ -24,12 +24,12 @@ export default function PlaceAnOrder() {
         </NavLink>
       </div>
       <div className={css.orderbox}>
-        <div>
+        <div className={css.wrapper}>
           <CustomerData />
           <MethodDelivery />
           <MethodPayment />
         </div>
-        <div className={css.cartbox}>
+        <div className={css.wrapper}>
           <SelectedProducts />
           <SummaryCart />
         </div>

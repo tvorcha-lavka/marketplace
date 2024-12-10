@@ -41,6 +41,10 @@ hr {
   color: #b1b1b1;
 }
 
+.coordination {
+  font-size: 12px;
+}
+
 .btn,
 .btn_order {
   padding: 10px;

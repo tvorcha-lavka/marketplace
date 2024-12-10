@@ -17,10 +17,16 @@ import HeaderCart from '../HeaderCart/HeaderCart';
 export default function SharedLayout() {
   const location = useLocation();
   const isCartPage = location.pathname === '/cart';
+  const isOrderPage = location.pathname === '/order';
+  const isConfirmationPage = location.pathname === '/confirmation';
 
   return (
     <div>
-      {isCartPage ? <HeaderCart /> : <Header />}
+      {isCartPage || isOrderPage || isConfirmationPage ? (
+        <HeaderCart />
+      ) : (
+        <Header />
+      )}
       <Suspense fallback={null}>
         <Outlet />
       </Suspense>
