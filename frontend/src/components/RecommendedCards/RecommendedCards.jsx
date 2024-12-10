@@ -1,36 +1,47 @@
-import { useState } from 'react';
-
+import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { IoIosArrowBack } from 'react-icons/io';
 import { IoIosArrowForward } from 'react-icons/io';
 
 import CardCollection from '../CardCollection/CardCollection';
 
-import { adverts } from '../AdvertList/adverts';
+import { getProducts } from '../../redux/products/operations';
+import { selectProducts } from '../../redux/products/selectors';
 
 import css from './RecommendedCards.module.css';
 
 export default function RecommendedCards() {
   const [currentIndex, setCurrentIndex] = useState(0);
-	const [activeCardId, setActiveCardId] = useState(null);
+  const [activeCardId, setActiveCardId] = useState(null);
 
   const itemsPerSlide = 4;
 
+  const dispatch = useDispatch();
+  const allProducts = useSelector(selectProducts);
+
+  useEffect(
+    (e) => {
+      dispatch(getProducts());
+    },
+    [dispatch]
+  );
+
   const nextSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % adverts.length);
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % allProducts.length);
   };
 
   const prevSlide = () => {
     setCurrentIndex(
-      (prevIndex) => (prevIndex - 1 + adverts.length) % adverts.length
+      (prevIndex) => (prevIndex - 1 + allProducts.length) % allProducts.length
     );
   };
 
-  const cards = adverts
+  const cards = allProducts
     .slice(currentIndex, currentIndex + itemsPerSlide)
     .concat(
-      adverts.slice(
+      allProducts.slice(
         0,
-        Math.max(0, currentIndex + itemsPerSlide - adverts.length)
+        Math.max(0, currentIndex + itemsPerSlide - allProducts.length)
       )
     );
 
@@ -43,32 +54,36 @@ export default function RecommendedCards() {
   };
 
   return (
-    <section className={css.section}>
-      <h2 className={css.title}>Вам також може сподобатись:</h2>
-      <div className={css.slider}>
-        <button className={css.prevBtn} onClick={prevSlide}>
-          <IoIosArrowBack className={css.arrowIcon} />
-        </button>
+    <>
+      {allProducts.length > 0 && (
+        <div>
+          <h2 className={css.title}>Вам також може сподобатись:</h2>
+          <div className={css.slider}>
+            <button className={css.prevBtn} onClick={prevSlide}>
+              <IoIosArrowBack className={css.arrowIcon} />
+            </button>
 
-        <ul className={css.card}>
-          {cards.map((item) => (
-            <li
-              className={`${css.container} ${
-                activeCardId === item.id ? css.active : ''
-              }`}
-              onClick={() => handleCardClick(item.id)}
-              onBlur={handleCardBlur}
-              key={item.id}
-            >
-              <CardCollection item={item} />
-            </li>
-          ))}
-        </ul>
+            <ul className={css.card}>
+              {cards.map((item) => (
+                <li
+                  className={`${css.container} ${
+                    activeCardId === item.id ? css.active : ''
+                  }`}
+                  onClick={() => handleCardClick(item.id)}
+                  onBlur={handleCardBlur}
+                  key={item.id}
+                >
+                  <CardCollection item={item} />
+                </li>
+              ))}
+            </ul>
 
-        <button className={css.nextBtn} onClick={nextSlide}>
-          <IoIosArrowForward className={css.arrowIcon} />
-        </button>
-      </div>
-    </section>
+            <button className={css.nextBtn} onClick={nextSlide}>
+              <IoIosArrowForward className={css.arrowIcon} />
+            </button>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
