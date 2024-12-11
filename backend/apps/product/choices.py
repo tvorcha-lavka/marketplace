@@ -20,4 +20,4 @@ class ProductOrdering(models.TextChoices):
     CHEAP_TO_EXPENSIVE = "cheap-to-expensive", _("From cheap to expensive")
     EXPENSIVE_TO_CHEAP = "expensive-to-cheap", _("From expensive to cheap")
     NEW_ITEMS = "new-items", _("New items")
-    # TODO: SELLER_RATING = "seller-rating", _("By seller rating")
+    SELLER_RATING = "seller-rating", _("By seller rating")

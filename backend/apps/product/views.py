@@ -1,3 +1,6 @@
+from decimal import Decimal
+
+from django.db.models.functions import Coalesce
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from drf_spectacular.utils import extend_schema
@@ -28,7 +31,8 @@ class ProductPublicViewSet(ReadOnlyModelViewSet):
     def get_queryset(self):
         return (
             Product.objects.filter(active=True)
-            .order_by("-date_published")  # TODO: order_by("-owner__rating")
+            .annotate(seller_rating=Coalesce("owner__reviews__avg_rating", Decimal(0.0)))
+            .order_by("-seller_rating", "-date_published")
             .prefetch_related("images")
             .select_related("owner")
         )
