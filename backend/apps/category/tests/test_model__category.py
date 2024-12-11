@@ -59,8 +59,8 @@ class TestModelCategory:
 
         else:  # Check that property returns default data
             assert isinstance(image_instance, CategoryImage)
-            assert image_instance.image.name == "category/default/category.jpg"
-            assert image_instance.alt == _("Default category image")
+            assert image_instance.image.name == "defaults/no-image.jpg"
+            assert image_instance.alt == _("No image")
 
     @pytest.mark.parametrize("card_attr", (True, False))
     def test_category_card(self, mocker, card_attr):
