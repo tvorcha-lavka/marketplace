@@ -13,7 +13,7 @@ from apps.product.validators import (
     validate_product_quantity,
     validate_title,
 )
-from core.settings.base import AUTH_USER_MODEL
+from apps.user.models import SellerProfile
 
 # TODO: Подумать как реализовать проверку количества изображений при первом создании,
 #  так как при первом создании всегда 0 изображений (изображения сохраняются только после
@@ -53,7 +53,7 @@ class Product(models.Model):
 
     objects = models.Manager()
     owner = models.ForeignKey(
-        to=AUTH_USER_MODEL,
+        to=SellerProfile,
         on_delete=models.CASCADE,
         db_index=True,
         related_name="products",
@@ -82,6 +82,23 @@ class Product(models.Model):
 
     def published_date_setter(self):
         self.date_published = timezone.now().date() if self.active else None
+
+    # def publish(self):
+    #     """Publish the item and reduce the seller's limit."""
+    #     self.active_setter()
+    #     self.published_date_setter()
+    #
+    #     if self.active and not self.is_vip:
+    #         cast(SellerProfile, self.owner).publish_free_product()
+    #
+    #     elif self.active and self.is_vip:
+    #         cast(SellerProfile, self.owner).publish_vip_product()
+
+    # def sell(self):
+    #     """Deletes the product if the quantity is 1 and increases the seller's sales limit."""
+    #     if self.active and self.quantity == 1:
+    #         cast(SellerProfile, self.owner).sell_free_product()
+    #         self.delete()
 
 
 class ProductImage(models.Model):
