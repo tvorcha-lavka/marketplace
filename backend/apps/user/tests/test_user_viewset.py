@@ -74,7 +74,7 @@ class TestUserViewSet:
     def test_retrieve_user(self, test_case: R_TestCase):
         client, user = self.get_testcase_client_and_user(test_case)
 
-        url = reverse("user-detail", kwargs={"user_id": user.id})
+        url = reverse("user-detail", kwargs={"pk": user.id})
         response = client.get(url)
 
         assert response.status_code == test_case.expected_status
@@ -86,7 +86,7 @@ class TestUserViewSet:
     def test_partial_update_user(self, test_case: P_TestCase):
         client, user = self.get_testcase_client_and_user(test_case)
 
-        url = reverse("user-detail", kwargs={"user_id": user.id})
+        url = reverse("user-detail", kwargs={"pk": user.id})
         data = self.partial_update_data
         response = client.patch(url, data=data)
 
@@ -100,7 +100,7 @@ class TestUserViewSet:
         client, user = self.get_testcase_client_and_user(test_case)
         users_count = self.initial_users_count()
 
-        url = reverse("user-detail", kwargs={"user_id": user.id})
+        url = reverse("user-detail", kwargs={"pk": user.id})
         response = client.delete(url)
 
         assert response.status_code == test_case.expected_status

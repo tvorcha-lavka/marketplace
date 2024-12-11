@@ -1,7 +1,8 @@
-import uuid6
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+
+from apps.utils.models import UUIDv7Model
 
 from .validators import validate_email, validate_name, validate_phone_number, validate_username
 
@@ -12,7 +13,7 @@ class CustomUserManager(UserManager):
         return super().create_superuser(username, email, password, **extra_fields)
 
 
-class User(AbstractUser):
+class User(UUIDv7Model, AbstractUser):
     class Meta:
         db_table = "user"
         verbose_name = _("User")
@@ -21,11 +22,12 @@ class User(AbstractUser):
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username"]
 
-    id = models.UUIDField(primary_key=True, default=uuid6.uuid7, editable=False)  # noqa: VNE003
     email = models.EmailField(_("email"), unique=True, validators=[validate_email])
     username = models.CharField(_("username"), max_length=150, validators=[validate_username])
+
     first_name = models.CharField(_("first name"), max_length=150, blank=True, validators=[validate_name])
     last_name = models.CharField(_("last name"), max_length=150, blank=True, validators=[validate_name])
+
     phone_number = models.CharField(
         _("phone number"),
         max_length=20,
@@ -33,6 +35,8 @@ class User(AbstractUser):
         null=True,
         validators=[validate_phone_number],
     )
+
+    language = models.CharField(_("language"), max_length=2, null=True, blank=True)
     is_email_verified = models.BooleanField(_("is email verified"), default=False)
     # TODO: rating = models.DecimalField(_("rating"), max_digits=3, decimal_places=2, default=0.0)
 

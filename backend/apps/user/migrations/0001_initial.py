@@ -96,6 +96,7 @@ class Migration(migrations.Migration):
                         verbose_name="phone number",
                     ),
                 ),
+                ("language", models.CharField(blank=True, max_length=2, null=True, verbose_name="language")),
                 ("is_email_verified", models.BooleanField(default=False, verbose_name="is email verified")),
                 (
                     "groups",
