@@ -2,6 +2,7 @@ from io import BytesIO
 from typing import Literal
 
 from django.core.files.base import ContentFile
+from django.utils.text import slugify
 from PIL import Image, ImageOps
 
 
@@ -32,7 +33,7 @@ def compress_image_to_jpeg(image: Image, quality: int = 60) -> ContentFile:
 
     # Return a JPEG image with a new extension
     base_name = image.name.rsplit(".", 1)[0]
-    new_filename = base_name + ".jpg"
+    new_filename = slugify(base_name) + ".jpg"
 
     return ContentFile(output.read(), new_filename)
 
@@ -73,11 +74,11 @@ def resize_image(image: bytes, image_name: str, max_width: int, max_height: int)
     img.thumbnail((max_width, max_height), Image.Resampling.LANCZOS)
 
     # Save the result to memory
-    img.save(output, format="JPEG", quality=90)
+    img.save(output, format="JPEG", quality=60)
     output.seek(0)
 
     # Create a new file name
     base_name = image_name.rsplit(".", 1)[0]
-    new_filename = base_name + ".jpg"
+    new_filename = slugify(base_name) + ".jpg"
 
     return ContentFile(output.read(), new_filename)
