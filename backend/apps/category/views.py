@@ -32,9 +32,11 @@ class CategoryReadOnlyViewSet(ReadOnlyModelViewSet):
             .prefetch_related("translations")
         )
 
-    # TODO: Make a cache for all & popular categories
+    @method_decorator(cache_page(3600, key_prefix="category-list"))  # server-side cache for 1 hour
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
 
-    @method_decorator(cache_page(3600))  # server-side cache for 1 hour
+    @method_decorator(cache_page(3600, key_prefix="category-detail"))  # server-side cache for 1 hour
     def retrieve(self, request, *args, **kwargs):
         return super().retrieve(request, *args, **kwargs)
 

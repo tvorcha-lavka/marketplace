@@ -1,3 +1,6 @@
+from decimal import Decimal
+
+from django.db.models.functions import Coalesce
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from drf_spectacular.utils import extend_schema
@@ -28,7 +31,8 @@ class ProductPublicViewSet(ReadOnlyModelViewSet):
     def get_queryset(self):
         return (
             Product.objects.filter(active=True)
-            .order_by("-date_published")  # TODO: order_by("-owner__rating")
+            .annotate(seller_rating=Coalesce("owner__reviews__avg_rating", Decimal(0.0)))
+            .order_by("-seller_rating", "-date_published")
             .prefetch_related("images")
             .select_related("owner")
         )
@@ -67,7 +71,7 @@ class ProductPrivateViewSet(ModelViewSet):
 
     def get_queryset(self):
         return (
-            Product.objects.filter(owner=self.request.user)
+            Product.objects.filter(owner_id=self.request.user.pk)
             .prefetch_related("images")
             .select_related("owner")
             .order_by("-draft")
@@ -81,7 +85,7 @@ class ProductPrivateViewSet(ModelViewSet):
         images = serializer.validated_data.pop("images", [])
         filters = serializer.validated_data.pop("filters", [])
 
-        product = serializer.save(owner=self.request.user)
+        product = serializer.save(owner_id=self.request.user.pk)
 
         for index, image in enumerate(images, start=1):
             instance = ProductImage(product=product, priority=index)

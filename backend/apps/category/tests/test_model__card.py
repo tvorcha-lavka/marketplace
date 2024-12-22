@@ -32,5 +32,5 @@ class TestModelCard:
 
         else:  # Check that property returns default data
             assert isinstance(image_instance, CardImage)
-            assert image_instance.image.name == "category/default/card.png"
+            assert image_instance.image.name == "logo/logo_white.svg"
             assert image_instance.alt == _("Default card image")
