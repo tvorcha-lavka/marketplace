@@ -10,10 +10,10 @@ export const getAllCategories = createAsyncThunk(
       const res = await axios.get(`${baseApiUrl}/categories/?lang=uk`);
 
       const tree = res.data;
-      console.log(tree);
+      // console.log(tree);
       const categoryTrees = buildCategoryTree(tree);
       const categories = categoryTrees[0].children;
-      console.log(categories);
+      // console.log(categories);
       return categories;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -29,7 +29,7 @@ export const getCatalog = createAsyncThunk(
       const tree = res.data;
       const categoryTrees = buildCategoryTree(tree);
       const catalog = categoryTrees[0].children;
-      console.log(catalog);
+      // console.log(catalog);
       return catalog;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);

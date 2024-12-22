@@ -45,23 +45,6 @@ hr {
   font-size: 12px;
 }
 
-.btn,
-.btn_order {
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #000;
-  background-color: #fff;
-  color: #000;
-  font-size: 16px;
-  font-weight: 600;
-  outline: none;
-}
-
-.btn_order {
-  border: 1px solid #fcbc5a;
-  background-color: #fcbc5a;
-}
-
 .infobox {
   display: flex;
   align-items: start;

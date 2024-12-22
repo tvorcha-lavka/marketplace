@@ -1,5 +1,6 @@
+import { Link } from 'react-router-dom';
 import { LiaEditSolid } from 'react-icons/lia';
-import image1 from '../../../images/img1.jpg';
+import { media } from '../../../utils/mediaConfig';
 import css from './SelectedProducts.module.css';
 
 export default function SelectedProducts() {
@@ -7,16 +8,20 @@ export default function SelectedProducts() {
     <section className={css.ordershopping_section}>
       <div className={css.goods_edit}>
         <p className={css.quantity_goods}>Ваш кошик (4 предмети)</p>
-        <div className={css.editbox}>
+        <Link to="/cart" className={css.editbox}>
           <p className={css.edit}>Редагувати</p>
           <LiaEditSolid size={16} />
-        </div>
+        </Link>
       </div>
       <div className={css.scrollbox}>
         <div className={css.scrollbox_inner}>
           <ul className={css.cart_list}>
             <li className={css.cart_item}>
-              <img className={css.item_img} src={image1} alt="Item 1" />
+              <img
+                className={css.item_img}
+                src={`${media}/page/404/not-found.png`}
+                alt="Item 1"
+              />
               <div className={css.item_details}>
                 <h3 className={css.item_title}>
                   Українська традиційна вишиванка жінoча Львівська
@@ -30,7 +35,11 @@ export default function SelectedProducts() {
               <p className={css.item_price}>599&nbsp;грн</p>
             </li>
             <li className={css.cart_item}>
-              <img className={css.item_img} src={image1} alt="Item 1" />
+              <img
+                className={css.item_img}
+                src={`${media}/page/404/not-found.png`}
+                alt="Item 1"
+              />
               <div className={css.item_details}>
                 <h3 className={css.item_title}>
                   Українська традиційна вишиванка жінoча Львівська

@@ -8,7 +8,7 @@ import {
 
 const handlePending = (state) => {
   state.isLoading = true;
-  state.error = null;
+  state.error = false;
 };
 
 const handleRejected = (state, action) => {
