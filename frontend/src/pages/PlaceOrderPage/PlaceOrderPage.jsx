@@ -1,17 +1,23 @@
 import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import CustomerData from '../../components/Cart/CustomerData/CustomerData';
 import MethodDelivery from '../../components/Cart/MethodDelivery/MethodDelivery';
 import MethodPayment from '../../components/Cart/MethodPayment/MethodPayment';
 import SelectedProducts from '../../components/Cart/SelectedProducts/SelectedProducts';
 import SummaryCart from '../../components/Cart/SummaryCart/SummaryCart';
 import { selectCartStep } from '../../redux/cart/cartSelector';
+import { setDeliveryFee } from '../../redux/cart/cartSlice';
 import css from './PlaceOrderPage.module.css';
 
 export default function PlaceOrder() {
   const step = useSelector(selectCartStep);
+  const dispatch = useDispatch();
   const activeClass = ({ isActive }) =>
     isActive ? `${css.active}` : `${css.navLink}`;
+
+  const onDeliveryChange = (fee) => {
+    dispatch(setDeliveryFee(fee)); // Оновлюємо суму доставки в Redux
+  };
 
   return (
     <div className={css.order_container}>
@@ -33,7 +39,9 @@ export default function PlaceOrder() {
           </div>
           <div className={css.deliverybox}>
             <h2 className={css.title}>2. Спосіб доставки</h2>
-            {(step === 2 || step === 3) && <MethodDelivery />}
+            {(step === 2 || step === 3) && (
+              <MethodDelivery onDeliveryChange={onDeliveryChange} />
+            )}
           </div>
           <div className={css.paymentbox}>
             <h2 className={css.title}>3. Спосіб оплати</h2>

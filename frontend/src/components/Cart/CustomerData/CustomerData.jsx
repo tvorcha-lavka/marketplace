@@ -31,6 +31,12 @@ export default function CustomerData() {
     dispatch(updateCustomerData({ name, surname, phone, email }));
     dispatch(nextStep());
   };
+  const resetData = () => {
+    setName('');
+    setSurname('');
+    setPhone('');
+    setEmail('');
+  };
 
   return (
     <section className={css.section}>
@@ -105,7 +111,10 @@ export default function CustomerData() {
             <button
               type="button"
               className={css.editbtn}
-              onClick={() => dispatch(previousStep())}
+              onClick={() => {
+                dispatch(previousStep());
+                resetData();
+              }}
             >
               <p className={css.edit}>Редагувати</p>
               <LiaEditSolid size={16} />

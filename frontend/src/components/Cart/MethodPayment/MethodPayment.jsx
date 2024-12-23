@@ -9,7 +9,7 @@ export default function MethodPayment() {
           id="ligpay"
           name="paymentData"
           value="ligpay"
-          // checked={payment.type === 'ligpay'}
+          // checked={paymentData.type === 'ligpay'}
           // onChange={() => handlePaymentTypeChange('ligpay')}
         />
         <label htmlFor="ligpay">
@@ -22,7 +22,7 @@ export default function MethodPayment() {
           id="imposed_payment"
           name="paymentData"
           value="imposed_payment"
-          // checked={payment.type === 'imposed_payment'}
+          // checked={paymentData.type === 'imposed_payment'}
           // onChange={() => handlePaymentTypeChange('imposed_payment')}
         />
         <label htmlFor="imposed_payment">Накладений платіж</label>

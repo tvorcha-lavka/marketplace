@@ -29,17 +29,7 @@ export default function CartPage() {
         </NavLink>
       </div>
       <div className={css.cartAndSummary}>
-        <div className={css.shoppingbox}>
-          <h3 className={css.title}>
-            Предмети у вашому кошику
-            <span className={css.span_title}>(4)</span>
-          </h3>
-          <div className={css.selectAll}>
-            <input type="checkbox" className={css.checkbox} />
-            <p className={css.select_text}>Виділити все</p>
-          </div>
-          <ShoppingCart />
-        </div>
+        <ShoppingCart />
         <SummaryCart
           totalOrderPrice={totalOrderPrice}
           handleCheckout={handleCheckout}

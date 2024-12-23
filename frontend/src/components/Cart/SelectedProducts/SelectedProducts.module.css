@@ -1,7 +1,7 @@
 .ordershopping_section {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 8px;
   height: 300px;
   padding: 24px;
   background-color: #fff;
@@ -99,6 +99,5 @@
   margin-inline: auto 18px;
   font-weight: bold;
   font-size: 14px;
-
   color: #000;
 }

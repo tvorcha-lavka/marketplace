@@ -1,15 +1,36 @@
+import { useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { BsShieldFillExclamation, BsChevronDoubleRight } from 'react-icons/bs';
 import CustomButton from '../../CustomButton/CustomButton';
 import css from './SummaryCart.module.css';
 
-const DELIVERY_FEE = 120;
-
-export default function SummaryCart({ totalOrderPrice, handleCheckout }) {
+export default function SummaryCart({ handleCheckout }) {
+  const totalOrderPrice = useSelector((state) => state.cart.totalPayment);
+  const { deliveryData = {} } = useSelector((state) => state.cart);
   const location = useLocation();
   const navigate = useNavigate();
 
   const isOrderPage = location.pathname === '/order';
+
+  const getDeliveryPrice = (deliveryData) => {
+    if (!deliveryData) return 0;
+
+    return Object.values(deliveryData).reduce((total, sellerData) => {
+      switch (sellerData?.type) {
+        case 'nova-poshta':
+        case 'post_box':
+          return total + 120;
+        case 'courier':
+          return total + 135;
+        case 'ukrposhta':
+          return total + 80;
+        default:
+          return total;
+      }
+    }, 0);
+  };
+
+  const deliveryPrice = getDeliveryPrice(deliveryData);
 
   const transferOrder = () => {
     handleCheckout();
@@ -20,8 +41,12 @@ export default function SummaryCart({ totalOrderPrice, handleCheckout }) {
     navigate('/categories');
   };
 
+  const finalTransfer = () => {
+    navigate('/confirmation');
+  };
+
   return (
-    <div className={css.summary_block}>
+    <section className={css.summary_section}>
       <div className={css.summarybox}>
         <div className={css.price_summary}>
           <p className={css.text_up}>
@@ -33,9 +58,7 @@ export default function SummaryCart({ totalOrderPrice, handleCheckout }) {
           </div>
           <div className={css.wrapper}>
             <p className={css.text}>Доставка</p>
-            <p className={css.text}>
-              {totalOrderPrice > 0 ? `від ${DELIVERY_FEE} грн` : '0 грн'}
-            </p>
+            <p className={css.text}>{deliveryPrice} грн</p>
           </div>
           <hr />
           <div className={css.wrapper}>
@@ -43,19 +66,31 @@ export default function SummaryCart({ totalOrderPrice, handleCheckout }) {
               <b>До сплати</b>
             </p>
             <p className={css.text}>
-              <b>{totalOrderPrice} грн</b>
+              <b>{totalOrderPrice + deliveryPrice} грн</b>
             </p>
           </div>
         </div>
-        <CustomButton
-          className={css.btn_order}
-          size="large"
-          type="button"
-          onClick={transferOrder}
-          disabled={!totalOrderPrice}
-        >
-          Перейти до оформлення
-        </CustomButton>
+        {isOrderPage ? (
+          <CustomButton
+            className={css.btn_order}
+            size="large"
+            type="button"
+            onClick={finalTransfer}
+            disabled={!totalOrderPrice}
+          >
+            Перейти до оформлення
+          </CustomButton>
+        ) : (
+          <CustomButton
+            className={css.btn_order}
+            size="large"
+            type="button"
+            onClick={transferOrder}
+            disabled={!totalOrderPrice}
+          >
+            Перейти до оформлення
+          </CustomButton>
+        )}
 
         {isOrderPage ? (
           <p className={css.coordination}>
@@ -68,6 +103,7 @@ export default function SummaryCart({ totalOrderPrice, handleCheckout }) {
             size="large"
             type="button"
             onClick={transferShopping}
+            disabled={!totalOrderPrice}
             variant="another"
           >
             Продовжити покупки
@@ -99,6 +135,6 @@ export default function SummaryCart({ totalOrderPrice, handleCheckout }) {
           />
         </svg>
       </div>
-    </div>
+    </section>
   );
 }
