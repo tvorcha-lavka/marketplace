@@ -92,7 +92,7 @@ class ProductCrateSerializer(serializers.ModelSerializer):
 
             # Add image if file hash is unique
             if file_hash not in unique_hashes:
-                image._temp_hash = file_hash
+                image._file_hash = file_hash
                 unique_hashes.add(file_hash)
                 unique_images.append(image)
 
