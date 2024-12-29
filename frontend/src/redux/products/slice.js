@@ -24,7 +24,6 @@ const productSlice = createSlice({
       .addCase(getProducts.pending, handlePending)
       .addCase(getProducts.fulfilled, (state, action) => {
 				state.products = action.payload;
-				console.log('State products', state.products);
         state.loading = false;
         state.error = false;
       })
@@ -33,7 +32,6 @@ const productSlice = createSlice({
       .addCase(getProductsId.pending, handlePending)
       .addCase(getProductsId.fulfilled, (state, action) => {
 				state.productDetails = action.payload;
-				console.log('State productDetails', state.productDetails);
         state.loading = false;
         state.error = false;
       })

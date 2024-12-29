@@ -127,11 +127,11 @@
 .star {
   width: var(--icon-size);
   height: var(--icon-size);
-  color: var(--primary-yellow);
+  color: var(--grey-extra-light);
 }
 
 /* .star {
-  color: var(--grey-extra-light);
+  color: var(--primary-yellow);
 } */
 
 .reviews {

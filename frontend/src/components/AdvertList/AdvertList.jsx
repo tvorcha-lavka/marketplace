@@ -15,18 +15,20 @@ export default function AdvertList() {
   const allProducts = useSelector(selectProducts);
 
   useEffect(() => {
-    dispatch(getProducts({ vip_status: true }));
+    dispatch(getProducts({ is_vip: true }));
   }, [dispatch]);
 
   const handleCardBlur = () => {
     setActiveCardId(null);
   };
 
+  const vipProducts = allProducts.filter((item) => item.is_vip);
+
   return (
     <section className={css.container}>
       <h2 className={css.title}>VIP оголошення</h2>
       <ul className={css.list}>
-        {allProducts.map((item) => (
+        {vipProducts.map((item) => (
           <li
             className={`${css.item} ${activeCardId === item.id ? css.active : ''}`}
             onBlur={handleCardBlur}
