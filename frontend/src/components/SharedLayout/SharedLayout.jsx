@@ -6,7 +6,7 @@ import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import Loader from '../../formModalComponents/Loader/Loader';
 
-import { getAllCategories } from '../../redux/categories/categoriesOperations';
+import { getAllCategoriesWithPopular } from '../../redux/categories/categoriesOperations';
 
 import css from './SharedLayout.module.css';
 
@@ -14,7 +14,7 @@ export default function SharedLayout() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllCategories());
+    dispatch(getAllCategoriesWithPopular());
   }, [dispatch]);
 
   return (

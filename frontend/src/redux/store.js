@@ -23,11 +23,29 @@ const persistedAuthReducer = persistReducer(
   authReducer
 );
 
+const persistedCategoriesReducer = persistReducer(
+  {
+    key: 'categories',
+    storage,
+    whitelist: ['categoryById'],
+  },
+  categoriesReducer
+);
+
+const persistedProductsReducer = persistReducer(
+  {
+    key: 'product',
+    storage,
+    whitelist: ['products'],
+  },
+  productReducer
+);
+
 export const store = configureStore({
   reducer: {
     auth: persistedAuthReducer,
-    categories: categoriesReducer,
-    product: productReducer,
+    categories: persistedCategoriesReducer,
+    product: persistedProductsReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

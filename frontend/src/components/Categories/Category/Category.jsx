@@ -8,7 +8,10 @@ import ProductList from '../ProductList/ProductList';
 import Sort from '../Sort/Sort';
 
 import { getCategoryById } from '../../../redux/categories/categoriesOperations';
-import { selectCategoryById } from '../../../redux/categories/categoriesSelectors';
+import {
+  selectCategoryById,
+  selectIsLoading,
+} from '../../../redux/categories/categoriesSelectors';
 
 import css from './Category.module.css';
 
@@ -16,12 +19,13 @@ export default function Category() {
   const { categoryId } = useParams();
   const dispatch = useDispatch();
   const category = useSelector(selectCategoryById);
+  const isLoading = useSelector(selectIsLoading);
 
   useEffect(() => {
-    if (categoryId) {
+    if (categoryId && !isLoading) {
       dispatch(getCategoryById(categoryId));
     }
-  }, [categoryId, dispatch]);
+  }, [categoryId, dispatch, isLoading]);
 
   return (
     <div className={css.container}>

@@ -19,12 +19,11 @@ export default function RecommendedCards() {
   const dispatch = useDispatch();
   const allProducts = useSelector(selectProducts);
 
-  useEffect(
-    (e) => {
+  useEffect(() => {
+    if (!allProducts || allProducts.length === 0) {
       dispatch(getProducts());
-    },
-    [dispatch]
-  );
+    }
+  }, [dispatch, allProducts]);
 
   const nextSlide = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % allProducts.length);
@@ -55,7 +54,6 @@ export default function RecommendedCards() {
 
   return (
     <>
-      {allProducts.length > 0 && (
         <div>
           <h2 className={css.title}>Вам також може сподобатись:</h2>
           <div className={css.slider}>
@@ -83,7 +81,6 @@ export default function RecommendedCards() {
             </button>
           </div>
         </div>
-      )}
     </>
   );
 }

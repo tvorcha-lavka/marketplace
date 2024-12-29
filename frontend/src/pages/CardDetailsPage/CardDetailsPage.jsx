@@ -5,21 +5,18 @@ import { HiOutlinePencilAlt } from 'react-icons/hi';
 import { RxCross2 } from 'react-icons/rx';
 import { format, parseISO } from 'date-fns';
 import { uk } from 'date-fns/locale';
-import clsx from 'clsx';
 
 import RecommendedCards from '../../components/RecommendedCards/RecommendedCards';
 import BasketModal from '../../components/BasketModal/BasketModal';
 import CardDetailsGallery from '../../components/CardDetailsGallery/CardDetailsGallery';
 import CardDetailsDescription from '../../components/CardDetailsDescription/CardDetailsDescription';
 import CustomButton from '../../components/CustomButton/CustomButton';
-import Loader from '../../formModalComponents/Loader/Loader';
 
 import { stars } from './details';
 import { media } from '../../utils/mediaConfig';
 import { useClickEsc } from '../../hooks/useClickEsc';
 import useNoScroll from '../../hooks/useNoScroll';
 import { getProductsId } from '../../redux/products/operations';
-import { getCategoryById } from '../../redux/categories/categoriesOperations';
 import { selectProductDetails } from '../../redux/products/selectors';
 import { selectCategoryById } from '../../redux/categories/categoriesSelectors';
 
@@ -27,25 +24,20 @@ import css from './CardDetailsPage.module.css';
 
 export default function CardDetailsPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
 
-  const { cardId, categoryId } = useParams();
+  const { cardId } = useParams();
+
   const dispatch = useDispatch();
 
   const product = useSelector(selectProductDetails);
   const category = useSelector(selectCategoryById);
+  const categoryId = category?.id;
 
   useEffect(() => {
-    if (product) {
-      setIsLoading(false);
-    }
     if (cardId) {
       dispatch(getProductsId(cardId));
     }
-    if (categoryId) {
-      dispatch(getCategoryById(categoryId));
-    }
-  }, [dispatch, cardId, categoryId, product]);
+  }, [dispatch, cardId]);
 
   useNoScroll(isModalOpen);
 
@@ -64,31 +56,24 @@ export default function CardDetailsPage() {
     return format(date, 'eeee, d MMMM yyyy, HH:mm:ss', { locale: uk });
   };
 
-  const getActiveClass = ({ isActive }) => {
-    return clsx(css.pathItem, isActive && css.active);
-  };
-
   return (
     <>
-      {isLoading && (
-        <div className={css.loader}>
-          <Loader />
-        </div>
-      )}
-
-      {!isLoading && product && (
+      {product && (
         <section className={css.section}>
           <ul className={css.pathList}>
-            <li className={css.pathItem}>
+            <li>
               <NavLink
-                className={getActiveClass}
+                className={css.pathItem}
                 to={`/categories/${categoryId}`}
               >
                 {category?.title}/&nbsp;
               </NavLink>
             </li>
-            <li className={css.pathItem}>
-              <NavLink className={getActiveClass} to={`/cards/${cardId}`}>
+            <li>
+              <NavLink
+                className={`${css.active} ${css.pathItem}`}
+                to={`/cards/${cardId}`}
+              >
                 {product?.title}
               </NavLink>
             </li>
