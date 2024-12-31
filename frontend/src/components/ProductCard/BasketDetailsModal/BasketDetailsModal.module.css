@@ -1,0 +1,103 @@
+.trashListTitle {
+  margin-bottom: 20px;
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-extra-small);
+  color: var(--default-black);
+}
+
+.scrollContainer {
+  margin-bottom: 20px;
+  width: 442px;
+  height: 220px;
+  overflow-y: scroll;
+  padding-right: 10px;
+}
+
+.scrollContainer::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollContainer::-webkit-scrollbar-thumb {
+  background-color: var(--primary-yellow);
+  border-radius: 2px;
+  height: 128px;
+}
+
+.scrollContainer::-webkit-scrollbar-track {
+  background-color: rgba(252, 188, 90, 0.32);
+}
+
+.productList {
+  padding-bottom: 13px;
+  margin-bottom: 20px;
+  display: flex;
+  border-bottom: var(--border-width) var(--border-style) var(--grey-lighter);
+}
+
+.img {
+	width: 88px;
+	height: 88px;
+	object-fit: cover;
+  margin-right: 10px;
+  border-radius: var(--border-radius);
+}
+
+.productTitle {
+  margin-bottom: 5px;
+  font-weight: var(--font-weight-normal);
+  font-size: var(--font-size-tiny);
+  color: var(--default-black);
+}
+
+.owner {
+  margin-bottom: 13px;
+  font-weight: var(--font-weight-normal);
+  font-size: var(--font-size-extra-tiny);
+  color: var(-grey-darkest);
+}
+
+.ownerName {
+  font-weight: var(--font-weight-medium);
+}
+
+.filterInfo {
+  display: flex;
+  gap: 10px;
+  font-weight: var(--font-weight-normal);
+  font-size: var(--font-size-extra-tiny);
+  color: var(--default-black);
+}
+
+.priceContainer {
+  display: flex;
+  gap: 15px;
+}
+
+.price {
+	padding-left: 10px;
+  white-space: nowrap;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-tiny);
+  color: var(--default-black);
+}
+
+.trashBtn {
+  width: 20px;
+  height: 20px;
+  background-color: transparent;
+  border: none;
+}
+
+.trashIcon {
+  width: var(--icon-size);
+  height: var(--icon-size);
+  stroke: var(--error-red);
+}
+
+.priceSummary {
+  margin-bottom: 32px;
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-extra-small);
+  text-align: right;
+  color: var(--default-black);
+}

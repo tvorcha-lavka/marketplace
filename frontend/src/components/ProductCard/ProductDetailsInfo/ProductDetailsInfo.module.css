@@ -1,0 +1,33 @@
+.orderInfo {
+  width: 490px;
+  height: 386px;
+  border-radius: var(--border-radius-medium);
+  padding: 25px 24px 66px 24px;
+  box-shadow: var(--cart-shadow);
+  background-color: var(--default-white);
+}
+
+.publicDate {
+  margin-bottom: 16px;
+  font-weight: var(--font-weight-normal);
+  font-size: var(--font-size-tiny);
+  color: var(--default-black);
+}
+
+.cartTitle {
+  margin-bottom: 36px;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-medium);
+  color: var(--default-black);
+}
+
+.price {
+  margin-bottom: 36px;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-large-medium);
+  color: var(--default-black);
+}
+
+.deliveryBtn {
+  margin-bottom: 11px;
+}

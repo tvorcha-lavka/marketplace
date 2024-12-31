@@ -1,0 +1,250 @@
+.loader {
+  margin-top: 150px;
+  margin-bottom: 650px;
+  margin-left: 400px;
+}
+
+.pathList {
+  margin-bottom: 20px;
+  display: flex;
+}
+
+.pathItem {
+  font-weight: var(--font-weight-normal);
+  font-size: var(--font-size-tiny);
+  color: var(--grey-darker);
+}
+
+.active {
+  color: var(--default-black);
+}
+
+.container {
+  display: flex;
+  padding-bottom: 81px;
+}
+
+.galleryContainer {
+  margin-right: 18px;
+}
+
+.productDetails {
+  width: 490px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 17px;
+}
+
+/* SELLER INFO START */
+.sellerInfo {
+  display: flex;
+  max-width: 490px;
+  height: 197px;
+  border-radius: var(--border-radius-medium);
+  padding: 40px 30px 38px 40px;
+  height: 197px;
+  box-shadow: var(--cart-shadow);
+  background-color: var(--default-white);
+}
+
+.avatar {
+  border-radius: var(--border-radius-avatar);
+  width: 80px;
+  height: 80px;
+  margin-right: 12px;
+  background-color: var(--background-grey);
+}
+
+.sellerName {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-extra-small);
+  color: var(--default-black);
+}
+
+.seller {
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
+}
+
+.reviewsBox {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.starsList {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  column-gap: 3px;
+  margin-right: 3px;
+}
+
+.star {
+  width: var(--icon-size);
+  height: var(--icon-size);
+  color: var(--grey-extra-light);
+}
+
+/* .star {
+  color: var(--primary-yellow);
+} */
+
+.reviews {
+  font-weight: var(--font-weight-normal);
+  font-size: var(--font-size-extra-tiny);
+  color: var(--grey-darker);
+}
+
+.startStore {
+  font-weight: var(--font-weight-normal);
+  font-size: var(--font-size-extra-tiny);
+  color: var(--default-black);
+}
+
+.sellerOnline {
+  margin-bottom: var(--font-size-extra-small);
+  font-weight: var(--font-weight-small);
+  font-size: var(--font-size-extra-tiny);
+  color: var(--default-black);
+}
+
+.startChat {
+  display: flex;
+  align-items: center;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: var(--border-width) var(--border-style) var(--grey-lighter);
+  width: 317px;
+  height: 0px;
+}
+
+.chatBtn {
+  border: none;
+  text-decoration: underline;
+  margin-right: 8px;
+  background-color: transparent;
+}
+
+.pencilIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--icon-size);
+  height: var(--icon-size);
+}
+/* SELLER INFO END */
+
+/* DELIVERY INFO START */
+.delivery {
+  border-radius: var(--border-radius-medium);
+  padding: 25px 24px;
+  max-width: 490px;
+  height: 123px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+  box-shadow: var(--cart-shadow);
+  background-color: var(--default-white);
+}
+
+.deliveryTitle {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-tiny);
+  color: var(--default-black);
+}
+
+.deliveryList {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
+
+.deliveryItem {
+  display: flex;
+  flex-direction: row;
+  column-gap: 11px;
+  align-items: center;
+}
+
+.deliveryPost {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-tiny);
+  color: var(--default-black);
+}
+/* DELIVERY INFO END */
+
+/* PAYMENT INFO START */
+.paymentInfo {
+  border-radius: var(--border-radius-medium);
+  padding: 25px 24px 35px 24px;
+  max-width: 490px;
+  height: 150px;
+  box-shadow: var(--cart-shadow);
+  background-color: var(--default-white);
+}
+
+.paymentTitle {
+  margin-bottom: 10px;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-tiny);
+  color: var(--default-black);
+}
+
+.payment {
+  display: flex;
+}
+
+.liqpayLogo {
+  margin-right: 12px;
+  width: 71px;
+  height: 22px;
+}
+
+.paymentList {
+  max-width: 348px;
+  list-style-type: disc;
+  padding-left: 22px;
+}
+
+.paymentText {
+  font-weight: var(--font-weight-normal);
+  font-size: var(--font-size-tiny);
+  color: var(--default-black);
+}
+/* PAYMENT INFO END */
+
+/* BASKET MODAL */
+.modalBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--background-small-backdrop);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 777;
+}
+
+.modalContent {
+  width: 403px;
+  padding: 176px 40px 40px 40px;
+  position: relative;
+  border-radius: var(--border-radius-medium);
+  background-color: var(--background-modal);
+}
+
+.modalBasketContent {
+  top: -10%;
+  right: -20%;
+  width: 490px;
+  padding: 24px;
+  position: relative;
+  border-radius: var(--border-radius-medium);
+  background-color: var(--background-modal);
+}

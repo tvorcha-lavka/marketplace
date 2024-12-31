@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import { useModal } from '../../hooks/useModal';
 import { useRef, useState } from 'react';
 import { FiShoppingCart, FiUser } from 'react-icons/fi';
 import { HiMiniBars4 } from 'react-icons/hi2';
@@ -10,6 +9,8 @@ import SearchFieldBar from '../SearchFieldBar/SearchFieldBar';
 import CatalogModal from '../CatalogModal/CatalogModal';
 import HeaderDown from '../HeaderDown/HeaderDown';
 import CustomButton from '../CustomButton/CustomButton';
+
+import { useModal } from '../../hooks/useModal';
 
 import css from './Header.module.css';
 

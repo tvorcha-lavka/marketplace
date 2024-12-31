@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
+
 import { baseApiUrl } from '../axiosConfig.js';
 
 export const getProducts = createAsyncThunk(
@@ -33,7 +34,7 @@ export const getProductsId = createAsyncThunk(
   'product/getProductsId',
   async (productId, thunkAPI) => {
     try {
-      const res = await axios.get(`${baseApiUrl}/products/${productId}`);
+      const res = await axios.get(`${baseApiUrl}/products/${productId}/`);
 
       return res.data;
     } catch (e) {

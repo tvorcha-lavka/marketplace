@@ -1,13 +1,13 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { buildCategoryTree } from '../../utils/tree.js';
+
+import { buildCategoryTree } from '../../utils/tree';
 import { baseApiUrl } from '../axiosConfig';
 
 export const getAllCategoriesWithPopular = createAsyncThunk(
   'categories/getAllWithPopular',
   async (_, thunkAPI) => {
     try {
-      // Визначаємо параметри для запитів
       const params = { lang: 'uk' };
       const popularParams = { ...params, popular: true };
 

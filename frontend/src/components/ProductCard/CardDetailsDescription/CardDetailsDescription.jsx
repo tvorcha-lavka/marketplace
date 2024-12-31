@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 
-import CustomButton from '../CustomButton/CustomButton';
+import CustomButton from '../../CustomButton/CustomButton';
 
 import css from './CardDetailsDescription.module.css';
 

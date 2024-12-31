@@ -1,0 +1,88 @@
+import { useSelector, useDispatch } from 'react-redux';
+import { LuTrash } from 'react-icons/lu';
+import { nanoid } from 'nanoid';
+
+import CustomButton from '../../CustomButton/CustomButton';
+
+import {
+  selectTotal,
+  selectBasketItems,
+} from '../../../redux/basket/selectors';
+import { removeFromBasket } from '../../../redux/basket/slice';
+import { media } from '../../../utils/mediaConfig';
+
+import css from './BasketDetailsModal.module.css';
+
+export default function BasketDetailsModal() {
+  const dispatch = useDispatch();
+  const cartItems = useSelector(selectBasketItems);
+  const total = useSelector(selectTotal);
+
+  const handleRemoveItem = (itemId) => {
+    dispatch(removeFromBasket({ id: itemId }));
+  };
+
+  return (
+    <>
+      <h4 className={css.trashListTitle}>
+        Ваш кошик ({cartItems.length} предмети)
+      </h4>
+
+      <ul className={css.scrollContainer}>
+        {cartItems.map((item) => {
+          const uniqueId = nanoid();
+
+          return (
+            <li className={css.productList} key={uniqueId}>
+              <img
+                src={
+                  item.images?.[0]?.s_image_url
+                    ? item.images[0].s_image_url
+                    : `${media}/page/404/not-found.png`
+                }
+                width={88}
+                height={88}
+                alt={item.title}
+                className={css.img}
+              />
+
+              <div>
+                <h2 className={css.productTitle}>{item.title}</h2>
+                <h3 className={css.owner}>
+                  Продавець:&nbsp;
+                  <span className={css.ownerName}>{item.owner.username}</span>
+                </h3>
+
+                <div className={css.filterInfo}>
+                  <p>Розмір: М</p>
+                  <p>Матеріал: Льон</p>
+                  <p>Стан: Новий</p>
+                </div>
+              </div>
+
+              <div className={css.priceContainer}>
+                <p className={css.price}>
+                  {parseFloat(item.price).toFixed(2)}&nbsp;грн
+                </p>
+                <button
+                  onClick={() => handleRemoveItem(item.id)}
+                  className={css.trashBtn}
+                >
+                  <LuTrash className={css.trashIcon} />
+                </button>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+
+      <p className={css.priceSummary}>
+        Разом: {typeof total === 'number' ? total.toFixed(2) : '0.00'} грн.
+      </p>
+
+      <CustomButton variant="default" size="large" className={css.orderBtn}>
+        Перейти до оформлення
+      </CustomButton>
+    </>
+  );
+}

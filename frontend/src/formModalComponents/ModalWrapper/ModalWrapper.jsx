@@ -1,7 +1,7 @@
-import { RxCross2 } from 'react-icons/rx';
-
 import { useModal } from '../../hooks/useModal';
 import { useClickEsc } from '../../hooks/useClickEsc';
+
+import ModalBtnCross from '../../components/ModalBtnCross/ModalBtnCross';
 
 import css from './ModalWrapper.module.css';
 
@@ -15,13 +15,7 @@ export default function ModalWrapper({ children }) {
         <div className={css.overlay}>
           <div className={css.modal} ref={modalRef}>
             {children}
-            <button
-              className={css.crossBtn}
-              onClick={closeModal}
-              aria-label="Close"
-            >
-              <RxCross2 className={css.crossIcon} />
-            </button>
+            <ModalBtnCross onClick={closeModal} />
           </div>
         </div>
       )}
