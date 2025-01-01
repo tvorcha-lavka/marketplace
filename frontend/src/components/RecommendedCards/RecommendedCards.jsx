@@ -54,33 +54,37 @@ export default function RecommendedCards() {
 
   return (
     <>
-        <div>
-          <h2 className={css.title}>Вам також може сподобатись:</h2>
-          <div className={css.slider}>
-            <button className={css.prevBtn} onClick={prevSlide}>
-              <IoIosArrowBack className={css.arrowIcon} />
-            </button>
+      <div>
+        <h2 className={css.title}>Вам також може сподобатись:</h2>
+        <div className={css.slider}>
+          <button className={css.prevBtn} onClick={prevSlide}>
+            <IoIosArrowBack className={css.arrowIcon} />
+          </button>
 
-            <ul className={css.card}>
-              {cards.map((item) => (
-                <li
-                  className={`${css.container} ${
-                    activeCardId === item.id ? css.active : ''
-                  }`}
-                  onClick={() => handleCardClick(item.id)}
-                  onBlur={handleCardBlur}
-                  key={item.id}
-                >
-                  <CardCollection item={item} />
-                </li>
-              ))}
-            </ul>
+          <ul className={css.card}>
+            {cards.map((item) => (
+              <li
+                className={`${css.container} ${
+                  activeCardId === item.id ? css.active : ''
+                }`}
+                onClick={() => handleCardClick(item.id)}
+                onBlur={handleCardBlur}
+                key={item.id}
+              >
+                <CardCollection
+                  item={item}
+                  categoryId={item.categoryId}
+                  from="recommended"
+                />
+              </li>
+            ))}
+          </ul>
 
-            <button className={css.nextBtn} onClick={nextSlide}>
-              <IoIosArrowForward className={css.arrowIcon} />
-            </button>
-          </div>
+          <button className={css.nextBtn} onClick={nextSlide}>
+            <IoIosArrowForward className={css.arrowIcon} />
+          </button>
         </div>
+      </div>
     </>
   );
 }

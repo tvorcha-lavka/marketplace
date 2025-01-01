@@ -30,6 +30,10 @@ const categoriesSlice = createSlice({
         state.loading = false;
       })
 
+      .addCase(getCategoryById.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
       .addCase(getCategoryById.fulfilled, (state, action) => {
         state.categoryById = action.payload;
         state.loading = false;

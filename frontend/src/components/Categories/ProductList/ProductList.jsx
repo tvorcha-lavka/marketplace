@@ -50,7 +50,11 @@ export default function ProductList({ categoryId }) {
               onBlur={handleCardBlur}
               key={item.id}
             >
-              <CardCollection item={item} />
+              <CardCollection
+                item={item}
+                from="categories"
+                categoryId={categoryId}
+              />
             </li>
           ))}
         </ul>

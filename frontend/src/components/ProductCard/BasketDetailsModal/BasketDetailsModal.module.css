@@ -28,6 +28,7 @@
 }
 
 .productList {
+	position: relative;
   padding-bottom: 13px;
   margin-bottom: 20px;
   display: flex;
@@ -43,6 +44,7 @@
 }
 
 .productTitle {
+	padding-right: 110px;
   margin-bottom: 5px;
   font-weight: var(--font-weight-normal);
   font-size: var(--font-size-tiny);
@@ -62,19 +64,22 @@
 
 .filterInfo {
   display: flex;
-  gap: 10px;
+	white-space: nowrap;
+  gap: 8px;
   font-weight: var(--font-weight-normal);
   font-size: var(--font-size-extra-tiny);
   color: var(--default-black);
 }
 
 .priceContainer {
+	top: 0;
+	right: 0;
+	position: absolute;
   display: flex;
-  gap: 15px;
+  gap: 10px;
 }
 
 .price {
-	padding-left: 10px;
   white-space: nowrap;
   font-weight: var(--font-weight-bold);
   font-size: var(--font-size-tiny);

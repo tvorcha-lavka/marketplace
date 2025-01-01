@@ -1,15 +1,17 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { FaRegHeart } from 'react-icons/fa';
 
 import { media } from '../../utils/mediaConfig';
 
 import css from './CardCollection.module.css';
 
-export default function CardCollection({ item }) {
+export default function CardCollection({ item, categoryId, from }) {
   const [likedItems, setLikedItems] = useState([]);
 
   const { id, date_published, price, s_image_url, title, is_vip } = item;
+
+  const location = useLocation();
 
   const handleLikeButtonClick = (e) => {
     e.stopPropagation();
@@ -29,7 +31,11 @@ export default function CardCollection({ item }) {
         >
           <FaRegHeart />
         </button>
-        <Link to={`/cards/${id}`} className={css.link}>
+        <Link
+          to={`/categories/${categoryId}/cards/${id}`}
+          state={{ from, prevFrom: location?.state?.from }}
+          className={css.link}
+        >
           <div className={css.item}>
             <img
               className={css.image}

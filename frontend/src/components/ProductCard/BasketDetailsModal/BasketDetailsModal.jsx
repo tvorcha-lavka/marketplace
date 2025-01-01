@@ -34,19 +34,19 @@ export default function BasketDetailsModal() {
 
           return (
             <li className={css.productList} key={uniqueId}>
-              <img
-                src={
-                  item.images?.[0]?.s_image_url
-                    ? item.images[0].s_image_url
-                    : `${media}/page/404/not-found.png`
-                }
-                width={88}
-                height={88}
-                alt={item.title}
-                className={css.img}
-              />
-
               <div>
+                <img
+                  src={
+                    item.images?.[0]?.s_image_url
+                      ? item.images[0].s_image_url
+                      : `${media}/page/404/not-found.png`
+                  }
+                  alt={item.title}
+                  className={css.img}
+                />
+              </div>
+
+              <div className={css.ownerContainer}>
                 <h2 className={css.productTitle}>{item.title}</h2>
                 <h3 className={css.owner}>
                   Продавець:&nbsp;
@@ -58,18 +58,18 @@ export default function BasketDetailsModal() {
                   <p>Матеріал: Льон</p>
                   <p>Стан: Новий</p>
                 </div>
-              </div>
 
-              <div className={css.priceContainer}>
-                <p className={css.price}>
-                  {parseFloat(item.price).toFixed(2)}&nbsp;грн
-                </p>
-                <button
-                  onClick={() => handleRemoveItem(item.id)}
-                  className={css.trashBtn}
-                >
-                  <LuTrash className={css.trashIcon} />
-                </button>
+                <div className={css.priceContainer}>
+                  <p className={css.price}>
+                    {parseFloat(item.price).toFixed(2)}&nbsp;грн
+                  </p>
+                  <button
+                    onClick={() => handleRemoveItem(item.id)}
+                    className={css.trashBtn}
+                  >
+                    <LuTrash className={css.trashIcon} />
+                  </button>
+                </div>
               </div>
             </li>
           );

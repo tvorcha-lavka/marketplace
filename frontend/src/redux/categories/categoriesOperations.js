@@ -48,10 +48,9 @@ export const getCategoryById = createAsyncThunk(
     }
   },
   {
-    condition: (id, { getState }) => {
+    condition: (arg, { getState }) => {
       const state = getState();
-      const category = state.categories.categoryById[id];
-      return !category; 
+      return !state.categories.categoryById.loading;
     },
   }
 );

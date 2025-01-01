@@ -15,7 +15,7 @@ import css from './Category.module.css';
 export default function Category() {
   const { categoryId } = useParams();
   const dispatch = useDispatch();
-  const category = useSelector(selectCategoryById);
+	const category = useSelector(selectCategoryById);
 
   useEffect(() => {
     if (categoryId) {

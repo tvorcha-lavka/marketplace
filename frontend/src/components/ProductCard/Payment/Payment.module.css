@@ -1,0 +1,29 @@
+.paymentTitle {
+  margin-bottom: 10px;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-tiny);
+  color: var(--default-black);
+}
+
+.payment {
+  display: flex;
+}
+
+.liqpayLogo {
+  margin-right: 12px;
+  width: 71px;
+  height: 22px;
+}
+
+.paymentList {
+  max-width: 348px;
+  list-style-type: disc;
+  padding-left: 22px;
+}
+
+.paymentText {
+  font-weight: var(--font-weight-normal);
+  font-size: var(--font-size-tiny);
+  color: var(--default-black);
+}
+/* PAYMENT INFO END */

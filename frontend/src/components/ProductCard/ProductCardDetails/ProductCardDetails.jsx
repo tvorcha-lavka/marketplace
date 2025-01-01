@@ -1,9 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { NavLink, useParams } from 'react-router-dom';
-import { HiOutlinePencilAlt } from 'react-icons/hi';
-import { format, parseISO } from 'date-fns';
-import { uk } from 'date-fns/locale';
+import { NavLink, useParams, useLocation, useNavigate } from 'react-router-dom';
 
 import RecommendedCards from '../../RecommendedCards/RecommendedCards';
 import BasketModal from '../BasketModal/BasketModal';
@@ -13,9 +10,10 @@ import CardDetailsDescription from '../CardDetailsDescription/CardDetailsDescrip
 import ModalBtnCross from '../../ModalBtnCross/ModalBtnCross';
 import ProductDetailsInfo from '../ProductDetailsInfo/ProductDetailsInfo';
 import Loader from '../../../formModalComponents/Loader/Loader';
+import Owner from '../Owner/Owner';
+import Delivery from '../Delivery/Delivery';
+import Payment from '../Payment/Payment';
 
-import { stars } from './details';
-import { media } from '../../../utils/mediaConfig';
 import { useClickEsc } from '../../../hooks/useClickEsc';
 import useNoScroll from '../../../hooks/useNoScroll';
 import { getProductsId } from '../../../redux/products/operations';
@@ -32,13 +30,14 @@ export default function ProductCardDetails() {
   const [isOpenBasketDetailsModal, setIsOpenBasketDetailsModal] =
     useState(false);
 
-  const { cardId } = useParams();
+  const { id: cardId, categoryId } = useParams();
   const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const product = useSelector(selectProductDetails);
-  const category = useSelector(selectCategoryById);
-  const categoryId = category?.id;
   const isLoading = useSelector(selectLoading);
+  const category = useSelector(selectCategoryById);
 
   useEffect(() => {
     if (cardId) {
@@ -57,7 +56,8 @@ export default function ProductCardDetails() {
     setIsModalOpen(false);
   };
 
-  const openModalDetails = () => {
+  const openModalDetails = (e) => {
+    e.preventDefault();
     closeModal();
     setIsOpenBasketDetailsModal(true);
   };
@@ -67,11 +67,6 @@ export default function ProductCardDetails() {
   };
 
   const modalRef = useClickEsc(closeModal);
-
-  const formatDate = (dateString) => {
-    const date = parseISO(dateString);
-    return format(date, 'eeee, d MMMM yyyy, HH:mm:ss', { locale: uk });
-  };
 
   return (
     <>
@@ -83,14 +78,66 @@ export default function ProductCardDetails() {
         product && (
           <section>
             <ul className={css.pathList}>
-              <li>
-                <NavLink
-                  className={css.pathItem}
-                  to={`/categories/${categoryId}`}
-                >
-                  {category?.title}/&nbsp;
-                </NavLink>
-              </li>
+              {location.state?.from === 'main' && (
+                <li>
+                  <NavLink to="/" className={css.pathItem}>
+                    Головна/&nbsp;
+                  </NavLink>
+                </li>
+              )}
+
+              {location.state?.from === 'categories' && (
+                <li>
+                  <NavLink
+                    className={css.pathItem}
+                    to={`/categories/${categoryId}`}
+                  >
+                    {category?.title}/&nbsp;
+                  </NavLink>
+                </li>
+              )}
+
+              {location.state?.from === 'recommended' && (
+                <>
+                  {location.state?.prevFrom === 'main' && (
+                    <li>
+                      <NavLink to="/" className={css.pathItem}>
+                        Головна/&nbsp;
+                      </NavLink>
+                    </li>
+                  )}
+
+                  {location.state?.prevFrom === 'categories' && (
+                    <li>
+                      <NavLink
+                        to={`/categories/${categoryId}`}
+                        className={css.pathItem}
+                      >
+                        {category?.title}/&nbsp;
+                      </NavLink>
+                    </li>
+                  )}
+
+                  {location.state?.prevFrom === 'recommended' && (
+                    <>
+                      <li>
+                        <NavLink to="/" className={css.pathItem}>
+                          Головна/&nbsp;
+                        </NavLink>
+                      </li>
+                      <li>
+                        <button
+                          onClick={() => navigate(-1)}
+                          className={`${css.backButton} ${css.pathItem}`}
+                        >
+                          Повернутись назад/&nbsp;
+                        </button>
+                      </li>
+                    </>
+                  )}
+                </>
+              )}
+
               <li>
                 <NavLink
                   className={`${css.active} ${css.pathItem}`}
@@ -112,103 +159,15 @@ export default function ProductCardDetails() {
                 <ProductDetailsInfo onClick={openModal} product={product} />
 
                 <div className={css.sellerInfo}>
-                  <img
-                    className={css.avatar}
-                    src={`${media}/page/404/not-found.png`}
-                    width="80"
-                    height="80"
-                    alt={product.owner.username}
-                  />
-
-                  <div>
-                    <div className={css.seller}>
-                      <p className={css.sellerName}>{product.owner.username}</p>
-
-                      <div className={css.reviewsBox}>
-                        {stars.map((star) => (
-                          <ul key={star.id} className={css.starsList}>
-                            <li className={css.star}>
-                              <span className={css.iconStar}>{star.image}</span>
-                            </li>
-                          </ul>
-                        ))}
-                        <p className={css.reviews}>(0 відгуків)</p>
-                      </div>
-
-                      <p className={css.startStore}>
-                        на Tvorcha Lavka з&nbsp;
-                        {formatDate(product.owner.date_joined)}
-                      </p>
-                      <p className={css.sellerOnline}>
-                        Онлайн в&nbsp;{formatDate(product.owner.last_active)}
-                      </p>
-                    </div>
-
-                    <div className={css.startChat}>
-                      <button type="button" className={css.chatBtn}>
-                        Зв&#x2019;язатись з продавцем
-                      </button>
-                      <span className={css.pencilIcon}>
-                        <HiOutlinePencilAlt />
-                      </span>
-                    </div>
-                  </div>
+                  <Owner product={product} />
                 </div>
 
                 <div className={css.delivery}>
-                  <h3 className={css.deliveryTitle}>Способи доставки</h3>
-                  <ul className={css.deliveryList}>
-                    <li className={css.deliveryItem}>
-                      <img
-                        className={css.novaPostLogo}
-                        src={`${media}/logo/nova_post.svg`}
-                        width="21"
-                        height="21"
-                        alt="NovaPost logotype"
-                      />
-                      <p className={css.deliveryPost}>Нова Пошта</p>
-                    </li>
-                    <li className={css.deliveryItem}>
-                      <img
-                        className={css.ukrPostLogo}
-                        src={`${media}/logo/ukr_post.svg`}
-                        width="21"
-                        height="21"
-                        alt="UkrPost logotype"
-                      />
-                      <p className={css.deliveryPost}>Укр Пошта</p>
-                    </li>
-                  </ul>
+                  <Delivery />
                 </div>
 
                 <div className={css.paymentInfo}>
-                  <h3 className={css.paymentTitle}>Оплата та гарантії</h3>
-                  <div className={css.payment}>
-                    <img
-                      className={css.liqpayLogo}
-                      src={`${media}/logo/logo_liqpay.svg`}
-                      width="71"
-                      height="22"
-                      alt="Liqpay logotype"
-                    />
-                    <ol className={css.paymentList}>
-                      <li className={css.paymentItem}>
-                        <p className={css.paymentText}>
-                          Безпечна оплата карткою
-                        </p>
-                      </li>
-                      <li className={css.paymentItem}>
-                        <p className={css.paymentText}>
-                          Без передоплати - Tvorcha Lavka гарантує безпеку
-                        </p>
-                      </li>
-                      <li className={css.paymentItem}>
-                        <p className={css.paymentText}>
-                          Повернемо гроші при відмові від посилки
-                        </p>
-                      </li>
-                    </ol>
-                  </div>
+                  <Payment />
                 </div>
               </div>
             </div>

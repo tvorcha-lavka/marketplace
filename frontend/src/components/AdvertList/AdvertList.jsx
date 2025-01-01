@@ -34,7 +34,11 @@ export default function AdvertList() {
             onBlur={handleCardBlur}
             key={item.id}
           >
-            <CardCollection item={item} />
+            <CardCollection
+              item={item}
+              categoryId={item.categoryId}
+              from="main"
+            />
           </li>
         ))}
       </ul>

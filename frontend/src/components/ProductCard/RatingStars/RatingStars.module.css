@@ -1,0 +1,26 @@
+.reviewsBox {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.starsList {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  column-gap: 3px;
+  margin-right: 3px;
+}
+
+.star {
+  width: var(--icon-size);
+  height: var(--icon-size);
+}
+
+.active {
+  color: var(--primary-yellow);
+}
+
+.inactive {
+  color: var(--grey-extra-light); 
+}
