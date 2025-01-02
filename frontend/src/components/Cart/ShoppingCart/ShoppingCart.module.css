@@ -1,4 +1,5 @@
 .shoppingbox {
+  margin-block-end: 80px;
   padding: 24px;
   display: flex;
   flex-direction: column;

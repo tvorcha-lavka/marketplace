@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import CustomerData from '../../components/Cart/CustomerData/CustomerData';
@@ -10,6 +11,7 @@ import { setDeliveryFee } from '../../redux/cart/cartSlice';
 import css from './PlaceOrderPage.module.css';
 
 export default function PlaceOrder() {
+  const [isClickBtn, setIsClickBtn] = useState(false);
   const step = useSelector(selectCartStep);
   const dispatch = useDispatch();
   const activeClass = ({ isActive }) =>
@@ -45,12 +47,13 @@ export default function PlaceOrder() {
           </div>
           <div className={css.paymentbox}>
             <h2 className={css.title}>3. Спосіб оплати</h2>
-            {step === 3 && <MethodPayment />}
+            {step === 3 && <MethodPayment  isClickBtn={isClickBtn}
+                setIsClickBtn={setIsClickBtn} />}
           </div>
         </div>
         <div className={css.wrapper}>
           <SelectedProducts />
-          <SummaryCart />
+          <SummaryCart  isClickBtn={isClickBtn}/>
         </div>
       </div>
     </div>

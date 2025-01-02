@@ -1,11 +1,12 @@
 .cart_container {
-  /* margin-inline: auto;
-  max-width: 1440px; */
+  margin-inline: auto;
+  max-width: 1440px;
   background: #fefcfa;
+  padding: 20px 120px;
 }
 
 .navbox {
-  padding: 20px 120px;
+   margin-block-end: 20px;
 }
 
 .navLink {
@@ -29,17 +30,3 @@
   gap: 16px;
 }
 
-.selectAll {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  font-size: 14px;
-  color: rgba(0, 0, 0, 1);
-}
-.checkbox {
-  width: 20px;
-  height: 20px;
-  color: rgba(177, 177, 177, 1);
-  border-radius: 2px;
-  border: 1px solid rgba(177, 177, 177, 1);
-}

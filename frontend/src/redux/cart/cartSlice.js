@@ -8,53 +8,7 @@ const initialState = {
     phone: '',
     email: '',
   },
-  deliveryData: {
-    seller1: {
-      type: '',
-      city: '',
-      branch: '',
-      postbox: '',
-      street: '',
-      house: '',
-      apartment: '',
-    },
-    seller2: {
-      type: '',
-      city: '',
-      branch: '',
-      postbox: '',
-      street: '',
-      house: '',
-      apartment: '',
-    },
-    seller3: {
-      type: '',
-      city: '',
-      branch: '',
-      postbox: '',
-      street: '',
-      house: '',
-      apartment: '',
-    },
-    seller4: {
-      type: '',
-      city: '',
-      branch: '',
-      postbox: '',
-      street: '',
-      house: '',
-      apartment: '',
-    },
-    seller5: {
-      type: '',
-      city: '',
-      branch: '',
-      postbox: '',
-      street: '',
-      house: '',
-      apartment: '',
-    },
-  },
+  deliveryData: {},
   paymentData: {
     type: '',
   },
@@ -163,7 +117,8 @@ const cartSlice = createSlice({
       if (state.step < 3) state.step += 1;
     },
     previousStep: (state) => {
-      if (state.step > 1) state.step -= 1;
+      if (state.step === 2) state.step -= 1;
+      if (state.step === 3) state.step -= 2;
     },
     updateCartItems: (state, action) => {
       state.cartItems = { ...state.cartItems, ...action.payload };

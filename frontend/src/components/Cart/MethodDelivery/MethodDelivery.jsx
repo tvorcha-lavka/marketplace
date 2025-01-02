@@ -81,18 +81,6 @@ export default function MethodDelivery({ onDeliveryChange }) {
     if (onDeliveryChange) onDeliveryChange(JSON.stringify(updatedData));
   };
 
-  // const handleSelectType = (type) => {
-  //   if (type === 'nova-poshta') {
-  //     return 'Нова Пошта у відділення';
-  //   } else if (type === 'post_box') {
-  //     return 'Нова Пошта у поштомат';
-  //   } else if (type === 'courier') {
-  //     return 'кур’єром Нова Пошта';
-  //   } else if (type === 'ukrposhta') {
-  //     return 'Укрпошта у відділення';
-  //   }
-  // };
-
   // Групуємо товари за продавцем
   const groupedItemsBySeller = orderItems.reduce((acc, item) => {
     if (!acc[item.seller]) {
@@ -152,16 +140,81 @@ export default function MethodDelivery({ onDeliveryChange }) {
               ))}
             </ul>
             {step === 3 ? (
-              <div className={css.deliveryItem}>
-                <div className={css.deliverybox}>
-                  <div className={css.deliveryOption}>
-                    <input className={css.optionInput} type="radio" />
-                    <p className={css.deliveryOption}>Доставка</p>
-                  </div>
+                <div className={css.deliveryItem}>
+                <div className={css.deliveryResultBlock}>
+                  {deliveryData[seller].type === 'nova-poshta' && (
+                    <>
+                      <div className={css.resultbox}>
+                        <div className={css.resultInput}></div>
+                        <p className={css.resultText}>
+                          Доставка Нова Пошта у відділення
+                        </p>
+                      </div>
+                      <p className={css.resnltText}>
+                        <b>Адреса відділення:</b>
+                        {deliveryData[seller].city}
+                      </p>
+                      <p className={css.resnltText}>
+                        <b>Адреса відділення:</b>
+                        {deliveryData[seller].branch}
+                      </p>
+                    </>
+                  )}
+                  {deliveryData[seller].type === 'post_box' && (
+                    <>
+                      <div className={css.resultbox}>
+                        <div className={css.resultInput}></div>
+                        <p className={css.resultText}>
+                          Доставка Нова Пошта у поштомат
+                        </p>
+                      </div>
+                      <p className={css.resnltText}>
+                        {deliveryData[seller].city}
+                      </p>
+                      <p className={css.resnltText}>
+                        {deliveryData[seller].postbox}
+                      </p>
+                    </>
+                  )}
+                  {deliveryData[seller].type === 'courier' && (
+                    <>
+                      <div className={css.resultbox}>
+                        <div className={css.resultInput}></div>
+                        <p className={css.inputText}>
+                          Доставка кур’єром Нова Пошта
+                        </p>
+                      </div>
+                      <p className={css.resnltText}>
+                        <b> Адреса доставки: </b>&nbsp;
+                        {deliveryData[seller].street},&nbsp;
+                        {deliveryData[seller].house},&nbsp;
+                        {deliveryData[seller].apartment},&nbsp;
+                        {deliveryData[seller].city}
+                      </p>
+                    </>
+                  )}
+
+                  {deliveryData[seller].type === 'ukrposhta' && (
+                    <>
+                      <div className={css.resultbox}>
+                        <div className={css.resultInput}></div>
+                        <p className={css.resultText}>
+                          Доставка Нова Пошта у відділення
+                        </p>
+                      </div>
+                      <p className={css.resnltText}>
+                        <b> Адреса доставки: </b>&nbsp;
+                        {deliveryData[seller].street},&nbsp;
+                        {deliveryData[seller].house},&nbsp;
+                        {deliveryData[seller].apartment},&nbsp;
+                        {deliveryData[seller].city}
+                      </p>
+                    </>
+                  )}
                 </div>
               </div>
             ) : (
-              <ul>
+             <ul>
                 {['nova-poshta', 'post_box', 'courier', 'ukrposhta'].map(
                   (type) => (
                     <li className={css.deliveryItem} key={type}>
@@ -177,6 +230,7 @@ export default function MethodDelivery({ onDeliveryChange }) {
                             onChange={() =>
                               handleDeliveryTypeChange(seller, type)
                             }
+                            required
                           />
                           <label
                             htmlFor={`delivery-${seller}-${type}`}
@@ -226,7 +280,7 @@ export default function MethodDelivery({ onDeliveryChange }) {
                                       handleInputChange(
                                         seller,
                                         'city',
-                                        e.target.value
+                                        e.target.value || isSelectCity
                                       )
                                     }
                                     required
@@ -509,12 +563,12 @@ export default function MethodDelivery({ onDeliveryChange }) {
                                       placeholder="місто"
                                       value={city}
                                       onChange={(e) => {
-                                        setCity(e.target.value);
                                         handleInputChange(
                                           seller,
                                           'city',
                                           e.target.value
                                         );
+                                        console.log(setCity(e.target.value));
                                       }}
                                       required
                                     />
@@ -622,7 +676,6 @@ export default function MethodDelivery({ onDeliveryChange }) {
           size="small"
           type="submit"
           onClick={handleSubmit}
-          // disabled={!isButtonEnabled}
           disabled={!allSellersHaveDeliveryType}
         >
           Продовжити

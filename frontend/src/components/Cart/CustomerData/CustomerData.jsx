@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { LiaEditSolid } from 'react-icons/lia';
+import CustomButton from '../../CustomButton/CustomButton';
 import {
   updateCustomerData,
   nextStep,
   previousStep,
 } from '../../../redux/cart/cartSlice';
 import { selectCartStep } from '../../../redux/cart/cartSelector';
-import CustomButton from '../../CustomButton/CustomButton';
 import css from './CustomerData.module.css';
 
 export default function CustomerData() {
@@ -31,6 +31,13 @@ export default function CustomerData() {
     dispatch(updateCustomerData({ name, surname, phone, email }));
     dispatch(nextStep());
   };
+
+
+  const handleStepBack = () => {
+    dispatch(previousStep());
+    resetData();
+  };
+
   const resetData = () => {
     setName('');
     setSurname('');
@@ -87,6 +94,7 @@ export default function CustomerData() {
                   type="email"
                   value={email}
                   className={css.form_input_row}
+                  pattern="^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$"
                   placeholder="val23@gmail.com"
                   required
                   onChange={(e) => setEmail(e.currentTarget.value)}
@@ -111,10 +119,7 @@ export default function CustomerData() {
             <button
               type="button"
               className={css.editbtn}
-              onClick={() => {
-                dispatch(previousStep());
-                resetData();
-              }}
+              onClick={handleStepBack}
             >
               <p className={css.edit}>Редагувати</p>
               <LiaEditSolid size={16} />

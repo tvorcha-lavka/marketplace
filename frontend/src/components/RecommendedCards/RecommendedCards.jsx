@@ -18,6 +18,7 @@ export default function RecommendedCards() {
 
   const dispatch = useDispatch();
   const allProducts = useSelector(selectProducts);
+  console.log(allProducts)
 
   useEffect(
     (e) => {
@@ -66,9 +67,8 @@ export default function RecommendedCards() {
             <ul className={css.card}>
               {cards.map((item) => (
                 <li
-                  className={`${css.container} ${
-                    activeCardId === item.id ? css.active : ''
-                  }`}
+                  className={`${css.container} ${activeCardId === item.id ? css.active : ''
+                    }`}
                   onClick={() => handleCardClick(item.id)}
                   onBlur={handleCardBlur}
                   key={item.id}

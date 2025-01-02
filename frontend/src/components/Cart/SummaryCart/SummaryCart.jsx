@@ -4,9 +4,9 @@ import { BsShieldFillExclamation, BsChevronDoubleRight } from 'react-icons/bs';
 import CustomButton from '../../CustomButton/CustomButton';
 import css from './SummaryCart.module.css';
 
-export default function SummaryCart({ handleCheckout }) {
+export default function SummaryCart({  handleCheckout, isClickBtn }) {
   const totalOrderPrice = useSelector((state) => state.cart.totalPayment);
-  const { deliveryData = {} } = useSelector((state) => state.cart);
+  const { deliveryData } = useSelector((state) => state.cart);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -76,7 +76,7 @@ export default function SummaryCart({ handleCheckout }) {
             size="large"
             type="button"
             onClick={finalTransfer}
-            disabled={!totalOrderPrice}
+            disabled={!isClickBtn}
           >
             Перейти до оформлення
           </CustomButton>

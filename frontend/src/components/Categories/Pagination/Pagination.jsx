@@ -39,6 +39,7 @@ export default function Pagination({ currentPage, onPageChange }) {
     if (currentPage > 1) {
       onPageChange(currentPage - 1);
       updatePages(currentPage - 1);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
@@ -46,6 +47,7 @@ export default function Pagination({ currentPage, onPageChange }) {
     if (currentPage < totalPages) {
       onPageChange(currentPage + 1);
       updatePages(currentPage + 1);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
