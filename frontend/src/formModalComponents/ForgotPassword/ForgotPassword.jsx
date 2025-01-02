@@ -1,9 +1,8 @@
 import { useId } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form } from 'formik';
 import toast from 'react-hot-toast';
-import clsx from 'clsx';
 import { LuArrowLeft } from 'react-icons/lu';
 
 import Loader from '../Loader/Loader';

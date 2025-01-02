@@ -8,6 +8,7 @@ import { RestrictedRoute } from './components/RestrictedRoute/RestrictedRoute';
 import SharedLayout from './components/SharedLayout/SharedLayout';
 import ModalParentComponent from './formModalComponents/ModalParentComponent/ModalParentComponent';
 import SocialAuthHandler from './formModalComponents/SocialAuthHandler/SocialAuthHandler';
+import ProductList from './components/Categories/ProductList/ProductList';
 
 const HomePage = lazy(() => import('./pages/HomePage/HomePage'));
 const AllCategoriesPage = lazy(
@@ -15,9 +16,6 @@ const AllCategoriesPage = lazy(
 );
 const CategoryPage = lazy(() => import('./pages/CategoryPage/CategoryPage'));
 const CartPage = lazy(() => import('./pages/CartPage/CartPage'));
-// const ProductListPage = lazy(
-//   () => import('./components/Categories/ProductList/ProductList')
-// );
 const CardDetailsPage = lazy(
   () => import('./pages/CardDetailsPage/CardDetailsPage')
 );
@@ -40,18 +38,6 @@ export default function App() {
               <RestrictedRoute redirectTo="/" component={<CartPage />} />
             }
           />
-          {/* <Route
-            path="/cards"
-            element={
-              <RestrictedRoute redirectTo="/" component={<ProductListPage />} />
-            }
-          /> */}
-          <Route
-            path="/cards/:cardId"
-            element={
-              <RestrictedRoute redirectTo="/" component={<CardDetailsPage />} />
-            }
-          />
           <Route
             path="/categories"
             element={
@@ -65,6 +51,18 @@ export default function App() {
             path="/categories/:categoryId"
             element={
               <RestrictedRoute redirectTo="/" component={<CategoryPage />} />
+            }
+          />
+          <Route
+            path="/categories/:categoryId/cards"
+            element={
+              <RestrictedRoute redirectTo="/" component={<ProductList />} />
+            }
+          />
+          <Route
+            path="/categories/:categoryId/cards/:id"
+            element={
+              <RestrictedRoute redirectTo="/" component={<CardDetailsPage />} />
             }
           />
 

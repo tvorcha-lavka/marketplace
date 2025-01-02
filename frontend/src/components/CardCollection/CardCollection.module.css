@@ -12,6 +12,18 @@
   border-radius: 8px;
 }
 
+.titleVip {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  border-radius: var(--border-radius-small);
+  padding: 4px 12px;
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-extra-tiny);
+  color: var(--default-black);
+  background-color: var(--grey-lighter);
+}
+
 .likeBtn {
   position: absolute;
   top: 16px;
@@ -34,7 +46,7 @@
   stroke: var(--default-black);
 }
 
-.likeBtn:focus {
+.liked {
   color: var(--secondary-pink);
 }
 

@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
-  getAllCategories,
-  getPopCategories,
+  getAllCategoriesWithPopular,
   getCategoryById,
 } from './categoriesOperations';
 
@@ -16,29 +15,33 @@ const categoriesSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getAllCategories.pending, (state) => {
+      .addCase(getAllCategoriesWithPopular.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-
-      .addCase(getAllCategories.fulfilled, (state, action) => {
-        state.items = action.payload;
+      .addCase(getAllCategoriesWithPopular.fulfilled, (state, action) => {
+        state.items = action.payload.allCategories;
+        state.popular = action.payload.popularCategories;
         state.loading = false;
         state.error = null;
       })
-      .addCase(getAllCategories.rejected, (state, action) => {
+      .addCase(getAllCategoriesWithPopular.rejected, (state, action) => {
         state.error = action.payload;
         state.loading = false;
       })
-      .addCase(getPopCategories.fulfilled, (state, action) => {
-        state.popular = action.payload;
-        state.loading = false;
+
+      .addCase(getCategoryById.pending, (state) => {
+        state.loading = true;
         state.error = null;
       })
       .addCase(getCategoryById.fulfilled, (state, action) => {
         state.categoryById = action.payload;
         state.loading = false;
         state.error = null;
+      })
+      .addCase(getCategoryById.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
   },
 });

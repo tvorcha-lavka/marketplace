@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { RiArrowDownSLine } from 'react-icons/ri';
-import { filterbar } from '../../../utils/filterbar';
+import { filterBar } from '../../../utils/filterBar';
 import css from './FilterBar.module.css';
 
 export default function FilterBar() {
   const [isOpenId, setIsOpenId] = useState(null);
   return (
     <form className={css.filters} onSubmit={(e) => e.preventDefault()}>
-      {filterbar?.map(({ title, filters }, id) => (
+      {filterBar?.map(({ title, filters }, id) => (
         <fieldset key={title} className={css.filter_group}>
           <legend className={css.group_title}>
             {title}
