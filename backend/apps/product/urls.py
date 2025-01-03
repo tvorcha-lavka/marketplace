@@ -18,8 +18,8 @@ product_private_delete = ProductPrivateViewSet.as_view({"delete": "destroy"})
 urlpatterns = [
     path("", product_public_list, name="product-list"),
     path("my/", product_private_list, name="my-product-list"),
+    path("create/", product_private_create, name="product-create"),
     path("<uuid:pk>/", product_public_detail, name="product-detail"),
-    path("manage/create/", product_private_create, name="product-create"),
-    # path("manage/<uuid:pk>/update/", product_private_update, name="product-update"),
-    path("manage/<uuid:pk>/delete/", product_private_delete, name="product-delete"),
+    path("<uuid:pk>/update/", product_private_update, name="product-update"),
+    path("<uuid:pk>/delete/", product_private_delete, name="product-delete"),
 ]

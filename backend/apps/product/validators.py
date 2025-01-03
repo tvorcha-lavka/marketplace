@@ -40,15 +40,6 @@ validate_image_priority = ImagePriorityValidator()
 
 
 @deconstructible
-class ProductQuantity(RangeValidator):
-    def __init__(self, min_quantity=1, max_quantity=1_000):
-        super().__init__(min_quantity, max_quantity)
-
-
-validate_product_quantity = ProductQuantity()
-
-
-@deconstructible
 class TitleValidator(RangeValidator):
     def __init__(self, min_symbol_count=15, max_symbol_count=50):
         super().__init__(min_symbol_count, max_symbol_count)

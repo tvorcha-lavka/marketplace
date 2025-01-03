@@ -18,7 +18,7 @@ class ProductAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
         if not change:
-            obj.owner = request.user
+            obj.owner_id = request.user.pk
         super().save_model(request, obj, form, change)
 
     def get_queryset(self, request):

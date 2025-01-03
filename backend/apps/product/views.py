@@ -107,26 +107,33 @@ class ProductPrivateViewSet(ModelViewSet):
         serializer = self.get_serializer(instance, data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        # TODO: Реализовать обновление продукта.
-        #  Метод PATCH поменял на PUT, чтобы контролировать полный набор обновления,
-        #  так как если будет передаваться пустой список изображений и фильтров,
-        #  мы будем засчитывать это как удаление данных.
-        #  -
-        #  Frontend будет загружать на backend изображения с S3 как будто это новые изображения.
-        #  Изображения будут `image_small` + новые пользовательские (если будут).
-        #  Нужен будет в сериалайзер `ProductUpdateSerializer`, который будет наследоваться от
-        #  `ProductCrateSerializer` и переопределять `validate_images`.
-        #  -
-        #  Метод `validate_images` должен будет получать изображения из текущего instance и сравнивать изображения
-        #  из новой полученной пачки. Тут я думаю нужно будет немного магии и как итог вернуть:
-        #  list[tuple[int, bool, TemporaryUploadedFile]] - список из tuple в котором:
-        #   `int` - это новая позиция изображения в списке
-        #   `bool` - передаем True/False (новый файл требующий оптимизации / была только поменяна позиция в списке)
-        #   `TemporaryUploadedFile` - это новый или уже существующий файл
-        #  -
-        #  После пройденной валидации возвращаемся в эту функцию и уже проводим правильное сохранение.
-        #  -
-        #  Учесть что каждое сохранение ProductImage запускает сигнал. Там где нужно будет обновить только позицию,
-        #  используем конструкцию `super(ProductImage, instance).save(force_update=True, update_fields=["priority"])`
+        images = serializer.validated_data.pop("images", [])
+        filters = serializer.validated_data.pop("filters", [])
 
-        return Response({"detail": "all ok!"}, status=status.HTTP_200_OK)
+        product = serializer.save()
+        update_objects = []
+
+        if not images:
+            product.images.all().delete()
+
+        for action, obj, priority, temp_image in images:
+            if action == "create":
+                instance = ProductImage(product=product, priority=priority)
+                instance.image_temp = temp_image
+                instance.save()
+
+            elif action == "update":
+                if obj.priority != priority:
+                    obj.priority = priority
+                    update_objects.append(obj)
+
+            elif action == "delete":
+                obj.delete()
+
+        ProductImage.objects.bulk_update(update_objects, ["priority"]) if update_objects else None
+
+        product.filters.set(filters)
+        product.refresh_from_db()
+
+        response_data = ProductPrivateDetailSerializer(product).data
+        return Response(response_data, status=status.HTTP_200_OK)
