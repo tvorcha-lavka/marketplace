@@ -12,7 +12,7 @@ const GlobalStylesComponent = () => {
           padding: 0,
         },
         body: {
-          fontFamily: theme.typography.fontFamily,          
+          fontFamily: theme.typography.fontFamily,
         },
         'p:last-child': {
           marginBottom: 0,
@@ -52,6 +52,7 @@ const GlobalStylesComponent = () => {
 
           '--primary-yellow': theme.custom.colors.primaryYellow, //FCBC5A
           '--primary-yellow-light': theme.custom.colors.primaryYellowLight, //rgba(252, 188, 90, 0.32)
+          '--primary-yellow-lighter': theme.custom.colors.primaryYellowLighter, //FFD99F
           '--primary-dark-orange': theme.custom.colors.primaryDarkOrange, //DA5135
 
           '--secondary-dark-yellow': theme.custom.colors.secondaryDarkYellow, //FBAB30
@@ -108,6 +109,7 @@ const GlobalStylesComponent = () => {
           '--icon-size': theme.custom.sizes.iconSize, //16
 
           '--border-style': theme.custom.borders.borderStyle, //solid
+          '--border-width-biggest': theme.custom.borders.borderWidthBiggest, //8px
           '--border-width-big': theme.custom.borders.borderWidthBig, //2px
           '--border-width-bigger': theme.custom.borders.borderWidthBigger, //1.2px
           '--border-width': theme.custom.borders.borderWidth, //1px
