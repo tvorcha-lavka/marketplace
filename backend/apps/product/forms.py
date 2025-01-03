@@ -58,10 +58,9 @@ class ProductImageAdminForm(forms.ModelForm):
 
     @staticmethod
     def generate_file_hash(upload_image):
-        hash_md5 = hashlib.md5()
-        for chunk in upload_image.chunks():
-            hash_md5.update(chunk)
-        return hash_md5.hexdigest()
+        file_hash = hashlib.md5(b"".join(upload_image.chunks())).hexdigest()
+        upload_image.seek(0)
+        return file_hash
 
 
 class ProductImageInline(admin.TabularInline):
