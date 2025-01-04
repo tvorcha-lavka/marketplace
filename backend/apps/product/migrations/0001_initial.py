@@ -49,9 +49,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "quantity",
-                    models.IntegerField(
-                        default=1, validators=[apps.product.validators.ProductQuantity()], verbose_name="quantity"
-                    ),
+                    models.PositiveIntegerField(default=1, verbose_name="quantity"),
                 ),
                 (
                     "date_published",
@@ -144,10 +142,7 @@ class Migration(migrations.Migration):
                 "verbose_name": "Product Image",
                 "verbose_name_plural": "Product Images",
                 "db_table": "product_image",
-                "ordering": ("priority",),
-                "constraints": [
-                    models.UniqueConstraint(fields=("product", "priority"), name="unique_product_image_priority")
-                ],
+                "ordering": ["priority"],
             },
         ),
     ]

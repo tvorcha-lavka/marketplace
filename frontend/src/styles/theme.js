@@ -23,6 +23,7 @@ const theme = createTheme({
 
       primaryYellow: '#FCBC5A',
       primaryYellowLight: 'rgba(252, 188, 90, 0.32)',
+      primaryYellowLighter: '#FFD99F',
       primaryDarkOrange: '#DA5135',
 
       secondaryDarkYellow: '#FBAB30',
@@ -73,6 +74,7 @@ const theme = createTheme({
     },
     borders: {
       borderStyle: 'solid',
+      borderWidthBiggest: '8px',
       borderWidthBig: '2px',
       borderWidthBigger: '1.2px',
       borderWidth: '1px',

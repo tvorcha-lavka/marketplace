@@ -1,17 +1,30 @@
-import { useDispatch } from 'react-redux';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import CustomButton from '../../CustomButton/CustomButton';
 import { addToBasket } from '../../../redux/basket/slice';
+import { selectBasketItems } from '../../../redux/basket/selectors';
 
 import css from './ProductDetailsInfo.module.css';
 
 export default function ProductDetailsInfo({ onClick, product }) {
-  const dispatch = useDispatch();
+  const [isAdded, setIsAdded] = useState(false);
+	const dispatch = useDispatch();
 
-  const handleAddToCart = () => {
-    dispatch(addToBasket(product));
-    onClick(); 
-  };
+	const basketItems = useSelector(selectBasketItems);
+
+  const isProductInBasket = basketItems.some((item) => item.id === product.id);
+
+    useEffect(() => {
+      setIsAdded(isProductInBasket);
+    }, [isProductInBasket]);
+
+    const handleAddToCart = () => {
+      if (!isAdded) {
+        dispatch(addToBasket(product)); 
+      }
+      onClick();
+    };
 	
 	return (
     <div className={css.orderInfo}>
@@ -24,7 +37,7 @@ export default function ProductDetailsInfo({ onClick, product }) {
         Замовити з доставкою
       </CustomButton>
       <CustomButton size="large" variant="another" onClick={handleAddToCart}>
-        Додати до кошика
+        {isAdded ? 'Додано до кошика' : 'Додати до кошика'}
       </CustomButton>
     </div>
   );

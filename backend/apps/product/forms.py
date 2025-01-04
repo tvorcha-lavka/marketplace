@@ -1,3 +1,5 @@
+import hashlib
+
 from django import forms
 from django.contrib import admin
 from django.utils.html import format_html
@@ -49,9 +51,16 @@ class ProductImageAdminForm(forms.ModelForm):
 
         if upload_image := self.cleaned_data.get("upload_image"):
             instance.image_temp = upload_image
+            instance.image_temp._file_hash = self.generate_file_hash(upload_image)
 
         instance.save()
         return instance
+
+    @staticmethod
+    def generate_file_hash(upload_image):
+        file_hash = hashlib.md5(b"".join(upload_image.chunks())).hexdigest()
+        upload_image.seek(0)
+        return file_hash
 
 
 class ProductImageInline(admin.TabularInline):
