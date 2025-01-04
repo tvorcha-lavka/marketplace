@@ -18,7 +18,7 @@ const handleRejected = (state, action) => {
 const categoriesSlice = createSlice({
   name: 'categories',
   initialState: {
-    items: [],
+    items: [],    
     catalog: [],
     popular: [],
     categoryById: {},
@@ -28,27 +28,14 @@ const categoriesSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getAllCategoriesWithPopular.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
+      .addCase(getAllCategoriesWithPopular.pending, handlePending)
       .addCase(getAllCategoriesWithPopular.fulfilled, (state, action) => {
         state.items = action.payload.allCategories;
         state.popular = action.payload.popularCategories;
         state.loading = false;
         state.error = null;
       })
-      .addCase(getAllCategoriesWithPopular.rejected, (state, action) => {
-        state.error = action.payload;
-        state.loading = false;
-        state.error = null;
-      })
-
-      .addCase(getCategoryById.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(getPopCategories.rejected, handleRejected)
+      .addCase(getAllCategoriesWithPopular.rejected, handleRejected)
 
       .addCase(getCategoryById.pending, handlePending)
       .addCase(getCategoryById.fulfilled, (state, action) => {
@@ -56,10 +43,14 @@ const categoriesSlice = createSlice({
         state.loading = false;
         state.error = null;
       })
-      .addCase(getCategoryById.rejected, (state, action) => {
+      .addCase(getCategoryById.rejected, handleRejected)
+    .addCase(getCatalog.pending, handlePending)
+      .addCase(getCatalog.fulfilled, (state, action) => {
+        state.catalog = action.payload;
         state.loading = false;
-        state.error = action.payload;
-      });
+        state.error = null;
+      })
+      .addCase(getCatalog.rejected, handleRejected)
   },
 });
 

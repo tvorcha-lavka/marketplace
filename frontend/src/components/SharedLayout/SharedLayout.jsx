@@ -3,14 +3,14 @@ import { Suspense, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import Header from '../Header/Header';
+import HeaderCart from '../HeaderCart/HeaderCart';
 import Footer from '../Footer/Footer';
 import Loader from '../../formModalComponents/Loader/Loader';
 
 import {
   getAllCategoriesWithPopular} from '../../redux/categories/categoriesOperations';
-import HeaderCart from '../HeaderCart/HeaderCart';
 
-//import css from './SharedLayout.module.css';
+import css from './SharedLayout.module.css';
 
 export default function SharedLayout() {
   const dispatch = useDispatch();

@@ -45,7 +45,7 @@ export default function ConfirmationPage() {
           variant="another"
           onClick={transferShopping}
         >
-          Продовжити
+          Продовжити покупки
         </CustomButton>
         <img
           className={css.img}

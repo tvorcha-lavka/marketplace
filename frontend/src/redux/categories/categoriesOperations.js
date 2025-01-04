@@ -54,3 +54,19 @@ export const getCategoryById = createAsyncThunk(
     },
   }
 );
+
+export const getCatalog = createAsyncThunk(
+  'categories/getCatalog',
+  async (_, thunkAPI) => {
+    try {
+      const res = await axios.get(`${baseApiUrl}/categories/catalog/`);
+      const tree = res.data;
+      const categoryTrees = buildCategoryTree(tree);
+      const catalog = categoryTrees[0].children;
+      // console.log(catalog);
+      return catalog;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);

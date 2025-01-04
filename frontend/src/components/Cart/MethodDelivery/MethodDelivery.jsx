@@ -9,16 +9,16 @@ import css from './MethodDelivery.module.css';
 
 export default function MethodDelivery({ onDeliveryChange }) {
   const [openCity, setOpenCity] = useState(false);
-  const [isSelectCity, setIsSelectCity] = useLocalStorage('CityArr', 'Місто');
+  const [isSelectCity, setIsSelectCity] = useLocalStorage('Cities', 'Місто');
 
   const [openBranch, setOpenBranch] = useState(false);
   const [isSelectBranch, setIsSelectBranch] = useLocalStorage(
-    'BranchArr',
+    'Branches',
     'Відділення'
   );
   const [openPostbox, setOpenPostbox] = useState(false);
   const [isSelectPostbox, setIsSelectPostbox] = useLocalStorage(
-    'PostboxArr',
+    'Postboxes',
     '№ поштомату'
   );
 
@@ -140,7 +140,7 @@ export default function MethodDelivery({ onDeliveryChange }) {
               ))}
             </ul>
             {step === 3 ? (
-                <div className={css.deliveryItem}>
+              <div className={css.deliveryItem}>
                 <div className={css.deliveryResultBlock}>
                   {deliveryData[seller].type === 'nova-poshta' && (
                     <>
@@ -214,7 +214,7 @@ export default function MethodDelivery({ onDeliveryChange }) {
                 </div>
               </div>
             ) : (
-             <ul>
+              <ul>
                 {['nova-poshta', 'post_box', 'courier', 'ukrposhta'].map(
                   (type) => (
                     <li className={css.deliveryItem} key={type}>

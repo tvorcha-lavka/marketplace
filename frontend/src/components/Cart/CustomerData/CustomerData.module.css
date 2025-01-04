@@ -90,3 +90,17 @@
 span {
   font-weight: 400;
 }
+
+.errorbox{
+  margin-block-end: 12px;
+}
+
+.error{ 
+  display: block;
+  width: 100%;
+  padding: 4px;
+  border-radius: 8px;
+  border: 1px solid #fcbc5a;
+}
+
+

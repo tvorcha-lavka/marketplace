@@ -3,7 +3,6 @@ import { NavLink, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAllCategories } from '../../redux/categories/categoriesSelectors';
 import { positionTitle, cardOrientation } from '../../utils/positionTitle.js';
-import { getAllCategories } from '../../redux/categories/categoriesOperations.js';
 
 import css from './AllCategories.module.css';
 
@@ -13,12 +12,6 @@ export default function AllCategories() {
   // console.log(сategories);
   const dispatch = useDispatch();
   let verticalCounter = 0;
-
-  useEffect(() => {
-    if (сategories.length === 0) {
-      dispatch(getAllCategories());
-    }
-  }, [dispatch, сategories]);
 
   return (
     <div className={css.container}>

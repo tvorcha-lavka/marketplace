@@ -16,9 +16,16 @@ export default function CustomerData() {
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [isButtonEnabled, setIsButtonEnabled] = useState(false);
+  const [savedData, setSavedData] = useState([]);
   const step = useSelector(selectCartStep);
   const dispatch = useDispatch();
   const customerData = useSelector((state) => state.cart.customerData);
+
+  useEffect(() => {
+    const storedData =
+      JSON.parse(localStorage.getItem('customerDataHistory')) || [];
+    setSavedData(storedData);
+  }, []);
 
   useEffect(() => {
     const isFormValid = () =>
@@ -27,11 +34,17 @@ export default function CustomerData() {
     setIsButtonEnabled(isFormValid());
   }, [name, surname, phone, email]);
 
-  const handleSubmit = () => {
-    dispatch(updateCustomerData({ name, surname, phone, email }));
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const customerData = { name, surname, phone, email };
+
+    dispatch(updateCustomerData(customerData));
+    const updatedData = [...savedData, customerData];
+    localStorage.setItem('customerDataHistory', JSON.stringify(updatedData));
+    setSavedData(updatedData);
+
     dispatch(nextStep());
   };
-
 
   const handleStepBack = () => {
     dispatch(previousStep());
@@ -43,6 +56,7 @@ export default function CustomerData() {
     setSurname('');
     setPhone('');
     setEmail('');
+    // localStorage.removeItem('customerData');
   };
 
   return (
@@ -57,23 +71,43 @@ export default function CustomerData() {
                 <input
                   id="name"
                   type="text"
+                  list="nameList"
                   value={name}
                   className={css.form_input}
+                  pattern="^[a-zA-Zа-яА-ЯіїєґІЇЄҐ-]+$"
+                  title="Тільки букви, можуть бути розділені дефісом."
                   placeholder="Валерія"
                   required
                   onChange={(e) => setName(e.currentTarget.value)}
                 />
+                <datalist id="nameList">
+                  {savedData.map((data, index) => (
+                    <option key={index} value={data.name}>
+                      {data.name}
+                    </option>
+                  ))}
+                </datalist>
               </label>
               <label className={css.inline}>
                 Прізвище&#42;
                 <input
                   type="text"
+                  list="surnameList"
                   value={surname}
                   className={css.form_input}
+                  pattern="^[a-zA-Zа-яА-ЯіїєґІЇЄҐ-]+$"
+                  title="Тільки букви, можуть бути розділені дефісом."
                   placeholder="Петрівна"
                   required
                   onChange={(e) => setSurname(e.currentTarget.value)}
                 />
+                <datalist id="surnameList">
+                  {savedData.map((data, index) => (
+                    <option key={index} value={data.surname}>
+                      {data.surname}
+                    </option>
+                  ))}
+                </datalist>
               </label>
             </div>
             <div className={css.form_wrapper}>
@@ -81,30 +115,50 @@ export default function CustomerData() {
                 Номер телефону&#42;
                 <input
                   type="tel"
+                  list="phoneList"
                   value={phone}
                   className={css.form_input_row}
+                  pattern="^\+?[0-9-]+$"
+                  title="Тільки цифри, дефіси, дужки, знак +."
                   placeholder="+ 38 (067) 112-45-45"
                   required
                   onChange={(e) => setPhone(e.currentTarget.value)}
                 />
+                <datalist id="phoneList">
+                  {savedData.map((data, index) => (
+                    <option key={index} value={data.phone}>
+                      {data.phone}
+                    </option>
+                  ))}
+                </datalist>
               </label>
               <label className={css.inline}>
                 E-mail адреса&#42;
                 <input
                   type="email"
+                  list="browsers"
                   value={email}
                   className={css.form_input_row}
-                  pattern="^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$"
+                  pattern="^([a-zA-Z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$"
+                  title="Введіть правильний email. Наприклад: user@example.com."
                   placeholder="val23@gmail.com"
                   required
                   onChange={(e) => setEmail(e.currentTarget.value)}
                 />
+                <datalist id="emailList">
+                  {savedData.map((data, index) => (
+                    <option key={index} value={data.email}>
+                      {data.email}
+                    </option>
+                  ))}
+                </datalist>
               </label>
             </div>
+
             <CustomButton
               className={css.btnContinue}
               size="small"
-              type="button"
+              type="submit"
               onClick={handleSubmit}
               disabled={!isButtonEnabled}
             >
