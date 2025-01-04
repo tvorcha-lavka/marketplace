@@ -1,0 +1,30 @@
+.deliveryTitle {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-tiny);
+  color: var(--default-black);
+}
+
+.deliveryList {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
+
+.deliveryItem {
+  display: flex;
+  flex-direction: row;
+  column-gap: 11px;
+  align-items: center;
+}
+
+.novaPostLogo,
+.ukrPostLogo {
+  width: 21px;
+  height: 21px;
+}
+
+.deliveryPost {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-tiny);
+  color: var(--default-black);
+}

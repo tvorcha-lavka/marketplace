@@ -16,7 +16,7 @@ import SelectedFilters from '../SelectedFilters/SelectedFilters';
 export default function Category() {
   const { categoryId } = useParams();
   const dispatch = useDispatch();
-  const category = useSelector(selectCategoryById);
+	const category = useSelector(selectCategoryById);
 
   useEffect(() => {
     if (categoryId) {

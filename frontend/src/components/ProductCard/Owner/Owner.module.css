@@ -1,0 +1,57 @@
+.avatar {
+  border-radius: var(--border-radius-avatar);
+  width: 80px;
+  height: 80px;
+  margin-right: 12px;
+  background-color: var(--background-grey);
+}
+
+.sellerName {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-extra-small);
+  color: var(--default-black);
+}
+
+.seller {
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
+}
+
+.startStore {
+  font-weight: var(--font-weight-normal);
+  font-size: var(--font-size-extra-tiny);
+  color: var(--default-black);
+}
+
+.sellerOnline {
+  margin-bottom: var(--font-size-extra-small);
+  font-weight: var(--font-weight-small);
+  font-size: var(--font-size-extra-tiny);
+  color: var(--default-black);
+}
+
+.startChat {
+  display: flex;
+  align-items: center;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: var(--border-width) var(--border-style) var(--grey-lighter);
+  width: 317px;
+  height: 0px;
+}
+
+.chatBtn {
+  border: none;
+  text-decoration: underline;
+  margin-right: 8px;
+  background-color: transparent;
+}
+
+.pencilIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--icon-size);
+  height: var(--icon-size);
+}

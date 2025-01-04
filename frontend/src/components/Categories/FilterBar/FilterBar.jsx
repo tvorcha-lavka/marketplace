@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { RiArrowDownSLine, RiArrowUpSLine } from 'react-icons/ri';
-import { filterbar } from '../../../utils/filterbar';
+import { filterBar } from '../../../utils/filterBar';
 import css from './FilterBar.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { getFiltersCategory } from '../../../redux/filters/filtersOperations';

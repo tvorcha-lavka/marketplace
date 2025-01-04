@@ -1,18 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import Loader from '../../formModalComponents/Loader/Loader';
-
 import { selectPopCategories } from '../../redux/categories/categoriesSelectors';
-import { getPopCategories } from '../../redux/categories/categoriesOperations';
+import { getAllCategoriesWithPopular } from '../../redux/categories/categoriesOperations';
 import { positionTitle, cardOrientation } from '../../utils/positionTitle';
 
 import css from './PopularCategories.module.css';
 
 export default function PopularCategories() {
-  const [isLoading, setIsLoading] = useState(true);
-
   const dispatch = useDispatch();
   const popCategories = useSelector(selectPopCategories);
 
@@ -20,20 +16,11 @@ export default function PopularCategories() {
 
   useEffect(() => {
     if (popCategories.length === 0) {
-      setIsLoading(true);
-      dispatch(getPopCategories()).finally(() => {
-        setIsLoading(false);
-      });
-    } else {
-      setIsLoading(false);
+      dispatch(getAllCategoriesWithPopular());
     }
   }, [dispatch, popCategories]);
 
-  return isLoading ? (
-    <div className={css.loader}>
-      <Loader />
-    </div>
-  ) : (
+  return (
     <section className={css.container}>
       <div className={css.title_box}>
         <h2 className={css.title}>Популярні категорії</h2>

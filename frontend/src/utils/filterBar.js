@@ -1,4 +1,4 @@
-export const filterbar = [
+export const filterBar = [
   {
     title: 'Матеріал',
     filters: [

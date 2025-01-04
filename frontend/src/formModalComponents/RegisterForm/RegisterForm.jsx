@@ -1,6 +1,5 @@
 import { useId } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { register } from '../../redux/auth/operations';
 import { Formik, Form } from 'formik';
 import toast from 'react-hot-toast';
 
@@ -14,6 +13,7 @@ import PasswordField from '../PasswordField/PasswordField';
 import { useModal } from '../../hooks/useModal';
 import { selectLoading } from '../../redux/auth/selectors';
 import { schema } from '../../utils/formSchema';
+import { register } from '../../redux/auth/operations';
 
 import css from '../RegisterForm/RegisterForm.module.css';
 
