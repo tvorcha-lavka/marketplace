@@ -11,10 +11,12 @@ import {
 import { toggleFilter } from '../../../redux/filters/filtersSlice';
 
 export default function FilterBar({ categoryId }) {
+  const [openFilters, setOpenFilters] = useState({});
+  const [priceRange, setPriceRange] = useState({ min: 0, max: 2000 });
+
   const filters = useSelector(selectFiltersCategory);
   const activeFilters = useSelector(selectActiveFilters);
   const dispatch = useDispatch();
-  const [openFilters, setOpenFilters] = useState({});
 
   useEffect(() => {
     if (categoryId) {
@@ -45,6 +47,59 @@ export default function FilterBar({ categoryId }) {
     dispatch(toggleFilter({ id: filterId, value }));
   };
 
+  const handlePriceChange = (e) => {
+    const { name, value } = e.target;
+    setPriceRange((prevRange) => ({
+      ...prevRange,
+      [name]: value,
+    }));
+  };
+
+  const renderColorValues = (values, id) => {
+    return (
+      <div className={css.colorbox}>
+        {values.map((option) => (
+          <button
+            key={option.value}
+            className={css.colorSquare}
+            style={{ backgroundColor: option.metadata.hex_code }}
+            value={option.value}
+            onClick={() => handleToggleFilter(id, option.value)}
+          ></button>
+        ))}
+      </div>
+    );
+  };
+
+  const renderPriceRange = (min, max) => {
+    return (
+      <div className="price-range">
+        <label>
+          Від:
+          <input
+            type="number"
+            name="min"
+            value={priceRange.min}
+            min={min}
+            max={priceRange.max}
+            onChange={handlePriceChange}
+          />
+        </label>
+        <label>
+          До:
+          <input
+            type="number"
+            name="max"
+            value={priceRange.max}
+            min={priceRange.min}
+            max={max}
+            onChange={handlePriceChange}
+          />
+        </label>
+      </div>
+    );
+  };
+
   return (
     <form className={css.filters} onSubmit={(e) => e.preventDefault()}>
       {filters?.map((filter) => (
@@ -64,20 +119,26 @@ export default function FilterBar({ categoryId }) {
           </legend>
           {openFilters[filter.id] && (
             <div className={css.filter_option}>
-              {filter.values.map((option) => (
-                <label key={option.id} className={css.option_label}>
-                  <input
-                    className={css.input}
-                    type="checkbox"
-                    value={option.value}
-                    checked={
-                      activeFilters[filter.id]?.includes(option.value) ?? false
-                    }
-                    onChange={() => handleToggleFilter(filter.id, option.value)}
-                  />
-                  {option.value}
-                </label>
-              ))}
+              {filter.name === 'Цвет' &&
+                renderColorValues(filter.values, filter.id)}
+              {filter.name !== 'Цвет' &&
+                filter.values.map((option) => (
+                  <label key={option.id} className={css.option_label}>
+                    <input
+                      className={css.input}
+                      type="checkbox"
+                      value={option.value}
+                      checked={
+                        activeFilters[filter.id]?.includes(option.value) ??
+                        false
+                      }
+                      onChange={() =>
+                        handleToggleFilter(filter.id, option.value)
+                      }
+                    />
+                    {option.value}
+                  </label>
+                ))}
             </div>
           )}
         </fieldset>

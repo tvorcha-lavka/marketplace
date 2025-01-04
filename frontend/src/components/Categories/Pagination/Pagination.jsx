@@ -2,9 +2,9 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { MdChevronRight, MdChevronLeft } from 'react-icons/md';
 import css from './Pagination.module.css';
 
-export default function Pagination({ currentPage, onPageChange }) {
+export default function Pagination({ currentPage, onPageChange, totalPages }) {
   const [displayedPages, setDisplayedPages] = useState([]);
-  const totalPages = 9;
+
   const updatePages = useCallback(
     (page) => {
       const totalDisplayedPages = 4;
@@ -39,7 +39,7 @@ export default function Pagination({ currentPage, onPageChange }) {
     if (currentPage > 1) {
       onPageChange(currentPage - 1);
       updatePages(currentPage - 1);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
@@ -47,7 +47,7 @@ export default function Pagination({ currentPage, onPageChange }) {
     if (currentPage < totalPages) {
       onPageChange(currentPage + 1);
       updatePages(currentPage + 1);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 

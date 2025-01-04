@@ -1,6 +1,10 @@
+import { useSelector } from 'react-redux';
+import { selectProducts } from '../../../redux/products/selectors';
 import css from './Sort.module.css';
 
 export default function Sort() {
+  const allProducts = useSelector(selectProducts);
+
   return (
     <section className={css.sort_section}>
       <div className={css.wrapper}>
@@ -19,8 +23,8 @@ export default function Sort() {
             <label htmlFor="number">Показувати по:</label>
             <select name="number" id="number" default="min">
               <option value="min">24</option>
-              <option value="max">30</option>
-              <option value="max">50</option>
+              <option value="max">48</option>
+              <option value="max">96</option>
             </select>
           </div>
         </div>
