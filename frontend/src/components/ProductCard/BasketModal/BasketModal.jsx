@@ -1,4 +1,4 @@
-import { LuCheckCircle } from 'react-icons/lu';
+import { FiCheckCircle } from 'react-icons/fi';
 import { toast } from 'react-hot-toast';
 
 import CustomButton from '../../CustomButton/CustomButton';
@@ -26,7 +26,7 @@ export default function BasketModal({ product, onClose, onOpenDetails }) {
           boxShadow: 'var(--cart-shadow)',
         }}
       >
-        <LuCheckCircle style={{ fontSize: '24px' }} />
+        <FiCheckCircle style={{ fontSize: '24px' }} />
         Товар додано до кошика
       </div>
     ));
@@ -36,7 +36,7 @@ export default function BasketModal({ product, onClose, onOpenDetails }) {
   return (
     <>
       <span>
-        <LuCheckCircle className={css.checkIcon} />
+        <FiCheckCircle className={css.checkIcon} />
       </span>
       <h3 className={css.orderTitle}>Товар додано до кошика!</h3>
       <h2 className={css.productTitle}>{product.title}</h2>
