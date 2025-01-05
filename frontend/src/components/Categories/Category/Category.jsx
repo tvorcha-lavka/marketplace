@@ -11,6 +11,7 @@ import { getCategoryById } from '../../../redux/categories/categoriesOperations'
 import { selectCategoryById } from '../../../redux/categories/categoriesSelectors';
 
 import css from './Category.module.css';
+import SelectedFilters from '../SelectedFilters/SelectedFilters';
 
 export default function Category() {
   const { categoryId } = useParams();
@@ -25,39 +26,30 @@ export default function Category() {
 
   return (
     <div className={css.container}>
-      <ul className={css.way}>
-        <li>
-          <NavLink className={css.navLink} to="/">
-            Головна/&nbsp;
-          </NavLink>
-        </li>
-        <li>
-          <NavLink className={css.navLink} to="/categories">
-            Всі категорії/&nbsp;
-          </NavLink>
-        </li>
-        <li>
-          <NavLink className={css.active} to={`/categories/${categoryId}`}>
-            {category?.title}
-          </NavLink>
-        </li>
-      </ul>
+      <div className={css.way}>
+        <NavLink className={css.navLink} to="/">
+          Головна /
+        </NavLink>
+        <NavLink className={css.navLink} to="/categories">
+          Всі категорії /
+        </NavLink>
+        <NavLink className={css.active} to={`/categories/${categoryId}`}>
+          {category?.title}
+        </NavLink>
+      </div>
 
-      <h2 className={css.category_title}>{category?.title}</h2>
+      <h2 className={css.category_title}> {category?.title}</h2>
 
       <CategorySlider category={category} />
 
       <div className={css.wrapper}>
         <div className={css.filter}>
-          <FilterBar />
+          <FilterBar categoryId={categoryId} />
         </div>
         <section className={css.product_view_sort}>
-          <div className={css.sort_filter}>
-            <Sort />
-          </div>
-          <div className={css.main_product}>
-            <ProductList categoryId={categoryId} />
-          </div>
+          <SelectedFilters />
+          <Sort />
+          <ProductList categoryId={categoryId} />
         </section>
       </div>
     </div>

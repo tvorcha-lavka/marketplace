@@ -50,3 +50,7 @@
   display: flex;
   justify-content: space-between;
 }
+
+.product_view_sort {
+  padding-inline-start: 72px;
+}

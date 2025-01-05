@@ -1,6 +1,32 @@
-.basket {
-	max-width: 1440px;
-	padding: 20px 124px 40px 124px;
-	margin: 0 auto;
-	min-height: 100vh;
+.cart_container {
+  margin-inline: auto;
+  max-width: 1440px;
+  background: #fefcfa;
+  padding: 20px 120px;
 }
+
+.navbox {
+   margin-block-end: 20px;
+}
+
+.navLink {
+  margin-inline-end: 4px;
+  font-size: 14px;
+  color: #949494;
+}
+
+.navLink:last-child {
+  margin-inline-end: 0;
+}
+
+.active {
+  font-size: 14px;
+  color: black;
+}
+
+.cartAndSummary {
+  display: grid;
+  grid-template-columns: 694px 490px;
+  gap: 16px;
+}
+

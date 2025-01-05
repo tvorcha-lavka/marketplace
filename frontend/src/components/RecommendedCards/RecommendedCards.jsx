@@ -18,6 +18,7 @@ export default function RecommendedCards() {
 
   const dispatch = useDispatch();
   const allProducts = useSelector(selectProducts);
+  console.log(allProducts)
 
   useEffect(() => {
     if (!allProducts || allProducts.length === 0) {

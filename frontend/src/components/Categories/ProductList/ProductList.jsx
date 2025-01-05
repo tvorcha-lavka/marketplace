@@ -11,7 +11,7 @@ import { selectProducts } from '../../../redux/products/selectors';
 
 import css from './ProductList.module.css';
 
-const COUNT_PRODUCTS = 9;
+const COUNT_PRODUCTS = 3;
 
 export default function ProductList({ categoryId }) {
   const [next, setNext] = useState(COUNT_PRODUCTS);
@@ -21,6 +21,8 @@ export default function ProductList({ categoryId }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const allProducts = useSelector(selectProducts);
+
+  const totalPages = Math.ceil(allProducts.length / COUNT_PRODUCTS);
 
   const currentPage = new URLSearchParams(location.search).get('page') || 1;
 
@@ -44,7 +46,7 @@ export default function ProductList({ categoryId }) {
     <div>
       {allProducts.length > 0 && (
         <ul className={css.list}>
-          {allProducts.map((item) => (
+          {allProducts.slice(0, next).map((item) => (
             <li
               className={`${css.item} ${activeCardId === item.id ? css.active : ''}`}
               onBlur={handleCardBlur}
@@ -69,6 +71,7 @@ export default function ProductList({ categoryId }) {
       <Pagination
         onPageChange={onPageChange}
         currentPage={parseInt(currentPage)}
+        totalPages={totalPages}
       />
     </div>
   );

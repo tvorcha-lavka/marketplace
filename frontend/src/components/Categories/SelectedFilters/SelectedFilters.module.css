@@ -1,0 +1,33 @@
+.selected_filters {
+  margin-block-end: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.selected_filters_list {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filter_chip,
+.clear_all_btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px;
+  border: 1px solid #b1b1b1;
+  border-radius: 8px;
+}
+
+.remove_filter_btn,
+.clear_all_btn {
+  font-size: 14px;
+  border: none;
+  background-color: transparent;
+}
+
+.clear_all_btn {
+  color: #d33232;
+}

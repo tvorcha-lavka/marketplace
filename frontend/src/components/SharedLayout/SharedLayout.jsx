@@ -1,12 +1,14 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { Suspense, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import Header from '../Header/Header';
+import HeaderCart from '../HeaderCart/HeaderCart';
 import Footer from '../Footer/Footer';
 import Loader from '../../formModalComponents/Loader/Loader';
 
-import { getAllCategoriesWithPopular } from '../../redux/categories/categoriesOperations';
+import {
+  getAllCategoriesWithPopular} from '../../redux/categories/categoriesOperations';
 
 import css from './SharedLayout.module.css';
 
@@ -16,11 +18,20 @@ export default function SharedLayout() {
   useEffect(() => {
     dispatch(getAllCategoriesWithPopular());
   }, [dispatch]);
+  
+  const location = useLocation();
+  const isCartPage = location.pathname === '/cart';
+  const isOrderPage = location.pathname === '/order';
+  const isConfirmationPage = location.pathname === '/confirmation';
 
   return (
     <div>
-      <Header />
-      <main className={css.layout}>
+      {isCartPage || isOrderPage || isConfirmationPage ? (
+        <HeaderCart />
+      ) : (
+        <Header />
+      )}
+     <main className={css.layout}>
         <Suspense
           fallback={
             <div className={css.layoutLoader}>

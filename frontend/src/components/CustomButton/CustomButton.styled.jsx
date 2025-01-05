@@ -7,7 +7,8 @@ const widths = {
 	semiMedium: '322.5px',
   small: '187px',
   custom1: '284px',
-  custom2: '325px'
+  custom2: '325px', 
+  custom3: '244px',
 };
 
 const BaseButtonStyled = styled('button')(({ theme }) => ({

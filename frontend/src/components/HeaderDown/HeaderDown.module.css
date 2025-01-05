@@ -23,6 +23,10 @@
   color: var(--grey-darkest);
 }
 
+.nav_link:is(:focus, :hover) {
+  color: var(--primary-dark-orange);
+}
+
 .active {
   color: var(--primary-dark-orange);
 }

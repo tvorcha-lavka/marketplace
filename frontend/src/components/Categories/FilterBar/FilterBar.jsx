@@ -1,31 +1,146 @@
-import { useState } from 'react';
-import { RiArrowDownSLine } from 'react-icons/ri';
+import { useEffect, useState } from 'react';
+import { RiArrowDownSLine, RiArrowUpSLine } from 'react-icons/ri';
 import { filterBar } from '../../../utils/filterBar';
 import css from './FilterBar.module.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { getFiltersCategory } from '../../../redux/filters/filtersOperations';
+import {
+  selectActiveFilters,
+  selectFiltersCategory,
+} from '../../../redux/filters/filtersSelector';
+import { toggleFilter } from '../../../redux/filters/filtersSlice';
 
-export default function FilterBar() {
-  const [isOpenId, setIsOpenId] = useState(null);
+export default function FilterBar({ categoryId }) {
+  const [openFilters, setOpenFilters] = useState({});
+  const [priceRange, setPriceRange] = useState({ min: 0, max: 2000 });
+
+  const filters = useSelector(selectFiltersCategory);
+  const activeFilters = useSelector(selectActiveFilters);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (categoryId) {
+      dispatch(getFiltersCategory(categoryId));
+    }
+  }, [dispatch, categoryId]);
+
+  useEffect(() => {
+    if (filters.length > 0) {
+      setOpenFilters((prev) => {
+        const newFilters = filters.reduce((acc, filter) => {
+          acc[filter.id] = prev[filter.id] ?? true;
+          return acc;
+        }, {});
+        return newFilters;
+      });
+    }
+  }, [filters]);
+
+  const toggleFilterOpen = (filterId) => {
+    setOpenFilters((prev) => ({
+      ...prev,
+      [filterId]: !prev[filterId],
+    }));
+  };
+
+  const handleToggleFilter = (filterId, value) => {
+    dispatch(toggleFilter({ id: filterId, value }));
+  };
+
+  const handlePriceChange = (e) => {
+    const { name, value } = e.target;
+    setPriceRange((prevRange) => ({
+      ...prevRange,
+      [name]: value,
+    }));
+  };
+
+  const renderColorValues = (values, id) => {
+    return (
+      <div className={css.colorbox}>
+        {values.map((option) => (
+          <button
+            key={option.value}
+            className={css.colorSquare}
+            style={{ backgroundColor: option.metadata.hex_code }}
+            value={option.value}
+            onClick={() => handleToggleFilter(id, option.value)}
+          ></button>
+        ))}
+      </div>
+    );
+  };
+
+  const renderPriceRange = (min, max) => {
+    return (
+      <div className="price-range">
+        <label>
+          Від:
+          <input
+            type="number"
+            name="min"
+            value={priceRange.min}
+            min={min}
+            max={priceRange.max}
+            onChange={handlePriceChange}
+          />
+        </label>
+        <label>
+          До:
+          <input
+            type="number"
+            name="max"
+            value={priceRange.max}
+            min={priceRange.min}
+            max={max}
+            onChange={handlePriceChange}
+          />
+        </label>
+      </div>
+    );
+  };
+
   return (
     <form className={css.filters} onSubmit={(e) => e.preventDefault()}>
-      {filterBar?.map(({ title, filters }, id) => (
-        <fieldset key={title} className={css.filter_group}>
+      {filters?.map((filter) => (
+        <fieldset key={filter.id} className={css.filter_group}>
           <legend className={css.group_title}>
-            {title}
-            <button className={css.btn_filter} onClick={() => setIsOpenId(id)}>
-              <RiArrowDownSLine size="24" />
+            <button
+              className={css.btn_filter}
+              onClick={() => toggleFilterOpen(filter.id)}
+            >
+              {filter.name}
+              {openFilters[filter.id] ? (
+                <RiArrowUpSLine className={css.icon_filter} size="24" />
+              ) : (
+                <RiArrowDownSLine className={css.icon_filter} size="24" />
+              )}
             </button>
           </legend>
-
-          <ul className={css.filter_field}>
-            {filters.map(({ subtitle, color }, id) => (
-              <li key={id} className={css.field_item}>
-                <input className={css.input} type="checkbox" name="" value={subtitle} id={subtitle} />
-                <label htmlFor={subtitle} className={css.filter_label}>
-                  {subtitle}
-                </label>
-              </li>
-            ))}
-          </ul>
+          {openFilters[filter.id] && (
+            <div className={css.filter_option}>
+              {filter.name === 'Цвет' &&
+                renderColorValues(filter.values, filter.id)}
+              {filter.name !== 'Цвет' &&
+                filter.values.map((option) => (
+                  <label key={option.id} className={css.option_label}>
+                    <input
+                      className={css.input}
+                      type="checkbox"
+                      value={option.value}
+                      checked={
+                        activeFilters[filter.id]?.includes(option.value) ??
+                        false
+                      }
+                      onChange={() =>
+                        handleToggleFilter(filter.id, option.value)
+                      }
+                    />
+                    {option.value}
+                  </label>
+                ))}
+            </div>
+          )}
         </fieldset>
       ))}
     </form>

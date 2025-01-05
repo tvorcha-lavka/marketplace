@@ -1,31 +1,35 @@
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { GoChevronRight } from 'react-icons/go';
-
 import { media } from '../../utils/mediaConfig';
 import {
-  selectAllCategories,
+  selectCatalog,
   selectIsLoading,
   selectError,
 } from '../../redux/categories/categoriesSelectors';
-
+import { getCatalog } from '../../redux/categories/categoriesOperations';
 import css from './CatalogModal.module.css';
 
 export default function CatalogModal({ noFocuseModal }) {
   const [focusId, setFocusId] = useState(null);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const categories = useSelector(selectAllCategories);
-  const allCategories = [...categories].reverse();
+  const categories = useSelector(selectCatalog);
   // const isLoading = useSelector(selectIsLoading);
 
   // console.log(categories);
-
-  const focusedCategory = allCategories?.find(
+  const focusedCategory = categories?.find(
     (category) => category.id === focusId
   );
   const subcategories = focusedCategory?.children || [];
+
+  useEffect(() => {
+    if (categories.length === 0) {
+      dispatch(getCatalog());
+    }
+  }, [dispatch, categories]);
 
   const handleMouseEnter = (id) => {
     setFocusId(id);
@@ -55,7 +59,7 @@ export default function CatalogModal({ noFocuseModal }) {
               : `${css.list_categories}`
           }
         >
-          {allCategories?.map((category) => (
+          {categories?.map((category) => (
             <li
               key={category.id}
               className={css.category_item}

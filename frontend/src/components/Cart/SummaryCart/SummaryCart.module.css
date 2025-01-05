@@ -1,0 +1,84 @@
+.summary_section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.summarybox {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 24px;
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 0px 1px 12px 0px rgba(130, 84, 8, 0.15);
+}
+
+.price_summary {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-block-end: 12px;
+}
+
+.text_up {
+  font-size: 14px;
+  margin-block-end: 4px;
+}
+
+.text {
+  font-size: 14px;
+}
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+hr {
+  height: 1px;
+  color: #b1b1b1;
+}
+
+.coordination {
+  font-size: 12px;
+}
+
+.infobox {
+  display: flex;
+  align-items: start;
+  gap: 10px;
+  margin-block-end: 16px;
+  padding: 25px 24px;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0px 1px 12px 0px rgba(130, 84, 8, 0.15);
+}
+
+.info_text,
+.payment_info {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.info_link {
+  text-decoration: underline;
+  color: #000;
+}
+
+.payment_infobox {
+  display: flex;
+  align-items: center;
+}
+
+.payment_pay {
+  margin-inline-start: 4px;
+  color: #4b4c4b;
+}
+
+.payment_icon {
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  fill: linear-gradien(#9fdb57, #71ca5e #1fadc3, #36b98f);
+}
