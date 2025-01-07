@@ -61,6 +61,9 @@ const initialState = {
   selectedItems: [],
   totalPayment: 0,
   deliveryFee: 0,
+  cachedCities: {},
+  cachedBranches: {},
+  cachedPostbox: {},
 };
 
 const cartSlice = createSlice({
@@ -110,6 +113,18 @@ const cartSlice = createSlice({
       }
       state.deliveryData[seller] = { ...state.deliveryData[seller], ...data };
     },
+    cacheCityList: (state, action) => {
+      const { searchTerm, cities } = action.payload;
+      state.cachedCities[searchTerm] = cities;
+    },
+    cacheBranchList: (state, action) => {
+      const { city, branches } = action.payload;
+      state.cachedBranches[city] = branches;
+    },
+    cachePostboxList: (state, action) => {
+      const { city, postboxes } = action.payload;
+      state.cachedPostbox[city] = postboxes;
+    },
     updatePaymentData: (state, action) => {
       state.paymentData = { ...state.paymentData, ...action.payload };
     },
@@ -139,6 +154,9 @@ export const {
   removeItem,
   updateCustomerData,
   updateDeliveryData,
+  cacheCityList,
+  cacheBranchList,
+  cachePostboxList,
   updatePaymentData,
   nextStep,
   previousStep,

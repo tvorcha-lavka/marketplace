@@ -28,7 +28,7 @@
 }
 
 .productList {
-	position: relative;
+  position: relative;
   padding-bottom: 13px;
   margin-bottom: 20px;
   display: flex;
@@ -36,15 +36,15 @@
 }
 
 .img {
-	width: 88px;
-	height: 88px;
-	object-fit: cover;
+  width: 88px;
+  height: 88px;
+  object-fit: cover;
   margin-right: 10px;
   border-radius: var(--border-radius);
 }
 
 .productTitle {
-	padding-right: 110px;
+  padding-right: 110px;
   margin-bottom: 5px;
   font-weight: var(--font-weight-normal);
   font-size: var(--font-size-tiny);
@@ -64,7 +64,7 @@
 
 .filterInfo {
   display: flex;
-	white-space: nowrap;
+  white-space: nowrap;
   gap: 8px;
   font-weight: var(--font-weight-normal);
   font-size: var(--font-size-extra-tiny);
@@ -72,9 +72,9 @@
 }
 
 .priceContainer {
-	top: 0;
-	right: 0;
-	position: absolute;
+  top: 0;
+  right: 0;
+  position: absolute;
   display: flex;
   gap: 10px;
 }
