@@ -1,7 +1,7 @@
 .ordershopping_section {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 20px;
   height: 300px;
   padding: 24px;
   background-color: #fff;
@@ -58,46 +58,5 @@
   margin-block-end: 20px;
   display: flex;
   flex-direction: column;
-}
-
-.cart_item {
-  display: flex;
-  align-items: start;
-  gap: 8px;
-  padding-block: 12px;
-  border-bottom: 1px solid #eee;
-}
-
-.item_img {
-  margin-inline-end: 4px;
-  width: 88px;
-  height: 88px;
-  border-radius: 8px;
-  opacity: 0px;
-}
-
-.item_title {
-  margin-block-end: 4px;
-  font-size: 14px;
-}
-
-.item_seller {
-  margin-block-end: 16px;
-  font-size: 12px;
-  color: #414141;
-}
-
-.item_filter {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  font-size: 12px;
-  color: #000;
-}
-
-.item_price {
-  margin-inline: auto 18px;
-  font-weight: bold;
-  font-size: 14px;
-  color: #000;
+  gap: 12px;
 }
