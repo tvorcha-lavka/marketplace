@@ -14,13 +14,12 @@ export default function DeliveryResult({ seller }) {
               <div className={css.resultInput}></div>
               <p className={css.resultText}>Доставка Нова Пошта у відділення</p>
             </div>
-            <p className={css.resnltText}>
+            <p className={css.resultText}>
               <b>Адреса відділення:</b>
-              {deliveryData[seller].city}
-            </p>
-            <p className={css.resnltText}>
-              <b>Години роботи</b>
               {deliveryData[seller].branch}
+            </p>
+            <p className={css.resultText}>
+              <b>Години роботи:</b>
             </p>
           </>
         )}
@@ -30,8 +29,8 @@ export default function DeliveryResult({ seller }) {
               <div className={css.resultInput}></div>
               <p className={css.resultText}>Доставка Нова Пошта у поштомат</p>
             </div>
-            <p className={css.resnltText}>{deliveryData[seller].city}</p>
-            <p className={css.resnltText}>{deliveryData[seller].postbox}</p>
+            <p className={css.resultText}>{deliveryData[seller].city}</p>
+            <p className={css.resultText}>{deliveryData[seller].postbox}</p>
           </>
         )}
         {deliveryData[seller].type === 'courier' && (
@@ -40,7 +39,7 @@ export default function DeliveryResult({ seller }) {
               <div className={css.resultInput}></div>
               <p className={css.inputText}>Доставка кур’єром Нова Пошта</p>
             </div>
-            <p className={css.resnltText}>
+            <p className={css.resultText}>
               <b> Адреса доставки: </b>&nbsp;
               {deliveryData[seller].street},&nbsp;
               {deliveryData[seller].house},&nbsp;

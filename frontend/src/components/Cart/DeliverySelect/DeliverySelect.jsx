@@ -1,24 +1,18 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { GoChevronDown, GoChevronUp } from 'react-icons/go';
-import { updateDeliveryData } from '../../../redux/cart/cartSlice';
-import { useLocalStorage } from '../../../hooks/useLocalStorage';
+import {
+  cacheBranchList,
+  cacheCityList,
+  cachePostboxList,
+  updateDeliveryData,
+} from '../../../redux/cart/cartSlice';
+import DropdownSelector from '../DropdownSelector/DropdownSelector';
 import css from './DeliverySelect.module.css';
 
 export default function DeliverySelect({ seller, onDeliveryChange }) {
-  const [openCity, setOpenCity] = useState(false);
-  const [isSelectCity, setIsSelectCity] = useLocalStorage('Cities', 'Місто');
-
-  const [openBranch, setOpenBranch] = useState(false);
-  const [isSelectBranch, setIsSelectBranch] = useLocalStorage(
-    'Branches',
-    'Відділення'
-  );
-  const [openPostbox, setOpenPostbox] = useState(false);
-  const [isSelectPostbox, setIsSelectPostbox] = useLocalStorage(
-    'Postboxes',
-    '№ поштомату'
-  );
+  const [selectedCity, setSelectedCity] = useState('');
+  const [selectedBranch, setSelectedBranch] = useState('');
+  const [selectedPostbox, setSelectedPostbox] = useState('');
 
   const [city, setCity] = useState('');
   const { deliveryData } = useSelector((state) => state.cart);
@@ -103,257 +97,58 @@ export default function DeliverySelect({ seller, onDeliveryChange }) {
           {deliveryData[seller]?.type === type && (
             <div className={css.deliveryDetails}>
               {type === 'nova-poshta' && (
-                <div className={css.detailsbox}>
-                  <div className={css.detailsWrapper}>
-                    <label
-                      htmlFor="city"
-                      className={css.detailsLabel}
-                      name="city"
-                    >
-                      Місто&#42;
-                    </label>
-                    <div className={css.detailsInputbox}>
-                      <input
-                        id="city"
-                        name="city"
-                        className={css.detailsInput}
-                        type="text"
-                        placeholder="Місто"
-                        value={city || isSelectCity}
-                        onClick={() => setOpenCity(!openCity)}
-                        // value={deliveryData[seller].city || ''}
-                        onChange={(e) =>
-                          handleInputChange(
-                            seller,
-                            'city',
-                            e.target.value || isSelectCity
-                          )
-                        }
-                        required
-                      />
-                      <button
-                        type="button"
-                        onClick={() => setOpenCity(!openCity)}
-                      >
-                        {openCity ? (
-                          <GoChevronUp className={css.detailsIcon} size={24} />
-                        ) : (
-                          <GoChevronDown
-                            className={css.detailsIcon}
-                            size={24}
-                          />
-                        )}
-                      </button>
-                    </div>
+                <ul className={css.detailsbox}>
+                  <DropdownSelector
+                    label="Місто"
+                    placeholder="Введіть місто"
+                    cachedDataSelector={(state) => state.cart.cachedCities}
+                    cacheAction={cacheCityList}
+                    updateAction={updateDeliveryData}
+                    fetchData={cityList}
+                    value={selectedCity}
+                    onChange={setSelectedCity}
+                    fieldKey="city"
+                  />
 
-                    {openCity && (
-                      <div className={css.detailsSelect}>
-                        <div className={css.scrollbox}>
-                          <div className={css.scrollbox_inner}>
-                            <ul className={css.optionList}>
-                              {cityList.map((city) => (
-                                <li
-                                  key={city}
-                                  className={css.optionItem}
-                                  onClick={(e) => {
-                                    setIsSelectCity(e.target.innerText);
-                                    setOpenCity(!openCity);
-                                  }}
-                                >
-                                  {city}
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-
-                  <div className={css.detailsWrapper}>
-                    <label
-                      htmlFor="branch"
-                      className={css.detailsLabel}
-                      name="branch"
-                    >
-                      Відділення&#42;
-                    </label>
-                    <div className={css.detailsInputbox}>
-                      <input
-                        id="branch"
-                        name="branch"
-                        className={css.detailsInput}
-                        type="text"
-                        placeholder="Відділення"
-                        value={isSelectBranch}
-                        // value={deliveryData[seller].branch || ''}
-                        onChange={(e) =>
-                          handleInputChange(seller, 'branch', e.target.value)
-                        }
-                        required
-                      />
-                      <button
-                        type="button"
-                        onClick={() => setOpenBranch(!openBranch)}
-                      >
-                        {openCity ? (
-                          <GoChevronUp className={css.detailsIcon} size={24} />
-                        ) : (
-                          <GoChevronDown
-                            className={css.detailsIcon}
-                            size={24}
-                          />
-                        )}
-                      </button>
-                    </div>
-                    {openBranch && (
-                      <div className={css.detailsSelect}>
-                        <div className={css.scrollbox}>
-                          <div className={css.scrollbox_inner}>
-                            <ul className={css.optionList}>
-                              {branchList.map((branch, index) => (
-                                <li
-                                  key={index}
-                                  className={css.optionItem}
-                                  onClick={(e) => {
-                                    setIsSelectBranch(e.target.innerText);
-                                    setOpenBranch(!openBranch);
-                                  }}
-                                >
-                                  {branch}
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
+                  <DropdownSelector
+                    label="Відділення"
+                    placeholder="Оберіть відділення"
+                    cachedDataSelector={(state) => state.cart.cachedBranches}
+                    cacheAction={cacheBranchList}
+                    updateAction={updateDeliveryData}
+                    fetchData={branchList}
+                    value={selectedBranch}
+                    onChange={setSelectedBranch}
+                    fieldKey="branch"
+                  />
+                </ul>
               )}
 
               {type === 'post_box' && (
                 <div className={css.detailsbox}>
-                  <div className={css.detailsWrapper}>
-                    <label
-                      htmlFor="city"
-                      className={css.detailsLabel}
-                      name="city"
-                    >
-                      Місто&#42;
-                    </label>
-                    <div className={css.detailsInputbox}>
-                      <input
-                        id="city"
-                        name="city"
-                        className={css.detailsInput}
-                        type="text"
-                        placeholder="Місто"
-                        value={isSelectCity}
-                        // value={deliveryData[seller].city || ''}
-                        onChange={(e) =>
-                          handleInputChange(seller, 'city', e.target.value)
-                        }
-                        required
-                      />
-                      <button
-                        type="button"
-                        onClick={() => setOpenCity(!openCity)}
-                      >
-                        {openCity ? (
-                          <GoChevronUp className={css.detailsIcon} size={24} />
-                        ) : (
-                          <GoChevronDown
-                            className={css.detailsIcon}
-                            size={24}
-                          />
-                        )}
-                      </button>
-                    </div>
+                  <DropdownSelector
+                    label="Місто"
+                    placeholder="Введіть місто"
+                    cachedDataSelector={(state) => state.cart.cachedCities}
+                    cacheAction={cacheCityList}
+                    updateAction={updateDeliveryData}
+                    fetchData={cityList}
+                    value={selectedCity}
+                    onChange={setSelectedCity}
+                    fieldKey="city"
+                  />
 
-                    {openCity && (
-                      <div className={css.detailsSelect}>
-                        <div className={css.scrollbox}>
-                          <div className={css.scrollbox_inner}>
-                            <ul className={css.optionList}>
-                              {cityList.map((city) => (
-                                <li
-                                  key={city}
-                                  className={css.optionItem}
-                                  onClick={(e) => {
-                                    setIsSelectCity(e.target.innerText);
-                                    setOpenCity(!openCity);
-                                  }}
-                                >
-                                  {city}
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-
-                  <div className={css.detailsWrapper}>
-                    <label
-                      htmlFor="post_box"
-                      className={css.detailsLabel}
-                      name="post_box"
-                    >
-                      Поштомат&#42;
-                    </label>
-                    <div className={css.detailsInputbox}>
-                      <input
-                        id="post_box"
-                        name="post_box"
-                        className={css.detailsInput}
-                        type="text"
-                        placeholder="№ поштомату"
-                        value={isSelectPostbox}
-                        // value={deliveryData[seller].city || ''}
-                        onChange={(e) =>
-                          handleInputChange(seller, 'postbox', e.target.value)
-                        }
-                        required
-                      />
-                      <button
-                        type="button"
-                        onClick={() => setOpenPostbox(!openPostbox)}
-                      >
-                        {openPostbox ? (
-                          <GoChevronUp className={css.detailsIcon} size={24} />
-                        ) : (
-                          <GoChevronDown
-                            className={css.detailsIcon}
-                            size={24}
-                          />
-                        )}
-                      </button>
-                    </div>
-                    {openPostbox && (
-                      <div className={css.detailsSelect}>
-                        <div className={css.scrollbox}>
-                          <div className={css.scrollbox_inner}>
-                            <ul className={css.optionList}>
-                              {branchList.map((branch, index) => (
-                                <li
-                                  key={index}
-                                  className={css.optionItem}
-                                  onClick={(e) => {
-                                    setIsSelectPostbox(e.target.innerText);
-                                    setOpenPostbox(!openPostbox);
-                                  }}
-                                >
-                                  {branch}
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                  </div>
+                  <DropdownSelector
+                    label="Поштомат"
+                    placeholder="№ поштомату"
+                    cachedDataSelector={(state) => state.cart.cachedCities}
+                    cacheAction={cachePostboxList}
+                    updateAction={updateDeliveryData}
+                    fetchData={branchList}
+                    value={selectedPostbox}
+                    onChange={setSelectedPostbox}
+                    fieldKey="post_box"
+                  />
                 </div>
               )}
 
