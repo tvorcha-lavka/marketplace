@@ -3,10 +3,14 @@ import { IoIosArrowBack } from 'react-icons/io';
 import { IoIosArrowForward } from 'react-icons/io';
 import clsx from 'clsx';
 
+import { media } from '../../../utils/mediaConfig';
+
 import css from './CardDetailsGallery.module.css';
 
 export default function CardDetailsGallery({ product }) {
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  const images = product.images || [];
 
   const prevSlide = () => {
     setCurrentIndex((prevIndex) =>
@@ -43,11 +47,19 @@ export default function CardDetailsGallery({ product }) {
           <button className={css.prevBtn} onClick={prevSlide}>
             <IoIosArrowBack className={css.arrowIcon} />
           </button>
-          <img
-            className={css.largeImage}
-            src={product.images[currentIndex].l_image_url}
-            alt={`Slide ${currentIndex + 1}`}
-          />
+          {images[currentIndex] ? (
+            <img
+              className={css.largeImage}
+              src={images[currentIndex].l_image_url}
+              alt={`Slide ${currentIndex + 1}`}
+            />
+          ) : (
+            <img
+              className={css.largeImage}
+              src={`${media}/defaults/no-image.jpg`}
+              alt="No image available"
+            />
+          )}
           <button className={css.nextBtn} onClick={nextSlide}>
             <IoIosArrowForward className={css.arrowIcon} />
           </button>

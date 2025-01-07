@@ -30,15 +30,16 @@ export default function CardDetailsDescription({ product }) {
           <p>{trimmedDescription}</p>
         </li>
       </ul>
-      <CustomButton
-        className={css.descriptionBtn}
-        onClick={toggleExpand}
-        disabled={product.description.length <= maxDescriptionLength}
-        size="extraLarge"
-        variant="another"
-      >
-        {isExpanded ? 'Згорнути' : 'Докладніше'}
-      </CustomButton>
+      {product.description.length > maxDescriptionLength && (
+        <CustomButton
+          className={css.descriptionBtn}
+          onClick={toggleExpand}
+          size="extraLarge"
+          variant="another"
+        >
+          {isExpanded ? 'Згорнути' : 'Докладніше'}
+        </CustomButton>
+      )}
     </div>
   );
 }
