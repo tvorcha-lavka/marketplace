@@ -2,9 +2,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import CartProduct from '../CartProduct/CartProduct';
 import { toggleSelectAll } from '../../../redux/cart/cartSlice';
 import { selectCartItems } from '../../../redux/cart/cartSelector';
+import { selectBasketItems } from '../../../redux/basket/selectors';
 import css from './ShoppingCart.module.css';
 
 export default function ShoppingCart() {
+  const basketItems = useSelector(selectBasketItems);
+  console.log(basketItems);
   const cartItems = useSelector(selectCartItems);
   const allSelected = cartItems.every((item) => item.selected);
   const dispatch = useDispatch();

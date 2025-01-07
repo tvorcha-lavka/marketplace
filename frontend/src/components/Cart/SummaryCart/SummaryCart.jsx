@@ -4,7 +4,7 @@ import { BsShieldFillExclamation, BsChevronDoubleRight } from 'react-icons/bs';
 import CustomButton from '../../CustomButton/CustomButton';
 import css from './SummaryCart.module.css';
 
-export default function SummaryCart({  handleCheckout, isClickBtn }) {
+export default function SummaryCart({ handleCheckout, isClickBtn }) {
   const totalOrderPrice = useSelector((state) => state.cart.totalPayment);
   const { deliveryData } = useSelector((state) => state.cart);
   const location = useLocation();
@@ -78,7 +78,7 @@ export default function SummaryCart({  handleCheckout, isClickBtn }) {
             onClick={finalTransfer}
             disabled={!isClickBtn}
           >
-            Перейти до оформлення
+            Оформити замовлення
           </CustomButton>
         ) : (
           <CustomButton

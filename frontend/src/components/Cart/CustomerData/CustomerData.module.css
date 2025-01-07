@@ -17,6 +17,39 @@
   gap: 12px;
 }
 
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.error {
+  position: absolute;
+  left: -0px;
+  top: 72px;
+  display: inline-block;
+  width: 100%;
+  padding: 6px;
+  background-color: #fff;
+  border: 1px solid #fcbc5a;
+  border-radius: 5px;
+  color: #474747;
+  font-size: 12px;
+  text-align: center;
+  z-index: 50;
+}
+
+.error::after {
+  content: '';
+  position: absolute;
+  left: 20px;
+  top: -10px;
+  width: 0;
+  height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-bottom: 10px solid #fcbc5a;
+}
+
 .inline {
   display: block;
   font-size: 14px;
@@ -90,17 +123,3 @@
 span {
   font-weight: 400;
 }
-
-.errorbox{
-  margin-block-end: 12px;
-}
-
-.error{ 
-  display: block;
-  width: 100%;
-  padding: 4px;
-  border-radius: 8px;
-  border: 1px solid #fcbc5a;
-}
-
-

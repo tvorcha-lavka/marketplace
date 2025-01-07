@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
 import { IoIosArrowForward } from 'react-icons/io';
+import clsx from 'clsx';
 
 import css from './CardDetailsGallery.module.css';
 
@@ -25,7 +26,10 @@ export default function CardDetailsGallery({ product }) {
         {product.images.slice(0, 5).map((image, index) => (
           <li key={index}>
             <img
-              className={css.galleryItem}
+              className={clsx(
+                css.galleryItem,
+                currentIndex === index && css.galleryItemActive
+              )}
               src={image.s_image_url}
               alt={`Thumbnail ${index + 1}`}
               onClick={() => setCurrentIndex(index)}
