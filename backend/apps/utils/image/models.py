@@ -3,7 +3,7 @@ from django.db import models
 from .fields import TempImageField
 
 
-class TempImage(models.Model):
+class TempImageModel(models.Model):
     class Meta:
         abstract = True
 

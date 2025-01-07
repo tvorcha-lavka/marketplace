@@ -37,7 +37,7 @@ class ProductPrivateListSerializer(ProductListSerializer):
 class ProductDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ["id", "title", "description", "date_published", "price", "images", "owner"]
+        fields = ["id", "title", "description", "date_published", "quantity", "price", "images", "owner"]
 
     images = ProductImageSerializer(many=True, read_only=True)
     owner = SellerProfileSerializer(read_only=True)
