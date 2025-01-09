@@ -35,7 +35,7 @@ export default function PlaceOrder() {
         </NavLink>
       </div>
       <div className={css.orderbox}>
-        <div className={css.wrapper}>
+        <div className={css.leftColumn}>
           <div className={css.databox}>
             {(step === 1 || step === 2 || step === 3) && <CustomerData />}
           </div>
@@ -55,9 +55,11 @@ export default function PlaceOrder() {
             )}
           </div>
         </div>
-        <div className={css.wrapper}>
-          <SelectedProducts />
-          <SummaryCart isClickBtn={isClickBtn} />
+        <div className={css.rightColumn}>
+          <div className={css.stickyBlock}>
+            <SelectedProducts />
+            <SummaryCart isClickBtn={isClickBtn} />
+          </div>
         </div>
       </div>
     </div>
