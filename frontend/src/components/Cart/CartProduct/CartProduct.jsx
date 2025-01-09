@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { AiOutlineDelete } from 'react-icons/ai';
-import { toggleSelectItem, removeItem } from '../../../redux/cart/cartSlice';
+import { removeItem } from '../../../redux/cart/cartSlice';
 import { media } from '../../../utils/mediaConfig';
 import css from './CartProduct.module.css';
 
@@ -9,26 +9,23 @@ export default function CartProduct({ item }) {
   const dispatch = useDispatch();
   const location = useLocation();
   const isCartPage = location.pathname === '/cart';
-  const isOrderPage = location.pathname === '/order';
+
   return (
     <li
       key={item.id}
       className={isCartPage ? `${css.cart_item_shop}` : `${css.cart_item}`}
     >
-      {isCartPage && (
-        <input
-          type="checkbox"
-          className={css.checkbox}
-          checked={item.selected}
-          onChange={() => dispatch(toggleSelectItem(item.id))}
-        />
-      )}
       <img
         className={isCartPage ? `${css.item_img_shop}` : `${css.item_img}`}
-        src={`${media}/page/404/not-found.png`}
+        src={
+          // item.images?.[0]?.s_image_url
+          //   ? item.images[0].s_image_url
+          //   :
+          `${media}/page/404/not-found.png`
+        }
         alt={item.title}
       />
-      <div className={css.item_details}>
+      <div>
         <h3
           className={
             isCartPage ? `${css.item_title_shop}` : `${css.item_title}`
@@ -38,7 +35,7 @@ export default function CartProduct({ item }) {
         </h3>
         {isCartPage && (
           <p className={css.item_seller}>
-            Продавець:
+            Продавець:&nbsp;
             <span className={css.seller_name}>{item.seller}</span>
           </p>
         )}
@@ -55,7 +52,7 @@ export default function CartProduct({ item }) {
       <p
         className={isCartPage ? `${css.item_price_shop}` : `${css.item_price}`}
       >
-        {item.price} грн
+        {item.price}&nbsp;грн
       </p>
       {isCartPage && (
         <button

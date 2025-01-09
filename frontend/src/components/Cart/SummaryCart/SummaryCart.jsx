@@ -3,10 +3,12 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { BsShieldFillExclamation, BsChevronDoubleRight } from 'react-icons/bs';
 import CustomButton from '../../CustomButton/CustomButton';
 import css from './SummaryCart.module.css';
+import { selectTotal } from '../../../redux/cart/cartSelector';
 
-export default function SummaryCart({ handleCheckout, isClickBtn }) {
-  const totalOrderPrice = useSelector((state) => state.cart.totalPayment);
+export default function SummaryCart({ isClickBtn }) {
+  const totalOrderPrice = useSelector(selectTotal);
   const { deliveryData } = useSelector((state) => state.cart);
+
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -33,7 +35,6 @@ export default function SummaryCart({ handleCheckout, isClickBtn }) {
   const deliveryPrice = getDeliveryPrice(deliveryData);
 
   const transferOrder = () => {
-    handleCheckout();
     navigate('/order');
   };
 
@@ -86,7 +87,6 @@ export default function SummaryCart({ handleCheckout, isClickBtn }) {
             size="large"
             type="button"
             onClick={transferOrder}
-            disabled={!totalOrderPrice}
           >
             Перейти до оформлення
           </CustomButton>
@@ -103,7 +103,6 @@ export default function SummaryCart({ handleCheckout, isClickBtn }) {
             size="large"
             type="button"
             onClick={transferShopping}
-            disabled={!totalOrderPrice}
             variant="another"
           >
             Продовжити покупки

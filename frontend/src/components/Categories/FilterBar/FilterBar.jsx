@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
-import { RiArrowDownSLine, RiArrowUpSLine } from 'react-icons/ri';
-import { filterBar } from '../../../utils/filterBar';
-import css from './FilterBar.module.css';
 import { useDispatch, useSelector } from 'react-redux';
+import { RiArrowDownSLine, RiArrowUpSLine, RiCheckFill } from 'react-icons/ri';
 import { getFiltersCategory } from '../../../redux/filters/filtersOperations';
 import {
   selectActiveFilters,
   selectFiltersCategory,
 } from '../../../redux/filters/filtersSelector';
 import { toggleFilter } from '../../../redux/filters/filtersSlice';
+import { filterBar } from '../../../utils/filterBar';
+import css from './FilterBar.module.css';
 
 export default function FilterBar({ categoryId }) {
   const [openFilters, setOpenFilters] = useState({});
@@ -125,7 +125,6 @@ export default function FilterBar({ categoryId }) {
                 filter.values.map((option) => (
                   <label key={option.id} className={css.option_label}>
                     <input
-                      className={css.input}
                       type="checkbox"
                       value={option.value}
                       checked={
@@ -136,6 +135,7 @@ export default function FilterBar({ categoryId }) {
                         handleToggleFilter(filter.id, option.value)
                       }
                     />
+                    <span className={css.checkmark}></span>
                     {option.value}
                   </label>
                 ))}

@@ -58,11 +58,11 @@ const initialState = {
       selected: false,
     },
   ],
-  selectedItems: [],
   totalPayment: 0,
   deliveryFee: 0,
   cachedCities: {},
   cachedBranches: {},
+  cachedPboxCities: {},
   cachedPostbox: {},
 };
 
@@ -73,32 +73,12 @@ const cartSlice = createSlice({
     setCartItems(state, action) {
       state.cartItems = action.payload;
     },
-    toggleSelectItem(state, action) {
-      const itemId = action.payload;
-      state.cartItems = state.cartItems.map((item) =>
-        item.id === itemId ? { ...item, selected: !item.selected } : item
-      );
-      state.selectedItems = state.cartItems.filter((item) => item.selected);
-      state.totalPayment = state.selectedItems.reduce(
-        (sum, item) => sum + item.price,
-        0
-      );
-    },
-    toggleSelectAll(state, action) {
-      const selectAll = action.payload;
-      state.cartItems.forEach((item) => {
-        item.selected = selectAll;
-      });
-      state.selectedItems = selectAll ? [...state.cartItems] : [];
-      state.totalPayment = selectAll
-        ? state.cartItems.reduce((sum, item) => sum + item.price, 0)
-        : 0;
-    },
+
     removeItem(state, action) {
       const itemId = action.payload;
       state.cartItems = state.cartItems.filter((item) => item.id !== itemId);
-      state.selectedItems = state.cartItems.filter((item) => item.selected);
-      state.totalPayment = state.selectedItems.reduce(
+
+      state.totalPayment = state.cartItems.reduce(
         (sum, item) => sum + item.price,
         0
       );
@@ -111,7 +91,7 @@ const cartSlice = createSlice({
       if (!state.deliveryData[seller]) {
         state.deliveryData[seller] = {};
       }
-      state.deliveryData[seller] = { ...state.deliveryData[seller], ...data };
+      state.deliveryData[seller] = { ...data };
     },
     cacheCityList: (state, action) => {
       const { searchTerm, cities } = action.payload;
@@ -121,9 +101,13 @@ const cartSlice = createSlice({
       const { city, branches } = action.payload;
       state.cachedBranches[city] = branches;
     },
+    cachePboxCityList: (state, action) => {
+      const { searchTerm, city } = action.payload;
+      state.cachedCities[searchTerm] = city;
+    },
     cachePostboxList: (state, action) => {
-      const { city, postboxes } = action.payload;
-      state.cachedPostbox[city] = postboxes;
+      const { city, branch } = action.payload;
+      state.cachedPostbox[city] = branch;
     },
     updatePaymentData: (state, action) => {
       state.paymentData = { ...state.paymentData, ...action.payload };
@@ -149,13 +133,12 @@ const cartSlice = createSlice({
 
 export const {
   setCartItems,
-  toggleSelectItem,
-  toggleSelectAll,
   removeItem,
   updateCustomerData,
   updateDeliveryData,
   cacheCityList,
   cacheBranchList,
+  cachePboxCityList,
   cachePostboxList,
   updatePaymentData,
   nextStep,

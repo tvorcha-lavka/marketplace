@@ -15,11 +15,11 @@ export default function DeliveryResult({ seller }) {
               <p className={css.resultText}>Доставка Нова Пошта у відділення</p>
             </div>
             <p className={css.resultText}>
-              <b>Адреса відділення:</b>
+              <b>Адреса відділення:</b>&nbsp;
               {deliveryData[seller].branch}
             </p>
             <p className={css.resultText}>
-              <b>Години роботи:</b>
+              <b>Години роботи:</b>&nbsp;
             </p>
           </>
         )}
@@ -29,7 +29,10 @@ export default function DeliveryResult({ seller }) {
               <div className={css.resultInput}></div>
               <p className={css.resultText}>Доставка Нова Пошта у поштомат</p>
             </div>
-            <p className={css.resultText}>{deliveryData[seller].city}</p>
+            <p className={css.resultText}>
+              <b>Адреса поштомату:</b>&nbsp;
+              {deliveryData[seller].city}
+            </p>
             <p className={css.resultText}>{deliveryData[seller].postbox}</p>
           </>
         )}

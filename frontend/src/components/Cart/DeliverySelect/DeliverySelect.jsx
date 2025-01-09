@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   cacheBranchList,
   cacheCityList,
+  cachePboxCityList,
   cachePostboxList,
   updateDeliveryData,
 } from '../../../redux/cart/cartSlice';
@@ -12,11 +13,14 @@ import css from './DeliverySelect.module.css';
 export default function DeliverySelect({ seller, onDeliveryChange }) {
   const [selectedCity, setSelectedCity] = useState('');
   const [selectedBranch, setSelectedBranch] = useState('');
+  const [selectedPboxCity, setSelectedPboxCity] = useState('');
   const [selectedPostbox, setSelectedPostbox] = useState('');
 
   const [city, setCity] = useState('');
   const { deliveryData } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
+
+  // console.log(deliveryData);
 
   const cityList = ['Київ', 'Львів', 'Одеса', 'Харків', 'Дніпро'];
   const branchList = [
@@ -35,31 +39,33 @@ export default function DeliverySelect({ seller, onDeliveryChange }) {
     if (type === 'nova-poshta') {
       updatedData[seller].city = '';
       updatedData[seller].branch = '';
-      updatedData[seller].postbox = '';
     } else if (type === 'post_box') {
       updatedData[seller].city = '';
-      updatedData[seller].postbox = '';
+      updatedData[seller].branch = '';
     } else if (['courier', 'ukrposhta'].includes(type)) {
       updatedData[seller].city = '';
       updatedData[seller].street = '';
       updatedData[seller].house = '';
       updatedData[seller].apartment = '';
     }
+
     dispatch(updateDeliveryData({ [seller]: updatedData[seller] }));
     if (onDeliveryChange) onDeliveryChange(JSON.stringify(updatedData));
   };
 
   const handleInputChange = (seller, field, value) => {
-    const updatedData = { ...deliveryData, [field]: value };
-    dispatch(
-      updateDeliveryData({
-        seller,
-        data: { [field]: value },
-      })
-    );
+    if (typeof value !== 'string') {
+      value = String(value); // Перетворюємо на строку, якщо це не так
+    }
+
+    const updatedData = {
+      ...deliveryData,
+      [seller]: { ...deliveryData[seller], [field]: value },
+    };
+    dispatch(updateDeliveryData({ [seller]: updatedData[seller] }));
+
     if (onDeliveryChange) onDeliveryChange(updatedData);
   };
-
   return (
     <ul>
       {['nova-poshta', 'post_box', 'courier', 'ukrposhta'].map((type) => (
@@ -106,7 +112,9 @@ export default function DeliverySelect({ seller, onDeliveryChange }) {
                     updateAction={updateDeliveryData}
                     fetchData={cityList}
                     value={selectedCity}
-                    onChange={setSelectedCity}
+                    onChange={(value) =>
+                      handleInputChange(seller, 'city', String(value))
+                    }
                     fieldKey="city"
                   />
 
@@ -118,7 +126,9 @@ export default function DeliverySelect({ seller, onDeliveryChange }) {
                     updateAction={updateDeliveryData}
                     fetchData={branchList}
                     value={selectedBranch}
-                    onChange={setSelectedBranch}
+                    onChange={(value) =>
+                      handleInputChange(seller, 'branch', value)
+                    }
                     fieldKey="branch"
                   />
                 </ul>
@@ -129,25 +139,29 @@ export default function DeliverySelect({ seller, onDeliveryChange }) {
                   <DropdownSelector
                     label="Місто"
                     placeholder="Введіть місто"
-                    cachedDataSelector={(state) => state.cart.cachedCities}
-                    cacheAction={cacheCityList}
+                    cachedDataSelector={(state) => state.cart.cachedPboxCities}
+                    cacheAction={cachePboxCityList}
                     updateAction={updateDeliveryData}
                     fetchData={cityList}
-                    value={selectedCity}
-                    onChange={setSelectedCity}
+                    value={selectedPboxCity}
+                    onChange={(value) =>
+                      handleInputChange(seller, 'city', value)
+                    }
                     fieldKey="city"
                   />
 
                   <DropdownSelector
                     label="Поштомат"
                     placeholder="№ поштомату"
-                    cachedDataSelector={(state) => state.cart.cachedCities}
+                    cachedDataSelector={(state) => state.cart.cachedPostbox}
                     cacheAction={cachePostboxList}
                     updateAction={updateDeliveryData}
                     fetchData={branchList}
                     value={selectedPostbox}
-                    onChange={setSelectedPostbox}
-                    fieldKey="post_box"
+                    onChange={(value) =>
+                      handleInputChange(seller, 'branch', value)
+                    }
+                    fieldKey="branch"
                   />
                 </div>
               )}

@@ -1,6 +1,8 @@
 .selected_filters {
+  max-width: 1;
   margin-block-end: 16px;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 8px;
 }
@@ -8,6 +10,7 @@
 .selected_filters_list {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 8px;
 }
 
@@ -19,11 +22,10 @@
   padding: 8px;
   border: 1px solid #b1b1b1;
   border-radius: 8px;
+  font-size: 14px;
 }
 
-.remove_filter_btn,
 .clear_all_btn {
-  font-size: 14px;
   border: none;
   background-color: transparent;
 }

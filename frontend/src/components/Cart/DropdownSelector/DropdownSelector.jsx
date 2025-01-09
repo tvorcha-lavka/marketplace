@@ -21,6 +21,12 @@ export default function DropdownSelector({
   const [dataList, setDataList] = useState([]);
 
   useEffect(() => {
+    if (value) {
+      setSearchTerm(value); // Оновлюємо локальний стан, коли змінюється value
+    }
+  }, [value]);
+
+  useEffect(() => {
     if (Object.keys(cachedData).length === 0) {
       const fetchInitialData = async () => {
         dispatch(cacheAction({ searchTerm: '', data: fetchData }));
@@ -51,10 +57,17 @@ export default function DropdownSelector({
     return () => clearTimeout(timeoutId);
   }, [searchTerm, cachedData, dispatch, cacheAction, fetchData]);
 
+  // const handleSelectItem = (item) => {
+  //   setSearchTerm(item);
+  //   onChange(item);
+  //   dispatch(updateAction({ [fieldKey]: item }));
+  //   setOpen(false);
+  // };
   const handleSelectItem = (item) => {
-    setSearchTerm(item);
-    onChange(item);
-    dispatch(updateAction({ [fieldKey]: item }));
+    const selectedItem = String(item); // Перетворення на строку
+    setSearchTerm(selectedItem);
+    onChange(selectedItem); // Передаємо гарантовано строку
+    dispatch(updateAction({ [fieldKey]: selectedItem })); // Оновлюємо Redux
     setOpen(false);
   };
 

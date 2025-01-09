@@ -47,13 +47,17 @@ export default function PlaceOrder() {
           </div>
           <div className={css.paymentbox}>
             <h2 className={css.title}>3. Спосіб оплати</h2>
-            {step === 3 && <MethodPayment  isClickBtn={isClickBtn}
-                setIsClickBtn={setIsClickBtn} />}
+            {step === 3 && (
+              <MethodPayment
+                isClickBtn={isClickBtn}
+                setIsClickBtn={setIsClickBtn}
+              />
+            )}
           </div>
         </div>
         <div className={css.wrapper}>
           <SelectedProducts />
-          <SummaryCart  isClickBtn={isClickBtn}/>
+          <SummaryCart isClickBtn={isClickBtn} />
         </div>
       </div>
     </div>

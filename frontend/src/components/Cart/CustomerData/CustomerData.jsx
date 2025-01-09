@@ -28,13 +28,6 @@ export default function CustomerData() {
     setSavedData(storedData);
   }, []);
 
-  // useEffect(() => {
-  //   const isFormValid = () =>
-  //     name.trim() && surname.trim() && phone.trim() && email.trim();
-
-  //   setIsButtonEnabled(isFormValid());
-  // }, [name, surname, phone, email]);
-
   useEffect(() => {
     const isFormValid = () =>
       /^[a-zA-Zа-яА-ЯіїєґІЇЄҐ-]+$/.test(name.trim()) &&
@@ -128,7 +121,7 @@ export default function CustomerData() {
     setSurname('');
     setPhone('');
     setEmail('');
-    // localStorage.removeItem('customerData');
+    localStorage.removeItem('customerData');
   };
 
   return (

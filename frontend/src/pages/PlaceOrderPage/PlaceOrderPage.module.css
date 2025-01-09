@@ -1,7 +1,7 @@
 .order_container {
   width: 1440px;
   margin-inline: auto;
-  padding: 0 120px;
+  padding: 0 120px 114px;
 }
 
 .navbox {
@@ -29,10 +29,16 @@
   gap: 16px;
 }
 
+.wrapperSelected,
 .wrapper {
   display: flex;
   flex-direction: column;
   gap: 16px;
+}
+
+.wrapper {
+  position: sticky;
+  top: 0;
 }
 
 .deliverybox,
@@ -41,10 +47,6 @@
   background-color: #fff;
   border-radius: 16px;
   box-shadow: 0px 1px 12px 0px rgba(130, 84, 8, 0.15);
-}
-
-.paymentbox {
-  margin-block-end: 114px;
 }
 
 .title {

@@ -14,7 +14,7 @@ export default function SelectedFilters() {
   const hasSelectedFilters = selectedFilters.length > 0;
 
   const handleRemoveActiveFilter = (filterId, value) => {
-    dispatch(removeActiveFilters({ id:filterId, value}));
+    dispatch(removeActiveFilters({ id: filterId, value }));
   };
 
   const handleClearAllFilters = () => {
@@ -24,17 +24,13 @@ export default function SelectedFilters() {
     <div className={css.selected_filters}>
       <ul className={css.selected_filters_list}>
         {selectedFilters.map((filter) => (
-          <li
-            className={css.filter_chip}
-            key={`${filter.id}-${filter.value}`}
-          >
-            {filter.value}
-            <button
-              className={css.remove_filter_btn}
+          <li className={css.filter_chip} key={`${filter.id}-${filter.value}`}>
+            <span>{filter.value}</span>
+
+            <AiOutlineClose
+              size={16}
               onClick={() => handleRemoveActiveFilter(filter.id, filter.value)}
-            >
-              x {/* <AiOutlineClose size={16} /> */}
-            </button>
+            />
           </li>
         ))}
       </ul>
