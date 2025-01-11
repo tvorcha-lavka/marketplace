@@ -7,7 +7,7 @@ from apps.filter.models import FilterValue
 from apps.product.utils import path_to_large_image, path_to_medium_image, path_to_small_image
 from apps.product.validators import validate_description, validate_image_priority, validate_price, validate_title
 from apps.user.models import SellerProfile
-from apps.utils.image.models import TempImage
+from apps.utils.image.models import TempImageModel
 from apps.utils.models import UUIDv7Model
 
 
@@ -83,7 +83,7 @@ class Product(UUIDv7Model):
     #         self.delete()
 
 
-class ProductImage(UUIDv7Model, TempImage):
+class ProductImage(UUIDv7Model, TempImageModel):
     class Meta:
         db_table = "product_image"
         verbose_name = _("Product Image")
