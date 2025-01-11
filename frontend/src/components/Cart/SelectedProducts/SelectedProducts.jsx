@@ -3,9 +3,10 @@ import { LiaEditSolid } from 'react-icons/lia';
 import { useSelector } from 'react-redux';
 import css from './SelectedProducts.module.css';
 import CartProduct from '../CartProduct/CartProduct';
+import { selectCartItems } from '../../../redux/cart/cartSelector';
 
 export default function SelectedProducts() {
-  const orderItems = useSelector((state) => state.cart.selectedItems);
+  const orderItems = useSelector(selectCartItems);
 
   return (
     <section className={css.ordershopping_section}>

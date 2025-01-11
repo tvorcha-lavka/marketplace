@@ -1,6 +1,7 @@
 .detailsWrapper {
   margin-block-end: 8px;
 }
+
 .detailsLabel {
   display: block;
   margin-block-end: 4px;
@@ -15,10 +16,7 @@
   justify-content: space-between;
 }
 
-.detailsInput,
-.detailsInputCity,
-.detailsInputHouse,
-.detailsInputApart {
+.detailsInput {
   width: 100%;
   height: 44px;
   padding-inline: 12px;
@@ -29,9 +27,6 @@
   outline: none;
 }
 
-.detailsInputCity {
-  width: 226px;
-}
 .detailsIcon {
   position: absolute;
   top: 50%;
@@ -66,44 +61,6 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-}
-
-.optionInput[type='radio'] {
-  appearance: none;
-  width: 20px;
-  height: 20px;
-  border: 2px solid #b1b1b1;
-  border-radius: 50%;
-  outline: none;
-  cursor: pointer;
-  position: relative;
-}
-
-.optionInput[type='radio']:checked {
-  background-color: white;
-  border-color: #fcbc5a;
-}
-
-.optionInput[type='radio']:checked::after {
-  content: '';
-  width: 10px;
-  height: 10px;
-  background-color: #fcbc5a;
-  border-radius: 50%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.optionItem {
-  color: #414141;
-  cursor: pointer;
-}
-
-.optionItem:is(:hover, :focus) {
-  font-weight: 700;
-  color: black;
 }
 
 .detailsSelect {

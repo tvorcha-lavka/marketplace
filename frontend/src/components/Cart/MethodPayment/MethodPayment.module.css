@@ -52,3 +52,25 @@ input[type='radio']:checked::after {
   margin-inline-start: auto;
 }
 
+.resultInput {
+  appearance: none;
+  position: relative;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #fcbc5a;
+  background-color: white;
+  border-radius: 50%;
+  outline: none;
+}
+
+.resultInput::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 10px;
+  height: 10px;
+  background-color: #fcbc5a;
+  border-radius: 50%;
+}

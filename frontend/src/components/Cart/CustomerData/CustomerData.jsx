@@ -15,6 +15,7 @@ export default function CustomerData() {
   const [surname, setSurname] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
+  const [errors, setErrors] = useState({});
   const [isButtonEnabled, setIsButtonEnabled] = useState(false);
   const [savedData, setSavedData] = useState([]);
   const step = useSelector(selectCartStep);
@@ -29,10 +30,74 @@ export default function CustomerData() {
 
   useEffect(() => {
     const isFormValid = () =>
-      name.trim() && surname.trim() && phone.trim() && email.trim();
+      /^[a-zA-Zа-яА-ЯіїєґІЇЄҐ-]+$/.test(name.trim()) &&
+      /^[a-zA-Zа-яА-ЯіїєґІЇЄҐ-]+$/.test(surname.trim()) &&
+      /^\+?[0-9-]+$/.test(phone.trim()) &&
+      /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/.test(email.trim());
 
     setIsButtonEnabled(isFormValid());
   }, [name, surname, phone, email]);
+
+  const validateField = (field, value) => {
+    if (!value.trim()) {
+      return;
+    }
+    switch (field) {
+      case 'name':
+      case 'surname':
+        if (!/^[a-zA-Zа-яА-ЯіїєґІЇЄҐ-]+$/.test(value.trim())) {
+          return 'Використовувати лише букви, можуть бути розділені дефісом.';
+        }
+        break;
+      case 'phone':
+        if (!/^\+?[0-9-]+$/.test(value.trim())) {
+          return 'Можна використовувати лише цифри, дефіси, дужки та "+" на початку.';
+        }
+        break;
+      case 'email':
+        if (
+          !/^([a-zA-Z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/.test(
+            value.trim()
+          )
+        ) {
+          return 'Невірний формат email. Наприклад: example@mail.com';
+        }
+        break;
+      default:
+        return '';
+    }
+    return '';
+  };
+
+  const handleChange = (field, value) => {
+    const error = validateField(field, value);
+    setErrors((prevErrors) => {
+      const newErrors = { ...prevErrors };
+      if (error) {
+        newErrors[field] = error;
+      } else {
+        delete newErrors[field];
+      }
+      return newErrors;
+    });
+
+    switch (field) {
+      case 'name':
+        setName(value);
+        break;
+      case 'surname':
+        setSurname(value);
+        break;
+      case 'phone':
+        setPhone(value);
+        break;
+      case 'email':
+        setEmail(value);
+        break;
+      default:
+        break;
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -56,7 +121,7 @@ export default function CustomerData() {
     setSurname('');
     setPhone('');
     setEmail('');
-    // localStorage.removeItem('customerData');
+    localStorage.removeItem('customerData');
   };
 
   return (
@@ -66,93 +131,113 @@ export default function CustomerData() {
           <h2 className={css.title}>1. Дані замовника</h2>
           <form className={css.form}>
             <div className={css.form_wrapper}>
-              <label htmlFor="name" className={css.inline}>
-                Імя&#42;
-                <input
-                  id="name"
-                  type="text"
-                  list="nameList"
-                  value={name}
-                  className={css.form_input}
-                  pattern="^[a-zA-Zа-яА-ЯіїєґІЇЄҐ-]+$"
-                  title="Тільки букви, можуть бути розділені дефісом."
-                  placeholder="Валерія"
-                  required
-                  onChange={(e) => setName(e.currentTarget.value)}
-                />
-                <datalist id="nameList">
-                  {savedData.map((data, index) => (
-                    <option key={index} value={data.name}>
-                      {data.name}
-                    </option>
-                  ))}
-                </datalist>
-              </label>
-              <label className={css.inline}>
-                Прізвище&#42;
-                <input
-                  type="text"
-                  list="surnameList"
-                  value={surname}
-                  className={css.form_input}
-                  pattern="^[a-zA-Zа-яА-ЯіїєґІЇЄҐ-]+$"
-                  title="Тільки букви, можуть бути розділені дефісом."
-                  placeholder="Петрівна"
-                  required
-                  onChange={(e) => setSurname(e.currentTarget.value)}
-                />
-                <datalist id="surnameList">
-                  {savedData.map((data, index) => (
-                    <option key={index} value={data.surname}>
-                      {data.surname}
-                    </option>
-                  ))}
-                </datalist>
-              </label>
+              <div className={css.tooltip}>
+                <label htmlFor="name" className={css.inline}>
+                  Імя&#42;
+                  <input
+                    id="name"
+                    type="text"
+                    list="nameList"
+                    value={name}
+                    className={css.form_input}
+                    placeholder="Валерія"
+                    onChange={(e) =>
+                      handleChange('name', e.currentTarget.value)
+                    }
+                    required
+                  />
+                  {errors.name && (
+                    <div className={css.error}>{errors.name}</div>
+                  )}
+                  <datalist id="nameList">
+                    {savedData.map((data, index) => (
+                      <option key={index} value={data.name}>
+                        {data.name}
+                      </option>
+                    ))}
+                  </datalist>
+                </label>
+              </div>
+              <div className={css.tooltip}>
+                <label className={css.inline}>
+                  Прізвище&#42;
+                  <input
+                    type="text"
+                    list="surnameList"
+                    value={surname}
+                    className={css.form_input}
+                    placeholder="Петрівна"
+                    onChange={(e) =>
+                      handleChange('surname', e.currentTarget.value)
+                    }
+                    required
+                  />
+                  {errors.surname && (
+                    <div className={css.error}>{errors.surname}</div>
+                  )}
+                  <datalist id="surnameList">
+                    {savedData.map((data, index) => (
+                      <option key={index} value={data.surname}>
+                        {data.surname}
+                      </option>
+                    ))}
+                  </datalist>
+                </label>
+              </div>
             </div>
             <div className={css.form_wrapper}>
-              <label className={css.inline}>
-                Номер телефону&#42;
-                <input
-                  type="tel"
-                  list="phoneList"
-                  value={phone}
-                  className={css.form_input_row}
-                  pattern="^\+?[0-9-]+$"
-                  title="Тільки цифри, дефіси, дужки, знак +."
-                  placeholder="+ 38 (067) 112-45-45"
-                  required
-                  onChange={(e) => setPhone(e.currentTarget.value)}
-                />
-                <datalist id="phoneList">
-                  {savedData.map((data, index) => (
-                    <option key={index} value={data.phone}>
-                      {data.phone}
-                    </option>
-                  ))}
-                </datalist>
-              </label>
-              <label className={css.inline}>
-                E-mail адреса&#42;
-                <input
-                  type="email"
-                  list="browsers"
-                  value={email}
-                  className={css.form_input_row}
-                  pattern="^([a-zA-Z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$"
-                  title="Введіть правильний email. Наприклад: user@example.com."
-                  placeholder="val23@gmail.com"
-                  required
-                  onChange={(e) => setEmail(e.currentTarget.value)}
-                />
-                <datalist id="emailList">
-                  {savedData.map((data, index) => (
-                    <option key={index} value={data.email}>
-                      {data.email}
-                    </option>
-                  ))}
-                </datalist>
-              </label>
+              <div className={css.tooltip}>
+                <label className={css.inline}>
+                  Номер телефону&#42;
+                  <input
+                    type="tel"
+                    list="phoneList"
+                    value={phone}
+                    className={css.form_input_row}
+                    placeholder="+ 38 (067) 112-45-45"
+                    onChange={(e) =>
+                      handleChange('phone', e.currentTarget.value)
+                    }
+                    required
+                  />
+                  {errors.phone && (
+                    <div className={css.error}>{errors.phone}</div>
+                  )}
+                  <datalist id="phoneList">
+                    {savedData.map((data, index) => (
+                      <option key={index} value={data.phone}>
+                        {data.phone}
+                      </option>
+                    ))}
+                  </datalist>
+                </label>
+              </div>
+              <div className={css.tooltip}>
+                <label className={css.inline}>
+                  E-mail адреса&#42;
+                  <input
+                    type="email"
+                    list="browsers"
+                    value={email}
+                    className={css.form_input_row}
+                    placeholder="val23@gmail.com"
+                    onChange={(e) =>
+                      handleChange('email', e.currentTarget.value)
+                    }
+                    required
+                  />
+                  {errors.email && (
+                    <div className={css.error}>{errors.email}</div>
+                  )}
+                  <datalist id="emailList">
+                    {savedData.map((data, index) => (
+                      <option key={index} value={data.email}>
+                        {data.email}
+                      </option>
+                    ))}
+                  </datalist>
+                </label>
+              </div>
             </div>
 
             <CustomButton

@@ -2,11 +2,11 @@
   margin-inline: auto;
   max-width: 1440px;
   background: #fefcfa;
-  padding: 20px 120px;
+  padding: 20px 120px 114px;
 }
 
 .navbox {
-   margin-block-end: 20px;
+  margin-block-end: 20px;
 }
 
 .navLink {
@@ -29,4 +29,3 @@
   grid-template-columns: 694px 490px;
   gap: 16px;
 }
-

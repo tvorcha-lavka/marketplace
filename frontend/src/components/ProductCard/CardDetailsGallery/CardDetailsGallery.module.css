@@ -23,6 +23,17 @@
   box-shadow: var(--cart-shadow);
   object-fit: cover;
   border-radius: 8px;
+  opacity: 0.6;
+}
+
+.galleryItemActive {
+  width: 72px;
+  height: 105px;
+  border: 1px solid #f7f4ef;
+  box-shadow: var(--cart-shadow);
+  object-fit: cover;
+  border-radius: 8px;
+  opacity: 1;
 }
 
 .swiperContainer {

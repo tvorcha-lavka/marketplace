@@ -16,7 +16,7 @@
   font-weight: 700;
   color: rgba(0, 0, 0, 1);
 }
-
+/* 
 .selectAll {
   display: flex;
   gap: 8px;
@@ -30,7 +30,7 @@
   height: 20px;
   border-radius: 2px;
   border: 1px solid rgba(177, 177, 177, 1);
-}
+} */
 
 ::-webkit-scrollbar {
   width: 8px;

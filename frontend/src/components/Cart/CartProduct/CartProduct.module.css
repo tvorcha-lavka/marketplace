@@ -9,13 +9,13 @@
 .cart_item_shop {
   display: flex;
   align-items: start;
+  gap: 16px;
   padding-block-end: 16px;
   width: 618px;
   border-bottom: 1px solid #eee;
 }
 
 .item_img {
-  margin-inline-end: 4px;
   width: 88px;
   height: 88px;
   border-radius: 8px;
@@ -23,7 +23,6 @@
 }
 
 .item_img_shop {
-  margin-inline: 12px;
   width: 112px;
   height: 124px;
   border-radius: 8px;
@@ -80,7 +79,7 @@
 }
 
 .item_price_shop {
-  margin-inline-end: 24px;
+  margin-inline-end: 20px;
   font-weight: bold;
   font-size: 18px;
   color: #000;
