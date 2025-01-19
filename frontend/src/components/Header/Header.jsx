@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useRef, useState } from 'react';
 import { FiShoppingCart, FiUser } from 'react-icons/fi';
 import { HiMiniBars4 } from 'react-icons/hi2';
@@ -18,6 +18,7 @@ export default function Header() {
   const { openModal } = useModal();
   const [isFocused, setIsFocused] = useState(false);
   const modalRef = useRef(null);
+  const navigate = useNavigate();
 
   const handleLoginClick = () => {
     openModal('login');
@@ -73,7 +74,9 @@ export default function Header() {
 
           <SearchFieldBar />
 
-          <CustomButton size="small">Додати товар</CustomButton>
+          <CustomButton size="small" onClick={() => navigate('/advertisement')}>
+            Додати товар
+          </CustomButton>
         </div>
         <div className={css.rightPart}>
           <Link to="/like-cart">

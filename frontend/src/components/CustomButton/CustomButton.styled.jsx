@@ -3,11 +3,11 @@ import { styled } from '@mui/material/styles';
 const widths = {
   extraLarge: '625px',
   large: '442px',
-	medium: '368px',
-	semiMedium: '322.5px',
+  medium: '368px',
+  semiMedium: '322.5px',
   small: '187px',
   custom1: '284px',
-  custom2: '325px', 
+  custom2: '325px',
   custom3: '244px',
 };
 
@@ -53,15 +53,17 @@ export const ButtonStyled = styled(BaseButtonStyled)(({ size, theme }) => ({
   },
 }));
 
-export const TransparentButtonStyled = styled(BaseButtonStyled)(({ size, theme }) => ({
-  width: widths[size],
-  backgroundColor: 'transparent',
-  border: `${theme.custom.borders.borderWidth} ${theme.custom.borders.borderStyle} ${theme.custom.colors.defaultBlack}`,
+export const TransparentButtonStyled = styled(BaseButtonStyled)(
+  ({ size, theme }) => ({
+    width: widths[size],
+    backgroundColor: 'transparent',
+    border: `${theme.custom.borders.borderWidth} ${theme.custom.borders.borderStyle} ${theme.custom.colors.defaultBlack}`,
 
-  '&:hover': {
-    border: `${theme.custom.borders.borderWidth} ${theme.custom.borders.borderStyle} ${theme.custom.colors.primaryYellow}`,
-  },
-  '&:focus': {
-    border: `${theme.custom.borders.borderWidthBigger} ${theme.custom.borders.borderStyle} ${theme.custom.colors.defaultBlack}`,
-  },
-}));
+    '&:hover': {
+      border: `${theme.custom.borders.borderWidth} ${theme.custom.borders.borderStyle} ${theme.custom.colors.primaryYellow}`,
+    },
+    '&:focus': {
+      border: `${theme.custom.borders.borderWidthBigger} ${theme.custom.borders.borderStyle} ${theme.custom.colors.defaultBlack}`,
+    },
+  })
+);

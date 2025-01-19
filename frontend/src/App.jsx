@@ -19,11 +19,14 @@ const CartPage = lazy(() => import('./pages/CartPage/CartPage'));
 const PlaceOrderPage = lazy(
   () => import('./pages/PlaceOrderPage/PlaceOrderPage')
 );
-const ConfirmationPage  = lazy(
+const ConfirmationPage = lazy(
   () => import('./pages/ConfirmationPage/ConfirmationPage')
 );
 const CardDetailsPage = lazy(
   () => import('./pages/CardDetailsPage/CardDetailsPage')
+);
+const AddAdvertisementPage = lazy(
+  () => import('./pages/AddAdvertisementPage/AddAdvertisementPage')
 );
 const SupportPage = lazy(() => import('./pages/SupportPage/SupportPage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage/NotFoundPage'));
@@ -44,7 +47,7 @@ export default function App() {
               <RestrictedRoute redirectTo="/" component={<CartPage />} />
             }
           />
-         
+
           <Route
             path="/order"
             element={
@@ -55,7 +58,10 @@ export default function App() {
           <Route
             path="/confirmation"
             element={
-              <RestrictedRoute redirectTo="/" component={<ConfirmationPage />} />
+              <RestrictedRoute
+                redirectTo="/"
+                component={<ConfirmationPage />}
+              />
             }
           />
           <Route
@@ -89,6 +95,15 @@ export default function App() {
             path="/categories/:categoryId/cards/:id"
             element={
               <RestrictedRoute redirectTo="/" component={<CardDetailsPage />} />
+            }
+          />
+          <Route
+            path="/advertisement"
+            element={
+              <RestrictedRoute
+                redirectTo="/"
+                component={<AddAdvertisementPage />}
+              />
             }
           />
 
