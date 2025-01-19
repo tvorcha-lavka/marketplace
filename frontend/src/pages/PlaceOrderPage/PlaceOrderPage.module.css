@@ -39,16 +39,14 @@
 .rightColumn {
   position: relative;
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  position: sticky;
-  top: 0;
 }
 
 .stickyBlock {
   position: sticky;
   top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .deliverybox,

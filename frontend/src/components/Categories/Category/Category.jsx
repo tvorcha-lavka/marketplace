@@ -16,7 +16,7 @@ import SelectedFilters from '../SelectedFilters/SelectedFilters';
 export default function Category() {
   const { categoryId } = useParams();
   const dispatch = useDispatch();
-	const category = useSelector(selectCategoryById);
+  const category = useSelector(selectCategoryById);
 
   useEffect(() => {
     if (categoryId) {
@@ -47,9 +47,11 @@ export default function Category() {
           <FilterBar categoryId={categoryId} />
         </div>
         <section className={css.product_view_sort}>
-          <SelectedFilters />
-          <Sort />
-          <ProductList categoryId={categoryId} />
+          <div className={css.stickyBlock}>
+            <SelectedFilters />
+            <Sort />
+            <ProductList categoryId={categoryId} />
+          </div>
         </section>
       </div>
     </div>

@@ -37,6 +37,7 @@
   background-color: #fff;
 }
 
+.btn_number:hover,
 .active {
   border: 1.4px solid #fcbc5a;
 }

@@ -49,8 +49,20 @@
 .wrapper {
   display: flex;
   justify-content: space-between;
+  padding-block-end: 114px;
+}
+
+.filter {
+  flex: 2;
 }
 
 .product_view_sort {
+  position: relative;
+  flex: 1;
   padding-inline-start: 72px;
+}
+
+.stickyBlock {
+  position: sticky;
+  top: 20px;
 }
