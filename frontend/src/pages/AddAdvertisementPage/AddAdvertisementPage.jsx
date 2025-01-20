@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import AddAdvert from '../../components/AddAdvert/AddAdvert';
+import AddAdvert from '../../components/Addvertisement/AddAdvert/AddAdvert';
 import css from './AddAdvertisementPage.module.css';
 
 export default function AddAdvertisementPage() {
@@ -12,7 +12,7 @@ export default function AddAdvertisementPage() {
         <NavLink to="/" className={activeClass}>
           Головна /
         </NavLink>
-        <NavLink to="/cart" className={activeClass}>
+        <NavLink to="/advertisement" className={activeClass}>
           Додати оголошення
         </NavLink>
       </div>

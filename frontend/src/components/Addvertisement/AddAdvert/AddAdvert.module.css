@@ -5,26 +5,27 @@ form {
 }
 
 .advertTitle {
-  font-size: 24px;
+  margin-block-end: 24px;
+  font-size: var(--font-size-medium);
   font-weight: var(--font-weight-bold);
 }
 
 .wrapper {
   padding: 24px;
-  border-radius: 16px;
-  box-shadow: 0px 1px 12px 0px #82540826;
+  border-radius: var(--border-radius-medium);
+  box-shadow: var(--cart-shadow);
   border: none;
 }
 
 .title {
-  font-size: 18px;
+  font-size: var(--font-size-small);
   font-weight: var(--font-weight-bold);
   margin-block-end: 20px;
 }
 
 .labelAdvert {
   display: block;
-  font-size: 14px;
+  font-size: var(--font-size-tiny);
   font-weight: var(--font-weight-bold);
 }
 
@@ -32,14 +33,41 @@ form {
   margin-block-end: 5px;
 }
 
+.categoryBox {
+  position: relative;
+  margin-block-start: 4px;
+  width: 374px;
+}
+
+.categoryIcon {
+  position: absolute;
+  top: 22px;
+  right: 12px;
+  transform: translateY(-50%);
+}
+
+.inputNameItem,
 .inputAdvert,
-textarea,
 .selectAdvert {
   display: block;
   width: 100%;
-  padding: 12px;
-  border-radius: 8px;
+  height: 44px;
+  padding-inline: 12px;
+  border-radius: var(--border-radius);
   border: 1px solid var(--grey-dark);
+  outline: none;
+}
+
+textarea {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--grey-dark);
+  outline: none;
+}
+.inputNameItem {
+  margin-block-end: 17px;
 }
 
 .icon_right {
@@ -75,7 +103,7 @@ textarea,
 
 .textFoto {
   text-align: center;
-  font-size: 14px;
+  font-size: var(--font-size-tiny);
   color: var(--grey-lighter);
 }
 
@@ -93,7 +121,7 @@ textarea,
   height: 20px;
   margin-block-end: 12px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: var(--font-size-tiny);
   color: var(--default-black);
   user-select: none;
 }
@@ -130,7 +158,7 @@ textarea,
   top: 2px;
   width: 7px;
   height: 12px;
-  border: 1px solid var(--default-white);
+  border: solid var(--default-white);
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
 }
@@ -155,7 +183,7 @@ textarea,
   display: block;
   margin-block-start: 4px;
   width: 757px;
-  font-size: 14px;
+  font-size: var(--font-size-tiny);
   color: var(--grey-darkest);
 }
 
@@ -213,7 +241,7 @@ textarea,
   top: 49px;
   width: 7px;
   height: 12px;
-  border: 1px solid var(--default-white);
+  border: solid var(--default-white);
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
 }
@@ -228,8 +256,8 @@ textarea,
   margin-inline-start: auto;
   padding: 10px;
   width: 228px;
-  border-radius: 8px;
-  font-size: 16px;
+  border-radius: var(--border-radius);
+  font-size: var(--fontsize-extra-small);
   font-weight: var(--font-weight-medium);
   background-color: var(--primary-yellow);
   color: black;

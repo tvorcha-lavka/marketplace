@@ -1,28 +1,24 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { GoChevronDown, GoChevronRight } from 'react-icons/go';
+import { GoChevronDown, GoChevronUp } from 'react-icons/go';
 import { FiCamera } from 'react-icons/fi';
-import CustomButton from '../../components/CustomButton/CustomButton';
-import { selectAllCategories } from '../../redux/categories/categoriesSelectors';
-import { media } from '../../utils/mediaConfig';
+import CategoryModal from '../CategoryModal/CategoryModal';
+import { media } from '../../../utils/mediaConfig';
 import css from './AddAdvert.module.css';
 
 export default function AddAdvert() {
+  const [open, setOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState('');
   const [isSelectedDelivery, setIsSelectedDelivery] = useState('');
-  const [focusId, setFocusId] = useState(null);
-  const сategories = useSelector(selectAllCategories);
-  const allCategories = [...сategories].reverse();
-  console.log(allCategories);
-
-  const focusedCategory = allCategories?.find(
-    (category) => category.id === focusId
-  );
-  const subcategories = focusedCategory?.children || [];
-
   const deliveryType = ['Нова пошта', 'Укрпошта'];
 
   const handleDeliveryChange = (option) => {
     setIsSelectedDelivery(option);
+  };
+
+  const handleCategorySelect = (category) => {
+    setSelectedCategory(category);
+    setOpen(false);
   };
 
   return (
@@ -31,39 +27,47 @@ export default function AddAdvert() {
       <form action="">
         <fieldset className={css.wrapper}>
           <h3 className={css.title}>Виберіть категорію</h3>
-          <label className={css.labelAdvert} htmlFor="">
+          <label className={css.labelAdvert} htmlFor="categories">
             <p className={css.spanLabel}>Категорія&#42;</p>
-            <select className={css.selectAdvert} name="categories">
-              <option value=""></option>
-              {allCategories?.map(({ title, children, id }) => (
-                <option key={id} value={id}>
-                  {title}
-                </option>
-              ))}
-            </select>
           </label>
+          <div className={css.categoryBox}>
+            <input
+              className={css.inputAdvert}
+              id="categories"
+              name="categories"
+              value={selectedCategory}
+              type="text"
+              placeholder="Оберіть категорію"
+              onClick={() => setOpen(!open)}
+              readOnly
+              required
+            />
+            <button type="button" onClick={() => setOpen(!open)}>
+              {open ? (
+                <GoChevronUp className={css.categoryIcon} size={24} />
+              ) : (
+                <GoChevronDown className={css.categoryIcon} size={24} />
+              )}
+            </button>
+            {open && <CategoryModal onSelectCategory={handleCategorySelect} />}
+          </div>
         </fieldset>
         <fieldset className={css.wrapper}>
           <h3 className={css.title}>Опишіть вашу річ</h3>
           <label className={css.labelAdvert}>
             <p className={css.spanLabel}>Назва (Українською Мовою)&#42;</p>
             <input
-              className={css.inputAdvert}
+              className={css.inputNameItem}
               type="text"
               name="title"
               id="title"
+              placeholder="Наприклад: Українська традиційна вишиванка жіночка Львівська"
               required
             />
           </label>
           <label className={css.labelAdvert}>
             <p className={css.spanLabel}>Опис (Українською Мовою)&#42;</p>
-            <textarea
-              name="description"
-              id="description"
-              rows="5"
-              cols="100%"
-              required
-            />
+            <textarea name="description" id="description" rows="5" required />
           </label>
         </fieldset>
         <fieldset className={css.wrapper}>

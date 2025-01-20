@@ -1,4 +1,4 @@
-.cart_item {
+.cartItem {
   display: flex;
   align-items: start;
   gap: 8px;
@@ -6,93 +6,86 @@
   border-bottom: 1px solid #eee;
 }
 
-.cart_item_shop {
+.cartItemShop {
   display: flex;
   align-items: start;
   gap: 16px;
   padding-block-end: 16px;
   width: 618px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--grey-lighter);
 }
 
-.item_img {
+.itemImg {
   width: 88px;
   height: 88px;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   opacity: 0px;
 }
 
-.item_img_shop {
+.itemImgShop {
   width: 112px;
   height: 124px;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   opacity: 0px;
 }
 
-.item_title {
+.itemTitle {
   margin-block-end: 4px;
-  font-size: 14px;
+  font-size: var(--font-size-tiny);
 }
 
-.item_title_shop {
+.itemTitleShop {
   margin-block-end: 4px;
-  font-weight: 600;
-  font-size: 16px;
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-extra-small);
 }
 
-.item_seller {
+.itemSeller {
   margin-block-end: 14px;
-  font-size: 12px;
-  color: #414141;
+  font-size: var(--font-size-extra-tiny);
+  color: var(--grey-darkest);
 }
 
-.seller_name {
-  font-weight: 600;
+.sellerName {
+  font-weight: var(--font-weight-medium);
 }
 
-.item_details {
+.itemDetails {
   width: 335px;
   margin-inline-end: 16px;
 }
 
-.item_filter {
+.itemFilter {
   display: flex;
   align-items: center;
   gap: 16px;
-  font-size: 12px;
+  font-size: var(--font-size-extra-tiny);
   color: #000;
 }
 
-.item_filter_shop {
+.itemFilterShop {
   display: flex;
   align-items: center;
   gap: 16px;
-  font-size: 14px;
+  font-size: var(--font-size-tiny);
   color: #000;
 }
 
-.item_price {
+.itemPrice {
   margin-inline: auto 18px;
-  font-weight: bold;
-  font-size: 14px;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-tiny);
   color: #000;
 }
 
-.item_price_shop {
+.itemPriceShop {
   margin-inline-end: 20px;
-  font-weight: bold;
-  font-size: 18px;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-small);
   color: #000;
 }
 
-.checkbox {
-  width: 20px;
-  height: 20px;
-  border-radius: 2px;
-  border: 1px solid rgba(177, 177, 177, 1);
-}
-
-.remove_btn {
+.removeBtn {
   background: none;
   border: none;
   cursor: pointer;

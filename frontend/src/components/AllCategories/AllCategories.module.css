@@ -5,9 +5,8 @@
 
 .title {
   margin-block-end: 32px;
-  font-size: 32px;
-  font-weight: 700;
-  line-height: 1.2;
+  font-size: var(--font-size-large-medium);
+  font-weight: var(--font-weight-bold);
 }
 
 .way {
@@ -18,8 +17,8 @@
 }
 
 .navLink {
-  font-size: 14px;
-  color: #949494;
+  font-size: var(--font-size-extra-small);
+  color: var(--grey-darker);
 }
 
 .navLink:is(:hover, :focus) {
@@ -42,15 +41,14 @@
   position: relative;
   width: 390px;
   height: 232px;
-  border-radius: 16px;
+  border-radius: var(--border-radius-medium);
 }
 
-.item_title {
+.itemTitle {
   position: absolute;
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 1.255;
-  color: #fff;
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-bold);
+  color: var(--default-white);
   z-index: 100;
 }
 

@@ -57,12 +57,6 @@ export default function DropdownSelector({
     return () => clearTimeout(timeoutId);
   }, [searchTerm, cachedData, dispatch, cacheAction, fetchData]);
 
-  // const handleSelectItem = (item) => {
-  //   setSearchTerm(item);
-  //   onChange(item);
-  //   dispatch(updateAction({ [fieldKey]: item }));
-  //   setOpen(false);
-  // };
   const handleSelectItem = (item) => {
     const selectedItem = String(item); // Перетворення на строку
     setSearchTerm(selectedItem);

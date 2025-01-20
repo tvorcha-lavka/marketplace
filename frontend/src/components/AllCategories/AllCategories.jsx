@@ -50,7 +50,7 @@ export default function AllCategories() {
                   backgroundColor: `${card.bg_color}`,
                 }}
               >
-                <h3 className={css.item_title} style={styles}>
+                <h3 className={css.itemTitle} style={styles}>
                   {title}
                 </h3>
                 <img

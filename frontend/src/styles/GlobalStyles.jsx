@@ -13,6 +13,7 @@ const GlobalStylesComponent = () => {
         },
         body: {
           fontFamily: theme.typography.fontFamily,
+          lineHeight: 1.255,
         },
         'p:last-child': {
           marginBottom: 0,
