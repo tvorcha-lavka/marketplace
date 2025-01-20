@@ -20,7 +20,7 @@ export default function DeliverySelect({ seller, onDeliveryChange }) {
   const { deliveryData } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
-  // console.log(deliveryData);
+  console.log(deliveryData);
 
   const cityList = ['Київ', 'Львів', 'Одеса', 'Харків', 'Дніпро'];
   const branchList = [
@@ -36,10 +36,7 @@ export default function DeliverySelect({ seller, onDeliveryChange }) {
       ...deliveryData,
       [seller]: { type },
     };
-    if (type === 'nova-poshta') {
-      updatedData[seller].city = '';
-      updatedData[seller].branch = '';
-    } else if (type === 'post_box') {
+    if (type === 'nova-poshta' || type === 'post_box') {
       updatedData[seller].city = '';
       updatedData[seller].branch = '';
     } else if (['courier', 'ukrposhta'].includes(type)) {

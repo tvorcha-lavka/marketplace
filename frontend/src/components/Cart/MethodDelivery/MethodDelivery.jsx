@@ -14,7 +14,7 @@ export default function MethodDelivery({ onDeliveryChange }) {
   const step = useSelector((state) => state.cart.step);
   const dispatch = useDispatch();
 
-  // console.log(deliveryData);
+  console.log(deliveryData);
 
   const groupedItemsBySeller = orderItems.reduce((acc, item) => {
     if (!acc[item.seller]) {
@@ -24,13 +24,17 @@ export default function MethodDelivery({ onDeliveryChange }) {
     return acc;
   }, {});
 
-  const allSellersHaveDeliveryType = Object.entries(groupedItemsBySeller).every(
-    ([seller]) => deliveryData[seller]?.type
+  const sellers = Object.keys(groupedItemsBySeller);
+  console.log(groupedItemsBySeller);
+
+  // const allSellersHaveDeliveryType = Object.entries(groupedItemsBySeller).every(
+  //   ([seller]) => deliveryData[seller]?.type
+  // );
+  const allSellersHaveDeliveryType = sellers.every(
+    (seller) => deliveryData[seller]?.type
   );
 
-  const sellers = Object.keys(groupedItemsBySeller);
-  // console.log(sellers);
-
+  console.log(allSellersHaveDeliveryType);
   const [switchState, setSwitchState] = useState(
     sellers.reduce((acc, seller) => {
       acc[seller] = false; // Всі перемикачі вимкнені за замовчуванням

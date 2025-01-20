@@ -47,9 +47,11 @@ export default function Category() {
           <FilterBar categoryId={categoryId} />
         </div>
         <section className={css.product_view_sort}>
-          <SelectedFilters />
-          <Sort />
-          <ProductList categoryId={categoryId} />
+          <div className={css.stickyBlock}>
+            <SelectedFilters />
+            <Sort />
+            <ProductList categoryId={categoryId} />
+          </div>
         </section>
       </div>
     </div>

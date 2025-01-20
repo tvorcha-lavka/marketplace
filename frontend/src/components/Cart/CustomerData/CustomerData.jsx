@@ -30,9 +30,9 @@ export default function CustomerData() {
 
   useEffect(() => {
     const isFormValid = () =>
-      /^[a-zA-Zа-яА-ЯіїєґІЇЄҐ-]+$/.test(name.trim()) &&
-      /^[a-zA-Zа-яА-ЯіїєґІЇЄҐ-]+$/.test(surname.trim()) &&
-      /^\+?[0-9-]+$/.test(phone.trim()) &&
+      /^[a-zA-Zа-яА-ЯіїєґІЇЄҐ-]+$/i.test(name.trim()) &&
+      /^[a-zA-Zа-яА-ЯіїєґІЇЄҐ-]+$/i.test(surname.trim()) &&
+      /^(\+38)?0[0-9]{9}$/.test(phone.trim()) &&
       /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/.test(email.trim());
 
     setIsButtonEnabled(isFormValid());
@@ -45,13 +45,13 @@ export default function CustomerData() {
     switch (field) {
       case 'name':
       case 'surname':
-        if (!/^[a-zA-Zа-яА-ЯіїєґІЇЄҐ-]+$/.test(value.trim())) {
+        if (!/^[a-zA-Zа-яА-ЯіїєґІЇЄҐ-]+$/i.test(value.trim())) {
           return 'Використовувати лише букви, можуть бути розділені дефісом.';
         }
         break;
       case 'phone':
-        if (!/^\+?[0-9-]+$/.test(value.trim())) {
-          return 'Можна використовувати лише цифри, дефіси, дужки та "+" на початку.';
+        if (!/^(\+38)?0[0-9-]{9}$/.test(value.trim())) {
+          return 'Можна використовувати лише цифри та "+" на початку.';
         }
         break;
       case 'email':
