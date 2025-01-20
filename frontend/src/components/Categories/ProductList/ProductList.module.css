@@ -15,10 +15,14 @@
   background-color: #fff;
   border: var(--border-width-small) var(--border-style) transparent;
   box-shadow: 0 1px 8px 0 rgba(130, 84, 8, 0.1);
+  transition: transform 300ms cubic-bezier(0.38, 0.53, 0.8, 0.71);
 }
 
 .item:hover {
-  border: var(--border-width-small) var(--border-style) var(--primary-yellow);
+  border: var(--border-width-small) var(--border-style)
+    var(--primary-yellow-light);
+  box-shadow: 0 0 20px rgba(112, 92, 2, 0.7);
+  transform: scale(1.05);
 }
 
 .item:focus {
@@ -63,13 +67,18 @@
   height: 44px;
   font-size: 16px;
   font-weight: 600;
-  border: none;
+  border: 1px solid var(--primary-yellow);
   border-radius: 8px;
   color: #000;
-  background-color: #fcbc5a;
+  background-color: var(--default-white);
   outline: none;
 }
 
 .btn_icon {
   transform: rotateY(180deg);
+}
+
+.btn_more:is(:hover, :focus) {
+  background-color: #fcbc5a;
+  box-shadow: 2px 2px 8px rgba(112, 92, 2, 0.7);
 }
