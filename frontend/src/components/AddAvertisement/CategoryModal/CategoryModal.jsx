@@ -5,8 +5,6 @@ import { selectAllCategories } from '../../../redux/categories/categoriesSelecto
 import css from './CategoryModal.module.css';
 
 export default function CategoryModal({ onSelectCategory }) {
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const [isSelectedDelivery, setIsSelectedDelivery] = useState('');
   const [focusId, setFocusId] = useState(null);
   const [focusSubcategoriesId, setFocusSubcategoriesId] = useState(null);
 

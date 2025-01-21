@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { GoChevronDown, GoChevronUp } from 'react-icons/go';
 import { FiCamera } from 'react-icons/fi';
 import CategoryModal from '../CategoryModal/CategoryModal';
+import { selectFiltersCategory } from '../../../redux/filters/filtersSelector';
 import { media } from '../../../utils/mediaConfig';
 import css from './AddAdvert.module.css';
 
@@ -10,6 +11,13 @@ export default function AddAdvert() {
   const [open, setOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('');
   const [isSelectedDelivery, setIsSelectedDelivery] = useState('');
+
+  const filters = useSelector(selectFiltersCategory);
+
+  // console.log(filters);
+  // console.log(selectedCategory);
+
+  const dispatch = useDispatch();
   const deliveryType = ['Нова пошта', 'Укрпошта'];
 
   const handleDeliveryChange = (option) => {
@@ -77,6 +85,46 @@ export default function AddAdvert() {
           </h3>
 
           <ul className={css.fotoList}>
+            <li className={css.fotoItem}>
+              <FiCamera size={24} />
+              <button className={css.btnFoto}>Завантажте</button>
+              <p className={css.textFoto}>
+                Головне фото товару
+                <br /> в повному розмірі
+              </p>
+            </li>
+            <li className={css.fotoItem}>
+              <FiCamera size={24} />
+              <button className={css.btnFoto}>Завантажте</button>
+              <p className={css.textFoto}>
+                Головне фото товару
+                <br /> в повному розмірі
+              </p>
+            </li>
+            <li className={css.fotoItem}>
+              <FiCamera size={24} />
+              <button className={css.btnFoto}>Завантажте</button>
+              <p className={css.textFoto}>
+                Головне фото товару
+                <br /> в повному розмірі
+              </p>
+            </li>
+            <li className={css.fotoItem}>
+              <FiCamera size={24} />
+              <button className={css.btnFoto}>Завантажте</button>
+              <p className={css.textFoto}>
+                Головне фото товару
+                <br /> в повному розмірі
+              </p>
+            </li>
+            <li className={css.fotoItem}>
+              <FiCamera size={24} />
+              <button className={css.btnFoto}>Завантажте</button>
+              <p className={css.textFoto}>
+                Головне фото товару
+                <br /> в повному розмірі
+              </p>
+            </li>
             <li className={css.fotoItem}>
               <FiCamera size={24} />
               <button className={css.btnFoto}>Завантажте</button>
@@ -173,7 +221,7 @@ export default function AddAdvert() {
               <label htmlFor={option} key={index} className={css.deliveryLabel}>
                 <input
                   id={option}
-                  type="radio"
+                  type="checkbox"
                   name="delivery"
                   value={option}
                   checked={isSelectedDelivery === option}

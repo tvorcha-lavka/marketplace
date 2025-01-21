@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import AddAdvert from '../../components/Addvertisement/AddAdvert/AddAdvert';
+import AddAdvert from '../../components/AddAvertisement/AddAdvert/AddAdvert';
 import css from './AddAdvertisementPage.module.css';
 
 export default function AddAdvertisementPage() {

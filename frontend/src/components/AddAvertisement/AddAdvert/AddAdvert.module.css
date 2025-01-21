@@ -37,11 +37,12 @@ form {
   position: relative;
   margin-block-start: 4px;
   width: 374px;
+  height: 44px;
 }
 
 .categoryIcon {
   position: absolute;
-  top: 22px;
+  top: 50%;
   right: 12px;
   transform: translateY(-50%);
 }
@@ -66,15 +67,9 @@ textarea {
   border: 1px solid var(--grey-dark);
   outline: none;
 }
+
 .inputNameItem {
   margin-block-end: 17px;
-}
-
-.icon_right {
-  position: absolute;
-  top: 50%;
-  right: 24px;
-  transform: translateY(-50%);
 }
 
 .fotoList {

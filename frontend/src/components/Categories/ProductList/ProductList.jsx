@@ -11,7 +11,7 @@ import { selectProducts } from '../../../redux/products/selectors';
 
 import css from './ProductList.module.css';
 
-const COUNT_PRODUCTS = 3;
+const COUNT_PRODUCTS = 12;
 
 export default function ProductList({ categoryId }) {
   const [next, setNext] = useState(COUNT_PRODUCTS);
@@ -21,6 +21,8 @@ export default function ProductList({ categoryId }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const allProducts = useSelector(selectProducts);
+
+  console.log(allProducts);
 
   const totalPages = Math.ceil(allProducts.length / COUNT_PRODUCTS);
 
