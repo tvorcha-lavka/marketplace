@@ -5,13 +5,13 @@ import { NavLink, useParams } from 'react-router-dom';
 import CategorySlider from '../CategorySlider/CategorySlider';
 import FilterBar from '../FilterBar/FilterBar';
 import ProductList from '../ProductList/ProductList';
+import SelectedFilters from '../SelectedFilters/SelectedFilters';
 import Sort from '../Sort/Sort';
 
 import { getCategoryById } from '../../../redux/categories/categoriesOperations';
 import { selectCategoryById } from '../../../redux/categories/categoriesSelectors';
 
 import css from './Category.module.css';
-import SelectedFilters from '../SelectedFilters/SelectedFilters';
 
 export default function Category() {
   const { categoryId } = useParams();

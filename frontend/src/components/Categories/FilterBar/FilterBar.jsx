@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RiArrowDownSLine, RiArrowUpSLine, RiCheckFill } from 'react-icons/ri';
+import { RiArrowDownSLine, RiArrowUpSLine } from 'react-icons/ri';
 import { getFiltersCategory } from '../../../redux/filters/filtersOperations';
 import {
   selectActiveFilters,
   selectFiltersCategory,
 } from '../../../redux/filters/filtersSelector';
 import { toggleFilter } from '../../../redux/filters/filtersSlice';
-import { filterBar } from '../../../utils/filterBar';
 import css from './FilterBar.module.css';
 
 export default function FilterBar({ categoryId }) {
@@ -17,6 +16,8 @@ export default function FilterBar({ categoryId }) {
   const filters = useSelector(selectFiltersCategory);
   const activeFilters = useSelector(selectActiveFilters);
   const dispatch = useDispatch();
+
+  // console.log(filters);
 
   useEffect(() => {
     if (categoryId) {

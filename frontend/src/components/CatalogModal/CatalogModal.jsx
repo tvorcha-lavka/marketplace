@@ -44,55 +44,55 @@ export default function CatalogModal({ noFocuseModal }) {
   };
 
   return (
-    <div className={css.modal_box} onMouseLeave={handleMouseLeave}>
+    <div className={css.modalBox} onMouseLeave={handleMouseLeave}>
       <div
         className={
           focusId !== null && subcategories.length > 0
-            ? `${css.box_categories_open}`
-            : `${css.box_categories}`
+            ? `${css.boxCategoriesOpen}`
+            : `${css.boxCategories}`
         }
       >
         <ul
           className={
             focusId !== null
-              ? `${css.list_categories_open}`
-              : `${css.list_categories}`
+              ? `${css.listCategoriesOpen}`
+              : `${css.listCategories}`
           }
         >
           {categories?.map((category) => (
             <li
               key={category.id}
-              className={css.category_item}
+              className={css.categoryItem}
               onMouseEnter={() => handleMouseEnter(category.id)}
               onClick={() => handleCategoryClick(category.id)}
             >
               <p>{category.title}</p>
 
               {category.children && category.children.length > 0 && (
-                <GoChevronRight className={css.icon_right} />
+                <GoChevronRight className={css.iconRight} />
               )}
             </li>
           ))}
         </ul>
       </div>
       {focusId !== null && subcategories.length > 0 && (
-        <div className={css.category_menu}>
+        <div className={css.categoryMenu}>
           <div className={css.scrollbox}>
             <div className={css.scrollbox_inner}>
-              <ul className={css.list_cards}>
+              <ul className={css.listCards}>
                 {subcategories.map((item, index) => (
-                  <li key={index} className={css.item_card}>
-                    <h2 className={css.list_title}>{focusedCategory.title}</h2>
+                  <li key={index} className={css.itemCard}>
+                    <h2 className={css.listTitle}>{focusedCategory.title}</h2>
                     <img
                       src={
                         item.image
                           ? `${item.image.url}`
-                          : `{media}/page/404/not-found.png`
+                          : `${media}/page/404/not-found.png`
                       }
                       alt={item.title}
-                      className={css.item_img}
+                      className={css.itemImg}
                     />
-                    <div className={css.box_text}>
+                    <div className={css.boxText}>
                       <p className={css.ttitle}>{item.title}</p>
                     </div>
                   </li>

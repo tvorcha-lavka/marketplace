@@ -1,6 +1,5 @@
-import { useEffect } from 'react';
 import { NavLink, Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { selectAllCategories } from '../../redux/categories/categoriesSelectors';
 import { positionTitle, cardOrientation } from '../../utils/positionTitle.js';
 
@@ -10,7 +9,6 @@ export default function AllCategories() {
   const сategories = useSelector(selectAllCategories);
   const allCategories = [...сategories].reverse();
   // console.log(сategories);
-  const dispatch = useDispatch();
   let verticalCounter = 0;
 
   return (
@@ -52,7 +50,7 @@ export default function AllCategories() {
                   backgroundColor: `${card.bg_color}`,
                 }}
               >
-                <h3 className={css.item_title} style={styles}>
+                <h3 className={css.itemTitle} style={styles}>
                   {title}
                 </h3>
                 <img

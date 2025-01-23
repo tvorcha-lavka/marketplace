@@ -81,7 +81,7 @@ export default function ProductCardDetails() {
               {location.state?.from === 'main' && (
                 <li>
                   <NavLink to="/" className={css.pathItem}>
-                    Головна/&nbsp;
+                    Головна /&nbsp;
                   </NavLink>
                 </li>
               )}
@@ -92,7 +92,7 @@ export default function ProductCardDetails() {
                     className={css.pathItem}
                     to={`/categories/${categoryId}`}
                   >
-                    {category?.title}/&nbsp;
+                    {category?.title} /&nbsp;
                   </NavLink>
                 </li>
               )}
@@ -102,7 +102,7 @@ export default function ProductCardDetails() {
                   {location.state?.prevFrom === 'main' && (
                     <li>
                       <NavLink to="/" className={css.pathItem}>
-                        Головна/&nbsp;
+                        Головна /&nbsp;
                       </NavLink>
                     </li>
                   )}
@@ -113,7 +113,7 @@ export default function ProductCardDetails() {
                         to={`/categories/${categoryId}`}
                         className={css.pathItem}
                       >
-                        {category?.title}/&nbsp;
+                        {category?.title} /&nbsp;
                       </NavLink>
                     </li>
                   )}
@@ -122,7 +122,7 @@ export default function ProductCardDetails() {
                     <>
                       <li>
                         <NavLink to="/" className={css.pathItem}>
-                          Головна/&nbsp;
+                          Головна /&nbsp;
                         </NavLink>
                       </li>
                       <li>
@@ -130,7 +130,7 @@ export default function ProductCardDetails() {
                           onClick={() => navigate(-1)}
                           className={`${css.backButton} ${css.pathItem}`}
                         >
-                          Повернутись назад/&nbsp;
+                          Повернутись назад /&nbsp;
                         </button>
                       </li>
                     </>

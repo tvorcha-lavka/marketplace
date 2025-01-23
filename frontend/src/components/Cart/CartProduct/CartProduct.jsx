@@ -13,10 +13,10 @@ export default function CartProduct({ item }) {
   return (
     <li
       key={item.id}
-      className={isCartPage ? `${css.cart_item_shop}` : `${css.cart_item}`}
+      className={isCartPage ? `${css.cartItemShop}` : `${css.cartItem}`}
     >
       <img
-        className={isCartPage ? `${css.item_img_shop}` : `${css.item_img}`}
+        className={isCartPage ? `${css.itemImgShop}` : `${css.itemImg}`}
         src={
           // item.images?.[0]?.s_image_url
           //   ? item.images[0].s_image_url
@@ -27,36 +27,30 @@ export default function CartProduct({ item }) {
       />
       <div>
         <h3
-          className={
-            isCartPage ? `${css.item_title_shop}` : `${css.item_title}`
-          }
+          className={isCartPage ? `${css.itemTitleShop}` : `${css.itemTitle}`}
         >
           {item.title}
         </h3>
         {isCartPage && (
-          <p className={css.item_seller}>
+          <p className={css.itemSeller}>
             Продавець:&nbsp;
-            <span className={css.seller_name}>{item.seller}</span>
+            <span className={css.sellerName}>{item.seller}</span>
           </p>
         )}
         <div
-          className={
-            isCartPage ? `${css.item_filter_shop}` : `${css.item_filter}`
-          }
+          className={isCartPage ? `${css.itemFilterShop}` : `${css.itemFilter}`}
         >
           <p>Розмір: {item.size}</p>
           <p>Матеріал: {item.material}</p>
           <p>Стан: {item.condition}</p>
         </div>
       </div>
-      <p
-        className={isCartPage ? `${css.item_price_shop}` : `${css.item_price}`}
-      >
+      <p className={isCartPage ? `${css.itemPriceShop}` : `${css.itemPrice}`}>
         {item.price}&nbsp;грн
       </p>
       {isCartPage && (
         <button
-          className={css.remove_btn}
+          className={css.removeBtn}
           type="button"
           onClick={() => dispatch(removeItem(item.id))}
         >

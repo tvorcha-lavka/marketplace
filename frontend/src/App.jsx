@@ -25,8 +25,8 @@ const ConfirmationPage = lazy(
 const CardDetailsPage = lazy(
   () => import('./pages/CardDetailsPage/CardDetailsPage')
 );
-const AdvertisementPlusPage = lazy(
-  () => import('./pages/AdvertisementPlusPage/AdvertisementPlusPage')
+const AddAdvertisementPage = lazy(
+  () => import('./pages/AddAdvertisementPage/AddAdvertisementPage')
 );
 const SupportPage = lazy(() => import('./pages/SupportPage/SupportPage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage/NotFoundPage'));
@@ -80,16 +80,6 @@ export default function App() {
             }
           />
           <Route
-            path="/advertisement"
-            element={
-              <RestrictedRoute
-                redirectTo="/"
-                component={<AdvertisementPlusPage />}
-              />
-            }
-          />
-
-          <Route
             path="/categories/:categoryId"
             element={
               <RestrictedRoute redirectTo="/" component={<CategoryPage />} />
@@ -105,6 +95,15 @@ export default function App() {
             path="/categories/:categoryId/cards/:id"
             element={
               <RestrictedRoute redirectTo="/" component={<CardDetailsPage />} />
+            }
+          />
+          <Route
+            path="/advertisement"
+            element={
+              <RestrictedRoute
+                redirectTo="/"
+                component={<AddAdvertisementPage />}
+              />
             }
           />
 
