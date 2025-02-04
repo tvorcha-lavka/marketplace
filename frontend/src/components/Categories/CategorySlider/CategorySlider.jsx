@@ -3,47 +3,61 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { useSelector } from 'react-redux';
-import { RiArrowRightSLine } from 'react-icons/ri';
-import { selectCategoryById } from '../../../redux/categories/categoriesSelectors';
+import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io';
 import { media } from '../../../utils/mediaConfig';
-// import photoAlternate from '../../../images/not-found.png';
 
 import css from './CategorySlider.module.css';
 
 function CustomPrevArrow(props) {
   const { className, style, onClick } = props;
+
   return (
+    // <button
+    //   style={{
+    //     ...style,
+    //     zIndex: 1,
+    //     display: 'block',
+    //   }}
+    //   className={css.prevBtn}
+    //   onClick={onClick}
+    // >
+    //   <IoIosArrowBack size={20} className={css.arrowIcon} />
+    // </button>
     <div
       className={className}
       style={{
         ...style,
-        left: '18px',
-        top: '60px',
-        zIndex: 1,
         display: 'block',
+        left: '8px',
+        top: '60px',
+        width: '24px',
+        height: '24px',
+        background: 'rgba(255, 255, 255, 0.8)',
         size: '24px',
+        zIndex: 1,
       }}
       onClick={onClick}
-    ></div>
+    >
+      <IoIosArrowBack size={20} className={css.arrowIcon} color="black" />
+    </div>
   );
 }
 
 function CustomNextArrow(props) {
-  const { className, style, onClick } = props;
+  const { style, onClick } = props;
+
   return (
-    <div
-      className={className}
+    <button
       style={{
         ...style,
-        right: '26px',
-        top: '60px',
-        fontSize: '24px',
         zIndex: 1,
         display: 'block',
-        // background: 'rgda(f, f, f, 0.8)',
       }}
+      className={css.nextBtn}
       onClick={onClick}
-    ></div>
+    >
+      <IoIosArrowForward size={20} className={css.arrowIcon} />
+    </button>
   );
 }
 
@@ -54,36 +68,38 @@ export default function CategorySlider({ category }) {
 
   const settings = {
     dots: false,
-    className: 'center',
-    infinite: true,
-    centerPadding: '60px',
+    infinite: false,
+    speed: 500,
     slidesToShow: 4,
-    swipeToSlide: true,
-    afterChange: function (index) {
-      console.log(
-        `Slider Changed to: ${index + 1}, background: #222; color: #bada55`
-      );
-    },
+    slidesToScroll: 1,
+    initialSlide: 0,
 
     prevArrow: <CustomPrevArrow />,
     nextArrow: <CustomNextArrow />,
+
     responsive: [
       {
         breakpoint: 1024,
         settings: {
           slidesToShow: 3,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: false,
         },
       },
       {
-        breakpoint: 768,
+        breakpoint: 600,
         settings: {
           slidesToShow: 2,
+          slidesToScroll: 1,
+          initialSlide: 2,
         },
       },
       {
         breakpoint: 480,
         settings: {
           slidesToShow: 1,
+          slidesToScroll: 1,
         },
       },
     ],
@@ -96,7 +112,11 @@ export default function CategorySlider({ category }) {
           {categoryChildren.map((item, id) => (
             <li key={id} className={css.slider_item}>
               <img
-                src={`${media}/page/404/not-found.png`}
+                src={
+                  item.image
+                    ? item.image.url
+                    : `${media}/page/404/not-found.png`
+                }
                 alt={item.title}
                 className={css.item_img}
               />

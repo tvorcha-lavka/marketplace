@@ -17,8 +17,6 @@ export default function FilterBar({ categoryId }) {
   const activeFilters = useSelector(selectActiveFilters);
   const dispatch = useDispatch();
 
-  // console.log(filters);
-
   useEffect(() => {
     if (categoryId) {
       dispatch(getFiltersCategory(categoryId));
