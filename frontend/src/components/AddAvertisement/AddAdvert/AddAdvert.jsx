@@ -24,11 +24,10 @@ export default function AddAdvert() {
   const deliveryType = ['Нова пошта', 'Укрпошта'];
 
   const handleDeliveryChange = (option) => {
-    setIsSelectedDelivery(
-      (prevSelected) =>
-        prevSelected.includes(option)
-          ? prevSelected.filter((item) => item !== option) // Видалити, якщо вже вибрано
-          : [...prevSelected, option] // Додати новий варіант
+    setIsSelectedDelivery((prevSelected) =>
+      prevSelected.includes(option)
+        ? prevSelected.filter((item) => item !== option)
+        : [...prevSelected, option]
     );
   };
 
@@ -46,16 +45,15 @@ export default function AddAdvert() {
       setSelectedChildCategory(category);
     } else if (category.isSubCategory) {
       setSelectedSubCategory(category);
-      setSelectedChildCategory(null); // Скинути вибір дитини, якщо вибрана нова підкатегорія
+      setSelectedChildCategory(null);
     } else {
       setSelectedCategory(category);
-      setSelectedSubCategory(null); // Скинути підкатегорію, якщо вибрана нова основна категорія
-      setSelectedChildCategory(null); // Скинути дитину, якщо вибрана нова основна категорія
+      setSelectedSubCategory(null);
+      setSelectedChildCategory(null);
     }
     setOpen(false);
   };
 
-  // Фільтри для обраної категорії, підкатегорії або дитини
   const categoryFilters = filters?.filter(
     (filter) =>
       filter.categoryId === selectedCategory?.id ||
@@ -216,6 +214,14 @@ export default function AddAdvert() {
         </fieldset>
         <fieldset className={css.wrapper}>
           <h3 className={css.title}>Ключові слова</h3>
+          <label htmlFor="word" className={css.wordLabel}>
+            Введіть ключові слова через кому або Enter. Кльочові слова - це
+            слова за яким будуть шукати ваш твоар на Tvorcha Lavka.
+          </label>
+          <input id="word" type="text" className={css.wordInput} />
+          <span className={css.wordSpan}>
+            Наприклад: вишиванка, львівська вишиванка, вишитий одяг
+          </span>
         </fieldset>
         <fieldset className={css.wrapper}>
           <h3 className={css.title}>Додатково</h3>
@@ -225,7 +231,7 @@ export default function AddAdvert() {
             'Україньска символіка',
             'Під замовлення',
           ].map((option, index) => (
-            <label key={index} className={css.option_label}>
+            <label key={index} className={css.optionLabel}>
               <input
                 type="checkbox"
                 value={option}

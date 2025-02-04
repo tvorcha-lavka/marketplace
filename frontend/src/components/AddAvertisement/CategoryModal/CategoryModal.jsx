@@ -13,7 +13,7 @@ export default function CategoryModal({ onSelectCategory }) {
   const сategories = useSelector(selectAllCategories);
   const allCategories = [...сategories].reverse();
 
-  console.log(сategories);
+  // console.log(сategories);
   const subcategories =
     allCategories?.find((category) => category.id === focusId)?.children || [];
 

@@ -57,10 +57,10 @@ export default function Header() {
   // };
 
   const handleOpen = () => {
-    setTimeout(() => {
-      if (closeTimeout.current) clearTimeout(closeTimeout.current);
-      setIsFocused(true);
-    }, 500);
+    // setTimeout(() => {
+    if (closeTimeout.current) clearTimeout(closeTimeout.current);
+    setIsFocused(true);
+    // }, 800);
   };
 
   const handleCloseWithDelay = () => {
