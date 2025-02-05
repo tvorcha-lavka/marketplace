@@ -38,6 +38,7 @@ export default function CatalogModal({ noFocuseModal }) {
   const handleMouseLeave = () => {
     setFocusId(null);
   };
+
   const handleCategoryClick = (categoryId) => {
     noFocuseModal();
     navigate(`/categories/${categoryId}`);
@@ -52,13 +53,7 @@ export default function CatalogModal({ noFocuseModal }) {
             : `${css.boxCategories}`
         }
       >
-        <ul
-          className={
-            focusId !== null
-              ? `${css.listCategoriesOpen}`
-              : `${css.listCategories}`
-          }
-        >
+        <ul className={css.listCategories}>
           {categories?.map((category) => (
             <li
               key={category.id}
@@ -69,7 +64,7 @@ export default function CatalogModal({ noFocuseModal }) {
               <p>{category.title}</p>
 
               {category.children && category.children.length > 0 && (
-                <GoChevronRight className={css.iconRight} />
+                <GoChevronRight />
               )}
             </li>
           ))}
@@ -79,10 +74,14 @@ export default function CatalogModal({ noFocuseModal }) {
         <div className={css.categoryMenu}>
           <div className={css.scrollbox}>
             <div className={css.scrollbox_inner}>
+              <h2 className={css.listTitle}>{focusedCategory.title}</h2>
               <ul className={css.listCards}>
                 {subcategories.map((item, index) => (
-                  <li key={index} className={css.itemCard}>
-                    <h2 className={css.listTitle}>{focusedCategory.title}</h2>
+                  <li
+                    key={index}
+                    className={css.itemCard}
+                    onClick={() => handleCategoryClick(item.id)}
+                  >
                     <img
                       src={
                         item.image

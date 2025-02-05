@@ -6,28 +6,70 @@ import CategoryModal from '../CategoryModal/CategoryModal';
 import { selectFiltersCategory } from '../../../redux/filters/filtersSelector';
 import { media } from '../../../utils/mediaConfig';
 import css from './AddAdvert.module.css';
+import { getFiltersCategory } from '../../../redux/filters/filtersOperations';
 
 export default function AddAdvert() {
   const [open, setOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('');
-  const [isSelectedDelivery, setIsSelectedDelivery] = useState('');
+  const [selectedSubCategory, setSelectedSubCategory] = useState(null);
+  const [selectedChildCategory, setSelectedChildCategory] = useState(null);
+  const [isSelectedDelivery, setIsSelectedDelivery] = useState([]);
 
   const filters = useSelector(selectFiltersCategory);
 
-  // console.log(filters);
-  // console.log(selectedCategory);
+  console.log(filters);
 
   const dispatch = useDispatch();
+
   const deliveryType = ['Нова пошта', 'Укрпошта'];
 
   const handleDeliveryChange = (option) => {
-    setIsSelectedDelivery(option);
+    setIsSelectedDelivery((prevSelected) =>
+      prevSelected.includes(option)
+        ? prevSelected.filter((item) => item !== option)
+        : [...prevSelected, option]
+    );
   };
 
+  // const handleCategorySelect = (category) => {
+  //   setSelectedCategory(category);
+  //   setOpen(false);
+  // };
+
+  // const categoryFilters = filters?.filter(
+  //   (filter) => filter.categoryId === selectedCategory.id
+  // );
+
   const handleCategorySelect = (category) => {
-    setSelectedCategory(category);
+    if (category.isChild) {
+      setSelectedChildCategory(category);
+    } else if (category.isSubCategory) {
+      setSelectedSubCategory(category);
+      setSelectedChildCategory(null);
+    } else {
+      setSelectedCategory(category);
+      setSelectedSubCategory(null);
+      setSelectedChildCategory(null);
+    }
     setOpen(false);
   };
+
+  const categoryFilters = filters?.filter(
+    (filter) =>
+      filter.categoryId === selectedCategory?.id ||
+      filter.categoryId === selectedSubCategory?.id ||
+      filter.categoryId === selectedChildCategory?.id
+  );
+
+  // useEffect(() => {
+  //   if (
+  //     selectedCategory?.id ||
+  //     selectedSubCategory?.id ||
+  //     selectedChildCategory?.id
+  //   ) {
+  //     dispatch(getFiltersCategory(selectedCategory.id));
+  //   }
+  // }, [dispatch, selectedCategory.id]);
 
   return (
     <div className={css.addAdvertContainer}>
@@ -43,7 +85,12 @@ export default function AddAdvert() {
               className={css.inputAdvert}
               id="categories"
               name="categories"
-              value={selectedCategory}
+              value={
+                selectedChildCategory ||
+                selectedSubCategory ||
+                selectedCategory ||
+                ''
+              }
               type="text"
               placeholder="Оберіть категорію"
               onClick={() => setOpen(!open)}
@@ -138,28 +185,28 @@ export default function AddAdvert() {
         <fieldset className={css.wrapper}>
           <h3 className={css.title}>Додайте характеристики</h3>
           <div className={css.detailbox}>
-            <label className={css.labelAdvert} htmlFor="">
-              <p className={css.spanLabel}>Матеріал&#42;</p>
-              <select className={css.selectAdvert} name="style" id="material">
-                <option value="">Оберіть матеріал</option>
-              </select>
-            </label>
-            <label className={css.labelAdvert} htmlFor="style">
-              <p className={css.spanLabel}>Стиль&#42;</p>
-              <select className={css.selectAdvert} name="style" id="style">
-                <option value="">Оберіть стиль</option>
-              </select>
-            </label>
-            <label className={css.labelAdvert} htmlFor="decoration">
-              <p className={css.spanLabel}>Оздоблення&#42;</p>
-              <select
-                className={css.selectAdvert}
-                name="decoration"
-                id="decoration"
-              >
-                <option value="">Оберіть оздоблення</option>
-              </select>
-            </label>
+            {categoryFilters?.map((filter) => {
+              if (filter.name !== 'Цвет')
+                return (
+                  <div key={filter.id}>
+                    <label className={css.labelAdvert} htmlFor={filter.name}>
+                      {filter.name}&#42;
+                    </label>
+                    <div className={css.dropdown}>
+                      <select
+                        className={css.selectAdvert}
+                        name="style"
+                        id={filter.name}
+                      >
+                        <option className={css.optionAdvert} value="">
+                          Оберіть {filter.name.toLowerCase()}
+                        </option>
+                      </select>
+                      <GoChevronDown className={css.selectIcon} size={24} />
+                    </div>
+                  </div>
+                );
+            })}
           </div>
         </fieldset>
         <fieldset className={css.wrapper}>
@@ -167,6 +214,14 @@ export default function AddAdvert() {
         </fieldset>
         <fieldset className={css.wrapper}>
           <h3 className={css.title}>Ключові слова</h3>
+          <label htmlFor="word" className={css.wordLabel}>
+            Введіть ключові слова через кому або Enter. Кльочові слова - це
+            слова за яким будуть шукати ваш твоар на Tvorcha Lavka.
+          </label>
+          <input id="word" type="text" className={css.wordInput} />
+          <span className={css.wordSpan}>
+            Наприклад: вишиванка, львівська вишиванка, вишитий одяг
+          </span>
         </fieldset>
         <fieldset className={css.wrapper}>
           <h3 className={css.title}>Додатково</h3>
@@ -176,7 +231,7 @@ export default function AddAdvert() {
             'Україньска символіка',
             'Під замовлення',
           ].map((option, index) => (
-            <label key={index} className={css.option_label}>
+            <label key={index} className={css.optionLabel}>
               <input
                 type="checkbox"
                 value={option}
@@ -191,10 +246,20 @@ export default function AddAdvert() {
         <fieldset className={css.wrapper}>
           <h3 className={css.title}>Локалізація</h3>
           <div className={css.locationBox}>
-            <label className={css.labelAdvert} htmlFor="">
-              <p className={css.spanLabel}>Місто&#42;</p>
-              <select className={css.selectAdvert}></select>
+            <label className={css.labelAdvert} htmlFor="city">
+              Місто&#42;
             </label>
+            <div className={css.dropdown}>
+              <select className={css.selectAdvert} name="style" id="city">
+                <option className={css.optionAdvert} value="">
+                  Оберіть місто
+                </option>
+                <option className={css.optionAdvert} value="">
+                  Київ
+                </option>
+              </select>
+              <GoChevronDown className={css.selectIcon} size={24} />
+            </div>
           </div>
         </fieldset>
         <fieldset className={css.wrapper}>
@@ -224,7 +289,7 @@ export default function AddAdvert() {
                   type="checkbox"
                   name="delivery"
                   value={option}
-                  checked={isSelectedDelivery === option}
+                  checked={isSelectedDelivery.includes(option)}
                   onChange={() => handleDeliveryChange(option)}
                 />
                 <span className={css.checkmark}></span>

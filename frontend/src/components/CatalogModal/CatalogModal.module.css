@@ -2,12 +2,9 @@
   position: absolute;
   display: flex;
   top: 95px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 981px;
-  max-height: 420px;
+  left: 246px;
   box-shadow: 0px 1px 8px 0px rgba(130, 84, 8, 0.102);
-  z-index: 9999;
+  z-index: 500;
 }
 
 .boxCategories {
@@ -15,6 +12,8 @@
   height: 420px;
   border-radius: 16px;
   background-color: #fff;
+  border: none;
+  box-shadow: 0px 1px 8px 0px #8254081a;
 }
 
 .boxCategoriesOpen {
@@ -25,19 +24,16 @@
   background-color: #fff;
 }
 
-.listCategories,
-.listCategoriesOpen {
+.listCategories {
   position: relative;
   height: 340px;
-  margin: 40px 0 40px 36px;
-}
-
-.listCategoriesOpen {
-  border-right: 1px solid #d2d2d2;
+  margin: 40px 24px 40px 36px;
 }
 
 .categoryItem {
   position: relative;
+  display: flex;
+  justify-content: space-between;
   margin-block-end: 12px;
   font-size: 16px;
   color: black;
@@ -50,13 +46,6 @@
 .categoryItem:is(:hover, :focus) {
   font-weight: 700;
   cursor: pointer;
-}
-
-.iconRight {
-  position: absolute;
-  top: 50%;
-  right: 24px;
-  transform: translateY(-50%);
 }
 
 ::-webkit-scrollbar {
@@ -76,30 +65,28 @@
 .categoryMenu {
   width: 660px;
   height: 420px;
-  padding: 40px 38px 40px 32px;
+  padding: 40px 38px 40px 0;
   border-top-right-radius: 40px;
   border-bottom-right-radius: 40px;
   background-color: #fff;
 }
 
 .listTitle {
-  position: fixed;
-  top: 38px;
-  left: 321px;
-  width: 600px;
-  padding-block-end: 16px;
-  padding-inline-start: 32px;
   font-size: 18px;
   font-weight: 700;
   line-height: 1.255;
   background-color: #fff;
+  z-index: 500;
 }
 
 .scrollbox {
   overflow-y: auto;
+  padding-inline-start: 32px;
+  border-left: 1px solid #d2d2d2;
 }
 
 .scrollbox_inner {
+  position: relative;
   height: auto;
 }
 
@@ -107,7 +94,7 @@
   display: grid;
   width: 560px;
   height: 297px;
-  margin-top: 47px;
+  margin-top: 24px;
   grid-template-columns: repeat(4, 1fr);
   column-gap: 16px;
   row-gap: 24px;

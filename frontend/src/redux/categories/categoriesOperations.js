@@ -31,7 +31,7 @@ export const getAllCategoriesWithPopular = createAsyncThunk(
   {
     condition: (arg, { getState }) => {
       const state = getState();
-      return !state.categories.loading; 
+      return !state.categories.loading;
     },
   }
 );

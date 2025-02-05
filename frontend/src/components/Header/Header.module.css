@@ -28,7 +28,7 @@
   width: var(--icon-size-normal);
   height: var(--icon-size-normal);
   color: var(--default-black);
-	outline: var(--default-black);
+  outline: var(--default-black);
 }
 
 .catalogBtn {

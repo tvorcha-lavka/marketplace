@@ -23,10 +23,13 @@ form {
   margin-block-end: 20px;
 }
 
-.labelAdvert {
+.labelAdvert,
+.wordLabel,
+.wordSpan {
   display: block;
   font-size: var(--font-size-tiny);
   font-weight: var(--font-weight-bold);
+  color: var(--default-black);
 }
 
 .spanLabel {
@@ -49,7 +52,7 @@ form {
 
 .inputNameItem,
 .inputAdvert,
-.selectAdvert {
+.wordInput {
   display: block;
   width: 100%;
   height: 44px;
@@ -66,6 +69,45 @@ textarea {
   border-radius: var(--border-radius);
   border: 1px solid var(--grey-dark);
   outline: none;
+}
+
+.dropdown {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 44px;
+  margin-block-start: 4px;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--grey-dark);
+}
+
+.selectAdvert,
+.optionAdvert {
+  color: black;
+  padding-left: 12px;
+  border: none;
+  outline: none;
+}
+
+.dropdown .selectAdvert {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 100%;
+  height: 44px;
+  background: none;
+}
+
+.dropdown select::-ms-expand {
+  display: none;
+}
+
+.dropdown .selectIcon {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  pointer-events: none;
 }
 
 .inputNameItem {
@@ -102,13 +144,25 @@ textarea {
   color: var(--grey-lighter);
 }
 
+.wordLabel {
+  margin-block-end: 8px;
+}
+
+.wordInput {
+  width: 100%;
+}
+
+.wordSpan {
+  color: var(--grey-darkest);
+}
+
 .detailbox {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
 }
 
-.option_label {
+.optionLabel {
   position: relative;
   display: flex;
   align-items: center;
@@ -121,13 +175,13 @@ textarea {
   user-select: none;
 }
 
-.option_label input {
+.optionLabel input {
   position: absolute;
   opacity: 0;
   cursor: pointer;
 }
 
-.option_label .checkmark {
+.optionLabel .checkmark {
   min-width: 20px;
   height: 20px;
   background-color: var(--default-white);
@@ -140,12 +194,12 @@ textarea {
     border-color 0.3s;
 }
 
-.option_label input:checked + .checkmark {
+.optionLabel input:checked + .checkmark {
   background-color: var(--primary-yellow);
   border: none;
 }
 
-.option_label .checkmark::after {
+.optionLabel .checkmark::after {
   content: '';
   position: absolute;
   display: none;
@@ -158,11 +212,11 @@ textarea {
   transform: rotate(45deg);
 }
 
-.option_label input:checked + .checkmark::after {
+.optionLabel input:checked + .checkmark::after {
   display: block;
 }
 
-.option_label:last-child {
+.optionLabel:last-child {
   margin-block-end: 0;
 }
 
