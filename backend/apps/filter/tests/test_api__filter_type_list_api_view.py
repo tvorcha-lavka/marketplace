@@ -15,6 +15,7 @@ list_filter_test_cases = [
     # "auth_user", "category_id", "expected_status", "filter_types_count", "filter_values_count"
     L_TestCase("not_auth", 1, status.HTTP_200_OK, 2, [4, 4]),
     L_TestCase("not_auth", 2, status.HTTP_200_OK, 3, [4, 4, 4]),
+    L_TestCase("not_auth", 0, status.HTTP_200_OK, 0, []),
 ]
 
 
