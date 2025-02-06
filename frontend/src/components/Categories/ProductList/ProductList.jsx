@@ -7,7 +7,7 @@ import CardCollection from '../../CardCollection/CardCollection';
 import Pagination from '../Pagination/Pagination';
 
 import { getProducts } from '../../../redux/products/operations';
-import { selectProducts } from '../../../redux/products/selectors';
+import { selectProducts, selectTotalCount } from '../../../redux/products/selectors';
 
 import css from './ProductList.module.css';
 
@@ -20,11 +20,12 @@ export default function ProductList({ categoryId }) {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const allProducts = useSelector(selectProducts);
+	const allProducts = useSelector(selectProducts)?.results || [];
+	const totalCount = useSelector(selectTotalCount);
 
   console.log(allProducts);
 
-  const totalPages = Math.ceil(allProducts.length / COUNT_PRODUCTS);
+  const totalPages = Math.ceil(totalCount / COUNT_PRODUCTS);
 
   const currentPage = new URLSearchParams(location.search).get('page') || 1;
 

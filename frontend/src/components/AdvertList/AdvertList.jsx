@@ -12,7 +12,7 @@ export default function AdvertList() {
   const [activeCardId, setActiveCardId] = useState(null);
 
   const dispatch = useDispatch();
-  const allProducts = useSelector(selectProducts);
+  const allProducts = useSelector(selectProducts)?.results || [];
 
   useEffect(() => {
     dispatch(getProducts({ is_vip: true }));

@@ -17,7 +17,7 @@ export default function RecommendedCards() {
   const itemsPerSlide = 4;
 
   const dispatch = useDispatch();
-  const allProducts = useSelector(selectProducts);
+  const allProducts = useSelector(selectProducts)?.results || [];
   // console.log(allProducts)
 
   useEffect(() => {
