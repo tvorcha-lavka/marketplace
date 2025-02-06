@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { IoIosArrowBack } from 'react-icons/io';
-import { IoIosArrowForward } from 'react-icons/io';
+import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import clsx from 'clsx';
 
 import { media } from '../../../utils/mediaConfig';
@@ -11,40 +10,58 @@ export default function CardDetailsGallery({ product }) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const images = product.images || [];
+  const smallImages = images.filter((image) => image.s_image_url);
+  const hasMultipleImages = images.length > 1;
+  const hasSmallImages = smallImages.length > 0;
 
   const prevSlide = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? product.images.length - 1 : prevIndex - 1
-    );
+    if (hasMultipleImages) {
+      setCurrentIndex((prevIndex) =>
+        prevIndex === 0 ? images.length - 1 : prevIndex - 1
+      );
+    }
   };
 
   const nextSlide = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === product.images.length - 1 ? 0 : prevIndex + 1
-    );
+    if (hasMultipleImages) {
+      setCurrentIndex((prevIndex) =>
+        prevIndex === images.length - 1 ? 0 : prevIndex + 1
+      );
+    }
   };
 
   return (
     <div className={css.gallery}>
-      <ul className={css.galleryList}>
-        {product.images.slice(0, 5).map((image, index) => (
-          <li key={index}>
-            <img
-              className={clsx(
-                css.galleryItem,
-                currentIndex === index && css.galleryItemActive
-              )}
-              src={image.s_image_url}
-              alt={`Thumbnail ${index + 1}`}
-              onClick={() => setCurrentIndex(index)}
-            />
-          </li>
-        ))}
-      </ul>
+      {hasSmallImages && (
+        <ul className={css.galleryList}>
+          {smallImages.slice(0, 5).map((image, index) => (
+            <li key={index}>
+              <img
+                className={clsx(
+                  css.galleryItem,
+                  currentIndex === index && css.galleryItemActive
+                )}
+                src={image.s_image_url}
+                alt={`Thumbnail ${index + 1}`}
+                onClick={() => setCurrentIndex(index)}
+              />
+            </li>
+          ))}
+        </ul>
+      )}
 
-      <div className={css.swiperContainer}>
+      <div
+        className={clsx(
+          css.swiperContainer,
+          hasSmallImages ? css.swiperSmall : css.swiperLarge
+        )}
+      >
         <div className={css.swiper}>
-          <button className={css.prevBtn} onClick={prevSlide}>
+          <button
+            className={clsx(css.prevBtn, !hasMultipleImages && css.disabledBtn)}
+            onClick={prevSlide}
+            disabled={!hasMultipleImages}
+          >
             <IoIosArrowBack className={css.arrowIcon} />
           </button>
           {images[currentIndex] ? (
@@ -60,7 +77,11 @@ export default function CardDetailsGallery({ product }) {
               alt="No image available"
             />
           )}
-          <button className={css.nextBtn} onClick={nextSlide}>
+          <button
+            className={clsx(css.nextBtn, !hasMultipleImages && css.disabledBtn)}
+            onClick={nextSlide}
+            disabled={!hasMultipleImages}
+          >
             <IoIosArrowForward className={css.arrowIcon} />
           </button>
         </div>
