@@ -39,10 +39,17 @@
 .swiperContainer {
   border-radius: 16px;
   padding: 0px 11px;
-  max-width: 571px;
   max-height: 600px;
   box-shadow: var(--cart-shadow);
   background-color: var(--default-white);
+}
+
+.swiperSmall {
+  width: 566px;
+}
+
+.swiperLarge {
+  width: 670px;
 }
 
 .swiper {
@@ -80,6 +87,12 @@
 .nextBtn:focus {
   background-color: var(--secondary-peach);
   color: var(--default-white);
+}
+
+.disabledBtn {
+  background-color: var(--grey-lighter);
+  color: var(--default-white);
+  pointer-events: none;
 }
 
 .arrowIcon {

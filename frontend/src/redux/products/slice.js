@@ -16,6 +16,7 @@ const productSlice = createSlice({
   initialState: {
     products: [],
     productDetails: null,
+    totalCount: 0,
     loading: false,
     error: false,
   },
@@ -23,7 +24,8 @@ const productSlice = createSlice({
     builder
       .addCase(getProducts.pending, handlePending)
       .addCase(getProducts.fulfilled, (state, action) => {
-				state.products = action.payload;
+        state.products = action.payload;
+        state.totalCount = action.payload.count;
         state.loading = false;
         state.error = false;
       })
@@ -31,7 +33,7 @@ const productSlice = createSlice({
 
       .addCase(getProductsId.pending, handlePending)
       .addCase(getProductsId.fulfilled, (state, action) => {
-				state.productDetails = action.payload;
+        state.productDetails = action.payload;
         state.loading = false;
         state.error = false;
       })
