@@ -86,7 +86,7 @@ export default function CatalogModal({ noFocuseModal }) {
                       src={
                         item.image
                           ? `${item.image.url}`
-                          : `${media}/page/404/not-found.png`
+                          : `${media}/defaults/no-image.jpg`
                       }
                       alt={item.title}
                       className={css.itemImg}

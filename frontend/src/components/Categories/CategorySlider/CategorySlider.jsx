@@ -115,7 +115,7 @@ export default function CategorySlider({ category }) {
                 src={
                   item.image
                     ? item.image.url
-                    : `${media}/page/404/not-found.png`
+                    : `${media}/defaults/no-image.jpg`
                 }
                 alt={item.title}
                 className={css.item_img}
@@ -132,7 +132,7 @@ export default function CategorySlider({ category }) {
                 src={
                   item.image
                     ? item.image.url
-                    : `${media}/page/404/not-found.png`
+                    : `${media}/defaults/no-image.jpg`
                 }
                 alt={item.title}
                 className={css.item_img}

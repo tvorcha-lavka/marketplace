@@ -10,9 +10,24 @@ export default function CardDetailsGallery({ product }) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const images = product.images || [];
-  const smallImages = images.filter((image) => image.s_image_url);
+  const processedImages = images.flatMap(
+      image => image?.processed_images || []
+  );
+
+
+  // const imagesOriginal = images.map(({ processed_images, ...rest }) => rest);
+  // const imagesLarge = processedImages.filter(
+  //     image => image?.height === 900 && image?.width === 675
+  // );
+  const imagesMedium = processedImages.filter(
+      image => image?.height === 600 && image?.width === 450
+  );
+  const imagesSmall = processedImages.filter(
+      image => image?.height === 200 && image?.width === 150
+  );
+
   const hasMultipleImages = images.length > 1;
-  const hasSmallImages = smallImages.length > 0;
+  const hasSmallImages = imagesSmall.length > 0;
 
   const prevSlide = () => {
     if (hasMultipleImages) {
@@ -34,14 +49,14 @@ export default function CardDetailsGallery({ product }) {
     <div className={css.gallery}>
       {hasSmallImages && (
         <ul className={css.galleryList}>
-          {smallImages.slice(0, 5).map((image, index) => (
+          {imagesSmall.slice(0, 5).map((image, index) => (
             <li key={index}>
               <img
                 className={clsx(
                   css.galleryItem,
                   currentIndex === index && css.galleryItemActive
                 )}
-                src={image.s_image_url}
+                src={image.url}
                 alt={`Thumbnail ${index + 1}`}
                 onClick={() => setCurrentIndex(index)}
               />
@@ -64,11 +79,11 @@ export default function CardDetailsGallery({ product }) {
           >
             <IoIosArrowBack className={css.arrowIcon} />
           </button>
-          {images[currentIndex] ? (
+          {imagesMedium[currentIndex] ? (
             <img
               className={css.largeImage}
-              src={images[currentIndex].l_image_url}
-              alt={`Slide ${currentIndex + 1}`}
+              src={imagesMedium[currentIndex].url}
+              alt={`Preview ${currentIndex + 1}`}
             />
           ) : (
             <img

@@ -32,15 +32,19 @@ export default function BasketDetailsModal() {
         {cartItems.map((item) => {
           const uniqueId = nanoid();
 
+          const images = item.images || [];
+          const processedImages = images.flatMap(
+            (image) => image?.processed_images || []
+          );
+          const imagesSmall= processedImages.filter(
+            (image) => image?.height === 200 && image?.width === 150
+          );
+
           return (
             <li className={css.productList} key={uniqueId}>
               <div>
                 <img
-                  src={
-                    item.images?.[0]?.s_image_url
-                      ? item.images[0].s_image_url
-                      : `${media}/page/404/not-found.png`
-                  }
+                  src={imagesSmall?.[0]?.url || `${media}/defaults/no-image.jpg`}
                   alt={item.title}
                   className={css.img}
                 />

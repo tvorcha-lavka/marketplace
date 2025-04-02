@@ -10,6 +10,14 @@ export default function CartProduct({ item }) {
   const location = useLocation();
   const isCartPage = location.pathname === '/cart';
 
+  const images = item.images || [];
+  const processedImages = images.flatMap(
+      image => image?.processed_images || []
+  );
+  const imagesSmall= processedImages.filter(
+      image => image?.height === 200 && image?.width === 150
+  );
+
   return (
     <li
       key={item.id}
@@ -17,12 +25,7 @@ export default function CartProduct({ item }) {
     >
       <img
         className={isCartPage ? `${css.itemImgShop}` : `${css.itemImg}`}
-        src={
-          // item.images?.[0]?.s_image_url
-          //   ? item.images[0].s_image_url
-          //   :
-          `${media}/page/404/not-found.png`
-        }
+        src={imagesSmall?.[0]?.url || `${media}/defaults/no-image.jpg`}
         alt={item.title}
       />
       <div>
