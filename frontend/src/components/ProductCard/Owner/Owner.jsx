@@ -24,7 +24,7 @@ export default function Owner({ product }) {
       <div>
         <img
           className={css.avatar}
-          src={`${media}/page/404/not-found.png`}
+          src={`${media}/defaults/no-image.jpg`}
           alt={product.owner.username}
         />
       </div>

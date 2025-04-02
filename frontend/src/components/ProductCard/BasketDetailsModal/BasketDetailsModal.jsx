@@ -37,9 +37,9 @@ export default function BasketDetailsModal() {
               <div>
                 <img
                   src={
-                    item.images?.[0]?.s_image_url
-                      ? item.images[0].s_image_url
-                      : `${media}/page/404/not-found.png`
+                    item.images?.[0]?.processed_images[0].url
+                      ? item.images[0].processed_images[0].url
+                      : `${media}/defaults/no-image.jpg`
                   }
                   alt={item.title}
                   className={css.img}

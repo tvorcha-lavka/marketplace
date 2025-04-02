@@ -34,7 +34,7 @@ export default function CardDetailsGallery({ product }) {
                 css.galleryItem,
                 currentIndex === index && css.galleryItemActive
               )}
-              src={image.s_image_url}
+              src={image.processed_images[0].url}
               alt={`Thumbnail ${index + 1}`}
               onClick={() => setCurrentIndex(index)}
             />
@@ -50,7 +50,7 @@ export default function CardDetailsGallery({ product }) {
           {images[currentIndex] ? (
             <img
               className={css.largeImage}
-              src={images[currentIndex].l_image_url}
+              src={images[currentIndex].processed_images[1].url}
               alt={`Slide ${currentIndex + 1}`}
             />
           ) : (

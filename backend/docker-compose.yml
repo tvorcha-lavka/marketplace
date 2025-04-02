@@ -67,6 +67,7 @@ services:
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
     healthcheck: *x-rabbitmq-healthcheck
+    restart: always
     ports:
       - "5672:5672"
       - "15672:15672"  # For the web administration panel

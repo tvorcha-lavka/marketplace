@@ -18,10 +18,10 @@ export default function CartProduct({ item }) {
       <img
         className={isCartPage ? `${css.itemImgShop}` : `${css.itemImg}`}
         src={
-          // item.images?.[0]?.s_image_url
-          //   ? item.images[0].s_image_url
+          // item.images?.[0]?.processed_images[0].url
+          //   ? item.images[0].processed_images[0].url
           //   :
-          `${media}/page/404/not-found.png`
+          `${media}/defaults/no-image.jpg`
         }
         alt={item.title}
       />
