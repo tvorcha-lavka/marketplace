@@ -1,14 +1,23 @@
+from dataclasses import dataclass
+from pathlib import Path
+
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from apps.category.models import Category
 from apps.filter.models import FilterValue
-from apps.product.utils import path_to_large_image, path_to_medium_image, path_to_small_image
 from apps.product.validators import validate_description, validate_image_priority, validate_price, validate_title
 from apps.user.models import SellerProfile
-from apps.utils.image.models import TempImageModel
+from apps.utils.image import DEFAULT_IMAGE
 from apps.utils.models import UUIDv7Model
+
+
+@dataclass
+class ProcessedImagesBundle:
+    size_s: "ProductProcessedImage"  # 150x200
+    size_m: "ProductProcessedImage"  # 450x600
+    size_l: "ProductProcessedImage"  # 675x900
 
 
 class Product(UUIDv7Model):
@@ -65,6 +74,14 @@ class Product(UUIDv7Model):
     def published_date_setter(self):
         self.date_published = timezone.now().date() if self.active else None
 
+    def get_card_image_url(self) -> str:
+        if self.original_image.exists():
+            original = self.original_image.first()
+            bundle = ProcessedImagesBundle(*original.processed_images.all())
+            return bundle.size_m.image.url
+
+        return DEFAULT_IMAGE
+
     # def publish(self):
     #     """Publish the item and reduce the seller's limit."""
     #     self.active_setter()
@@ -83,39 +100,47 @@ class Product(UUIDv7Model):
     #         self.delete()
 
 
-class ProductImage(UUIDv7Model, TempImageModel):
+class ProductImage(UUIDv7Model):
     class Meta:
         db_table = "product_image"
         verbose_name = _("Product Image")
         verbose_name_plural = _("Product Images")
         ordering = ["priority"]
 
-    priority = models.PositiveSmallIntegerField(_("priority"), default=1, validators=[validate_image_priority])
+        constraints = [models.CheckConstraint(condition=models.Q(priority__lte=9), name="priority_max_9")]
 
-    image_large = models.ImageField(_("large image"), null=True, blank=True, upload_to=path_to_large_image)
-    image_medium = models.ImageField(_("medium image"), null=True, blank=True, upload_to=path_to_medium_image)
-    image_small = models.ImageField(_("small image"), null=True, blank=True, upload_to=path_to_small_image)
+    image = models.ImageField(_("image"), null=True, blank=True)
+    priority = models.PositiveSmallIntegerField(_("priority"), default=0, validators=[validate_image_priority])
 
     objects = models.Manager()
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="images", verbose_name=_("product"))
+    product = models.ForeignKey(
+        to=Product,
+        on_delete=models.CASCADE,
+        related_name="original_image",
+        verbose_name=_("product"),
+    )
 
-    def __str__(self):
-        return f"{self.product} - {self.priority}.jpg"
+    def __str__(self) -> str:
+        return Path(self.image.url).name
 
-    def save(self, *args, **kwargs):
-        if self.image_temp:
-            self.image_name_setter()
-            self.image_upload_setter()
-        super().save(*args, **kwargs)
 
-    def image_name_setter(self) -> None:
-        """Sets temporary image name for retrieve it in soon."""
-        extension = self.image_temp.name.split(".", 1)[-1]
-        name = self.image_temp._file_hash[:5]  # noqa
-        self.image_temp.name = f"{name}.{extension}"
+class ProductProcessedImage(UUIDv7Model):
+    class Meta:
+        db_table = "product_image_processed"
+        verbose_name = _("Product Processed Image")
+        verbose_name_plural = _("Product Processed Images")
 
-    def image_upload_setter(self) -> None:
-        """Sets upload urls for each image size for immediate data retrieval."""
-        for size in ["small", "medium", "large"]:
-            upload_to = globals()[f"path_to_{size}_image"]
-            setattr(self, f"image_{size}", upload_to(self, self.image_temp.name))
+    image = models.ImageField(_("image"), null=True, blank=True)
+    height = models.PositiveSmallIntegerField(_("height"))
+    width = models.PositiveSmallIntegerField(_("width"))
+
+    objects = models.Manager()
+    original_image = models.ForeignKey(
+        to=ProductImage,
+        on_delete=models.CASCADE,
+        related_name="processed_images",
+        verbose_name=_("original_image"),
+    )
+
+    def __str__(self) -> str:
+        return Path(self.image.url).name

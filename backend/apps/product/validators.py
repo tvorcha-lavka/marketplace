@@ -32,7 +32,7 @@ validate_image_count = ImageCountValidator()
 
 @deconstructible
 class ImagePriorityValidator(RangeValidator):
-    def __init__(self, min_value=1, max_value=10):
+    def __init__(self, min_value=0, max_value=9):
         super().__init__(min_value, max_value)
 
 

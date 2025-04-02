@@ -5,27 +5,34 @@ from django.core.files.uploadedfile import TemporaryUploadedFile
 from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 
-from apps.product.models import Product, ProductImage
+from apps.product.models import Product, ProductImage, ProductProcessedImage
 from apps.user.serializers import SellerProfileSerializer
 from apps.utils.image import DEFAULT_IMAGE
+
+
+class ProductImageProcessedSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductProcessedImage
+        fields = ["url", "height", "width"]
+
+    url = serializers.URLField(source="image.url", default=DEFAULT_IMAGE)
 
 
 class ProductImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductImage
-        fields = ["s_image_url", "m_image_url", "l_image_url"]
+        fields = ["id", "url", "processed_images"]
 
-    s_image_url = serializers.URLField(source="image_small.url", default=DEFAULT_IMAGE)
-    m_image_url = serializers.URLField(source="image_medium.url", default=DEFAULT_IMAGE)
-    l_image_url = serializers.URLField(source="image_large.url", default=DEFAULT_IMAGE)
+    url = serializers.URLField(source="image.url", default=DEFAULT_IMAGE)
+    processed_images = ProductImageProcessedSerializer(many=True, read_only=True)
 
 
 class ProductListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ["id", "title", "s_image_url", "date_published", "price", "is_vip"]
+        fields = ["id", "title", "image", "date_published", "price", "is_vip"]
 
-    s_image_url = serializers.URLField(source="images.first.image_small.url", default=DEFAULT_IMAGE)
+    image = serializers.URLField(source="get_card_image_url")
 
 
 class ProductPrivateListSerializer(ProductListSerializer):
@@ -39,7 +46,7 @@ class ProductDetailSerializer(serializers.ModelSerializer):
         model = Product
         fields = ["id", "title", "description", "date_published", "quantity", "price", "images", "owner"]
 
-    images = ProductImageSerializer(many=True, read_only=True)
+    images = ProductImageSerializer(source="original_image", many=True, read_only=True)
     owner = SellerProfileSerializer(read_only=True)
 
 
