@@ -32,8 +32,8 @@ class ProductPublicViewSet(ReadOnlyModelViewSet):
         return (
             Product.objects.filter(active=True)
             .annotate(seller_rating=Coalesce("owner__reviews__avg_rating", Decimal(0.0)))
+            .prefetch_related("original_image", "original_image__processed_images")
             .order_by("-seller_rating", "-date_published")
-            .prefetch_related("images")
             .select_related("owner")
         )
 

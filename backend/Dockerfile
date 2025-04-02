@@ -17,7 +17,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends  \
 # Installing Poetry dependencies
 ARG MODE
 RUN poetry install --no-root $(if [ "$MODE" = "prod" ]; then echo "--no-dev"; fi) \
-    && poetry cache clear . --all
+    && poetry cache clear . --all --no-interaction
 
 
 # Base stage
