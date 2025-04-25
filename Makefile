@@ -56,6 +56,12 @@ migrations:
 migrate:
 	docker compose run --rm backend python manage.py migrate
 
+downgrade:
+	docker exec -it backend python manage.py migrate $(word 2, $(MAKECMDGOALS)) $(word 3, $(MAKECMDGOALS))
+
+%:  # Disable processing of arguments as file targets
+	@:
+
 migrate-categories:
 	docker compose run --rm backend python manage.py migrate_categories
 
