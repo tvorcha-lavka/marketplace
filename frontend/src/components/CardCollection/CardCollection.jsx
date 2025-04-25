@@ -9,7 +9,7 @@ import css from './CardCollection.module.css';
 export default function CardCollection({ item, categoryId, from }) {
   const [likedItems, setLikedItems] = useState([]);
 
-  const { id, date_published, price, s_image_url, title, is_vip } = item;
+  const { id, date_published, price, image, title, is_vip } = item;
 
   const location = useLocation();
 
@@ -40,7 +40,7 @@ export default function CardCollection({ item, categoryId, from }) {
             <img
               className={css.image}
               src={
-                s_image_url ? s_image_url : `${media}/page/404/not-found.png`
+                image ? image : `${media}/defaults/no-image.jpg`
               }
               alt={title}
             />
