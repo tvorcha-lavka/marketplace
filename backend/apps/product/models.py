@@ -109,6 +109,7 @@ class ProductImage(UUIDv7Model):
 
         constraints = [models.CheckConstraint(condition=models.Q(priority__lte=9), name="priority_max_9")]
 
+    hash = models.CharField(_("hash"), max_length=16, null=True, blank=True)  # noqa: VNE003
     image = models.ImageField(_("image"), null=True, blank=True)
     priority = models.PositiveSmallIntegerField(_("priority"), default=0, validators=[validate_image_priority])
 

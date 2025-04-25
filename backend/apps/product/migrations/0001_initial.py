@@ -89,6 +89,7 @@ class Migration(migrations.Migration):
             name="ProductImage",
             fields=[
                 ("id", models.UUIDField(default=uuid6.uuid7, editable=False, primary_key=True, serialize=False)),
+                ("hash", models.CharField(blank=True, max_length=16, null=True, verbose_name="hash")),
                 ("image", models.ImageField(blank=True, null=True, upload_to="", verbose_name="image")),
                 (
                     "priority",
