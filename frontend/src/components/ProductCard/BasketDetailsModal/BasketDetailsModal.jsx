@@ -28,7 +28,7 @@ export default function BasketDetailsModal() {
         Ваш кошик ({cartItems.length} предмети)
       </h4>
 
-      <ul className={css.scrollContainer}>
+      <ul className={`${css.scrollContainer} scrollBox scrollBoxInner`}>
         {cartItems.map((item) => {
           const uniqueId = nanoid();
 
@@ -36,7 +36,7 @@ export default function BasketDetailsModal() {
           const processedImages = images.flatMap(
             (image) => image?.processed_images || []
           );
-          const imagesSmall= processedImages.filter(
+          const imagesSmall = processedImages.filter(
             (image) => image?.height === 200 && image?.width === 150
           );
 
@@ -44,7 +44,9 @@ export default function BasketDetailsModal() {
             <li className={css.productList} key={uniqueId}>
               <div>
                 <img
-                  src={imagesSmall?.[0]?.url || `${media}/defaults/no-image.jpg`}
+                  src={
+                    imagesSmall?.[0]?.url || `${media}/defaults/no-image.jpg`
+                  }
                   alt={item.title}
                   className={css.img}
                 />

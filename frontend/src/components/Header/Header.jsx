@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { FiShoppingCart, FiUser } from 'react-icons/fi';
 import { HiMiniBars4 } from 'react-icons/hi2';
 import { FaRegHeart } from 'react-icons/fa';
@@ -26,41 +26,9 @@ export default function Header() {
     openModal('login');
   };
 
-  // const handleMouseEnter = () => {
-  //   setTimeout(() => {
-  //     setIsFocused(true);
-  //   }, 500);
-  // };
-
-  // const handleMouseLeave = (event) => {
-  //   setTimeout(() => {
-  //     if (modalRef && !modalRef.current.contains(document.activeElement)) {
-  //       setIsFocused(false);
-  //     }
-  //   }, 1000);
-
-  // };
-
-  // const handleFocus = () => {
-  //   setTimeout(() => {
-  //     setIsFocused(true);
-  //   }, 500);
-  // };
-
-  // const handleBlur = (event) => {
-
-  //   setTimeout(() => {
-  //     if (!modalRef.current.contains(document.activeElement)) {
-  //       setIsFocused(true);
-  //     }
-  //   }, 100);
-  // };
-
   const handleOpen = () => {
-    // setTimeout(() => {
     if (closeTimeout.current) clearTimeout(closeTimeout.current);
     setIsFocused(true);
-    // }, 800);
   };
 
   const handleCloseWithDelay = () => {
@@ -76,51 +44,56 @@ export default function Header() {
   };
 
   return (
-    <section className={css.section}>
-      <div className={css.container}>
-        <div className={css.leftPart}>
-          <Logo className={css.logoIndent} />
-          <button
-            className={css.catalogBtn}
-            ref={buttonRef}
-            onFocus={handleOpen}
-            onBlur={handleBlur}
-            onMouseEnter={handleOpen}
-            onMouseLeave={handleCloseWithDelay}
-          >
-            <HiMiniBars4 className={css.burgerIcon} />
-            Каталог
-          </button>
-          {isFocused && (
-            <div
-              tabIndex={-1}
-              ref={modalRef}
+    <header>
+      <div className="container">
+        <div className={css.wrapper}>
+          <div className={css.leftPart}>
+            <Logo />
+            <button
+              className={css.catalogBtn}
+              ref={buttonRef}
+              onFocus={handleOpen}
+              onBlur={handleBlur}
               onMouseEnter={handleOpen}
               onMouseLeave={handleCloseWithDelay}
             >
-              <CatalogModal noFocuseModal={() => setIsFocused(false)} />
-            </div>
-          )}
+              <HiMiniBars4 className={css.burgerIcon} />
+              Каталог
+            </button>
+            {isFocused && (
+              <div
+                tabIndex={-1}
+                ref={modalRef}
+                onMouseEnter={handleOpen}
+                onMouseLeave={handleCloseWithDelay}
+              >
+                <CatalogModal noFocuseModal={() => setIsFocused(false)} />
+              </div>
+            )}
 
-          <SearchFieldBar />
+            <SearchFieldBar />
 
-          <CustomButton size="small" onClick={() => navigate('/advertisement')}>
-            Додати товар
-          </CustomButton>
-        </div>
-        <div className={css.rightPart}>
-          <Link to="/like-cart">
-            <FaRegHeart className={css.likeIcon} />
-          </Link>
-          <Link to="/cart">
-            <FiShoppingCart className={css.shoppingIcon} />
-          </Link>
-          <button className={css.loginButton} onClick={handleLoginClick}>
-            <FiUser className={css.userIcon} />
-          </button>
+            <CustomButton
+              size="small"
+              onClick={() => navigate('/advertisement')}
+            >
+              Додати товар
+            </CustomButton>
+          </div>
+          <div className={css.rightPart}>
+            <Link to="/like-cart">
+              <FaRegHeart className={css.likeIcon} />
+            </Link>
+            <Link to="/cart">
+              <FiShoppingCart className={css.shoppingIcon} />
+            </Link>
+            <button className={css.loginButton} onClick={handleLoginClick}>
+              <FiUser className={css.userIcon} />
+            </button>
+          </div>
         </div>
       </div>
       <HeaderDown />
-    </section>
+    </header>
   );
 }

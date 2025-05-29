@@ -10,7 +10,7 @@ import { selectProducts } from '../../redux/products/selectors';
 
 import css from './RecommendedCards.module.css';
 
-export default function RecommendedCards() {
+export default function RecommendedCards({ title = 'Вам також може сподобатись:' }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [activeCardId, setActiveCardId] = useState(null);
 
@@ -18,7 +18,6 @@ export default function RecommendedCards() {
 
   const dispatch = useDispatch();
   const allProducts = useSelector(selectProducts)?.results || [];
-  // console.log(allProducts)
 
   useEffect(() => {
     if (!allProducts || allProducts.length === 0) {
@@ -54,9 +53,8 @@ export default function RecommendedCards() {
   };
 
   return (
-    <>
-      <div>
-        <h2 className={css.title}>Вам також може сподобатись:</h2>
+      <section>
+        <h2 className={css.title}>{title}</h2>
         <div className={css.slider}>
           <button className={css.prevBtn} onClick={prevSlide}>
             <IoIosArrowBack className={css.arrowIcon} />
@@ -85,7 +83,6 @@ export default function RecommendedCards() {
             <IoIosArrowForward className={css.arrowIcon} />
           </button>
         </div>
-      </div>
-    </>
+      </section>
   );
 }

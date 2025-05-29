@@ -1,9 +1,12 @@
 import { useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { BsShieldFillExclamation, BsChevronDoubleRight } from 'react-icons/bs';
+
 import CustomButton from '../../CustomButton/CustomButton';
-import css from './SummaryCart.module.css';
+
 import { selectTotal } from '../../../redux/cart/cartSelector';
+
+import css from './SummaryCart.module.css';
 
 export default function SummaryCart({ isClickBtn }) {
   const totalOrderPrice = useSelector(selectTotal);
@@ -47,10 +50,10 @@ export default function SummaryCart({ isClickBtn }) {
   };
 
   return (
-    <section className={css.summary_section}>
+    <div className={css.summarySection}>
       <div className={css.summarybox}>
-        <div className={css.price_summary}>
-          <p className={css.text_up}>
+        <div className={css.priceSummary}>
+          <p className={css.textUp}>
             <b>Разом</b>
           </p>
           <div className={css.wrapper}>
@@ -73,7 +76,7 @@ export default function SummaryCart({ isClickBtn }) {
         </div>
         {isOrderPage ? (
           <CustomButton
-            className={css.btn_order}
+            className={css.btnOrder}
             size="large"
             type="button"
             onClick={finalTransfer}
@@ -83,7 +86,7 @@ export default function SummaryCart({ isClickBtn }) {
           </CustomButton>
         ) : (
           <CustomButton
-            className={css.btn_order}
+            className={css.btnOrder}
             size="large"
             type="button"
             onClick={transferOrder}
@@ -94,8 +97,8 @@ export default function SummaryCart({ isClickBtn }) {
 
         {isOrderPage ? (
           <p className={css.coordination}>
-            Натискаючи “Оформити замовлення” я погоджуюсь <br /> з Публічним
-            договором (офертою) і обробкою персональних даних
+            Натискаючи &#8220;Оформити замовлення&#8221; я погоджуюсь <br /> з
+            Публічним договором (офертою) і обробкою персональних даних
           </p>
         ) : (
           <CustomButton
@@ -112,15 +115,15 @@ export default function SummaryCart({ isClickBtn }) {
       <div className={css.infobox}>
         <BsShieldFillExclamation size={24} />
         <div>
-          <p className={css.info_text}>
-            Ви купуєте з послугою “Безпечна угода”
+          <p className={css.infoText}>
+            Ви купуєте з послугою &#8220;Безпечна угода&#8221;
           </p>
-          <Link className={css.info_link}>Більше деталей</Link>
+          <Link className={css.infoLink}>Більше деталей</Link>
         </div>
       </div>
-      <div className={css.payment_infobox}>
-        <p className={css.payment_info}>Способи оплати:&nbsp;</p>
-        <p className={css.payment_pay}>LIQPAY</p>
+      <div className={css.paymentInfobox}>
+        <p className={css.paymentInfo}>Способи оплати:&nbsp;</p>
+        <p className={css.paymentPay}>LIQPAY</p>
         <svg width="14" height="14">
           <linearGradient id="myGradient" gradientTransform="rotate(90)">
             <stop offset="0%" stopColor="#9FDB57" />
@@ -134,6 +137,6 @@ export default function SummaryCart({ isClickBtn }) {
           />
         </svg>
       </div>
-    </section>
+    </div>
   );
 }

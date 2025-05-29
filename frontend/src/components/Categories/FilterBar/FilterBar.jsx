@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RiArrowDownSLine, RiArrowUpSLine } from 'react-icons/ri';
+
 import { getFiltersCategory } from '../../../redux/filters/filtersOperations';
 import {
   selectActiveFilters,
   selectFiltersCategory,
 } from '../../../redux/filters/filtersSelector';
 import { toggleFilter } from '../../../redux/filters/filtersSlice';
+
 import css from './FilterBar.module.css';
 
 export default function FilterBar({ categoryId }) {
@@ -102,27 +104,27 @@ export default function FilterBar({ categoryId }) {
   return (
     <form className={css.filters} onSubmit={(e) => e.preventDefault()}>
       {filters?.map((filter) => (
-        <fieldset key={filter.id} className={css.filter_group}>
-          <legend className={css.group_title}>
+        <fieldset key={filter.id} className={css.filterGroup}>
+          <legend className={css.groupTitle}>
             <button
-              className={css.btn_filter}
+              className={css.btnFilter}
               onClick={() => toggleFilterOpen(filter.id)}
             >
               {filter.title}
               {openFilters[filter.id] ? (
-                <RiArrowUpSLine className={css.icon_filter} size="24" />
+                <RiArrowUpSLine className={css.iconFilter} size="24" />
               ) : (
-                <RiArrowDownSLine className={css.icon_filter} size="24" />
+                <RiArrowDownSLine className={css.iconFilter} size="24" />
               )}
             </button>
           </legend>
           {openFilters[filter.id] && (
-            <div className={css.filter_option}>
+            <div className={css.filterOption}>
               {filter.name === 'color' &&
                 renderColorValues(filter.values, filter.id)}
               {filter.name !== 'color' &&
                 filter.values.map((option) => (
-                  <label key={option.id} className={css.option_label}>
+                  <label key={option.id} className={css.optionLabel}>
                     <input
                       type="checkbox"
                       value={option.value}

@@ -11,28 +11,45 @@ const GlobalStylesComponent = () => {
           margin: 0,
           padding: 0,
         },
+
         body: {
           fontFamily: theme.typography.fontFamily,
           lineHeight: 1.255,
         },
+
         'p:last-child': {
           marginBottom: 0,
         },
+
         'ul, ol': {
           listStyle: 'none',
         },
+
         a: {
           textDecoration: 'none',
         },
+
         button: {
           cursor: 'pointer',
           fontFamily: 'inherit',
         },
+
         img: {
           display: 'block',
           //max-width: '100%',
           height: 'auto',
         },
+
+        '.container': {
+          maxWidth: '1440px',
+          margin: '0 auto',
+          padding: '0 120px',
+        },
+
+        '.section': {
+          padding: '20px 0 114px 0',
+        },
+
         "input[type='password']::-ms-reveal": {
           display: 'none',
         },
@@ -40,19 +57,47 @@ const GlobalStylesComponent = () => {
         "input[type='password']::-ms-clear": {
           display: 'none',
         },
+
+        '::-webkit-scrollbar': {
+          width: '8px',
+        },
+
+        '::-webkit-scrollbar-thumb': {
+          backgroundColor: 'var(--primary-yellow)',
+          borderRadius: 'var(--border-radius-smallest)',
+        },
+
+        '::-webkit-scrollbar-track': {
+          backgroundColor: 'var(--primary-light)',
+        },
+
+        '.scrollBox': {
+          overflowY: 'auto',
+        },
+
+        '.scrollBoxInner': {
+          height: 'auto',
+        },
+
         ':root': {
           '--default-white': theme.custom.colors.defaultWhite, //fff
+          '--white': theme.custom.colors.white, //#f7f4ef
           '--grey-extra-light': theme.custom.colors.greyExtraLight, //#c8c8c8
           '--grey-lightest': theme.custom.colors.greyLightest, //rgba(255, 255, 255, 0.8);
           '--grey-light': theme.custom.colors.greyLight, //E8E8E8
+          '--grey': theme.custom.colors.grey, //EEEEEE
           '--grey-lighter': theme.custom.colors.greyLighter, //D2D2D2
           '--grey-dark': theme.custom.colors.greyDark, //B1B1B1
           '--grey-darker': theme.custom.colors.greyDarker, //949494
+          '--grey-medium-dark': theme.custom.colors.greyMediumDark, //474747
+          '--grey-medium': theme.custom.colors.greyMedium, //#4b4c4b
           '--grey-darkest': theme.custom.colors.greyDarkest, //414141
           '--default-black': theme.custom.colors.defaultBlack, //0C0600
+          '--black': theme.custom.colors.black, //111111
 
           '--primary-yellow': theme.custom.colors.primaryYellow, //FCBC5A
           '--primary-yellow-light': theme.custom.colors.primaryYellowLight, //rgba(252, 188, 90, 0.32)
+          '--primary-light': theme.custom.colors.primaryLight, //rgba(130, 84, 8, 0.1);
           '--primary-yellow-lighter': theme.custom.colors.primaryYellowLighter, //FFD99F
           '--primary-dark-orange': theme.custom.colors.primaryDarkOrange, //DA5135
 
@@ -65,6 +110,8 @@ const GlobalStylesComponent = () => {
 
           '--error-light-red': theme.custom.colors.errorLightRed, //rgba(211, 50, 50, 0.70)
           '--error-red': theme.custom.colors.errorRed, //D33232
+          '--medium-pink': theme.custom.colors.mediumPink, //rgb(243, 178, 229);
+          '--pink': theme.custom.colors.pink, //#fad7d7
 
           '--warning-light-orange': theme.custom.colors.warningLightOrange, //rgba(219, 106, 49, 0.70)
           '--warning-orange': theme.custom.colors.warningOrange, //E77034
@@ -98,10 +145,16 @@ const GlobalStylesComponent = () => {
           '--font-size-tiny': theme.custom.sizes.fontSizeTiny, //14
           '--font-size-extra-tiny': theme.custom.sizes.fontSizeExtraTiny, //12
 
+          '--border-radius-circle': theme.custom.sizes.borderRadiusCircle, //50%
           '--border-radius-avatar': theme.custom.sizes.borderRadiusAvatar, //80
+          '--border-radius-category': theme.custom.sizes.borderRadiusCategory, //40
           '--border-radius-medium': theme.custom.sizes.borderRadiusMedium, //16
+          '--border-radius-medium-less':
+            theme.custom.sizes.borderRadiusMediumLess, //12
           '--border-radius': theme.custom.sizes.borderRadius, //8
+          '--border-radius-smaller': theme.custom.sizes.borderRadiusSmaller, //5
           '--border-radius-small': theme.custom.sizes.borderRadiusSmall, //4
+          '--border-radius-smallest': theme.custom.sizes.borderRadiusSmallest, //1
 
           '--icon-size-large': theme.custom.sizes.iconSizeLarge, //32
           '--icon-size-normal': theme.custom.sizes.iconSizeNormal, //24
@@ -110,15 +163,19 @@ const GlobalStylesComponent = () => {
           '--icon-size': theme.custom.sizes.iconSize, //16
 
           '--border-style': theme.custom.borders.borderStyle, //solid
+          '--border-extra-big': theme.custom.borders.borderExtraBig, //10px
           '--border-width-biggest': theme.custom.borders.borderWidthBiggest, //8px
+          '--bord-width-biggest': theme.custom.borders.bordWidthBiggest, //7px
           '--border-width-big': theme.custom.borders.borderWidthBig, //2px
+          '--bord-width-bigger': theme.custom.borders.bordWidthBigger, //1.4px
           '--border-width-bigger': theme.custom.borders.borderWidthBigger, //1.2px
           '--border-width': theme.custom.borders.borderWidth, //1px
           '--border-width-small': theme.custom.borders.borderWidthSmall, //0.5px
 
           '--cart-shadow': theme.custom.shadows.cartShadow, //0px 1px 12px 0px rgba(130, 84, 8, 0.15)
-
-          '--component-height': theme.custom.dimensions.componentHeight, //44//button/input
+          '--modal-shadow': theme.custom.shadows.modalShadow, //0px 1px 8px 0px rgba(130, 84, 8, 0.102);
+          '--shadow': theme.custom.shadows.shadow, //5px 5px 10px rgb(119, 119, 119)
+          '--shadow-color': theme.custom.shadows.shadowColor, //2px 2px 8px rgba(112, 92, 2, 0.7)
         },
       }}
     />

@@ -2,13 +2,11 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { GoChevronRight } from 'react-icons/go';
-import { media } from '../../utils/mediaConfig';
-import {
-  selectCatalog,
-  selectIsLoading,
-  selectError,
-} from '../../redux/categories/categoriesSelectors';
+
+import { selectCatalog } from '../../redux/categories/categoriesSelectors';
 import { getCatalog } from '../../redux/categories/categoriesOperations';
+import { media } from '../../utils/mediaConfig';
+
 import css from './CatalogModal.module.css';
 
 export default function CatalogModal({ noFocuseModal }) {
@@ -17,9 +15,7 @@ export default function CatalogModal({ noFocuseModal }) {
   const navigate = useNavigate();
 
   const categories = useSelector(selectCatalog);
-  // const isLoading = useSelector(selectIsLoading);
 
-  // console.log(categories);
   const focusedCategory = categories?.find(
     (category) => category.id === focusId
   );
@@ -72,8 +68,8 @@ export default function CatalogModal({ noFocuseModal }) {
       </div>
       {focusId !== null && subcategories.length > 0 && (
         <div className={css.categoryMenu}>
-          <div className={css.scrollbox}>
-            <div className={css.scrollbox_inner}>
+          <div className={`${css.box} scrollBox`}>
+            <div className={`${css.scrollInner} scrollBoxInner`}>
               <h2 className={css.listTitle}>{focusedCategory.title}</h2>
               <ul className={css.listCards}>
                 {subcategories.map((item, index) => (
@@ -92,7 +88,7 @@ export default function CatalogModal({ noFocuseModal }) {
                       className={css.itemImg}
                     />
                     <div className={css.boxText}>
-                      <p className={css.ttitle}>{item.title}</p>
+                      <p className={css.title}>{item.title}</p>
                     </div>
                   </li>
                 ))}

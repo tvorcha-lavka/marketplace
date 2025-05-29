@@ -25,23 +25,25 @@ export default function AdvertList() {
   const vipProducts = allProducts.filter((item) => item.is_vip);
 
   return (
-    <section className={css.container}>
-      <h2 className={css.title}>VIP оголошення</h2>
-      <ul className={css.list}>
-        {vipProducts.map((item) => (
-          <li
-            className={`${css.item} ${activeCardId === item.id ? css.active : ''}`}
-            onBlur={handleCardBlur}
-            key={item.id}
-          >
-            <CardCollection
-              item={item}
-              categoryId={item.categoryId}
-              from="main"
-            />
-          </li>
-        ))}
-      </ul>
+    <section className="container">
+      <div className={css.section}>
+        <h2 className={css.title}>VIP оголошення</h2>
+        <ul className={css.list}>
+          {vipProducts.map((item) => (
+            <li
+              className={`${css.item} ${activeCardId === item.id ? css.active : ''}`}
+              onBlur={handleCardBlur}
+              key={item.id}
+            >
+              <CardCollection
+                item={item}
+                categoryId={item.categoryId}
+                from="main"
+              />
+            </li>
+          ))}
+        </ul>
+      </div>
     </section>
   );
 }

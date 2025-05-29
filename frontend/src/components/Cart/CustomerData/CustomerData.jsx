@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { LiaEditSolid } from 'react-icons/lia';
+
 import CustomButton from '../../CustomButton/CustomButton';
+
+import { selectCartStep } from '../../../redux/cart/cartSelector';
 import {
   updateCustomerData,
   nextStep,
   previousStep,
 } from '../../../redux/cart/cartSlice';
-import { selectCartStep } from '../../../redux/cart/cartSelector';
+
 import css from './CustomerData.module.css';
 
 export default function CustomerData() {
@@ -125,21 +128,21 @@ export default function CustomerData() {
   };
 
   return (
-    <section className={css.section}>
+    <div className={css.section}>
       {step === 1 ? (
         <>
           <h2 className={css.title}>1. Дані замовника</h2>
           <form className={css.form}>
-            <div className={css.form_wrapper}>
+            <div className={css.formWrapper}>
               <div className={css.tooltip}>
                 <label htmlFor="name" className={css.inline}>
-                  Імя&#42;
+                  Ім&#8217;я&#42;
                   <input
                     id="name"
                     type="text"
                     list="nameList"
                     value={name}
-                    className={css.form_input}
+                    className={css.formInput}
                     placeholder="Валерія"
                     onChange={(e) =>
                       handleChange('name', e.currentTarget.value)
@@ -165,7 +168,7 @@ export default function CustomerData() {
                     type="text"
                     list="surnameList"
                     value={surname}
-                    className={css.form_input}
+                    className={css.formInput}
                     placeholder="Петрівна"
                     onChange={(e) =>
                       handleChange('surname', e.currentTarget.value)
@@ -185,7 +188,7 @@ export default function CustomerData() {
                 </label>
               </div>
             </div>
-            <div className={css.form_wrapper}>
+            <div className={css.formWrapper}>
               <div className={css.tooltip}>
                 <label className={css.inline}>
                   Номер телефону&#42;
@@ -193,7 +196,7 @@ export default function CustomerData() {
                     type="tel"
                     list="phoneList"
                     value={phone}
-                    className={css.form_input_row}
+                    className={css.formInputRow}
                     placeholder="+ 38 (067) 112-45-45"
                     onChange={(e) =>
                       handleChange('phone', e.currentTarget.value)
@@ -219,7 +222,7 @@ export default function CustomerData() {
                     type="email"
                     list="browsers"
                     value={email}
-                    className={css.form_input_row}
+                    className={css.formInputRow}
                     placeholder="val23@gmail.com"
                     onChange={(e) =>
                       handleChange('email', e.currentTarget.value)
@@ -253,11 +256,11 @@ export default function CustomerData() {
         </>
       ) : (
         <>
-          <div className={css.titlebox}>
+          <div className={css.titleBox}>
             <h2 className={css.title}>1. Дані замовника</h2>
             <button
               type="button"
-              className={css.editbtn}
+              className={css.editBtn}
               onClick={handleStepBack}
             >
               <p className={css.edit}>Редагувати</p>
@@ -266,8 +269,8 @@ export default function CustomerData() {
           </div>
 
           <p className={css.text}>
-            Ім’я та прізвище:&nbsp;
-            <span>
+            Ім&#8217;я та прізвище:&nbsp;
+            <span className={css.userData}>
               {customerData.surname}&nbsp;
               {customerData.name}
             </span>
@@ -275,14 +278,14 @@ export default function CustomerData() {
 
           <p className={css.text}>
             Номер телефону:&nbsp;
-            <span>{customerData.phone}</span>
+            <span className={css.userData}>{customerData.phone}</span>
           </p>
           <p className={css.text}>
             E-mail адреса:&nbsp;
-            <span>{customerData.email}</span>
+            <span className={css.userData}>{customerData.email}</span>
           </p>
         </>
       )}
-    </section>
+    </div>
   );
 }

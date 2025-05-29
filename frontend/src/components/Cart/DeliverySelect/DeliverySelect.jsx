@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import {
   cacheBranchList,
   cacheCityList,
@@ -8,6 +9,7 @@ import {
   updateDeliveryData,
 } from '../../../redux/cart/cartSlice';
 import DropdownSelector from '../DropdownSelector/DropdownSelector';
+
 import css from './DeliverySelect.module.css';
 
 export default function DeliverySelect({ seller, onDeliveryChange }) {
@@ -52,7 +54,7 @@ export default function DeliverySelect({ seller, onDeliveryChange }) {
 
   const handleInputChange = (seller, field, value) => {
     if (typeof value !== 'string') {
-      value = String(value); // Перетворюємо на строку, якщо це не так
+      value = String(value);
     }
 
     const updatedData = {
@@ -67,7 +69,7 @@ export default function DeliverySelect({ seller, onDeliveryChange }) {
     <ul>
       {['nova-poshta', 'post_box', 'courier', 'ukrposhta'].map((type) => (
         <li className={css.deliveryItem} key={type}>
-          <div className={css.deliverybox}>
+          <div className={css.deliveryBox}>
             <div className={css.deliveryOption}>
               <input
                 className={css.optionInput}
@@ -100,7 +102,7 @@ export default function DeliverySelect({ seller, onDeliveryChange }) {
           {deliveryData[seller]?.type === type && (
             <div className={css.deliveryDetails}>
               {type === 'nova-poshta' && (
-                <ul className={css.detailsbox}>
+                <ul className={css.detailsBox}>
                   <DropdownSelector
                     label="Місто"
                     placeholder="Введіть місто"
@@ -132,7 +134,7 @@ export default function DeliverySelect({ seller, onDeliveryChange }) {
               )}
 
               {type === 'post_box' && (
-                <div className={css.detailsbox}>
+                <div className={css.detailsBox}>
                   <DropdownSelector
                     label="Місто"
                     placeholder="Введіть місто"
@@ -164,7 +166,7 @@ export default function DeliverySelect({ seller, onDeliveryChange }) {
               )}
 
               {(type === 'courier' || type === 'ukrposhta') && (
-                <div className={css.detailsbox}>
+                <div className={css.detailsBox}>
                   <div className={css.detailsWrapperAddress}>
                     <div className={css.detailsInputAddress}>
                       <div>
@@ -238,24 +240,24 @@ export default function DeliverySelect({ seller, onDeliveryChange }) {
 
                       <div>
                         <label
-                          htmlFor="apatrtment"
+                          htmlFor="apartment"
                           className={css.detailsLabel}
-                          name="apatrtment"
+                          name="apartment"
                         >
                           Кв&#42;
                         </label>
 
                         <input
-                          id="apatrtment"
-                          name="apatrtment"
+                          id="apartment"
+                          name="apartment"
                           className={css.detailsInputApart}
                           type="text"
                           placeholder="кв"
-                          value={deliveryData[seller].apatrtment || ''}
+                          value={deliveryData[seller].apartment || ''}
                           onChange={(e) =>
                             handleInputChange(
                               seller,
-                              'apatrtment',
+                              'apartment',
                               e.target.value
                             )
                           }

@@ -1,4 +1,4 @@
-.sort_section {
+.sortSection {
   margin-block-end: 19px;
 }
 
@@ -9,8 +9,8 @@
 }
 
 .count {
-  font-size: 14px;
-  color: #949494;
+  font-size: var(--font-size-tiny);
+  color: var(--grey-darker);
 }
 
 .sortbox {
@@ -20,16 +20,16 @@
   gap: 26px;
 }
 
-label {
-  color: #414141;
+.label {
+  color: var(--grey-darkest);
   margin-inline-end: 8px;
 }
 
-select {
+.select {
   border: none;
   outline: none;
 }
 
-option {
-  color: #000;
+.option {
+  color: var(--default-black);
 }

@@ -19,7 +19,7 @@
 .galleryItem {
   width: 72px;
   height: 105px;
-  border: 1px solid #f7f4ef;
+  border: var(-border-width) var(--border-style) var(--white);
   box-shadow: var(--cart-shadow);
   object-fit: cover;
   border-radius: 8px;
@@ -29,7 +29,7 @@
 .galleryItemActive {
   width: 72px;
   height: 105px;
-  border: 1px solid #f7f4ef;
+  border: var(-border-width) var(--border-style) var(--white);
   box-shadow: var(--cart-shadow);
   object-fit: cover;
   border-radius: 8px;
@@ -37,7 +37,7 @@
 }
 
 .swiperContainer {
-  border-radius: 16px;
+  border-radius: var(--border-radius-medium);
   padding: 0px 11px;
   max-height: 600px;
   box-shadow: var(--cart-shadow);
@@ -71,7 +71,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 4px;
+  border-radius: var(--border-radius-small);
   width: 32px;
   height: 32px;
   border: none;

@@ -3,19 +3,14 @@
   border-bottom: var(--border-width) var(--border-style) var(--grey-lighter);
 }
 
-.nav_list {
+.navList {
   display: flex;
   align-items: center;
+	padding: 10px 0 10px 0;
   gap: 26px;
 }
 
-.nav_container {
-  width: 1440px;
-  padding: 10px 122px;
-  margin: 0 auto;
-}
-
-.nav_link {
+.navLink {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -23,7 +18,7 @@
   color: var(--grey-darkest);
 }
 
-.nav_link:is(:focus, :hover) {
+.navLink:is(:focus, :hover) {
   color: var(--primary-dark-orange);
 }
 

@@ -1,12 +1,13 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { NavLink, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import CategorySlider from '../CategorySlider/CategorySlider';
 import FilterBar from '../FilterBar/FilterBar';
 import ProductList from '../ProductList/ProductList';
 import SelectedFilters from '../SelectedFilters/SelectedFilters';
 import Sort from '../Sort/Sort';
+import Breadcrumbs from '../../Breadcrumbs/Breadcrumbs';
 
 import { getCategoryById } from '../../../redux/categories/categoriesOperations';
 import { selectCategoryById } from '../../../redux/categories/categoriesSelectors';
@@ -25,34 +26,36 @@ export default function Category() {
   }, [categoryId, dispatch]);
 
   return (
-    <div className={css.container}>
-      <div className={css.way}>
-        <NavLink className={css.navLink} to="/">
-          Головна /
-        </NavLink>
-        <NavLink className={css.navLink} to="/categories">
-          Всі категорії /
-        </NavLink>
-        <NavLink className={css.active} to={`/categories/${categoryId}`}>
-          {category?.title}
-        </NavLink>
-      </div>
+    <div className="container">
+      <div className="section">
+        <Breadcrumbs
+          links={[
+            { label: 'Головна', to: '/', isActive: false },
+            { label: 'Всі категорії', to: '/categories', isActive: false },
+            {
+              label: category?.title || 'Категорія',
+              to: `/categories/${categoryId}`,
+              isActive: true,
+            },
+          ]}
+        />
 
-      <h2 className={css.category_title}> {category?.title}</h2>
+        <h2 className={css.categoryTitle}> {category?.title}</h2>
 
-      <CategorySlider category={category} />
+        <CategorySlider category={category} />
 
-      <div className={css.wrapper}>
-        <div className={css.filter}>
-          <FilterBar categoryId={categoryId} />
-        </div>
-        <section className={css.product_view_sort}>
-          <div className={css.stickyBlock}>
-            <SelectedFilters />
-            <Sort />
-            <ProductList categoryId={categoryId} />
+        <div className={css.wrapper}>
+          <div className={css.filter}>
+            <FilterBar categoryId={categoryId} />
           </div>
-        </section>
+          <section className={css.productViewSort}>
+            <div className={css.stickyBlock}>
+              <SelectedFilters />
+              <Sort />
+              <ProductList categoryId={categoryId} />
+            </div>
+          </section>
+        </div>
       </div>
     </div>
   );

@@ -1,34 +1,55 @@
-import { useSelector } from 'react-redux';
-import { selectProducts } from '../../../redux/products/selectors';
 import css from './Sort.module.css';
 
 export default function Sort() {
-  const allProducts = useSelector(selectProducts);
-
   return (
-    <section className={css.sort_section}>
+    <div className={css.sortSection}>
       <div className={css.wrapper}>
         <div className={css.count}>
           <p>Знайдено 138 товарів</p>
         </div>
         <div className={css.sortbox}>
           <div className={css.price}>
-            <label htmlFor="price">Сортувати за:</label>
-            <select name="price" id="price" default="min">
-              <option value="min">Найнижча ціна</option>
-              <option value="max">Найвища ціна</option>
+            <label className={css.label} htmlFor="price">
+              Сортувати за:
+            </label>
+            <select
+              label
+              className={css.select}
+              name="price"
+              id="price"
+              default="min"
+            >
+              <option className={css.option} value="min">
+                Найнижча ціна
+              </option>
+              <option className={css.option} value="max">
+                Найвища ціна
+              </option>
             </select>
           </div>
           <div className={css.number}>
-            <label htmlFor="number">Показувати по:</label>
-            <select name="number" id="number" default="min">
-              <option value="min">24</option>
-              <option value="max">48</option>
-              <option value="max">96</option>
+            <label label className={css.label} htmlFor="number">
+              Показувати по:
+            </label>
+            <select
+              className={css.select}
+              name="number"
+              id="number"
+              default="min"
+            >
+              <option className={css.option} value="min">
+                24
+              </option>
+              <option className={css.option} value="max">
+                48
+              </option>
+              <option className={css.option} value="max">
+                96
+              </option>
             </select>
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }

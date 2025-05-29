@@ -1,5 +1,5 @@
-import React from 'react';
 import { useSelector } from 'react-redux';
+
 import css from './DeliveryResult.module.css';
 
 export default function DeliveryResult({ seller }) {
@@ -10,7 +10,7 @@ export default function DeliveryResult({ seller }) {
       <div className={css.deliveryResultBlock}>
         {deliveryData[seller].type === 'nova-poshta' && (
           <>
-            <div className={css.resultbox}>
+            <div className={css.resultBox}>
               <div className={css.resultInput}></div>
               <p className={css.resultText}>Доставка Нова Пошта у відділення</p>
             </div>
@@ -25,7 +25,7 @@ export default function DeliveryResult({ seller }) {
         )}
         {deliveryData[seller].type === 'post_box' && (
           <>
-            <div className={css.resultbox}>
+            <div className={css.resultBox}>
               <div className={css.resultInput}></div>
               <p className={css.resultText}>Доставка Нова Пошта у поштомат</p>
             </div>
@@ -38,9 +38,11 @@ export default function DeliveryResult({ seller }) {
         )}
         {deliveryData[seller].type === 'courier' && (
           <>
-            <div className={css.resultbox}>
+            <div className={css.resultBox}>
               <div className={css.resultInput}></div>
-              <p className={css.inputText}>Доставка кур’єром Нова Пошта</p>
+              <p className={css.inputText}>
+                Доставка кур&#8217;єром Нова Пошта
+              </p>
             </div>
             <p className={css.resultText}>
               <b> Адреса доставки: </b>&nbsp;
@@ -54,11 +56,11 @@ export default function DeliveryResult({ seller }) {
 
         {deliveryData[seller].type === 'ukrposhta' && (
           <>
-            <div className={css.resultbox}>
+            <div className={css.resultBox}>
               <div className={css.resultInput}></div>
               <p className={css.resultText}>Доставка Нова Пошта у відділення</p>
             </div>
-            <p className={css.resnltText}>
+            <p className={css.resultText}>
               <b> Адреса доставки: </b>&nbsp;
               {deliveryData[seller].street},&nbsp;
               {deliveryData[seller].house},&nbsp;

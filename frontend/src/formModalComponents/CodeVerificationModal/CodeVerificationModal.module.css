@@ -40,7 +40,7 @@
 }
 
 .info {
-  width: var(--component-width);
+  width: 358px;
   margin-bottom: 16px;
   font-size: var(--font-size-tiny);
   font-weight: var(--font-weight-normal);
@@ -48,8 +48,8 @@
 }
 
 .input {
-  width: var(--component-height);
-  height: var(--component-height);
+  width: 44px;
+  height: 44px;
   padding: 10px;
   text-align: center;
   font-size: var(--font-size-medium-small);

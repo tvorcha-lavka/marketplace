@@ -11,19 +11,14 @@ export default function CardDetailsGallery({ product }) {
 
   const images = product.images || [];
   const processedImages = images.flatMap(
-      image => image?.processed_images || []
+    (image) => image?.processed_images || []
   );
 
-
-  // const imagesOriginal = images.map(({ processed_images, ...rest }) => rest);
-  // const imagesLarge = processedImages.filter(
-  //     image => image?.height === 900 && image?.width === 675
-  // );
   const imagesMedium = processedImages.filter(
-      image => image?.height === 600 && image?.width === 450
+    (image) => image?.height === 600 && image?.width === 450
   );
   const imagesSmall = processedImages.filter(
-      image => image?.height === 200 && image?.width === 150
+    (image) => image?.height === 200 && image?.width === 150
   );
 
   const hasMultipleImages = images.length > 1;

@@ -1,7 +1,5 @@
-.container {
-  max-width: 1440px;
-  padding: 0px 120px 114px 120px;
-  margin: 0 auto;
+.section {
+  padding-bottom: 114px;
 }
 
 .title {

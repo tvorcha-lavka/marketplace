@@ -3,7 +3,7 @@
   align-items: start;
   gap: 8px;
   padding-block-end: 12px;
-  border-bottom: 1px solid #eee;
+  border-bottom: var(--border-width) var(--border-style) var(--grey);
 }
 
 .cartItemShop {
@@ -12,7 +12,7 @@
   gap: 16px;
   padding-block-end: 16px;
   width: 618px;
-  border-bottom: 1px solid var(--grey-lighter);
+  border-bottom: var(--border-width) var(--border-style) var(--grey-lighter);
 }
 
 .itemImg {
@@ -50,17 +50,12 @@
   font-weight: var(--font-weight-medium);
 }
 
-.itemDetails {
-  width: 335px;
-  margin-inline-end: 16px;
-}
-
 .itemFilter {
   display: flex;
   align-items: center;
   gap: 16px;
   font-size: var(--font-size-extra-tiny);
-  color: #000;
+  color: var(--default-black);
 }
 
 .itemFilterShop {
@@ -68,21 +63,21 @@
   align-items: center;
   gap: 16px;
   font-size: var(--font-size-tiny);
-  color: #000;
+  color: var(--default-black);
 }
 
 .itemPrice {
   margin-inline: auto 18px;
   font-weight: var(--font-weight-bold);
   font-size: var(--font-size-tiny);
-  color: #000;
+  color: var(--default-black);
 }
 
 .itemPriceShop {
   margin-inline-end: 20px;
   font-weight: var(--font-weight-bold);
   font-size: var(--font-size-small);
-  color: #000;
+  color: var(--default-black);
 }
 
 .removeBtn {

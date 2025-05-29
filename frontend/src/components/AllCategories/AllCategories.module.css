@@ -1,33 +1,7 @@
-.container {
-  margin: 0 auto 114px;
-  max-width: 1200px;
-}
-
 .title {
   margin-block-end: 32px;
   font-size: var(--font-size-large-medium);
   font-weight: var(--font-weight-bold);
-}
-
-.way {
-  margin-block: 20px;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.navLink {
-  font-size: var(--font-size-extra-small);
-  color: var(--grey-darker);
-}
-
-.navLink:is(:hover, :focus) {
-  color: #000;
-}
-
-.active {
-  font-size: 14px;
-  color: #000;
 }
 
 .list {

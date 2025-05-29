@@ -9,12 +9,11 @@
 .item {
   position: relative;
   max-width: 288px;
-  /* height: 341px; */
   padding: 8px 8px 16px 8px;
-  border-radius: 16px;
-  background-color: #fff;
+  border-radius: var(--border-radius-medium);
+  background-color: var(--default-white);
   border: var(--border-width-small) var(--border-style) transparent;
-  box-shadow: 0 1px 8px 0 rgba(130, 84, 8, 0.1);
+  box-shadow: var(--modal-shadow);
 }
 
 .item:hover {
@@ -30,30 +29,7 @@
   border: var(--border-width) var(--border-style) var(--primary-yellow);
 }
 
-.icon {
-  width: 16px;
-  height: 16px;
-  text-align: center;
-}
-
-.span {
-  margin-block-end: 4px;
-  font-size: 12px;
-  color: #949494;
-}
-
-.text,
-.price {
-  font-size: 16px;
-  color: #000;
-}
-
-.price {
-  margin-block-start: 12px;
-  font-weight: 700;
-}
-
-.btn_more {
+.btnMore {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -62,20 +38,20 @@
   margin-block-end: 32px;
   width: 286px;
   height: 44px;
-  font-size: 16px;
-  font-weight: 600;
+  font-size: var(--font-size-extra-small);
+  font-weight: var(--font-weight-medium);
   border: 1px solid var(--primary-yellow);
-  border-radius: 8px;
-  color: #000;
+  border-radius: var(--border-radius);
+  color: var(--default-black);
   background-color: var(--default-white);
   outline: none;
 }
 
-.btn_icon {
+.btnIcon {
   transform: rotateY(180deg);
 }
 
-.btn_more:is(:hover, :focus) {
-  background-color: #fcbc5a;
-  box-shadow: 2px 2px 8px rgba(112, 92, 2, 0.7);
+.btnMore:is(:hover, :focus) {
+  background-color: var(--primary-yellow);
+  box-shadow: var(--shadow-color);
 }

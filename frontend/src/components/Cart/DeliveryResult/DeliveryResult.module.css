@@ -1,12 +1,12 @@
 .deliveryItem {
   padding: 16px;
-  border-radius: 8px;
-  border: 1px solid #b1b1b1;
-  font-size: 14px;
+  border-radius: var(--border-radius);
+  border: var(--border-width) var(--border-style) var(--grey-dark);
+  font-size: var(--font-size-tiny);
   margin-block-end: 12px;
 }
 
-.resultbox {
+.resultBox {
   margin-block-end: 17px;
   display: flex;
   align-items: center;
@@ -18,9 +18,9 @@
   position: relative;
   width: 20px;
   height: 20px;
-  border: 1px solid #fcbc5a;
-  background-color: white;
-  border-radius: 50%;
+  border: var(--border-width) var(--border-style) var(--primary-yellow);
+  background-color: var(--default-white);
+  border-radius: var(--border-radius-circle);
   outline: none;
 }
 
@@ -32,8 +32,8 @@
   transform: translate(-50%, -50%);
   width: 10px;
   height: 10px;
-  background-color: #fcbc5a;
-  border-radius: 50%;
+  background-color: var(--primary-yellow);
+  border-radius: var(--border-radius-circle);
 }
 
 .resultText {
