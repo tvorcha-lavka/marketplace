@@ -1,6 +1,7 @@
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.db import connection, models, transaction
+from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from parler.models import TranslatedFields
 
@@ -23,7 +24,11 @@ class FilterType(AutoTranslatableModel):
     required = models.BooleanField(_("required"), default=False)
 
     def __str__(self):
-        return self.safe_translation_getter("name", self.language_code)
+        return self.safe_translation_getter("name", language_code=self.language_code)
+
+    @property
+    def slug(self):
+        return slugify(self.safe_translation_getter("name", language_code="en"))
 
 
 class FilterValue(AutoTranslatableModel):
