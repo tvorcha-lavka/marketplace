@@ -89,7 +89,7 @@
 .formInput {
   width: 368px;
   margin-top: 4px;
-  height: var(--component-height);
+  height: 44px;
   padding: 0 12px;
   font-size: var(--font-size-tiny);
   font-weight: var(--font-weight-normal);

@@ -1,5 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { MdChevronRight, MdChevronLeft } from 'react-icons/md';
+
 import css from './Pagination.module.css';
 
 export default function Pagination({ currentPage, onPageChange, totalPages }) {
@@ -53,14 +54,14 @@ export default function Pagination({ currentPage, onPageChange, totalPages }) {
 
   return (
     <div className={css.container}>
-      <button className={css.btn_pagination} onClick={handlePrevClick}>
+      <button className={css.btnPagination} onClick={handlePrevClick}>
         <MdChevronLeft size={32} />
       </button>
-      <div className={css.pagination_number}>
+      <div className={css.paginationNumber}>
         {displayedPages.map((page) => (
           <button
             className={
-              currentPage === page ? `${css.active}` : `${css.btn_number}`
+              currentPage === page ? `${css.active}` : `${css.btnNumber}`
             }
             key={page}
             onClick={() => handlePageClick(page)}
@@ -71,11 +72,11 @@ export default function Pagination({ currentPage, onPageChange, totalPages }) {
         {currentPage < totalPages - 1 && (
           <>
             <p>...</p>
-            <button className={css.btn_number}>{totalPages}</button>
+            <button className={css.btnNumber}>{totalPages}</button>
           </>
         )}
       </div>
-      <button className={css.btn_pagination} onClick={handleNextClick}>
+      <button className={css.btnPagination} onClick={handleNextClick}>
         <MdChevronRight size={32} />
       </button>
     </div>

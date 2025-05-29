@@ -1,4 +1,4 @@
-form {
+.form {
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -58,16 +58,16 @@ form {
   height: 44px;
   padding-inline: 12px;
   border-radius: var(--border-radius);
-  border: 1px solid var(--grey-dark);
+  border: var(--border-width) var(--border-style) var(--grey-dark);
   outline: none;
 }
 
-textarea {
+.textarea {
   display: block;
   width: 100%;
   padding: 12px;
   border-radius: var(--border-radius);
-  border: 1px solid var(--grey-dark);
+  border: var(--border-width) var(--border-style) var(--grey-dark);
   outline: none;
 }
 
@@ -78,12 +78,12 @@ textarea {
   height: 44px;
   margin-block-start: 4px;
   border-radius: var(--border-radius);
-  border: 1px solid var(--grey-dark);
+  border: var(--border-width) var(--border-style) var(--grey-dark);
 }
 
 .selectAdvert,
 .optionAdvert {
-  color: black;
+  color: var(--default-black);
   padding-left: 12px;
   border: none;
   outline: none;
@@ -95,7 +95,7 @@ textarea {
   -moz-appearance: none;
   width: 100%;
   height: 44px;
-  background: none;
+  background-color: none;
 }
 
 .dropdown select::-ms-expand {
@@ -128,7 +128,7 @@ textarea {
   gap: 16px;
   align-items: center;
   justify-content: center;
-  border: 1px dashed #d9d9d9;
+  border: var(--border-width) dashed var(--background-grey);
 }
 
 .btnFoto {
@@ -185,8 +185,8 @@ textarea {
   min-width: 20px;
   height: 20px;
   background-color: var(--default-white);
-  border: 1px solid var(--grey-dark);
-  border-radius: 4px;
+  border: var(--border-width) var(--border-style) var(--grey-dark);
+  border-radius: var(--border-radius-small);
   display: inline-block;
   transition:
     background-color 0.3s,
@@ -241,6 +241,7 @@ textarea {
   align-items: center;
   gap: 16px;
 }
+
 .deliveryLabel {
   position: relative;
   display: flex;
@@ -248,8 +249,8 @@ textarea {
   justify-content: center;
   gap: 16px;
   padding: 32px 24px;
-  border: 1px solid var(--grey-dark);
-  border-radius: 8px;
+  border: var(--border-width) var(--border-style) var(--grey-dark);
+  border-radius: var(--border-radius);
   cursor: pointer;
   user-select: none;
 }
@@ -258,6 +259,7 @@ textarea {
   height: 50px;
   width: auto;
 }
+
 .deliveryLabel input {
   position: absolute;
   opacity: 0;
@@ -268,8 +270,8 @@ textarea {
   min-width: 20px;
   height: 20px;
   background-color: var(--default-white);
-  border: 1px solid var(--grey-dark);
-  border-radius: 4px;
+  border: var(--border-width) var(--border-style) var(--grey-dark);
+  border-radius: var(--border-radius-small);
   display: inline-block;
   transition:
     background-color 0.3s,
@@ -309,7 +311,7 @@ textarea {
   font-size: var(--fontsize-extra-small);
   font-weight: var(--font-weight-medium);
   background-color: var(--primary-yellow);
-  color: black;
+  color: var(--default-black);
   border: none;
   outline: none;
 }

@@ -12,7 +12,7 @@
   align-items: center;
   padding: 8px 0px;
   width: 180px;
-  height: var(--component-height);
+  height: 44px;
   border-radius: var(--border-radius);
   border: var(--border-width) var(--border-style) var(--grey-dark);
   font-size: var(--font-size-tiny);

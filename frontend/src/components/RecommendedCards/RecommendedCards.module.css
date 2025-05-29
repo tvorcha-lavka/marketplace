@@ -1,10 +1,3 @@
-.section {
-  max-width: 1440px;
-  padding: 40px 120px 114px 120px;
-  margin: 0 auto;
-  background-color: var(--background-cart);
-}
-
 .title {
   margin-bottom: 24px;
   font-weight: var(--font-weight-bold);

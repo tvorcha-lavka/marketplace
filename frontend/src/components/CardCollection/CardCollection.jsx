@@ -23,34 +23,29 @@ export default function CardCollection({ item, categoryId, from }) {
   const isLiked = likedItems.includes(id);
 
   return (
-    <>
-      <div>
-        <button
-          className={`${css.likeBtn} ${isLiked ? css.liked : ''}`}
-          onClick={handleLikeButtonClick}
-        >
-          <FaRegHeart />
-        </button>
-        <Link
-          to={`/categories/${categoryId}/cards/${id}`}
-          state={{ from, prevFrom: location?.state?.from }}
-          className={css.link}
-        >
-          <div className={css.item}>
-            <img
-              className={css.image}
-              src={
-                image ? image : `${media}/defaults/no-image.jpg`
-              }
-              alt={title}
-            />
-            {is_vip && <h3 className={css.titleVip}>VIP-ОГОЛОШЕННЯ</h3>}
-          </div>
-          <p className={css.publicDate}>Опубліковано&nbsp;{date_published}</p>
-          <h1 className={css.cartTitle}>{title}</h1>
-          <p className={css.price}>{price}&nbsp;грн</p>
-        </Link>
-      </div>
-    </>
+    <div>
+      <button
+        className={`${css.likeBtn} ${isLiked ? css.liked : ''}`}
+        onClick={handleLikeButtonClick}
+      >
+        <FaRegHeart />
+      </button>
+      <Link
+        to={`/categories/${categoryId}/cards/${id}`}
+        state={{ from, prevFrom: location?.state?.from }}
+        className={css.link}
+      >
+        <div className={css.item}>
+          <img
+            className={css.image}
+            src={image ? image : `${media}/defaults/no-image.jpg`}
+            alt={title}
+          />
+        </div>
+        <p className={css.publicDate}>Опубліковано&nbsp;{date_published}</p>
+        <h1 className={css.cartTitle}>{title}</h1>
+        <p className={css.price}>{price}&nbsp;грн</p>
+      </Link>
+    </div>
   );
 }

@@ -1,19 +1,15 @@
 .section {
-  margin: 0 auto;
   background-color: var(--grey-light);
-  border-top: 1px solid var(--grey-darker);
-}
-
-.container {
-  display: flex;
-  gap: 81px;
-  width: 1200px;
-  padding: 40px 0 57px;
-  margin-left: auto;
-  margin-right: auto;
+  border-top: var(--border-width) var(--border-style) var(--grey-darker);
 }
 
 .wrapper {
+  display: flex;
+  gap: 81px;
+  padding: 40px 0 57px 0;
+}
+
+.box {
   display: flex;
   gap: 56px;
 }
@@ -25,7 +21,6 @@
 .title {
   font-size: var(--font-size-small);
   font-weight: var(--font-weight-bold);
-  line-height: 1.26em;
   margin-bottom: 16px;
 }
 

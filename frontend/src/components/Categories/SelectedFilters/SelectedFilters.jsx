@@ -1,10 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { AiOutlineDelete, AiOutlineClose } from 'react-icons/ai';
+
+import { selectSelectedFilters } from '../../../redux/filters/filtersSelector';
 import {
   removeActiveFilters,
   clearAllFilters,
 } from '../../../redux/filters/filtersSlice';
-import { selectSelectedFilters } from '../../../redux/filters/filtersSelector';
+
 import css from './SelectedFilters.module.css';
 
 export default function SelectedFilters() {
@@ -21,10 +23,10 @@ export default function SelectedFilters() {
     dispatch(clearAllFilters());
   };
   return (
-    <div className={css.selected_filters}>
-      <ul className={css.selected_filters_list}>
+    <div className={css.selectedFilters}>
+      <ul className={css.selectedFiltersList}>
         {selectedFilters.map((filter) => (
-          <li className={css.filter_chip} key={`${filter.id}-${filter.value}`}>
+          <li className={css.filterChip} key={`${filter.id}-${filter.value}`}>
             <span>{filter.value}</span>
 
             <AiOutlineClose
@@ -35,7 +37,7 @@ export default function SelectedFilters() {
         ))}
       </ul>
       {hasSelectedFilters && (
-        <button className={css.clear_all_btn} onClick={handleClearAllFilters}>
+        <button className={css.clearAllBtn} onClick={handleClearAllFilters}>
           <span>Видалити всі фільтри</span>
           <AiOutlineDelete size={16} />
         </button>

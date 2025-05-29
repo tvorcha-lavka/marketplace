@@ -135,6 +135,14 @@ export default function ProductCardDetails() {
                       </li>
                     </>
                   )}
+
+                  {location.state?.from === 'search' && (
+                    <li>
+                      <NavLink to="/" className={css.pathItem}>
+                        Пошук /&nbsp;
+                      </NavLink>
+                    </li>
+                  )}
                 </>
               )}
 
@@ -172,7 +180,7 @@ export default function ProductCardDetails() {
               </div>
             </div>
 
-            <RecommendedCards />
+            <RecommendedCards title="Вам також може сподобатись:" />
           </section>
         )
       )}

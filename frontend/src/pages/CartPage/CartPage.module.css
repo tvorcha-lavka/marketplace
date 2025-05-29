@@ -1,27 +1,6 @@
-.cart_container {
+.section {
   margin-inline: auto;
-  max-width: 1440px;
-  background: #fefcfa;
-  padding: 20px 120px 114px;
-}
-
-.navbox {
-  margin-block-end: 20px;
-}
-
-.navLink {
-  margin-inline-end: 4px;
-  font-size: 14px;
-  color: #949494;
-}
-
-.navLink:last-child {
-  margin-inline-end: 0;
-}
-
-.active {
-  font-size: 14px;
-  color: black;
+  background-color: var(--background-color);
 }
 
 .cartAndSummary {

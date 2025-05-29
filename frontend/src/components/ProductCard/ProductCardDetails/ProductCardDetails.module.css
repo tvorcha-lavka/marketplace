@@ -28,11 +28,8 @@
 
 .container {
   display: flex;
-  padding-bottom: 81px;
-}
-
-.galleryContainer {
-  margin-right: 18px;
+	justify-content: space-between;
+  margin-bottom: 81px;
 }
 
 .productDetails {

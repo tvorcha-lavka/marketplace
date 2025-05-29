@@ -12,7 +12,7 @@ const widths = {
 };
 
 const BaseButtonStyled = styled('button')(({ theme }) => ({
-  height: theme.custom.dimensions.componentHeight,
+  height: '44px',
   padding: '10px',
   justifyContent: 'center',
   alignItems: 'center',

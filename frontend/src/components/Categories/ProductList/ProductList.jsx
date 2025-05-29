@@ -7,7 +7,10 @@ import CardCollection from '../../CardCollection/CardCollection';
 import Pagination from '../Pagination/Pagination';
 
 import { getProducts } from '../../../redux/products/operations';
-import { selectProducts, selectTotalCount } from '../../../redux/products/selectors';
+import {
+  selectProducts,
+  selectTotalCount,
+} from '../../../redux/products/selectors';
 
 import css from './ProductList.module.css';
 
@@ -20,8 +23,8 @@ export default function ProductList({ categoryId }) {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-	const allProducts = useSelector(selectProducts)?.results || [];
-	const totalCount = useSelector(selectTotalCount);
+  const allProducts = useSelector(selectProducts)?.results || [];
+  const totalCount = useSelector(selectTotalCount);
 
   console.log(allProducts);
 
@@ -66,9 +69,9 @@ export default function ProductList({ categoryId }) {
       )}
 
       {next < allProducts.length && (
-        <button className={css.btn_more} onClick={loadMore}>
+        <button className={css.btnMore} onClick={loadMore}>
           <p>Завантажити ще</p>
-          <HiArrowPath size={24} className={css.btn_icon} />
+          <HiArrowPath size={24} className={css.btnIcon} />
         </button>
       )}
       <Pagination

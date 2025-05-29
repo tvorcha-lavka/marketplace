@@ -1,22 +1,22 @@
-import { NavLink } from 'react-router-dom';
-import AddAdvert from '../../components/AddAvertisement/AddAdvert/AddAdvert';
-import css from './AddAdvertisementPage.module.css';
+import AddAdvert from '../../components/AddAdvertisement/AddAdvert/AddAdvert';
+import Breadcrumbs from '../../components/Breadcrumbs/Breadcrumbs';
 
 export default function AddAdvertisementPage() {
-  const activeClass = ({ isActive }) =>
-    isActive ? `${css.active}` : `${css.navLink}`;
-
   return (
-    <div className={css.advertisement_container}>
-      <div className={css.navbox}>
-        <NavLink to="/" className={activeClass}>
-          Головна /
-        </NavLink>
-        <NavLink to="/advertisement" className={activeClass}>
-          Додати оголошення
-        </NavLink>
+    <section className="container">
+      <div className="section">
+        <Breadcrumbs
+          links={[
+            { label: 'Головна', to: '/', isActive: false },
+            {
+              label: 'Додати оголошення',
+              to: '/advertisement',
+              isActive: true,
+            },
+          ]}
+        />
+        <AddAdvert />
       </div>
-      <AddAdvert />
-    </div>
+    </section>
   );
 }

@@ -12,17 +12,23 @@ const theme = createTheme({
   custom: {
     colors: {
       defaultWhite: '#FFFFFF',
+      white: '#f7f4ef', 
       greyExtraLight: '#c8c8c8',
       greyLightest: 'rgba(255, 255, 255, 0.8)',
       greyLight: '#E8E8E8',
+      grey: '#EEEEEE',
       greyLighter: '#D2D2D2',
       greyDark: '#B1B1B1',
       greyDarker: '#949494',
+      greyMediumDark: '#474747',
+      greyMedium: '#4b4c4b',
       greyDarkest: '#414141',
       defaultBlack: '#0C0600',
+      black: '#111111',
 
       primaryYellow: '#FCBC5A',
       primaryYellowLight: 'rgba(252, 188, 90, 0.32)',
+      primaryLight: 'rgba(130, 84, 8, 0.1)',
       primaryYellowLighter: '#FFD99F',
       primaryDarkOrange: '#DA5135',
 
@@ -35,6 +41,8 @@ const theme = createTheme({
 
       errorLightRed: 'rgba(211, 50, 50, 0.70)',
       errorRed: '#D33232',
+      mediumPink: 'rgb(243, 178, 229)',
+      pink: '#fad7d7',
 
       warningLightOrange: 'rgba(219, 106, 49, 0.70)',
       warningOrange: '#E77034',
@@ -61,10 +69,15 @@ const theme = createTheme({
       fontSizeTiny: '14px',
       fontSizeExtraTiny: '12px',
 
+      borderRadiusCircle: '50%',
       borderRadiusAvatar: '80px',
+      borderRadiusCategory: '40px',
       borderRadiusMedium: '16px',
+      borderRadiusMediumLess: '12px',
       borderRadius: '8px',
+      borderRadiusSmaller: '5',
       borderRadiusSmall: '4px',
+      borderRadiusSmallest: '1px',
 
       iconSizeLarge: '32px',
       iconSizeNormal: '24px',
@@ -74,17 +87,20 @@ const theme = createTheme({
     },
     borders: {
       borderStyle: 'solid',
+      borderExtraBig: '10px',
       borderWidthBiggest: '8px',
+      bordWidthBiggest: '7px',
       borderWidthBig: '2px',
+      bordWidthBigger: '1.4px',
       borderWidthBigger: '1.2px',
       borderWidth: '1px',
       borderWidthSmall: '0.5px',
     },
     shadows: {
       cartShadow: '0px 1px 12px 0px rgba(130, 84, 8, 0.15)',
-    },
-    dimensions: {
-      componentHeight: '44px',
+      modalShadow: '0px 1px 8px 0px rgba(130, 84, 8, 0.102',
+      shadow: '5px 5px 10px rgb(119, 119, 119)',
+      shadowColor: '2px 2px 8px rgba(112, 92, 2, 0.7)',
     },
   },
 });

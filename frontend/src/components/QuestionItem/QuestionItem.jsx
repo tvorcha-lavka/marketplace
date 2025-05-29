@@ -7,14 +7,14 @@ import css from './QuestionItem.module.css';
 export default function QuestionItem({ faqItem, onClick, isOpen }) {
   const itemRef = useRef(null);
   return (
-    <li className={css.accordion_item}>
+    <li className={css.accordionItem}>
       <button
-        className={isOpen ? `${css.question_open}` : `${css.question}`}
+        className={isOpen ? `${css.questionOpen}` : `${css.question}`}
         onClick={() => onClick()}
       >
         {faqItem.q}
         <GoChevronDown
-          className={isOpen ? `${css.icon_active}` : `${css.accordion_icon}`}
+          className={isOpen ? `${css.iconActive}` : `${css.accordionIcon}`}
         />
       </button>
       <div

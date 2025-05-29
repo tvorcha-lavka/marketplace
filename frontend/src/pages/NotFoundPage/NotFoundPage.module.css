@@ -1,8 +1,5 @@
-.errorSection {
-  max-width: 1440px;
+.section {
   padding: 60px 125px 73px 125px;
-  margin: 0 auto;
-  background-color: var(--default-white);
 }
 
 .container {
