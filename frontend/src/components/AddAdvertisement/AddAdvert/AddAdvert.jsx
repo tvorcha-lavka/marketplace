@@ -1,12 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { GoChevronDown, GoChevronUp } from 'react-icons/go';
 import { FiCamera } from 'react-icons/fi';
+
 import CategoryModal from '../CategoryModal/CategoryModal';
+
 import { selectFiltersCategory } from '../../../redux/filters/filtersSelector';
 import { media } from '../../../utils/mediaConfig';
+
 import css from './AddAdvert.module.css';
-import { getFiltersCategory } from '../../../redux/filters/filtersOperations';
 
 export default function AddAdvert() {
   const [open, setOpen] = useState(false);
@@ -31,15 +33,6 @@ export default function AddAdvert() {
     );
   };
 
-  // const handleCategorySelect = (category) => {
-  //   setSelectedCategory(category);
-  //   setOpen(false);
-  // };
-
-  // const categoryFilters = filters?.filter(
-  //   (filter) => filter.categoryId === selectedCategory.id
-  // );
-
   const handleCategorySelect = (category) => {
     if (category.isChild) {
       setSelectedChildCategory(category);
@@ -61,20 +54,10 @@ export default function AddAdvert() {
       filter.categoryId === selectedChildCategory?.id
   );
 
-  // useEffect(() => {
-  //   if (
-  //     selectedCategory?.id ||
-  //     selectedSubCategory?.id ||
-  //     selectedChildCategory?.id
-  //   ) {
-  //     dispatch(getFiltersCategory(selectedCategory.id));
-  //   }
-  // }, [dispatch, selectedCategory.id]);
-
   return (
-    <div className={css.addAdvertContainer}>
+    <div>
       <h2 className={css.advertTitle}>Додати оголошення</h2>
-      <form action="">
+      <form className={css.form} action="">
         <fieldset className={css.wrapper}>
           <h3 className={css.title}>Виберіть категорію</h3>
           <label className={css.labelAdvert} htmlFor="categories">
@@ -122,7 +105,13 @@ export default function AddAdvert() {
           </label>
           <label className={css.labelAdvert}>
             <p className={css.spanLabel}>Опис (Українською Мовою)&#42;</p>
-            <textarea name="description" id="description" rows="5" required />
+            <textarea
+              className={css.textarea}
+              name="description"
+              id="description"
+              rows="5"
+              required
+            />
           </label>
         </fieldset>
         <fieldset className={css.wrapper}>
@@ -232,12 +221,7 @@ export default function AddAdvert() {
             'Під замовлення',
           ].map((option, index) => (
             <label key={index} className={css.optionLabel}>
-              <input
-                type="checkbox"
-                value={option}
-                // checked={activeFilters[filter.id]?.includes(option) ?? false}
-                // onChange={() => handleToggleFilter(filter.id, option)}
-              />
+              <input type="checkbox" value={option} />
               <span className={css.checkmark}></span>
               {option}
             </label>
@@ -307,12 +291,7 @@ export default function AddAdvert() {
             ))}
           </div>
         </fieldset>
-        <button
-          className={css.btnContinue}
-          type="submit"
-          // onClick={handleSubmit}
-          // disabled={!paymentData.type}
-        >
+        <button className={css.btnContinue} type="submit">
           Опублікувати оголошення
         </button>
       </form>

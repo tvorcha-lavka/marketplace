@@ -1,15 +1,9 @@
-.loader {
-  margin-top: 150px;
-  margin-bottom: 650px;
-  margin-left: 500px;
-}
-
 .image {
   object-fit: cover;
   width: 272px;
   height: 215px;
   margin-bottom: 8px;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
 }
 
 .titleVip {
@@ -38,12 +32,6 @@
   border: none;
   background-color: var(--grey-lighter);
   z-index: 111;
-}
-
-.likeIcon {
-  height: var(--icon-size);
-  width: var(--icon-size);
-  stroke: var(--default-black);
 }
 
 .liked {

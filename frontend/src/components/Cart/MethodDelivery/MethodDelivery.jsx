@@ -1,12 +1,15 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
+
 import { nextStep } from '../../../redux/cart/cartSlice';
+import { selectCartItems } from '../../../redux/cart/cartSelector';
+
 import CustomButton from '../../CustomButton/CustomButton';
 import CartProduct from '../CartProduct/CartProduct';
 import DeliveryResult from '../DeliveryResult/DeliveryResult';
 import DeliverySelect from '../DeliverySelect/DeliverySelect';
-import { selectCartItems } from '../../../redux/cart/cartSelector';
+
 import css from './MethodDelivery.module.css';
-import { useState } from 'react';
 
 export default function MethodDelivery({ onDeliveryChange }) {
   const orderItems = useSelector(selectCartItems);
@@ -27,9 +30,6 @@ export default function MethodDelivery({ onDeliveryChange }) {
   const sellers = Object.keys(groupedItemsBySeller);
   console.log(groupedItemsBySeller);
 
-  // const allSellersHaveDeliveryType = Object.entries(groupedItemsBySeller).every(
-  //   ([seller]) => deliveryData[seller]?.type
-  // );
   const allSellersHaveDeliveryType = sellers.every(
     (seller) => deliveryData[seller]?.type
   );
@@ -37,7 +37,7 @@ export default function MethodDelivery({ onDeliveryChange }) {
   console.log(allSellersHaveDeliveryType);
   const [switchState, setSwitchState] = useState(
     sellers.reduce((acc, seller) => {
-      acc[seller] = false; // Всі перемикачі вимкнені за замовчуванням
+      acc[seller] = false;
       return acc;
     }, {})
   );
@@ -53,7 +53,6 @@ export default function MethodDelivery({ onDeliveryChange }) {
     }));
 
     if (isActive) {
-      // Копіюємо дані з першого продавця
       dispatch({
         type: 'cart/updateDeliveryData',
         payload: {
@@ -61,7 +60,6 @@ export default function MethodDelivery({ onDeliveryChange }) {
         },
       });
     } else {
-      // Очищуємо дані для поточного продавця
       dispatch({
         type: 'cart/updateDeliveryData',
         payload: {
@@ -84,24 +82,24 @@ export default function MethodDelivery({ onDeliveryChange }) {
   };
 
   return (
-    <section className={css.delivery_section}>
+    <div className={css.deliverySection}>
       {Object.entries(groupedItemsBySeller).map(([seller, items], index) => {
         const isSwitchActive = switchState[seller];
 
         return (
-          <div key={seller} className={css.delivery_seller}>
-            <div className={css.sellerbox}>
-              <p className={css.seller_name}>
+          <div key={seller} className={css.deliverySeller}>
+            <div className={css.sellerBox}>
+              <p className={css.sellerName}>
                 Доставка від продавця {seller}
-                <span className={css.quantity_goods}>
+                <span className={css.quantityGoods}>
                   &nbsp; ({items.length} {quantityGoods(items.length)})
                 </span>
               </p>
-              <p className={css.seller_price}>
+              <p className={css.sellerPrice}>
                 {items.reduce((total, item) => total + item.price, 0)} грн
               </p>
             </div>
-            <ul className={css.cart_list}>
+            <ul className={css.cartList}>
               {items.map((item) => (
                 <CartProduct key={item.id} item={item} />
               ))}
@@ -139,6 +137,6 @@ export default function MethodDelivery({ onDeliveryChange }) {
           Продовжити
         </CustomButton>
       )}
-    </section>
+    </div>
   );
 }

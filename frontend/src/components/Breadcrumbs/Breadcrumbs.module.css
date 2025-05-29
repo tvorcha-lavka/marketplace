@@ -1,0 +1,15 @@
+.way {
+  margin-bottom: 20px;
+}
+
+.navLink {
+	font-weight: var(--font-weight-normal);
+  font-size: var(--font-size-tiny);
+  color: var(--grey-darker);
+}
+
+.active {
+	font-weight: var(--font-weight-normal);
+  font-size: var(--font-size-tiny);
+  color: var(--default-black);
+}

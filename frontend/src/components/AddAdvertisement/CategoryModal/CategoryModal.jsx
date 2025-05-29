@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { GoChevronRight } from 'react-icons/go';
+
 import { selectAllCategories } from '../../../redux/categories/categoriesSelectors';
-import { baseApiUrl } from '../../../redux/axiosConfig';
+
 import css from './CategoryModal.module.css';
-import { getFiltersCategory } from '../../../redux/filters/filtersOperations';
 
 export default function CategoryModal({ onSelectCategory }) {
   const [focusId, setFocusId] = useState(null);
@@ -13,7 +13,6 @@ export default function CategoryModal({ onSelectCategory }) {
   const сategories = useSelector(selectAllCategories);
   const allCategories = [...сategories].reverse();
 
-  // console.log(сategories);
   const subcategories =
     allCategories?.find((category) => category.id === focusId)?.children || [];
 

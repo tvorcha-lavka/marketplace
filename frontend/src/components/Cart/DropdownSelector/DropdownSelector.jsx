@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { GoChevronDown, GoChevronUp } from 'react-icons/go';
+
 import css from './DropdownSelector.module.css';
 
 export default function DropdownSelector({
@@ -22,7 +23,7 @@ export default function DropdownSelector({
 
   useEffect(() => {
     if (value) {
-      setSearchTerm(value); // Оновлюємо локальний стан, коли змінюється value
+      setSearchTerm(value);
     }
   }, [value]);
 
@@ -58,10 +59,10 @@ export default function DropdownSelector({
   }, [searchTerm, cachedData, dispatch, cacheAction, fetchData]);
 
   const handleSelectItem = (item) => {
-    const selectedItem = String(item); // Перетворення на строку
+    const selectedItem = String(item);
     setSearchTerm(selectedItem);
-    onChange(selectedItem); // Передаємо гарантовано строку
-    dispatch(updateAction({ [fieldKey]: selectedItem })); // Оновлюємо Redux
+    onChange(selectedItem);
+    dispatch(updateAction({ [fieldKey]: selectedItem }));
     setOpen(false);
   };
 
@@ -70,7 +71,7 @@ export default function DropdownSelector({
       <label htmlFor={fieldKey} className={css.detailsLabel}>
         {label}&#42;
       </label>
-      <div className={css.detailsInputbox}>
+      <div className={css.detailsInputBox}>
         <input
           id={fieldKey}
           name={fieldKey}
@@ -92,8 +93,8 @@ export default function DropdownSelector({
       </div>
       {open && (
         <div className={css.detailsSelect}>
-          <div className={css.scrollbox}>
-            <div className={css.scrollbox_inner}>
+          <div className={css.scrollBox}>
+            <div className={css.scrollBoxInner}>
               <ul className={css.optionList}>
                 {dataList.map((item) => (
                   <li

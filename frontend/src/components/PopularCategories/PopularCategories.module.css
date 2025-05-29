@@ -1,15 +1,14 @@
+.section {
+  padding: 57px 0 114px 0;
+}
+
 .loader {
   margin-top: 150px;
   margin-bottom: 150px;
   margin-left: 500px;
 }
 
-.container {
-  margin: 122px auto 140px;
-  max-width: 1200px;
-}
-
-.title_box {
+.titleBox {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -17,15 +16,15 @@
 
 .title {
   margin-block-end: 32px;
-  font-size: 32px;
-  font-weight: 700;
+  font-size: var(--font-size-large-medium);
+  font-weight: var(--font-weight-bold);
   line-height: 1.2;
 }
 
 .link {
-  font-size: 14px;
+  font-size: var(--font-size-tiny);
   text-decoration: underline;
-  color: #000;
+  color: var(--default-black);
 }
 
 .list {
@@ -39,15 +38,14 @@
   position: relative;
   width: 390px;
   height: 232px;
-  border-radius: 16px;
+  border-radius: var(--border-radius-medium);
 }
 
-.item_title {
+.itemTitle {
   position: absolute;
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 1.255;
-  color: #fff;
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-bold);
+  color: var(--default-white);
   z-index: 100;
 }
 

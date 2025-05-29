@@ -9,22 +9,7 @@
   margin-bottom: 20px;
   width: 442px;
   height: 220px;
-  overflow-y: scroll;
   padding-right: 10px;
-}
-
-.scrollContainer::-webkit-scrollbar {
-  width: 8px;
-}
-
-.scrollContainer::-webkit-scrollbar-thumb {
-  background-color: var(--primary-yellow);
-  border-radius: 2px;
-  height: 128px;
-}
-
-.scrollContainer::-webkit-scrollbar-track {
-  background-color: rgba(252, 188, 90, 0.32);
 }
 
 .productList {
@@ -44,7 +29,7 @@
 }
 
 .productTitle {
-  padding-right: 110px;
+  padding-right: 121px;
   margin-bottom: 5px;
   font-weight: var(--font-weight-normal);
   font-size: var(--font-size-tiny);

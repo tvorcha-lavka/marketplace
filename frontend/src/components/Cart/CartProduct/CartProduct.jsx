@@ -1,8 +1,10 @@
 import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { AiOutlineDelete } from 'react-icons/ai';
+
 import { removeItem } from '../../../redux/cart/cartSlice';
 import { media } from '../../../utils/mediaConfig';
+
 import css from './CartProduct.module.css';
 
 export default function CartProduct({ item }) {
@@ -12,10 +14,10 @@ export default function CartProduct({ item }) {
 
   const images = item.images || [];
   const processedImages = images.flatMap(
-      image => image?.processed_images || []
+    (image) => image?.processed_images || []
   );
-  const imagesSmall= processedImages.filter(
-      image => image?.height === 200 && image?.width === 150
+  const imagesSmall = processedImages.filter(
+    (image) => image?.height === 200 && image?.width === 150
   );
 
   return (

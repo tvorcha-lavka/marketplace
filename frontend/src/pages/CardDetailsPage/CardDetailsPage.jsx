@@ -1,11 +1,11 @@
-import ProductCardDetails from "../../components/ProductCard/ProductCardDetails/ProductCardDetails";
-
-import css from './CardDetailsPage.module.css';
+import ProductCardDetails from '../../components/ProductCard/ProductCardDetails/ProductCardDetails';
 
 export default function CardDetailsPage() {
   return (
-    <section className={css.section}>
-      <ProductCardDetails />
+    <section className="container">
+      <div className="section">
+        <ProductCardDetails />
+      </div>
     </section>
   );
 }

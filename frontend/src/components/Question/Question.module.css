@@ -1,32 +1,30 @@
-.container {
-    margin: 0 auto;
-    max-width: 1200px;
-    margin-block-end: 114px;
+.section {
+	padding-bottom: 114px;
 }
 
 .title {
-    margin-block-end: 32px;
-    font-size: 32px;
-    font-weight: 700;
-    color: black;
+  margin-block-end: 32px;
+  font-size: var(--font-size-large-medium);
+  font-weight: var(--font-weight-bold);
+  color: var(--default-black);
 }
 
-.span_title {
-    color: #f67b52;
+.spanTitle {
+  color: var(--secondary-peach);
 }
 
 .contentbox {
-    display: flex;
-    gap: 16px;
+  display: flex;
+  gap: 16px;
 }
 
 .answer {
-    padding-inline: 16px;
-    padding-block: 8px 20px;
-    background-color: #f67b52;
-    color: #fff;
-    font-size: 16px;
-    font-weight: 400;
-    border-bottom-left-radius: 16px;
-    border-bottom-right-radius: 16px;
+  padding-inline: 16px;
+  padding-block: 8px 20px;
+  background-color: var(--secondary-peach);
+  color: var(--default-white);
+  font-size: var(--font-size-extra-small);
+  font-weight: var(--font-weight-normal);
+  border-bottom-left-radius: var(--border-radius-medium);
+  border-bottom-right-radius: var(--border-radius-medium);
 }

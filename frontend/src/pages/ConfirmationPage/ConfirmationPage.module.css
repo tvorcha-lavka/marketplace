@@ -1,24 +1,6 @@
 .content {
-  padding-block: 40px 121px;
-}
-
-.navbox {
-  margin-block-end: 40px;
-}
-
-.navLink {
-  margin-inline-end: 4px;
-  font-size: 14px;
-  color: #949494;
-}
-
-.navLink:last-child {
-  margin-inline-end: 0;
-}
-
-.active {
-  font-size: 14px;
-  color: black;
+  padding-block: 40px 64px;
+	height: 100vh;
 }
 
 .wrapper {
@@ -26,23 +8,24 @@
   width: 100%;
   padding-block: 24px 41px;
   padding-inline: 32px;
-  border-radius: 16px;
-  background-color: #fcbc5a;
+  border-radius: var(--border-radius-medium);
+  background-color: var(--primary-yellow);
 }
+
 .infobox {
   width: 458px;
   margin-block-end: 30px;
 }
 
-.number_order {
-  font-size: 24px;
-  font-weight: 700;
+.numberOrder {
+  font-size: var(--font-size-medium);
+  font-weight: var(--font-weight-bold);
   margin-block-end: 8px;
 }
 
 .text {
   margin-block-end: 16px;
-  font-size: 14px;
+  font-size: var(--font-size-tiny);
 }
 
 .text:last-of-type {

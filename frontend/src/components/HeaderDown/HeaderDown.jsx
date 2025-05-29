@@ -7,39 +7,41 @@ import css from './HeaderDown.module.css';
 
 export default function HeaderDown() {
   const getActiveClass = ({ isActive }) => {
-    return clsx(css.nav_link, isActive && css.active);
+    return clsx(css.navLink, isActive && css.active);
   };
 
   return (
-    <nav className={css.navbox}>
-      <div className={css.nav_container}>
-        <ul className={css.nav_list}>
-          <li className={css.nav_item}>
-            <NavLink to="/discount" className={getActiveClass}>
-              <CiDiscount1 size={24} />
-              <p>Знижки</p>
-            </NavLink>
-          </li>
-          <li className={css.nav_item}>
-            <NavLink to="/love_day" className={getActiveClass}>
-              <CiHeart size={24} />
-              <p>День закоханих</p>
-            </NavLink>
-          </li>
-          <li className={css.nav_item}>
-            <NavLink to="/support" className={getActiveClass}>
-              <PiHeadphones size={24} />
-              <p>Потрібна допомога</p>
-            </NavLink>
-          </li>
-          <li className={css.nav_item}>
-            <NavLink to="/payment-delivery" className={getActiveClass}>
-              <CiDeliveryTruck size={24} />
-              <p>Оплата і доставка</p>
-            </NavLink>
-          </li>
-        </ul>
-      </div>
-    </nav>
+    <header>
+      <nav className={css.navbox}>
+        <div className="container">
+          <ul className={css.navList}>
+            <li className={css.navItem}>
+              <NavLink to="/discount" className={getActiveClass}>
+                <CiDiscount1 size={24} />
+                <p>Знижки</p>
+              </NavLink>
+            </li>
+            <li className={css.navItem}>
+              <NavLink to="/love_day" className={getActiveClass}>
+                <CiHeart size={24} />
+                <p>День закоханих</p>
+              </NavLink>
+            </li>
+            <li className={css.navItem}>
+              <NavLink to="/support" className={getActiveClass}>
+                <PiHeadphones size={24} />
+                <p>Потрібна допомога</p>
+              </NavLink>
+            </li>
+            <li className={css.navItem}>
+              <NavLink to="/payment-delivery" className={getActiveClass}>
+                <CiDeliveryTruck size={24} />
+                <p>Оплата і доставка</p>
+              </NavLink>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
   );
 }

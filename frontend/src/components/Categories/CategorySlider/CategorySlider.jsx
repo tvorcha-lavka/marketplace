@@ -1,28 +1,16 @@
-import React from 'react';
 import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-import { useSelector } from 'react-redux';
 import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io';
+
 import { media } from '../../../utils/mediaConfig';
 
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 import css from './CategorySlider.module.css';
 
 function CustomPrevArrow(props) {
   const { className, style, onClick } = props;
 
   return (
-    // <button
-    //   style={{
-    //     ...style,
-    //     zIndex: 1,
-    //     display: 'block',
-    //   }}
-    //   className={css.prevBtn}
-    //   onClick={onClick}
-    // >
-    //   <IoIosArrowBack size={20} className={css.arrowIcon} />
-    // </button>
     <div
       className={className}
       style={{
@@ -63,8 +51,6 @@ function CustomNextArrow(props) {
 
 export default function CategorySlider({ category }) {
   const categoryChildren = category.children || [];
-  // console.log('category:', category);
-  // console.log('categoryChildren:', categoryChildren);
 
   const settings = {
     dots: false,
@@ -106,38 +92,34 @@ export default function CategorySlider({ category }) {
   };
 
   return (
-    <ul className={css.slider_container}>
+    <ul className={css.sliderContainer}>
       {categoryChildren && categoryChildren.length > 4 ? (
         <Slider {...settings}>
           {categoryChildren.map((item, id) => (
-            <li key={id} className={css.slider_item}>
+            <li key={id} className={css.sliderItem}>
               <img
                 src={
-                  item.image
-                    ? item.image.url
-                    : `${media}/defaults/no-image.jpg`
+                  item.image ? item.image.url : `${media}/defaults/no-image.jpg`
                 }
                 alt={item.title}
-                className={css.item_img}
+                className={css.itemImg}
               />
-              <p className={css.child_title}>{item.title}</p>
+              <p className={css.childTitle}>{item.title}</p>
             </li>
           ))}
         </Slider>
       ) : (
-        <ul className={css.category_list}>
+        <ul className={css.categoryList}>
           {categoryChildren?.map((item, id) => (
-            <li key={id} className={css.slider_item}>
+            <li key={id} className={css.sliderItem}>
               <img
                 src={
-                  item.image
-                    ? item.image.url
-                    : `${media}/defaults/no-image.jpg`
+                  item.image ? item.image.url : `${media}/defaults/no-image.jpg`
                 }
                 alt={item.title}
-                className={css.item_img}
+                className={css.itemImg}
               />
-              <p className={css.child_title}>{item.title}</p>
+              <p className={css.childTitle}>{item.title}</p>
             </li>
           ))}
         </ul>

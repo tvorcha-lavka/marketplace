@@ -10,31 +10,32 @@ export default function Question() {
   const [openId, setOpenId] = useState(null);
 
   return (
-    <div className={css.container}>
-      <h2 className={css.title}>
-        Найчастіші питання до
-        <span className={css.span_title}> Tvorcha Lavka</span>
-      </h2>
-      <div className={css.contentbox}>
-        <div className={css.imgbox}>
+    <section className="container">
+      <div className={css.section}>
+        <h2 className={css.title}>
+          Найчастіші питання до
+          <span className={css.spanTitle}> Tvorcha Lavka</span>
+        </h2>
+        <div className={css.contentbox}>
           <img
             src={`${media}/page/question_img.jpg`}
             alt="Doing creative work"
-            className={css.img}
           />
-        </div>
 
-        <ul className={css.accordion}>
-          {faqList?.map((faqItem, id) => (
-            <QuestionItem
-              key={id}
-              faqItem={faqItem}
-              onClick={() => (id === openId ? setOpenId(null) : setOpenId(id))}
-              isOpen={id === openId}
-            />
-          ))}
-        </ul>
+          <ul className={css.accordion}>
+            {faqList?.map((faqItem, id) => (
+              <QuestionItem
+                key={id}
+                faqItem={faqItem}
+                onClick={() =>
+                  id === openId ? setOpenId(null) : setOpenId(id)
+                }
+                isOpen={id === openId}
+              />
+            ))}
+          </ul>
+        </div>
       </div>
-    </div>
+    </section>
   );
 }

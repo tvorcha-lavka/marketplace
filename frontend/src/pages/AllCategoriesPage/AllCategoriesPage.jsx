@@ -1,6 +1,5 @@
-import AdvertList from '../../components/AdvertList/AdvertList'
-import AllCategories from '../../components/AllCategories/AllCategories'
-
+import AdvertList from '../../components/AdvertList/AdvertList';
+import AllCategories from '../../components/AllCategories/AllCategories';
 
 export default function AllCategoriesPage() {
   return (
@@ -8,5 +7,5 @@ export default function AllCategoriesPage() {
       <AllCategories />
       <AdvertList />
     </div>
-  )
+  );
 }

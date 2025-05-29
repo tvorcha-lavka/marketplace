@@ -1,4 +1,4 @@
-.selected_filters {
+.selectedFilters {
   max-width: 1;
   margin-block-end: 16px;
   display: flex;
@@ -7,29 +7,29 @@
   gap: 8px;
 }
 
-.selected_filters_list {
+.selectedFiltersList {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
   gap: 8px;
 }
 
-.filter_chip,
-.clear_all_btn {
+.filterChip,
+.clearAllBtn {
   display: flex;
   align-items: center;
   gap: 6px;
   padding: 8px;
-  border: 1px solid #b1b1b1;
-  border-radius: 8px;
-  font-size: 14px;
+  border: var(--border-width) var(--border-style) var(--grey-dark);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-tiny);
 }
 
-.clear_all_btn {
+.clearAllBtn {
   border: none;
   background-color: transparent;
 }
 
-.clear_all_btn {
-  color: #d33232;
+.clearAllBtn {
+  color: var(--error-red);
 }
