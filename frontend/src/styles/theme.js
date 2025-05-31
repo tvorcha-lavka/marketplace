@@ -12,7 +12,7 @@ const theme = createTheme({
   custom: {
     colors: {
       defaultWhite: '#FFFFFF',
-      white: '#f7f4ef', 
+      white: '#f7f4ef',
       greyExtraLight: '#c8c8c8',
       greyLightest: 'rgba(255, 255, 255, 0.8)',
       greyLight: '#E8E8E8',
@@ -60,6 +60,7 @@ const theme = createTheme({
     },
     sizes: {
       fontSizeBiggest: '200px',
+      fontSizeExtraBig: '56px', 
       fontSizeLarge: '44px',
       fontSizeLargeMedium: '32px',
       fontSizeMedium: '24px',
