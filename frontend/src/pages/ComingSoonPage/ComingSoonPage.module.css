@@ -5,28 +5,31 @@
 .container {
   position: relative;
   width: 1195px;
-  padding: 81px 354px 126px 349px;
+  padding: 149px 292px 149px 291px;
   border-radius: var(--border-radius-medium);
   background-color: var(--primary-yellow);
 }
 
 .imgFirst {
-  transform: rotate(24deg);
+  transform: rotate(20deg);
   position: absolute;
-  left: 3px;
-  top: 190px;
-  width: 268px;
-  height: 186px;
+  right: -45px;
+  bottom: 0px;
+  width: 268.33px;
+  height: 186.05px;
 }
 
-.error {
+.soonTitle {
+  width: 612px;
+  margin-bottom: 8px;
   font-weight: var(--font-weight-extra-bold);
-  font-size: var(--font-size-biggest);
+  font-size: var(--font-size-extra-big);
   text-align: center;
+  line-height: 1.11;
   color: var(--default-black);
 }
 
-.errorText {
+.soonText {
   display: block;
   margin: 0 auto;
   margin-bottom: 26px;
@@ -52,19 +55,19 @@
 }
 
 .imgSecond {
-  transform: rotate(15deg);
+  transform: rotate(-10deg);
   position: absolute;
-  right: 88px;
-  top: 2px;
-  width: 219px;
-  height: 144px;
+  right: 160px;
+  top: -25px;
+  width: 219.43px;
+  height: 144.87px;
 }
 
 .imgThird {
   transform: rotate(-30deg);
   position: absolute;
-  right: 0px;
-  bottom: -10px;
+  left: -30px;
+  top: 160px;
   width: 312px;
   height: 226px;
 }

@@ -136,6 +136,7 @@ const GlobalStylesComponent = () => {
           '--font-weight-small': theme.typography.fontWeightSmall, //300
 
           '--font-size-biggest': theme.custom.sizes.fontSizeBiggest, //200
+          '--font-size-extra-big': theme.custom.sizes.fontSizeExtraBig, //56
           '--font-size-large': theme.custom.sizes.fontSizeLarge, //44
           '--font-size-large-medium': theme.custom.sizes.fontSizeLargeMedium, //32
           '--font-size-medium': theme.custom.sizes.fontSizeMedium, //24

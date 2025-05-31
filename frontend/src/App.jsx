@@ -33,6 +33,10 @@ const AddAdvertisementPage = lazy(
 );
 const SupportPage = lazy(() => import('./pages/SupportPage/SupportPage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage/NotFoundPage'));
+const ComingSoonPage = lazy(() => import('./pages/ComingSoonPage/ComingSoonPage'));
+const DiscountHeaderPage = lazy(() => import('./pages/DiscountHeaderPage/DiscountHeaderPage'));
+const LoveDayHeaderPage = lazy(() => import('./pages/LoveDayHeaderPage/LoveDayHeaderPage'));
+const PaymentDeliveryHeaderPage = lazy(() => import('./pages/PaymentDeliveryHeaderPage/PaymentDeliveryHeaderPage'));
 
 export default function App() {
   useEffect(() => {
@@ -113,6 +117,10 @@ export default function App() {
           <Route path="/support" element={<SupportPage />} />
           <Route path="/empty-search" element={<EmptySearchFieldPage />} />
           <Route path="*" element={<NotFoundPage />} />
+          <Route path="/coming-soon" element={<ComingSoonPage />} />
+          <Route path="/discount" element={<DiscountHeaderPage />} />
+          <Route path="/love_day" element={<LoveDayHeaderPage />} />
+          <Route path="/payment-delivery" element={<PaymentDeliveryHeaderPage />} />
           <Route
             path="/login/google/complete"
             element={<SocialAuthHandler provider="google" />}

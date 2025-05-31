@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import css from './SupportPage.module.css';
+import css from './DiscountHeaderPage.module.css';
 
-export default function SupportPage() {
+export default function DiscountHeaderPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
