@@ -1,0 +1,22 @@
+.image {
+  width: 415px;
+  height: 334px;
+  margin: 0 auto;
+}
+
+.text {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-medium);
+  text-align: center;
+  color: var(--black);
+	margin-top: 20px;
+  margin-bottom: 12px;
+}
+
+.paragraph {
+  font-weight: var(--font-weight-normal);
+  font-size: var(--font-size-extra-small);
+  text-align: center;
+  color: var(--black);
+  margin-bottom: 80px;
+}

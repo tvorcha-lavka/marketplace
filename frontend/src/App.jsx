@@ -25,9 +25,9 @@ const ConfirmationPage = lazy(
 const CardDetailsPage = lazy(
   () => import('./pages/CardDetailsPage/CardDetailsPage')
 );
-// const EmptySearchFieldPage = lazy(
-//   () => import('./pages/EmptySearchFieldPage/EmptySearchFieldPage')
-// );
+const EmptySearchFieldPage = lazy(
+  () => import('./pages/EmptySearchFieldPage/EmptySearchFieldPage')
+);
 const AddAdvertisementPage = lazy(
   () => import('./pages/AddAdvertisementPage/AddAdvertisementPage')
 );
@@ -111,7 +111,7 @@ export default function App() {
           />
 
           <Route path="/support" element={<SupportPage />} />
-          {/* <Route path="/empty-search" element={<EmptySearchFieldPage />} /> */}
+          <Route path="/empty-search" element={<EmptySearchFieldPage />} />
           <Route path="*" element={<NotFoundPage />} />
           <Route
             path="/login/google/complete"

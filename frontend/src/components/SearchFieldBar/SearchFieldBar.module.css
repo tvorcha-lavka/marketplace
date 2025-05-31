@@ -1,6 +1,6 @@
 .searchBar {
   position: relative;
-	margin-right: 24px;
+  margin-right: 24px;
 }
 
 .input {
@@ -8,6 +8,12 @@
   border-radius: var(--border-radius);
   padding: 13px 12px;
   width: 492px;
+	height: 44px;
+	color: var(--grey-darker);
+}
+
+.input:focus {
+	outline: var(--border-width) var(--border-style) transparent;
 }
 
 .input::placeholder {
@@ -20,4 +26,19 @@
   position: absolute;
   right: 12px;
   top: 10px;
+	cursor: pointer;
+}
+
+/* SEARCH MODAL */
+.modalBackdrop {
+	position: absolute;
+  top: 130%;
+  left: 0;
+  width: 100%;
+  z-index: 99999999;
+  height: auto;
+	padding: 24px;
+  border-radius: var(--border-radius-medium-less);
+  background-color: var(--default-white);
+	box-shadow: var(--cart-shadow);
 }
