@@ -1,10 +1,10 @@
 .section {
-  padding: 60px 125px 73px 125px;
+  padding: 53px 0px 73px 0px;
 }
 
 .container {
   position: relative;
-  max-width: 1195px;
+  width: 1195px;
   padding: 81px 354px 126px 349px;
   border-radius: var(--border-radius-medium);
   background-color: var(--primary-yellow);
