@@ -5,7 +5,7 @@ import css from './ModalBtnCross.module.css';
 export default function ModalBtnCross({ onClick }) {
   return (
     <>
-      <button className={css.crossBtn} onClick={onClick} aria-label="Close">
+      <button className={css.crossBtn} type='button' onClick={onClick} aria-label="Close">
         <RxCross2 className={css.crossIcon} />
       </button>
     </>
