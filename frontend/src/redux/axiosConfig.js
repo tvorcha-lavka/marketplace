@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { store } from './store';
-import { logOut, refreshUser } from './auth/operations';
-import { setRefreshing, updateTokens } from './auth/slice';
+import { refreshUser } from './auth/operations';
+import { setRefreshing, updateTokens, setSessionExpired } from './auth/slice';
 
 export const baseApiUrl = import.meta.env.VITE_API_URL;
 
@@ -49,7 +49,7 @@ export const setupAxiosInterceptors = () => {
 
       if (error.response && error.response.status === 401) {
         if (originalRequest.url.includes('/auth/token/refresh/')) {
-          store.dispatch(logOut());
+          store.dispatch(setSessionExpired(true));
           return Promise.reject(error);
         }
 
@@ -57,11 +57,22 @@ export const setupAxiosInterceptors = () => {
           store.dispatch(setRefreshing(true));
 
           try {
-            await store.dispatch(refreshUser());
-            store.dispatch(setRefreshing(false));
-            return;
+            const refreshResult = await store.dispatch(refreshUser());
+
+            if (refreshResult.meta.requestStatus === 'fulfilled') {
+              const { accessToken } = store.getState().auth;
+              setAuthHeader(accessToken);
+              originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+              store.dispatch(setRefreshing(false));
+              return axios(originalRequest); 
+            } else {
+              store.dispatch(setSessionExpired(true));
+              store.dispatch(setRefreshing(false));
+              return Promise.reject(error);
+            }
           } catch (refreshError) {
-            store.dispatch(logOut());
+            store.dispatch(setSessionExpired(true));
+            store.dispatch(setRefreshing(false));
             return Promise.reject(refreshError);
           }
         }
