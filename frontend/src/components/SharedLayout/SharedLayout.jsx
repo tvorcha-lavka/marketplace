@@ -7,8 +7,7 @@ import HeaderCart from '../HeaderCart/HeaderCart';
 import Footer from '../Footer/Footer';
 import Loader from '../../formModalComponents/Loader/Loader';
 
-import {
-  getAllCategoriesWithPopular} from '../../redux/categories/categoriesOperations';
+import { getAllCategoriesWithPopular } from '../../redux/categories/categoriesOperations';
 
 import css from './SharedLayout.module.css';
 
@@ -18,7 +17,7 @@ export default function SharedLayout() {
   useEffect(() => {
     dispatch(getAllCategoriesWithPopular());
   }, [dispatch]);
-  
+
   const location = useLocation();
   const isCartPage = location.pathname === '/cart';
   const isOrderPage = location.pathname === '/order';
@@ -31,7 +30,7 @@ export default function SharedLayout() {
       ) : (
         <Header />
       )}
-     <main className={css.layout}>
+      <main className={css.layout}>
         <Suspense
           fallback={
             <div className={css.layoutLoader}>
