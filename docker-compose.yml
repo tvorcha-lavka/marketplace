@@ -41,19 +41,25 @@ services:
   # --- Celery ---------------------------------------------------------------------------------------------------------
   celery-worker-low-priority:
     extends:
-      file: ./backend/docker-compose.yml
+      file: ./backend/docker-compose.celery.yml
       service: celery-worker-low-priority
     depends_on: *x-depends-on-rabbitmq
 
   celery-worker-high-priority:
     extends:
-      file: ./backend/docker-compose.yml
+      file: ./backend/docker-compose.celery.yml
       service: celery-worker-high-priority
+    depends_on: *x-depends-on-rabbitmq
+
+  celery-database-worker:
+    extends:
+      file: ./backend/docker-compose.celery.yml
+      service: celery-database-worker
     depends_on: *x-depends-on-rabbitmq
 
   celery-beat:
     extends:
-      file: ./backend/docker-compose.yml
+      file: ./backend/docker-compose.celery.yml
       service: celery-beat
     depends_on: *x-depends-on-rabbitmq
 
