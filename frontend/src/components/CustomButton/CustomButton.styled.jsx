@@ -2,6 +2,7 @@ import { styled } from '@mui/material/styles';
 
 const widths = {
   extraLarge: '625px',
+  larger: '452px',
   large: '442px',
   medium: '368px',
   semiMedium: '322.5px',

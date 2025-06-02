@@ -9,6 +9,7 @@ import SharedLayout from './components/SharedLayout/SharedLayout';
 import ModalParentComponent from './formModalComponents/ModalParentComponent/ModalParentComponent';
 import SocialAuthHandler from './formModalComponents/SocialAuthHandler/SocialAuthHandler';
 import ProductList from './components/Categories/ProductList/ProductList';
+import SessionExpiredModal from './formModalComponents/SessionExpiredModal/SessionExpiredModal';
 
 const HomePage = lazy(() => import('./pages/HomePage/HomePage'));
 const AllCategoriesPage = lazy(
@@ -33,10 +34,18 @@ const AddAdvertisementPage = lazy(
 );
 const SupportPage = lazy(() => import('./pages/SupportPage/SupportPage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage/NotFoundPage'));
-const ComingSoonPage = lazy(() => import('./pages/ComingSoonPage/ComingSoonPage'));
-const DiscountHeaderPage = lazy(() => import('./pages/DiscountHeaderPage/DiscountHeaderPage'));
-const LoveDayHeaderPage = lazy(() => import('./pages/LoveDayHeaderPage/LoveDayHeaderPage'));
-const PaymentDeliveryHeaderPage = lazy(() => import('./pages/PaymentDeliveryHeaderPage/PaymentDeliveryHeaderPage'));
+const ComingSoonPage = lazy(
+  () => import('./pages/ComingSoonPage/ComingSoonPage')
+);
+const DiscountHeaderPage = lazy(
+  () => import('./pages/DiscountHeaderPage/DiscountHeaderPage')
+);
+const LoveDayHeaderPage = lazy(
+  () => import('./pages/LoveDayHeaderPage/LoveDayHeaderPage')
+);
+const PaymentDeliveryHeaderPage = lazy(
+  () => import('./pages/PaymentDeliveryHeaderPage/PaymentDeliveryHeaderPage')
+);
 
 export default function App() {
   useEffect(() => {
@@ -120,7 +129,10 @@ export default function App() {
           <Route path="/coming-soon" element={<ComingSoonPage />} />
           <Route path="/discount" element={<DiscountHeaderPage />} />
           <Route path="/love_day" element={<LoveDayHeaderPage />} />
-          <Route path="/payment-delivery" element={<PaymentDeliveryHeaderPage />} />
+          <Route
+            path="/payment-delivery"
+            element={<PaymentDeliveryHeaderPage />}
+          />
           <Route
             path="/login/google/complete"
             element={<SocialAuthHandler provider="google" />}
@@ -133,6 +145,7 @@ export default function App() {
       </Routes>
 
       <ModalParentComponent />
+      <SessionExpiredModal />
       <Toaster />
     </>
   );

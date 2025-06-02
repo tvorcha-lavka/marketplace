@@ -37,7 +37,8 @@ const handleFulfilledAuth = (state, action) => {
   state.isLoggedOut = false;
   state.isLoggedIn = true;
   state.loading = false;
-  state.error = false;
+	state.error = false;
+	state.isSessionExpired = false;
 };
 
 const handleRejected = (state, action) => {
@@ -61,6 +62,7 @@ const authSlice = createSlice({
     isRefreshing: false,
     loading: false,
     error: false,
+    isSessionExpired: false,
   },
   reducers: {
     setVerificationCode: (state, action) => {
@@ -72,6 +74,9 @@ const authSlice = createSlice({
     },
     setRefreshing: (state, action) => {
       state.isRefreshing = action.payload;
+    },
+    setSessionExpired: (state, action) => {
+      state.isSessionExpired = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -98,6 +103,7 @@ const authSlice = createSlice({
         state.isLoggedIn = false;
         state.loading = false;
         state.error = false;
+        state.isSessionExpired = false;
       })
       .addCase(logOut.rejected, handleRejected)
 
@@ -107,7 +113,13 @@ const authSlice = createSlice({
         state.error = false;
       })
       .addCase(refreshUser.fulfilled, handleFulfilledAuth)
-      .addCase(refreshUser.rejected, handleRejected)
+      .addCase(refreshUser.rejected, (state, action) => {
+        // Якщо не вдалося оновити токен — встановлюємо прапорець сесії як закінчену
+        state.isRefreshing = false;
+        state.loading = false;
+        state.error = action.payload;
+        state.isSessionExpired = true;
+      })
 
       .addCase(forgotPassword.pending, handlePending)
       .addCase(forgotPassword.fulfilled, handleFulfilled)
@@ -147,6 +159,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { setVerificationCode, updateTokens, setRefreshing } =
+export const { setVerificationCode, updateTokens, setRefreshing, setSessionExpired } =
   authSlice.actions;
 export const authReducer = authSlice.reducer;

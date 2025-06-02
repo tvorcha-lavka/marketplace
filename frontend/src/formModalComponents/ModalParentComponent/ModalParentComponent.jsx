@@ -10,6 +10,7 @@ import ChangePwdModal from '../ChangePwdModal/ChangePwdModal';
 import RegisterForm from '../RegisterForm/RegisterForm';
 import LoginForm from '../LoginForm/LoginForm';
 import useNoScroll from '../../hooks/useNoScroll';
+import SessionExpiredModal from '../SessionExpiredModal/SessionExpiredModal';
 
 const ModalParentComponent = () => {
   const { activeModal, openModal, modalProps } = useModal();
@@ -27,6 +28,8 @@ const ModalParentComponent = () => {
 
   const renderModalContent = () => {
     switch (activeModal) {
+      case 'session-expired':
+        return <SessionExpiredModal />;
       case 'login':
         return <LoginForm />;
       case 'register':
