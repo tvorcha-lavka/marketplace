@@ -1,5 +1,5 @@
 .section {
-	padding-bottom: 114px;
+  padding-bottom: 114px;
 }
 
 .title {
@@ -16,6 +16,12 @@
 .contentbox {
   display: flex;
   gap: 16px;
+}
+
+.contentbox img {
+  max-height: 406px;
+  height: auto;
+  object-fit: cover;
 }
 
 .answer {
