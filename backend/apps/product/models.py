@@ -2,7 +2,6 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from django.db import models
-from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from apps.category.models import Category
@@ -33,7 +32,7 @@ class Product(UUIDv7Model):
     quantity = models.PositiveIntegerField(_("quantity"), default=1)
     date_published = models.DateField(_("date published"), db_index=True, null=True, blank=True)
 
-    active = models.BooleanField(_("active"), default=True)
+    active = models.BooleanField(_("active"), default=False)
     draft = models.BooleanField(_("draft"), default=False)
     is_vip = models.BooleanField(_("vip"), default=False)
 
@@ -63,17 +62,6 @@ class Product(UUIDv7Model):
         verbose_name=_("filters"),
     )
 
-    def save(self, *args, **kwargs):
-        self.active_setter()
-        self.published_date_setter()
-        super().save(*args, **kwargs)
-
-    def active_setter(self):
-        self.active = False if self.draft else True
-
-    def published_date_setter(self):
-        self.date_published = timezone.now().date() if self.active else None
-
     def get_card_image_url(self) -> str:
         if self.original_image.exists():
             original = self.original_image.first()
@@ -81,6 +69,12 @@ class Product(UUIDv7Model):
             return bundle.size_m.image.url
 
         return DEFAULT_IMAGE
+
+    # def active_setter(self):
+    #     self.active = False if self.draft else True
+    #
+    # def published_date_setter(self):
+    #     self.date_published = timezone.now().date() if self.active else None
 
     # def publish(self):
     #     """Publish the item and reduce the seller's limit."""
@@ -140,7 +134,7 @@ class ProductProcessedImage(UUIDv7Model):
         to=ProductImage,
         on_delete=models.CASCADE,
         related_name="processed_images",
-        verbose_name=_("original_image"),
+        verbose_name=_("original image"),
     )
 
     def __str__(self) -> str:

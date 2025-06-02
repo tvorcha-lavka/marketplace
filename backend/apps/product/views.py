@@ -1,13 +1,18 @@
 from decimal import Decimal
+from json import dumps
 
+from django.core.serializers.json import DjangoJSONEncoder
 from django.db.models.functions import Coalesce
 from django.utils.decorators import method_decorator
+from django.utils.translation import gettext_lazy as _
 from django.views.decorators.cache import cache_page
 from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
+
+from core.celery import app
 
 from .filters import ProductPrivateFilter, ProductPublicFilter
 from .models import Product, ProductImage
@@ -77,29 +82,28 @@ class ProductPrivateViewSet(ModelViewSet):
             .order_by("-draft")
         )
 
-    @extend_schema(request=ProductCrateSerializer, responses=ProductPrivateDetailSerializer)
+    @extend_schema(request=ProductCrateSerializer)
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        images = serializer.validated_data.pop("images", [])
-        filters = serializer.validated_data.pop("filters", [])
+        app.send_task(
+            name="create.db.product",
+            queue="database.queue",
+            kwargs={
+                "user_id": str(self.request.user.pk),
+                "session_id": str(serializer.validated_data.pop("session_id")),
+                "validated_data": dumps(serializer.validated_data, cls=DjangoJSONEncoder),
+            },
+        )
 
-        product = serializer.save(owner_id=self.request.user.pk)
+        is_draft = {
+            True: _("The product has been saved as a draft."),
+            False: _("The product will be published in a few minutes."),
+        }
 
-        for index, image in enumerate(images, start=1):
-            instance = ProductImage(product=product, priority=index)
-            instance.image_temp = image
-            instance.save()
-
-        if filters:
-            product.filters.set(filters)
-
-        if images or filters:
-            product.refresh_from_db()
-
-        response_data = ProductPrivateDetailSerializer(product).data
-        return Response(response_data, status=status.HTTP_201_CREATED)
+        message = is_draft[serializer.validated_data.get("draft", False)]
+        return Response({"message": message}, status=status.HTTP_201_CREATED)
 
     @extend_schema(request=ProductUpdateSerializer, responses=ProductPrivateDetailSerializer)
     def update(self, request, *args, **kwargs):
