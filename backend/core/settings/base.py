@@ -71,7 +71,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     # --- Custom -----------------------------------
-    "django.middleware.locale.LocaleMiddleware",
+    "apps.user.middleware.JWTLanguageMiddleware",
     "apps.category.middleware.CategoryStatisticMiddleware",
 ]
 
@@ -165,12 +165,7 @@ LANGUAGES = [
 ]
 
 PARLER_LANGUAGES = {
-    None: (
-        {"code": "uk"},
-        {"code": "ru"},
-        {"code": "en"},
-        {"code": "pl"},
-    ),
+    None: tuple({"code": code} for code, _ in LANGUAGES),
     "default": {
         "code": "uk",
         "fallbacks": ["en"],

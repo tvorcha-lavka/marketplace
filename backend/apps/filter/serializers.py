@@ -8,12 +8,16 @@ class FilterValueSerializer(serializers.ModelSerializer):
         model = FilterValue
         fields = ["id", "value", "description", "metadata", "product_count"]
 
+    value = serializers.CharField()
+    description = serializers.CharField()
     product_count = serializers.IntegerField()
 
 
 class FilterTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = FilterType
-        fields = ["id", "required", "name", "values"]
+        fields = ["id", "required", "name", "title", "values"]
 
+    name = serializers.SlugField(source="slug", read_only=True)
+    title = serializers.CharField(source="name", read_only=True)
     values = FilterValueSerializer(source="filtered_values", many=True)

@@ -20,6 +20,8 @@ urlpatterns = [
     path("my/", product_private_list, name="my-product-list"),
     path("create/", product_private_create, name="product-create"),
     path("<uuid:pk>/", product_public_detail, name="product-detail"),
-    path("<uuid:pk>/update/", product_private_update, name="product-update"),
-    path("<uuid:pk>/delete/", product_private_delete, name="product-delete"),
+    # TODO: need fix for update product
+    # path("<uuid:pk>/update/", product_private_update, name="product-update"),
+    # TODO: need fix for delete stored files
+    # path("<uuid:pk>/delete/", product_private_delete, name="product-delete"),
 ]

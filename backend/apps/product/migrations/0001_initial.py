@@ -51,7 +51,7 @@ class Migration(migrations.Migration):
                     "date_published",
                     models.DateField(blank=True, db_index=True, null=True, verbose_name="date published"),
                 ),
-                ("active", models.BooleanField(default=True, verbose_name="active")),
+                ("active", models.BooleanField(default=False, verbose_name="active")),
                 ("draft", models.BooleanField(default=False, verbose_name="draft")),
                 ("is_vip", models.BooleanField(default=False, verbose_name="vip")),
                 (

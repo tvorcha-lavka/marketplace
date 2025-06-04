@@ -110,7 +110,7 @@ export default function FilterBar({ categoryId }) {
               className={css.btnFilter}
               onClick={() => toggleFilterOpen(filter.id)}
             >
-              {filter.name}
+              {filter.title}
               {openFilters[filter.id] ? (
                 <RiArrowUpSLine className={css.iconFilter} size="24" />
               ) : (
@@ -120,9 +120,9 @@ export default function FilterBar({ categoryId }) {
           </legend>
           {openFilters[filter.id] && (
             <div className={css.filterOption}>
-              {filter.name === 'Цвет' &&
+              {filter.name === 'color' &&
                 renderColorValues(filter.values, filter.id)}
-              {filter.name !== 'Цвет' &&
+              {filter.name !== 'color' &&
                 filter.values.map((option) => (
                   <label key={option.id} className={css.optionLabel}>
                     <input

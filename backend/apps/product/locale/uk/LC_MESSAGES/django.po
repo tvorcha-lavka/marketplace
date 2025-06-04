@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-24 00:23+0200\n"
+"POT-Creation-Date: 2025-06-02 17:57+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,131 +21,159 @@ msgstr ""
 "100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || "
 "(n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
 
-#: .\apps\product\choices.py:14
+#: .\apps\product\choices.py:6
 msgid "24 items per page"
 msgstr "24 елементи на сторінці"
 
-#: .\apps\product\choices.py:15
+#: .\apps\product\choices.py:7
 msgid "48 items per page"
 msgstr "48 елементів на сторінці"
 
-#: .\apps\product\choices.py:16
+#: .\apps\product\choices.py:8
 msgid "96 items per page"
 msgstr "96 елементів на сторінці"
 
-#: .\apps\product\choices.py:20
+#: .\apps\product\choices.py:12
 msgid "From cheap to expensive"
 msgstr "Від дешевого до дорогого"
 
-#: .\apps\product\choices.py:21
+#: .\apps\product\choices.py:13
 msgid "From expensive to cheap"
 msgstr "Від дорогого до дешевого"
 
-#: .\apps\product\choices.py:22
+#: .\apps\product\choices.py:14
 msgid "New items"
 msgstr "Новинки"
 
-#: .\apps\product\forms.py:38
+#: .\apps\product\choices.py:15
+msgid "By seller rating"
+msgstr "За рейтингом продавця"
+
+#: .\apps\product\forms.py:40
 msgid "Upload image"
 msgstr "Завантажити зображення"
 
-#: .\apps\product\models.py:34
+#: .\apps\product\models.py:25
 msgid "Product"
 msgstr "Продукт"
 
-#: .\apps\product\models.py:35
+#: .\apps\product\models.py:26
 msgid "Products"
 msgstr "Продукти"
 
-#: .\apps\product\models.py:38
+#: .\apps\product\models.py:28
 msgid "title"
 msgstr "назва"
 
-#: .\apps\product\models.py:39
+#: .\apps\product\models.py:29
 msgid "description"
 msgstr "опис"
 
-#: .\apps\product\models.py:41
+#: .\apps\product\models.py:31
 msgid "price"
 msgstr "ціна"
 
-#: .\apps\product\models.py:42
+#: .\apps\product\models.py:32
 msgid "quantity"
 msgstr "кількість"
 
-#: .\apps\product\models.py:43
+#: .\apps\product\models.py:33
 msgid "date published"
 msgstr "дата публікації"
 
-#: .\apps\product\models.py:45
+#: .\apps\product\models.py:35
 msgid "active"
 msgstr "активно"
 
-#: .\apps\product\models.py:46
+#: .\apps\product\models.py:36
 msgid "draft"
 msgstr "чернетка"
 
-#: .\apps\product\models.py:47
+#: .\apps\product\models.py:37
 msgid "vip"
 msgstr "віп-оголошення"
 
-#: .\apps\product\models.py:60
+#: .\apps\product\models.py:50
 msgid "owner"
 msgstr "власник"
 
-#: .\apps\product\models.py:66
+#: .\apps\product\models.py:56
 msgid "category"
 msgstr "категорія"
 
-#: .\apps\product\models.py:72
+#: .\apps\product\models.py:62
 msgid "filters"
 msgstr "фільтри"
 
-#: .\apps\product\models.py:90
+#: .\apps\product\models.py:100
 msgid "Product Image"
 msgstr "Зображення продукту"
 
-#: .\apps\product\models.py:91
+#: .\apps\product\models.py:101
 msgid "Product Images"
-msgstr "Зображення продуктів"
+msgstr "Зображення продукту"
 
-#: .\apps\product\models.py:96
+#: .\apps\product\models.py:106
+msgid "hash"
+msgstr "хеш"
+
+#: .\apps\product\models.py:107 .\apps\product\models.py:128
+msgid "image"
+msgstr "зображення"
+
+#: .\apps\product\models.py:108
 msgid "priority"
 msgstr "пріоритет"
 
-#: .\apps\product\models.py:99
-msgid "large image"
-msgstr "велике зображення"
-
-#: .\apps\product\models.py:100
-msgid "medium image"
-msgstr "середнє зображення"
-
-#: .\apps\product\models.py:101
-msgid "small image"
-msgstr "маленьке зображення"
-
-#: .\apps\product\models.py:104
+#: .\apps\product\models.py:115
 msgid "product"
 msgstr "продукт"
+
+#: .\apps\product\models.py:125
+msgid "Product Processed Image"
+msgstr "Оброблене зображення продукту"
+
+#: .\apps\product\models.py:126
+msgid "Product Processed Images"
+msgstr "Оброблені зображення продукту"
+
+#: .\apps\product\models.py:129
+msgid "height"
+msgstr "висота"
+
+#: .\apps\product\models.py:130
+msgid "width"
+msgstr "ширина"
+
+#: .\apps\product\models.py:137
+msgid "original image"
+msgstr "оригінальне зображення"
 
 #: .\apps\product\pagination.py:11
 #, python-format
 msgid "Available number of results per page: %s"
 msgstr "Доступна кількість результатів на сторінці: %s"
 
-#: .\apps\product\serializers.py:55
+#: .\apps\product\serializers.py:65
 msgid "Category ID"
 msgstr "ID Категорії"
 
-#: .\apps\product\serializers.py:57
+#: .\apps\product\serializers.py:70
+msgid "Session ID"
+msgstr "ID Сесії"
+
+#: .\apps\product\serializers.py:75
 msgid "Comma-separated list of integers (e.g., '1,2,3')"
 msgstr "Список цілих чисел, розділених комами (наприклад, '1,2,3')"
 
-#: .\apps\product\serializers.py:64
-msgid "Max. number of images = 10"
-msgstr "Максимальна кількість зображень = 10"
-
-#: .\apps\product\serializers.py:78
+#: .\apps\product\serializers.py:87
 msgid "Filters must be a comma-separated list of integers."
 msgstr "Фільтри повинні бути списком цілих чисел, розділених комами."
+
+#: .\apps\product\views.py:101
+msgid "The product has been saved as a draft."
+msgstr "Продукт збережено як чернетку."
+
+#: .\apps\product\views.py:102
+msgid "The product will be published in a few minutes."
+msgstr "Продукт буде опубліковано за кілька хвилин."
