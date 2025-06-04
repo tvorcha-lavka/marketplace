@@ -1,8 +1,8 @@
 import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { AiOutlineDelete } from 'react-icons/ai';
+import { LuTrash } from 'react-icons/lu';
 
-import { removeItem } from '../../../redux/cart/cartSlice';
+import { removeFromBasket } from '../../../redux/basket/slice';
 import { media } from '../../../utils/mediaConfig';
 
 import css from './CartProduct.module.css';
@@ -20,6 +20,10 @@ export default function CartProduct({ item }) {
     (image) => image?.height === 200 && image?.width === 150
   );
 
+  const handleRemoveItem = (itemId) => {
+    dispatch(removeFromBasket({ id: itemId }));
+  };
+
   return (
     <li
       key={item.id}
@@ -31,37 +35,42 @@ export default function CartProduct({ item }) {
         alt={item.title}
       />
       <div>
-        <h3
-          className={isCartPage ? `${css.itemTitleShop}` : `${css.itemTitle}`}
-        >
-          {item.title}
-        </h3>
-        {isCartPage && (
-          <p className={css.itemSeller}>
-            Продавець:&nbsp;
-            <span className={css.sellerName}>{item.seller}</span>
+        <div className={isCartPage ? `${css.titleBoxShop}` : `${css.titleBox}`}>
+          <h3
+            className={isCartPage ? `${css.itemTitleShop}` : `${css.itemTitle}`}
+          >
+            {item.title}
+          </h3>
+          <p
+            className={isCartPage ? `${css.itemPriceShop}` : `${css.itemPrice}`}
+          >
+            {item.price}&nbsp;грн
           </p>
-        )}
+          {isCartPage && (
+            <button
+              className={css.trashBtn}
+              type="button"
+              onClick={() => handleRemoveItem(item.id)}
+            >
+              <LuTrash className={css.trashIcon} />
+            </button>
+          )}
+        </div>
+        <p
+          className={isCartPage ? `${css.itemSellerShop}` : `${css.itemSeller}`}
+        >
+          Продавець:&nbsp;
+          <span className={css.sellerName}>{item.owner.username}</span>
+        </p>
+
         <div
           className={isCartPage ? `${css.itemFilterShop}` : `${css.itemFilter}`}
         >
-          <p>Розмір: {item.size}</p>
-          <p>Матеріал: {item.material}</p>
-          <p>Стан: {item.condition}</p>
+          <p>Розмір: ...</p>
+          <p>Матеріал: ...</p>
+          <p>Стан: ...</p>
         </div>
       </div>
-      <p className={isCartPage ? `${css.itemPriceShop}` : `${css.itemPrice}`}>
-        {item.price}&nbsp;грн
-      </p>
-      {isCartPage && (
-        <button
-          className={css.removeBtn}
-          type="button"
-          onClick={() => dispatch(removeItem(item.id))}
-        >
-          <AiOutlineDelete color="red" />
-        </button>
-      )}
     </li>
   );
 }

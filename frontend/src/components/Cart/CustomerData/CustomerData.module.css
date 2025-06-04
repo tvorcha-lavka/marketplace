@@ -12,86 +12,13 @@
 }
 
 .formWrapper {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
   gap: 12px;
-}
-
-.tooltip {
-  position: relative;
-  display: inline-block;
-}
-
-.error {
-  position: absolute;
-  left: -0px;
-  top: 72px;
-  display: inline-block;
-  width: 100%;
-  padding: 6px;
-  background-color: var(--default-white);
-  border: var(--border-width) var(--border-style) var(--primary-yellow);
-  border-radius: var(--border-radius-smaller);
-  color: var(--grey-medium-dark);
-  font-size: var(--font-size-extra-tiny);
-  text-align: center;
-  z-index: 50;
-}
-
-.error::after {
-  content: '';
-  position: absolute;
-  left: 20px;
-  top: -10px;
-  width: 0;
-  height: 0;
-  border-left: var(--bord-width-biggest) var(--border-style) transparent;
-  border-right: var(--bord-width-biggest) var(--border-style) transparent;
-  border-bottom: var(--border-extra-big) var(--border-style)
-    var(--primary-yellow);
-}
-
-.inline {
-  display: block;
-  font-size: var(--font-size-tiny);
-  font-weight: var(--font-weight-bold);
-}
-
-.formInput,
-.formInputRow {
-  display: block;
-  width: 100%;
-  height: 44px;
-  padding: 12px;
-  color: var(--default-black);
-  border-radius: var(--border-radius);
-  border: var(--border-width) var(--border-style) var(--grey-dark);
-  outline: none;
-}
-
-.formInput {
-  margin-block: 5px 12px;
-}
-
-.formInputRow {
-  margin-block-start: 5px;
-}
-
-.formInput:focus,
-.formInputRow:focus {
-  border: var(--border-width) var(--border-style) var(--primary-yellow) a;
-}
-
-.formInput::placeholder {
-  color: var(--grey-dark);
-}
-.formInput_row::placeholder {
-  color: var(--grey-dark);
 }
 
 .btnContinue {
   display: block;
-  margin-block-start: 24px;
+  margin-block-start: 12px;
   margin-inline-start: auto;
 }
 

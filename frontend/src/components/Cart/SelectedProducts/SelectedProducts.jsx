@@ -4,26 +4,26 @@ import { useSelector } from 'react-redux';
 
 import CartProduct from '../CartProduct/CartProduct';
 
-import { selectCartItems } from '../../../redux/cart/cartSelector';
+import { selectBasketItems } from '../../../redux/basket/selectors';
 
 import css from './SelectedProducts.module.css';
 
 export default function SelectedProducts() {
-  const orderItems = useSelector(selectCartItems);
+  const items = useSelector(selectBasketItems);
 
   return (
     <div className={css.orderShoppingSection}>
       <div className={css.goodsEdit}>
-        <p className={css.quantityGoods}>Ваш кошик ({orderItems.length})</p>
+        <p className={css.quantityGoods}>Ваш кошик ({items.length})</p>
         <Link to="/cart" className={css.editBox}>
           <p className={css.edit}>Редагувати</p>
           <LiaEditSolid size={16} />
         </Link>
       </div>
-      <div className='scrollBox'>
-        <div className='scrollBoxInner'>
+      <div className="scrollBox">
+        <div className="scrollBoxInner">
           <ul className={css.cartList}>
-            {orderItems.map((item) => (
+            {items.map((item) => (
               <CartProduct key={item.id} item={item} />
             ))}
           </ul>

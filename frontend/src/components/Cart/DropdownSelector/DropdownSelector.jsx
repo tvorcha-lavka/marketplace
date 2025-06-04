@@ -28,6 +28,12 @@ export default function DropdownSelector({
   }, [value]);
 
   useEffect(() => {
+    if (open) {
+      setSearchTerm('');
+    }
+  }, [open]);
+
+  useEffect(() => {
     if (Object.keys(cachedData).length === 0) {
       const fetchInitialData = async () => {
         dispatch(cacheAction({ searchTerm: '', data: fetchData }));
@@ -83,7 +89,11 @@ export default function DropdownSelector({
           onChange={(e) => setSearchTerm(e.target.value)}
           required
         />
-        <button type="button" onClick={() => setOpen(!open)}>
+        <button
+          type="button"
+          aria-label={open ? 'Закрити список' : 'Відкрити список'}
+          onClick={() => setOpen((prev) => !prev)}
+        >
           {open ? (
             <GoChevronUp className={css.detailsIcon} size={24} />
           ) : (
