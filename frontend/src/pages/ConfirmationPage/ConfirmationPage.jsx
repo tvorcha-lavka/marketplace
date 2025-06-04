@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom';
+
 import CustomButton from '../../components/CustomButton/CustomButton';
 import Breadcrumbs from '../../components/Breadcrumbs/Breadcrumbs';
 
@@ -6,6 +8,8 @@ import { media } from '../../utils/mediaConfig';
 import css from './ConfirmationPage.module.css';
 
 export default function ConfirmationPage() {
+	const navigate = useNavigate();
+
   const transferShopping = () => {
     navigate('/categories');
   };
@@ -20,14 +24,16 @@ export default function ConfirmationPage() {
             { label: 'Оформлення замовлення', to: '/order', isActive: false },
             { label: 'Підтвердження', to: '/confirmation', isActive: true },
           ]}
-				/>
-				
+        />
+
         <div className={css.wrapper}>
           <div className={css.infobox}>
             <p className={css.numberOrder}>
               Дякуємо, що обрали нас! Номер вашого замовлення
             </p>
-            <p className={css.text}>Дата замовлення: 12/10/2024</p>
+            <p className={css.text}>
+              Дата замовлення: {new Date().toLocaleDateString('uk-UA')}
+            </p>
             <p className={css.text}>
               Незабаром на вашу електронну пошту прийде повідомлення з
               інформацією про відправлення посилки.
