@@ -1,49 +1,76 @@
 .cartItem {
   display: flex;
-  align-items: start;
-  gap: 8px;
-  padding-block-end: 12px;
-  border-bottom: var(--border-width) var(--border-style) var(--grey);
+  padding-block-end: 11.5px;
+  width: 416px;
+  border-bottom: var(--border-width) var(--border-style) var(--grey-lighter);
 }
 
 .cartItemShop {
   display: flex;
-  align-items: start;
-  gap: 16px;
+  padding-block-start: 16px;
   padding-block-end: 16px;
   width: 618px;
   border-bottom: var(--border-width) var(--border-style) var(--grey-lighter);
 }
 
+.cartItemShop:first-child {
+  padding-block-start: 0;
+}
+
 .itemImg {
+  margin-right: 12px;
   width: 88px;
   height: 88px;
   border-radius: var(--border-radius);
-  opacity: 0px;
 }
 
 .itemImgShop {
+  margin-right: 12px;
   width: 112px;
   height: 124px;
   border-radius: var(--border-radius);
-  opacity: 0px;
+}
+
+.titleBox {
+  position: relative;
+  width: 316px;
+}
+
+.titleBoxShop {
+  position: relative;
+  width: 494px;
 }
 
 .itemTitle {
+  padding-right: 70px;
   margin-block-end: 4px;
   font-size: var(--font-size-tiny);
+  font-weight: var(--font-weight-bold);
 }
 
 .itemTitleShop {
+  padding-right: 140px;
   margin-block-end: 4px;
   font-weight: var(--font-weight-medium);
   font-size: var(--font-size-extra-small);
 }
 
+.priceBox {
+  display: flex;
+}
+
 .itemSeller {
-  margin-block-end: 14px;
+  margin-block-end: 12px;
   font-size: var(--font-size-extra-tiny);
   color: var(--grey-darkest);
+  font-weight: var(--font-weight-normal);
+}
+
+.itemSellerShop {
+  margin-block-end: 16px;
+  font-size: var(--font-size-extra-tiny);
+  color: var(--grey-darkest);
+  font-weight: var(--font-weight-normal);
 }
 
 .sellerName {
@@ -53,8 +80,9 @@
 .itemFilter {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
   font-size: var(--font-size-extra-tiny);
+  font-weight: var(--font-weight-normal);
   color: var(--default-black);
 }
 
@@ -63,25 +91,42 @@
   align-items: center;
   gap: 16px;
   font-size: var(--font-size-tiny);
+  font-weight: var(--font-weight-normal);
   color: var(--default-black);
 }
 
 .itemPrice {
-  margin-inline: auto 18px;
+  position: absolute;
+  top: 0;
+  right: 0;
   font-weight: var(--font-weight-bold);
   font-size: var(--font-size-tiny);
   color: var(--default-black);
 }
 
 .itemPriceShop {
-  margin-inline-end: 20px;
+  position: absolute;
+  top: 0;
+  right: 40px;
   font-weight: var(--font-weight-bold);
   font-size: var(--font-size-small);
   color: var(--default-black);
 }
 
-.removeBtn {
-  background: none;
+.trashBtn {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  background-color: transparent;
   border: none;
-  cursor: pointer;
+}
+
+.trashIcon {
+  width: var(--icon-size);
+  height: var(--icon-size);
+  stroke: var(--error-red);
 }

@@ -3,10 +3,9 @@ import { authReducer } from './auth/slice';
 import { categoriesReducer } from './categories/categoriesSlice';
 import { productReducer } from './products/slice';
 import { filtersReducer } from './filters/filtersSlice';
-import { cartReducer } from './cart/cartSlice';
-
-import basketReducer from './basket/slice';
+import { basketReducer } from './basket/slice';
 import storage from 'redux-persist/lib/storage';
+
 import {
   persistStore,
   persistReducer,
@@ -61,7 +60,6 @@ export const store = configureStore({
     product: persistedProductsReducer,
     basket: persistedBasketReducer,
     filters: filtersReducer,
-    cart: cartReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

@@ -37,13 +37,6 @@ input {
   margin-block-end: 8px;
 }
 
-.detailsLabel {
-  display: block;
-  margin-block-end: 4px;
-  font-size: var(--font-size-tiny);
-  font-weight: var(--font-weight-bold);
-}
-
 .detailsInputAddress {
   position: relative;
   display: flex;

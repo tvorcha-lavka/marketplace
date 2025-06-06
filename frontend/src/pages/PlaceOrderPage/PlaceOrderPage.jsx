@@ -8,12 +8,12 @@ import SelectedProducts from '../../components/Cart/SelectedProducts/SelectedPro
 import SummaryCart from '../../components/Cart/SummaryCart/SummaryCart';
 import Breadcrumbs from '../../components/Breadcrumbs/Breadcrumbs';
 
-import { selectCartStep } from '../../redux/cart/cartSelector';
-import { setDeliveryFee } from '../../redux/cart/cartSlice';
+import { selectCartStep } from '../../redux/basket/selectors';
+import { setDeliveryFee } from '../../redux/basket/slice';
 
 import css from './PlaceOrderPage.module.css';
 
-export default function PlaceOrder() {
+export default function PlaceOrderPage() {
   const [isClickBtn, setIsClickBtn] = useState(false);
   const step = useSelector(selectCartStep);
   const dispatch = useDispatch();

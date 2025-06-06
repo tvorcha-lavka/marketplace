@@ -1,0 +1,40 @@
+.emptyWrapper {
+  position: relative;
+  margin: 0 auto;
+  width: 440px;
+  height: 377px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  background-color: var(--default-white);
+}
+
+.title {
+  position: absolute;
+	top: 0;
+	left: 0;
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-extra-small);
+  color: var(--default-black);
+}
+
+.image {
+  margin: 0 auto;
+  width: 280px;
+  height: 224px;
+}
+
+.subtitle {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-small);
+  color: var(--default-black);
+}
+
+.text {
+  font-weight: var(--font-weight-normal);
+  font-size: var(--font-size-tiny);
+  color: var(--default-black);
+}

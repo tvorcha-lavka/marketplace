@@ -3,7 +3,6 @@
   padding: 24px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
   height: 583px;
   background: var(--default-white);
   border-radius: var(--border-radius-medium);
@@ -12,13 +11,8 @@
 }
 
 .title {
+  margin-bottom: 20px;
   font-size: var(--font-size-small);
   font-weight: var(--font-weight-bold);
   color: var(--default-black);
-}
-
-.cartList {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
 }
