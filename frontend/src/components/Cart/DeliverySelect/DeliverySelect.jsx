@@ -1,67 +1,67 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import DropdownSelector from '../DropdownSelector/DropdownSelector';
+import AddressInput from '../AddressInput/AddressInput';
+
 import {
   cacheBranchList,
   cacheCityList,
   cachePboxCityList,
   cachePostboxList,
   updateDeliveryData,
-} from '../../../redux/cart/cartSlice';
-import DropdownSelector from '../DropdownSelector/DropdownSelector';
+} from '../../../redux/basket/slice';
+import {
+  selectCart,
+  selectCachedBranches,
+  selectCachedCities,
+  selectCachedPboxCities,
+  selectCachedPostbox,
+} from '../../../redux/basket/selectors';
+import { branchList, cityList } from '../../../utils/deliveryDetails';
 
 import css from './DeliverySelect.module.css';
 
-export default function DeliverySelect({ seller, onDeliveryChange }) {
+export default function DeliverySelect({ owner, onDeliveryChange }) {
   const [selectedCity, setSelectedCity] = useState('');
   const [selectedBranch, setSelectedBranch] = useState('');
   const [selectedPboxCity, setSelectedPboxCity] = useState('');
   const [selectedPostbox, setSelectedPostbox] = useState('');
-
   const [city, setCity] = useState('');
-  const { deliveryData } = useSelector((state) => state.cart);
+
   const dispatch = useDispatch();
 
-  console.log(deliveryData);
+  const { deliveryData } = useSelector(selectCart);
 
-  const cityList = ['Київ', 'Львів', 'Одеса', 'Харків', 'Дніпро'];
-  const branchList = [
-    'Від. №1: Київ, вул.Хрещатик 39, 40-566',
-    'Від. №2: Київ, вул.Петра Саксаганського 39, 40-566',
-    'Від. №3: Київ, вул.Збройних Сил України 39, 40-566',
-    'Від. №4: Київ, вул.Хрещатик 39, 40-566',
-    'Від. №5: Київ, вул. Лесі Українки 45, 40-566',
-  ];
-
-  const handleDeliveryTypeChange = (seller, type) => {
+  const handleDeliveryTypeChange = (owner, type) => {
     const updatedData = {
       ...deliveryData,
-      [seller]: { type },
+      [owner]: { type },
     };
     if (type === 'nova-poshta' || type === 'post_box') {
-      updatedData[seller].city = '';
-      updatedData[seller].branch = '';
+      updatedData[owner].city = '';
+      updatedData[owner].branch = '';
     } else if (['courier', 'ukrposhta'].includes(type)) {
-      updatedData[seller].city = '';
-      updatedData[seller].street = '';
-      updatedData[seller].house = '';
-      updatedData[seller].apartment = '';
+      updatedData[owner].city = '';
+      updatedData[owner].street = '';
+      updatedData[owner].house = '';
+      updatedData[owner].apartment = '';
     }
 
-    dispatch(updateDeliveryData({ [seller]: updatedData[seller] }));
+    dispatch(updateDeliveryData({ [owner]: updatedData[owner] }));
     if (onDeliveryChange) onDeliveryChange(JSON.stringify(updatedData));
   };
 
-  const handleInputChange = (seller, field, value) => {
+  const handleInputChange = (owner, field, value) => {
     if (typeof value !== 'string') {
       value = String(value);
     }
 
     const updatedData = {
       ...deliveryData,
-      [seller]: { ...deliveryData[seller], [field]: value },
+      [owner]: { ...deliveryData[owner], [field]: value },
     };
-    dispatch(updateDeliveryData({ [seller]: updatedData[seller] }));
+    dispatch(updateDeliveryData({ [owner]: updatedData[owner] }));
 
     if (onDeliveryChange) onDeliveryChange(updatedData);
   };
@@ -73,46 +73,54 @@ export default function DeliverySelect({ seller, onDeliveryChange }) {
             <div className={css.deliveryOption}>
               <input
                 className={css.optionInput}
-                id={`delivery-${seller}-${type}`}
+                id={`delivery-${owner}-${type}`}
                 type="radio"
-                name={`deliveryData-${seller}`}
+                name={`deliveryData-${owner}`}
                 value={type}
-                checked={deliveryData[seller]?.type === type}
-                onChange={() => handleDeliveryTypeChange(seller, type)}
+                checked={deliveryData[owner]?.type === type}
+                onChange={() => handleDeliveryTypeChange(owner, type)}
                 required
               />
               <label
-                htmlFor={`delivery-${seller}-${type}`}
+                htmlFor={`delivery-${owner}-${type}`}
                 className={css.deliveryOption}
               >
-                {type === 'nova-poshta' && 'Доставка Нова Пошта у відділення'}
-                {type === 'post_box' && 'Доставка Нова Пошта у поштомат'}
-                {type === 'courier' && 'Доставка кур’єром Нова Пошта'}
-                {type === 'ukrposhta' && 'Доставка Укрпошта у відділення'}
+                {
+                  {
+                    'nova-poshta': 'Доставка Нова Пошта у відділення',
+                    post_box: 'Доставка Укрпошта до поштомату',
+                    courier: 'Курʼєрська доставка',
+                    ukrposhta: 'Укрпошта курʼєрська',
+                  }[type]
+                }
               </label>
             </div>
             <p>
-              {type === 'nova-poshta' && 'від 120 грн'}
-              {type === 'post_box' && 'від 120 грн'}
-              {type === 'courier' && 'від 135 грн'}
-              {type === 'ukrposhta' && 'від 80 грн'}
+              {
+                {
+                  'nova-poshta': 'від 120 грн',
+                  post_box: 'від 120 грн',
+                  courier: 'від 135 грн',
+                  ukrposhta: 'від 80 грн',
+                }[type]
+              }
             </p>
           </div>
 
-          {deliveryData[seller]?.type === type && (
+          {deliveryData[owner]?.type === type && (
             <div className={css.deliveryDetails}>
               {type === 'nova-poshta' && (
                 <ul className={css.detailsBox}>
                   <DropdownSelector
                     label="Місто"
                     placeholder="Введіть місто"
-                    cachedDataSelector={(state) => state.cart.cachedCities}
+                    cachedDataSelector={selectCachedCities}
                     cacheAction={cacheCityList}
                     updateAction={updateDeliveryData}
                     fetchData={cityList}
                     value={selectedCity}
                     onChange={(value) =>
-                      handleInputChange(seller, 'city', String(value))
+                      handleInputChange(owner, 'city', String(value))
                     }
                     fieldKey="city"
                   />
@@ -120,13 +128,13 @@ export default function DeliverySelect({ seller, onDeliveryChange }) {
                   <DropdownSelector
                     label="Відділення"
                     placeholder="Оберіть відділення"
-                    cachedDataSelector={(state) => state.cart.cachedBranches}
+                    cachedDataSelector={selectCachedBranches}
                     cacheAction={cacheBranchList}
                     updateAction={updateDeliveryData}
                     fetchData={branchList}
                     value={selectedBranch}
                     onChange={(value) =>
-                      handleInputChange(seller, 'branch', value)
+                      handleInputChange(owner, 'branch', value)
                     }
                     fieldKey="branch"
                   />
@@ -138,13 +146,13 @@ export default function DeliverySelect({ seller, onDeliveryChange }) {
                   <DropdownSelector
                     label="Місто"
                     placeholder="Введіть місто"
-                    cachedDataSelector={(state) => state.cart.cachedPboxCities}
+                    cachedDataSelector={selectCachedPboxCities}
                     cacheAction={cachePboxCityList}
                     updateAction={updateDeliveryData}
                     fetchData={cityList}
                     value={selectedPboxCity}
                     onChange={(value) =>
-                      handleInputChange(seller, 'city', value)
+                      handleInputChange(owner, 'city', value)
                     }
                     fieldKey="city"
                   />
@@ -152,121 +160,106 @@ export default function DeliverySelect({ seller, onDeliveryChange }) {
                   <DropdownSelector
                     label="Поштомат"
                     placeholder="№ поштомату"
-                    cachedDataSelector={(state) => state.cart.cachedPostbox}
+                    cachedDataSelector={selectCachedPostbox}
                     cacheAction={cachePostboxList}
                     updateAction={updateDeliveryData}
                     fetchData={branchList}
                     value={selectedPostbox}
                     onChange={(value) =>
-                      handleInputChange(seller, 'branch', value)
+                      handleInputChange(owner, 'branch', value)
                     }
                     fieldKey="branch"
                   />
                 </div>
               )}
 
-              {(type === 'courier' || type === 'ukrposhta') && (
+              {type === 'courier' && (
                 <div className={css.detailsBox}>
                   <div className={css.detailsWrapperAddress}>
                     <div className={css.detailsInputAddress}>
-                      <div>
-                        <label
-                          htmlFor="city"
-                          className={css.detailsLabel}
-                          name="city"
-                        >
-                          Місто&#42;
-                        </label>
-                        <input
-                          id="city"
-                          name="city"
-                          className={css.detailsInputCity}
-                          type="text"
-                          placeholder="місто"
-                          value={city}
-                          onChange={(e) => {
-                            handleInputChange(seller, 'city', e.target.value);
-                            console.log(setCity(e.target.value));
-                          }}
-                          required
-                        />
-                      </div>
+                      <AddressInput
+                        id="city"
+                        label="Місто"
+                        name="city"
+                        placeholder="місто"
+                        value={city}
+                        onChange={(e) => {
+                          handleInputChange(owner, 'city', e.target.value);
+                          setCity(e.target.value);
+                        }}
+                        className={css.detailsInputCity}
+                      />
 
-                      <div>
-                        <label
-                          htmlFor="street"
-                          className={css.detailsLabel}
-                          name="street"
-                        >
-                          Вулиця&#42;
-                        </label>
+                      <AddressInput
+                        id="street"
+                        label="Вулиця"
+                        name="street"
+                        placeholder="вулиця"
+                        value={deliveryData[owner].street || ''}
+                        onChange={(e) =>
+                          handleInputChange(owner, 'street', e.target.value)
+                        }
+                        className={css.detailsInputCity}
+                      />
 
-                        <input
-                          id="street"
-                          name="street"
-                          className={css.detailsInputCity}
-                          type="text"
-                          placeholder="вулиця"
-                          value={deliveryData[seller].street || ''}
-                          onChange={(e) =>
-                            handleInputChange(seller, 'street', e.target.value)
-                          }
-                          required
-                        />
-                      </div>
+                      <AddressInput
+                        id="house"
+                        label="Будинок"
+                        name="house"
+                        placeholder="будинок"
+                        value={deliveryData[owner].house || ''}
+                        onChange={(e) =>
+                          handleInputChange(owner, 'house', e.target.value)
+                        }
+                        className={css.detailsInputHouse}
+                      />
 
-                      <div>
-                        <label
-                          htmlFor="house"
-                          className={css.detailsLabel}
-                          name="house"
-                        >
-                          Будинок&#42;
-                        </label>
-
-                        <input
-                          id="house"
-                          name="house"
-                          className={css.detailsInputHouse}
-                          type="text"
-                          placeholder="будинок"
-                          value={deliveryData[seller].house || ''}
-                          onChange={(e) =>
-                            handleInputChange(seller, 'house', e.target.value)
-                          }
-                          required
-                        />
-                      </div>
-
-                      <div>
-                        <label
-                          htmlFor="apartment"
-                          className={css.detailsLabel}
-                          name="apartment"
-                        >
-                          Кв&#42;
-                        </label>
-
-                        <input
-                          id="apartment"
-                          name="apartment"
-                          className={css.detailsInputApart}
-                          type="text"
-                          placeholder="кв"
-                          value={deliveryData[seller].apartment || ''}
-                          onChange={(e) =>
-                            handleInputChange(
-                              seller,
-                              'apartment',
-                              e.target.value
-                            )
-                          }
-                          required
-                        />
-                      </div>
+                      <AddressInput
+                        id="apartment"
+                        label="Кв"
+                        name="apartment"
+                        placeholder="кв"
+                        value={deliveryData[owner].apartment || ''}
+                        onChange={(e) =>
+                          handleInputChange(owner, 'apartment', e.target.value)
+                        }
+                        className={css.detailsInputApart}
+                      />
                     </div>
                   </div>
                 </div>
+              )}
+
+              {type === 'ukrposhta' && (
+                <ul className={css.detailsBox}>
+                  <DropdownSelector
+                    label="Місто"
+                    placeholder="Введіть місто"
+                    cachedDataSelector={selectCachedCities}
+                    cacheAction={cacheCityList}
+                    updateAction={updateDeliveryData}
+                    fetchData={cityList}
+                    value={selectedCity}
+                    onChange={(value) =>
+                      handleInputChange(owner, 'city', String(value))
+                    }
+                    fieldKey="city"
+                  />
+
+                  <DropdownSelector
+                    label="Відділення"
+                    placeholder="Оберіть відділення"
+                    cachedDataSelector={selectCachedBranches}
+                    cacheAction={cacheBranchList}
+                    updateAction={updateDeliveryData}
+                    fetchData={branchList}
+                    value={selectedBranch}
+                    onChange={(value) =>
+                      handleInputChange(owner, 'branch', value)
+                    }
+                    fieldKey="branch"
+                  />
+                </ul>
               )}
             </div>
           )}

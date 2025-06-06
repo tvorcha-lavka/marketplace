@@ -1,16 +1,23 @@
 import { useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { BsShieldFillExclamation, BsChevronDoubleRight } from 'react-icons/bs';
+import { BsShieldFillExclamation } from 'react-icons/bs';
 
 import CustomButton from '../../CustomButton/CustomButton';
 
-import { selectTotal } from '../../../redux/cart/cartSelector';
+import { media } from '../../../utils/mediaConfig';
+import {
+  selectTotal,
+  selectCart,
+  selectBasketItems,
+} from '../../../redux/basket/selectors';
 
 import css from './SummaryCart.module.css';
 
 export default function SummaryCart({ isClickBtn }) {
   const totalOrderPrice = useSelector(selectTotal);
-  const { deliveryData } = useSelector((state) => state.cart);
+  const { deliveryData } = useSelector(selectCart);
+  const items = useSelector(selectBasketItems);
+  const isCartEmpty = items.length === 0;
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -53,9 +60,7 @@ export default function SummaryCart({ isClickBtn }) {
     <div className={css.summarySection}>
       <div className={css.summarybox}>
         <div className={css.priceSummary}>
-          <p className={css.textUp}>
-            <b>Разом</b>
-          </p>
+          <p className={css.textUp}>Разом</p>
           <div className={css.wrapper}>
             <p className={css.text}>Вартість замовлення</p>
             <p className={css.text}>{totalOrderPrice} грн</p>
@@ -66,14 +71,13 @@ export default function SummaryCart({ isClickBtn }) {
           </div>
           <hr />
           <div className={css.wrapper}>
-            <p className={css.text}>
-              <b>До сплати</b>
-            </p>
+            <p className={css.textUp}>До сплати</p>
             <p className={css.text}>
               <b>{totalOrderPrice + deliveryPrice} грн</b>
             </p>
           </div>
         </div>
+
         {isOrderPage ? (
           <CustomButton
             className={css.btnOrder}
@@ -90,6 +94,7 @@ export default function SummaryCart({ isClickBtn }) {
             size="large"
             type="button"
             onClick={transferOrder}
+            disabled={isCartEmpty}
           >
             Перейти до оформлення
           </CustomButton>
@@ -123,19 +128,11 @@ export default function SummaryCart({ isClickBtn }) {
       </div>
       <div className={css.paymentInfobox}>
         <p className={css.paymentInfo}>Способи оплати:&nbsp;</p>
-        <p className={css.paymentPay}>LIQPAY</p>
-        <svg width="14" height="14">
-          <linearGradient id="myGradient" gradientTransform="rotate(90)">
-            <stop offset="0%" stopColor="#9FDB57" />
-            <stop offset="50%" stopColor="#71CA5E" />
-            <stop offset="50%" stopColor="#1FADC3" />
-            <stop offset="100%" stopColor="#36B98F" />
-          </linearGradient>
-          <BsChevronDoubleRight
-            style={{ fill: 'url(#myGradient)' }}
-            size={14}
-          />
-        </svg>
+        <img
+          className={css.liqpayLogo}
+          src={`${media}/logo/logo_liqpay.svg`}
+          alt="Liqpay logotype"
+        />
       </div>
     </div>
   );

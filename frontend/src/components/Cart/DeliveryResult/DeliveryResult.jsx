@@ -1,14 +1,16 @@
 import { useSelector } from 'react-redux';
 
+import { selectCart } from '../../../redux/basket/selectors';
+
 import css from './DeliveryResult.module.css';
 
-export default function DeliveryResult({ seller }) {
-  const { deliveryData } = useSelector((state) => state.cart);
+export default function DeliveryResult({ owner }) {
+  const { deliveryData } = useSelector(selectCart);
 
   return (
     <div className={css.deliveryItem}>
       <div className={css.deliveryResultBlock}>
-        {deliveryData[seller].type === 'nova-poshta' && (
+        {deliveryData[owner].type === 'nova-poshta' && (
           <>
             <div className={css.resultBox}>
               <div className={css.resultInput}></div>
@@ -16,14 +18,14 @@ export default function DeliveryResult({ seller }) {
             </div>
             <p className={css.resultText}>
               <b>Адреса відділення:</b>&nbsp;
-              {deliveryData[seller].branch}
+              {deliveryData[owner].branch}
             </p>
             <p className={css.resultText}>
               <b>Години роботи:</b>&nbsp;
             </p>
           </>
         )}
-        {deliveryData[seller].type === 'post_box' && (
+        {deliveryData[owner].type === 'post_box' && (
           <>
             <div className={css.resultBox}>
               <div className={css.resultInput}></div>
@@ -31,12 +33,12 @@ export default function DeliveryResult({ seller }) {
             </div>
             <p className={css.resultText}>
               <b>Адреса поштомату:</b>&nbsp;
-              {deliveryData[seller].city}
+              {deliveryData[owner].city}
             </p>
-            <p className={css.resultText}>{deliveryData[seller].postbox}</p>
+            <p className={css.resultText}>{deliveryData[owner].postbox}</p>
           </>
         )}
-        {deliveryData[seller].type === 'courier' && (
+        {deliveryData[owner].type === 'courier' && (
           <>
             <div className={css.resultBox}>
               <div className={css.resultInput}></div>
@@ -46,15 +48,14 @@ export default function DeliveryResult({ seller }) {
             </div>
             <p className={css.resultText}>
               <b> Адреса доставки: </b>&nbsp;
-              {deliveryData[seller].street},&nbsp;
-              {deliveryData[seller].house},&nbsp;
-              {deliveryData[seller].apartment},&nbsp;
-              {deliveryData[seller].city}
+              {deliveryData[owner].street},&nbsp;
+              {deliveryData[owner].house},&nbsp;
+              {deliveryData[owner].apartment},&nbsp;
+              {deliveryData[owner].city}
             </p>
           </>
         )}
-
-        {deliveryData[seller].type === 'ukrposhta' && (
+        {deliveryData[owner].type === 'ukrposhta' && (
           <>
             <div className={css.resultBox}>
               <div className={css.resultInput}></div>
@@ -62,10 +63,10 @@ export default function DeliveryResult({ seller }) {
             </div>
             <p className={css.resultText}>
               <b> Адреса доставки: </b>&nbsp;
-              {deliveryData[seller].street},&nbsp;
-              {deliveryData[seller].house},&nbsp;
-              {deliveryData[seller].apartment},&nbsp;
-              {deliveryData[seller].city}
+              {deliveryData[owner].street},&nbsp;
+              {deliveryData[owner].house},&nbsp;
+              {deliveryData[owner].apartment},&nbsp;
+              {deliveryData[owner].city}
             </p>
           </>
         )}

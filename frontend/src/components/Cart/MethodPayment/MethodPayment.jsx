@@ -1,13 +1,15 @@
 import { useDispatch, useSelector } from 'react-redux';
 
 import CustomButton from '../../CustomButton/CustomButton';
+import RadioPaymentInput from '../RadioPaymentInput/RadioPaymentInput';
 
-import { nextStep, updatePaymentData } from '../../../redux/cart/cartSlice';
+import { nextStep, updatePaymentData } from '../../../redux/basket/slice';
+import { selectPaymentData } from '../../../redux/basket/selectors';
 
 import css from './MethodPayment.module.css';
 
 export default function MethodPayment({ isClickBtn, setIsClickBtn }) {
-  const paymentData = useSelector((state) => state.cart.paymentData);
+  const paymentData = useSelector(selectPaymentData);
   const dispatch = useDispatch();
 
   const handleSubmit = () => {
@@ -23,30 +25,24 @@ export default function MethodPayment({ isClickBtn, setIsClickBtn }) {
     <div className={css.paymentSection}>
       {!isClickBtn && (
         <>
-          <div className={css.paymentOption}>
-            <input
-              type="radio"
-              id="liqpay"
-              name="paymentData"
-              value="liqpay"
-              checked={paymentData.type === 'liqpay'}
-              onChange={() => handlePaymentTypeChange('liqpay')}
-            />
-            <label htmlFor="liqpay">
-              LiqPay (Кредитна карта, Google/Apple pay)
-            </label>
-          </div>
-          <div className={css.paymentOption}>
-            <input
-              type="radio"
-              id="imposed_payment"
-              name="paymentData"
-              value="imposed_payment"
-              checked={paymentData.type === 'imposed_payment'}
-              onChange={() => handlePaymentTypeChange('imposed_payment')}
-            />
-            <label htmlFor="imposed_payment">Накладений платіж</label>
-          </div>
+          <RadioPaymentInput
+            id="liqpay"
+            name="paymentData"
+            value="liqpay"
+            checked={paymentData.type === 'liqpay'}
+            onChange={() => handlePaymentTypeChange('liqpay')}
+            label="LiqPay (Кредитна карта, Google/Apple pay)"
+            className={css.paymentOption}
+          />
+          <RadioPaymentInput
+            id="imposed_payment"
+            name="paymentData"
+            value="imposed_payment"
+            checked={paymentData.type === 'imposed_payment'}
+            onChange={() => handlePaymentTypeChange('imposed_payment')}
+            label="Накладений платіж"
+            className={css.paymentOption}
+          />
           <CustomButton
             className={css.btnContinue}
             size="small"
@@ -60,34 +56,26 @@ export default function MethodPayment({ isClickBtn, setIsClickBtn }) {
       )}
 
       {isClickBtn && paymentData.type === 'liqpay' && (
-        <div className={css.paymentOption}>
-          <input
-            className={css.inputResult}
-            type="radio"
-            id="liqpay"
-            name="paymentData"
-            value="liqpay"
-            checked={paymentData.type === 'liqpay'}
-            onChange={() => handlePaymentTypeChange('liqpay')}
-          />
-          <label htmlFor="liqpay">
-            LiqPay (Кредитна карта, Google/Apple pay)
-          </label>
-        </div>
+        <RadioPaymentInput
+          id="liqpay"
+          name="paymentData"
+          value="liqpay"
+          checked={paymentData.type === 'liqpay'}
+          onChange={() => handlePaymentTypeChange('liqpay')}
+          label="LiqPay (Кредитна карта, Google/Apple pay)"
+          className={css.paymentOption + ' ' + css.inputResult}
+        />
       )}
       {isClickBtn && paymentData.type === 'imposed_payment' && (
-        <div className={css.paymentOption}>
-          <input
-            className={css.inputResult}
-            type="radio"
-            id="imposed_payment"
-            name="paymentData"
-            value="imposed_payment"
-            checked={paymentData.type === 'imposed_payment'}
-            onChange={() => handlePaymentTypeChange('imposed_payment')}
-          />
-          <label htmlFor="imposed_payment">Накладений платіж</label>
-        </div>
+        <RadioPaymentInput
+          id="imposed_payment"
+          name="paymentData"
+          value="imposed_payment"
+          checked={paymentData.type === 'imposed_payment'}
+          onChange={() => handlePaymentTypeChange('imposed_payment')}
+          label="Накладений платіж"
+          className={css.paymentOption + ' ' + css.inputResult}
+        />
       )}
     </div>
   );

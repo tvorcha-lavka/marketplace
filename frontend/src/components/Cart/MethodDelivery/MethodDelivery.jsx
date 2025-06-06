@@ -1,69 +1,81 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 
-import { nextStep } from '../../../redux/cart/cartSlice';
-import { selectCartItems } from '../../../redux/cart/cartSelector';
-
 import CustomButton from '../../CustomButton/CustomButton';
-import CartProduct from '../CartProduct/CartProduct';
 import DeliveryResult from '../DeliveryResult/DeliveryResult';
 import DeliverySelect from '../DeliverySelect/DeliverySelect';
+
+import {
+  selectBasketItems,
+  selectCart,
+  selectCartStep,
+} from '../../../redux/basket/selectors';
+import { nextStep } from '../../../redux/basket/slice';
+import { media } from '../../../utils/mediaConfig';
 
 import css from './MethodDelivery.module.css';
 
 export default function MethodDelivery({ onDeliveryChange }) {
-  const orderItems = useSelector(selectCartItems);
-  const { deliveryData } = useSelector((state) => state.cart);
-  const step = useSelector((state) => state.cart.step);
   const dispatch = useDispatch();
 
-  console.log(deliveryData);
+  const orderItems = useSelector(selectBasketItems);
+  const { deliveryData } = useSelector(selectCart);
+  const step = useSelector(selectCartStep);
 
   const groupedItemsBySeller = orderItems.reduce((acc, item) => {
-    if (!acc[item.seller]) {
-      acc[item.seller] = [];
+    const ownerId = item.owner.id;
+    if (!acc[ownerId]) {
+      acc[ownerId] = [];
     }
-    acc[item.seller].push(item);
+    acc[ownerId].push(item);
     return acc;
   }, {});
 
-  const sellers = Object.keys(groupedItemsBySeller);
-  console.log(groupedItemsBySeller);
+  const sellerIds = Object.keys(groupedItemsBySeller);
 
-  const allSellersHaveDeliveryType = sellers.every(
-    (seller) => deliveryData[seller]?.type
+  const sellersWithNames = sellerIds.map((ownerId) => {
+    const items = groupedItemsBySeller[ownerId];
+    return {
+      id: ownerId,
+      username: items[0].owner.username,
+      items,
+    };
+  });
+
+  const allSellersHaveDeliveryType = sellerIds.every(
+    (ownerId) => deliveryData[ownerId]?.type
   );
 
-  console.log(allSellersHaveDeliveryType);
   const [switchState, setSwitchState] = useState(
-    sellers.reduce((acc, seller) => {
-      acc[seller] = false;
+    sellerIds.reduce((acc, ownerId) => {
+      acc[ownerId] = false;
       return acc;
     }, {})
   );
 
-  const handleSwitchClick = (seller) => {
-    const isActive = !switchState[seller];
-    const firstSeller = sellers[0];
-    const firstSellerData = deliveryData[firstSeller] || {};
+  const handleSwitchClick = (ownerId) => {
+    const isActive = !switchState[ownerId];
+    const firstSellerId = sellerIds[0];
+    const firstSellerData = deliveryData[firstSellerId] || {};
 
     setSwitchState((prevState) => ({
       ...prevState,
-      [seller]: isActive,
+      [ownerId]: isActive,
     }));
 
     if (isActive) {
       dispatch({
-        type: 'cart/updateDeliveryData',
+        type: 'basket/updateDeliveryData',
         payload: {
-          [seller]: firstSellerData,
+          [ownerId]: firstSellerData,
         },
       });
     } else {
       dispatch({
-        type: 'cart/updateDeliveryData',
+        type: 'basket/updateDeliveryData',
         payload: {
-          [seller]: {},
+          ...deliveryData,
+          [ownerId]: {},
         },
       });
     }
@@ -83,14 +95,14 @@ export default function MethodDelivery({ onDeliveryChange }) {
 
   return (
     <div className={css.deliverySection}>
-      {Object.entries(groupedItemsBySeller).map(([seller, items], index) => {
-        const isSwitchActive = switchState[seller];
+      {sellersWithNames.map(({ id: ownerId, username, items }, index) => {
+        const isSwitchActive = switchState[ownerId];
 
         return (
-          <div key={seller} className={css.deliverySeller}>
+          <div key={ownerId} className={css.deliverySeller}>
             <div className={css.sellerBox}>
               <p className={css.sellerName}>
-                Доставка від продавця {seller}
+                Доставка від продавця {username}
                 <span className={css.quantityGoods}>
                   &nbsp; ({items.length} {quantityGoods(items.length)})
                 </span>
@@ -99,16 +111,38 @@ export default function MethodDelivery({ onDeliveryChange }) {
                 {items.reduce((total, item) => total + item.price, 0)} грн
               </p>
             </div>
+
             <ul className={css.cartList}>
               {items.map((item) => (
-                <CartProduct key={item.id} item={item} />
+                <li key={item.id} className={css.cartItem}>
+                  <img
+                    className={css.itemImg}
+                    src={
+                      item.imagesSmall?.[0]?.url ||
+                      `${media}/defaults/no-image.jpg`
+                    }
+                    alt={item.title}
+                  />
+                  <div>
+                    <div className={css.titleBox}>
+                      <h3 className={css.itemTitle}>{item.title}</h3>
+                      <p className={css.itemPrice}>{item.price}&nbsp;грн</p>
+                    </div>
+                    <div className={css.itemFilter}>
+                      <p>Розмір: ...</p>
+                      <p>Матеріал: ...</p>
+                      <p>Стан: ...</p>
+                    </div>
+                  </div>
+                </li>
               ))}
             </ul>
+
             {step === 2 && index > 0 && (
               <div className={css.switch}>
                 <div
                   className={`${css.toggle} ${isSwitchActive ? css.active : ''}`}
-                  onClick={() => handleSwitchClick(seller)}
+                  onClick={() => handleSwitchClick(ownerId)}
                 ></div>
                 <span className={css.label}>
                   Використати ті ж дані, що вище
@@ -116,10 +150,10 @@ export default function MethodDelivery({ onDeliveryChange }) {
               </div>
             )}
             {step === 3 ? (
-              <DeliveryResult seller={seller} />
+              <DeliveryResult owner={ownerId} />
             ) : (
               <DeliverySelect
-                seller={seller}
+                owner={ownerId}
                 onDeliveryChange={onDeliveryChange}
               />
             )}

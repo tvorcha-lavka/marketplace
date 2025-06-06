@@ -22,12 +22,14 @@
 }
 
 .textUp {
-  font-size: var(--font-size-tiny);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-small);
   margin-block-end: 4px;
 }
 
 .text {
-  font-size: var(--font-size-tiny);
+  font-size: var(--font-size-extra-small);
+  font-weight: var(--font-weight-normal);
 }
 
 .wrapper {
@@ -75,4 +77,9 @@ hr {
 .paymentPay {
   margin-inline-start: 4px;
   color: var(--grey-medium);
+}
+
+.btnOrder:disabled {
+  background-color: var(--grey-lighter);
+  color: var(--default-white);
 }
