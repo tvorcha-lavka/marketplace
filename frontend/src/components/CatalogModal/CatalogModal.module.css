@@ -2,7 +2,7 @@
   position: absolute;
   display: flex;
   top: 95px;
-  left: 28.5%;
+  left: 9.5%;
   box-shadow: var(--modal-shadow);
   z-index: 500;
 }
