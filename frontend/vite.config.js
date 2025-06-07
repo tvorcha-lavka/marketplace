@@ -12,6 +12,9 @@ export default defineConfig({
       usePolling: true,
     },
   },
+  worker: {
+    count: 2
+  },
   optimizeDeps: {
     include: ['date-fns', 'date-fns/locale'],
   },

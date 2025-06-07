@@ -1,0 +1,90 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-06-13 16:13+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n"
+"%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n"
+"%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
+
+#: .\src\apps\filter\admin.py:114 .\src\apps\filter\admin.py:182
+msgid "Filter type"
+msgstr "Typ filtra"
+
+#: .\src\apps\filter\admin.py:145
+msgid "Filter type name"
+msgstr "Nazwa typu filtra"
+
+#: .\src\apps\filter\admin.py:149 .\src\apps\filter\admin.py:190
+msgid "Filter values"
+msgstr "Wartości filtra"
+
+#: .\src\apps\filter\filters.py:19 .\src\apps\filter\models.py:18
+#: .\src\apps\filter\models.py:55 .\src\apps\filter\models.py:96
+msgid "filter type"
+msgstr "typ filtra"
+
+#: .\src\apps\filter\models.py:19
+msgid "filter types"
+msgstr "typy filtrów"
+
+#: .\src\apps\filter\models.py:23
+msgid "name"
+msgstr "nazwa"
+
+#: .\src\apps\filter\models.py:25
+msgid "list position"
+msgstr "pozycja na liście"
+
+#: .\src\apps\filter\models.py:26
+msgid "required"
+msgstr "obowiązkowy"
+
+#: .\src\apps\filter\models.py:43
+msgid "filter value"
+msgstr "wartość filtra"
+
+#: .\src\apps\filter\models.py:44 .\src\apps\filter\models.py:97
+msgid "filter values"
+msgstr "wartości filtra"
+
+#: .\src\apps\filter\models.py:47
+msgid "value"
+msgstr "wartość"
+
+#: .\src\apps\filter\models.py:48
+msgid "description"
+msgstr "opis"
+
+#: .\src\apps\filter\models.py:50
+msgid "metadata"
+msgstr "metadane"
+
+#: .\src\apps\filter\models.py:80
+msgid "The combination of filter type and value must be unique."
+msgstr "Kombinacja typu filtra i wartości musi być unikalna."
+
+#: .\src\apps\filter\models.py:90
+msgid "filter group"
+msgstr "grupa filtrów"
+
+#: .\src\apps\filter\models.py:91
+msgid "filter groups"
+msgstr "grupy filtrów"
+
+#: .\src\apps\filter\models.py:95
+msgid "category"
+msgstr "kategoria"

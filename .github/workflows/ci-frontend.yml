@@ -1,0 +1,38 @@
+name: Frontend CI
+
+on:
+  pull_request:
+    branches:
+      - develop
+    paths:
+      - 'frontend/**'
+
+env:
+  IMAGE_NAME: tvorchalavka/web-frontend
+  LOCAL_DEV_SERVICE: frontend
+
+jobs:
+  ci-frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '^18'
+
+      - run: sudo apt-get update && sudo apt-get install -y make
+      - run: cp $GITHUB_WORKSPACE/.env.example $GITHUB_WORKSPACE/.env
+      - run: npm ci
+
+      - name: Run linters and formatters
+        run: make eslint prettier
+
+#      - name: Build docker image
+#        run: ENV_STATE=development make build
+
+#      - name: Run tests in docker
+#        run: make tests

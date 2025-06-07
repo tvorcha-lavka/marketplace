@@ -1,0 +1,28 @@
+services:
+  celery-beat:
+    image: tvorchalavka/web-backend:develop
+    restart: no
+    volumes:
+      - ../src:/src/
+      - ../scripts:/scripts/
+
+  celery-database-worker:
+    image: tvorchalavka/web-backend:develop
+    restart: no
+    volumes:
+      - ../src:/src/
+      - ../scripts:/scripts/
+
+  celery-notification-worker:
+    image: tvorchalavka/web-backend:develop
+    restart: no
+    volumes:
+      - ../src:/src/
+      - ../scripts:/scripts/
+
+  celery-statistics-worker:
+    image: tvorchalavka/web-backend:develop
+    restart: no
+    volumes:
+      - ../src:/src/
+      - ../scripts:/scripts/

@@ -1,0 +1,24 @@
+{%- set workers = [
+  "database",
+  "notification",
+  "statistics",
+] -%}
+
+{%- set restart_policy = "no" -%}
+{%- set image_tag = "tvorchalavka/web-backend:develop" -%}
+
+services:
+  celery-beat:
+    image: {{ image_tag }}
+    restart: {{ restart_policy }}
+    volumes:
+      - ../src:/src/
+      - ../scripts:/scripts/
+{% for worker in workers %}
+  celery-{{ worker }}-worker:
+    image: {{ image_tag }}
+    restart: {{ restart_policy }}
+    volumes:
+      - ../src:/src/
+      - ../scripts:/scripts/
+{% endfor %}

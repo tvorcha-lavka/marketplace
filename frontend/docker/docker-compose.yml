@@ -1,0 +1,21 @@
+services:
+  web-frontend:
+    image: tvorchalavka/web-frontend:latest
+    container_name: web-frontend
+    restart: always
+    env_file: ../../.env
+    networks:
+      - tvorcha-network
+    volumes:
+      - logs:/var/log/frontend
+    ports:
+      - ${FRONTEND_PORT:-8080}:8080
+    mem_limit: 512m
+    cpus: 0.5
+
+networks:
+  tvorcha-network:
+    external: true
+
+volumes:
+  logs:

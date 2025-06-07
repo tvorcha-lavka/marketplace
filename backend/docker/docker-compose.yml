@@ -1,0 +1,31 @@
+services:
+  web-backend:
+    image: tvorchalavka/web-backend:latest
+    container_name: web-backend
+    env_file: ../../.env
+    restart: always
+    command: /scripts/entrypoint.py --web-app wsgi
+    healthcheck:
+      test: [ "CMD-SHELL", "python", "manage.py", "check" ]
+      start_period: 30s
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    ports:
+      - ${DJANGO_PORT:-8000}:8000
+    networks:
+      - tvorcha-network
+    depends_on:
+      redis:
+        condition: service_healthy
+    volumes:
+      - logs:/var/log/backend/django
+    mem_limit: 512m
+    cpus: 0.5
+
+networks:
+  tvorcha-network:
+    external: true
+
+volumes:
+  logs:

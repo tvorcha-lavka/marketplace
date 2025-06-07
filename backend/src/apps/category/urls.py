@@ -1,0 +1,14 @@
+from django.urls import path
+from drf_spectacular.utils import extend_schema
+
+from .views import CatalogListAPIView, CategoryReadOnlyViewSet
+
+SchemaTag = "Category"
+CategoryReadOnlyViewSetExtended = extend_schema(tags=[SchemaTag])(CategoryReadOnlyViewSet)
+CatalogListAPIViewExtended = extend_schema(tags=[SchemaTag])(CatalogListAPIView)
+
+urlpatterns = [
+    path("", CategoryReadOnlyViewSetExtended.as_view({"get": "list"}), name="category-list"),
+    path("<int:pk>/", CategoryReadOnlyViewSetExtended.as_view({"get": "retrieve"}), name="category-detail"),
+    path("catalog/", CatalogListAPIViewExtended.as_view(), name="catalog-list"),
+]

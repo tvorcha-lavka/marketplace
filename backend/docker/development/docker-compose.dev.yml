@@ -1,0 +1,7 @@
+services:
+  web-backend:
+    image: tvorchalavka/web-backend:develop
+    restart: no
+    volumes:
+      - ../src:/src/
+      - ../scripts:/scripts/
