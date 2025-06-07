@@ -1,0 +1,50 @@
+{%- set workers = [
+  ("database", 1, "1024m"),
+  ("notification", 1, "1024m"),
+  ("statistics", 0.5, "512m"),
+] -%}
+
+{%- set env_file = "../../.env" -%}
+{%- set restart_policy = "always" -%}
+{%- set image_tag = "tvorchalavka/web-backend:latest" -%}
+
+services:
+  celery-beat:
+    image: {{ image_tag }}
+    container_name: celery-beat
+    env_file: {{ env_file }}
+    restart: {{ restart_policy }}
+    command: /scripts/entrypoint.py --beat
+    networks:
+      - tvorcha-network
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    volumes:
+      - logs:/var/log/backend/celery/beat
+    mem_limit: 128m
+    cpus: 0.25
+{% for worker, cpu, mem in workers %}
+  celery-{{ worker }}-worker:
+    image: {{ image_tag }}
+    container_name: celery-{{ worker }}-worker
+    env_file: {{ env_file }}
+    restart: {{ restart_policy }}
+    command: /scripts/entrypoint.py --worker {{ worker }}
+    networks:
+      - tvorcha-network
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    volumes:
+      - logs:/var/log/backend/celery/worker
+    mem_limit: {{ mem }}
+    cpus: {{ cpu }}
+{% endfor %}
+
+networks:
+  tvorcha-network:
+    external: true
+
+volumes:
+  logs:

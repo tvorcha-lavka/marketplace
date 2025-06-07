@@ -1,0 +1,53 @@
+from typing import Any
+
+from django.utils.translation import gettext_lazy as _
+from rest_framework import status
+from rest_framework.generics import GenericAPIView, get_object_or_404
+from rest_framework.permissions import AllowAny
+from rest_framework.request import Request
+from rest_framework.response import Response
+
+from apps.user.models import User
+
+from .serializers import PasswordResetSerializer, VerifyCodeSerializer
+
+
+class VerifyCodeAPIView(GenericAPIView[Any]):
+    """AJAX request to verify verification code."""
+
+    serializer_class = VerifyCodeSerializer
+    permission_classes = [AllowAny]
+
+    def post(self, request: Request) -> Response:
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        response_data = {
+            "email": serializer.validated_data["email"],
+            "message": _("The code is valid."),
+        }
+
+        return Response(response_data, status=status.HTTP_200_OK)
+
+
+class ResetPasswordAPIView(GenericAPIView[Any]):
+    """Resets the user's password using the provided reset code sent to email."""
+
+    serializer_class = PasswordResetSerializer
+    permission_classes = [AllowAny]
+
+    def post(self, request: Request) -> Response:
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        email = serializer.validated_data["email"]
+        raw_password = serializer.validated_data["password"]
+
+        user = get_object_or_404(User, email=email)
+        user.set_new_password(raw_password)
+
+        code_obj = serializer.validated_data["code_obj"]
+        code_obj.delete()
+
+        message = _("Password has been changed successfully.")
+        return Response({"message": message}, status=status.HTTP_200_OK)

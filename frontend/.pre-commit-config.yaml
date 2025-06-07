@@ -1,0 +1,16 @@
+repos:
+  - repo: local
+    hooks:
+      - id: eslint
+        name: eslint
+        entry: make -C frontend eslint
+        language: system
+        types: [javascript, jsx]
+        pass_filenames: false
+
+      - id: prettier
+        name: prettier
+        entry: make -C frontend prettier
+        language: system
+        types: [javascript, jsx]
+        pass_filenames: false

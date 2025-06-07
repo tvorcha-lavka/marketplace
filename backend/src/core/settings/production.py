@@ -1,0 +1,56 @@
+from json import loads
+from os import getenv
+from typing import Any
+
+from .base import *
+
+DEBUG = False
+ALLOWED_HOSTS += loads(getenv("ALLOWED_PROD_HOSTS", "[]"))
+
+# Security settings
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = "DENY"
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
+
+CORS_ALLOWED_ORIGINS = [
+    getenv("PROD_FRONTEND_URL"),
+]
+
+
+def create_file_logger(path_to_file: str) -> dict[str, Any]:
+    return {
+        "level": "ERROR",
+        "class": "logging.TimedRotatingFileHandler",
+        "filename": "/var/log/backend/" + path_to_file,
+        "when": "midnight",
+        "interval": 1,
+        "backupCount": 10,
+        "formatter": "verbose",
+    }
+
+
+# Logs
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "django_file": create_file_logger("django/django_errors.log"),
+        "celery_worker_file": create_file_logger("celery/worker/celery_worker_errors.log"),
+        "celery_beat_file": create_file_logger("celery/beat/celery_beat_errors.log"),
+    },
+    "loggers": {
+        "django": {"handlers": ["django_file"], "level": "ERROR", "propagate": True},
+        "celery.worker": {"handlers": ["celery_worker_file"], "level": "ERROR", "propagate": True},
+        "celery.beat": {"handlers": ["celery_beat_file"], "level": "ERROR", "propagate": True},
+    },
+    "formatters": {
+        "verbose": {
+            "format": "{levelname} {asctime} {module} {message}",
+            "style": "{",
+        },
+    },
+}

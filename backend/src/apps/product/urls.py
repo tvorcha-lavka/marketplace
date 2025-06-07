@@ -1,0 +1,27 @@
+from django.urls import path
+from drf_spectacular.utils import extend_schema
+
+from apps.product.views import ProductPrivateViewSet, ProductPublicViewSet
+
+SchemaTag = "Product"
+ProductPublicViewSetExtended = extend_schema(tags=[SchemaTag])(ProductPublicViewSet)
+ProductPrivateViewSetExtended = extend_schema(tags=[SchemaTag])(ProductPrivateViewSet)
+
+product_public_list = ProductPublicViewSetExtended.as_view({"get": "list"})
+product_public_detail = ProductPublicViewSetExtended.as_view({"get": "retrieve"})
+
+product_private_list = ProductPrivateViewSet.as_view({"get": "list"})
+product_private_create = ProductPrivateViewSet.as_view({"post": "create"})
+product_private_update = ProductPrivateViewSet.as_view({"put": "update"})
+product_private_delete = ProductPrivateViewSet.as_view({"delete": "destroy"})
+
+urlpatterns = [
+    path("", product_public_list, name="product-list"),
+    path("my/", product_private_list, name="my-product-list"),
+    path("create/", product_private_create, name="product-create"),
+    path("<uuid:pk>/", product_public_detail, name="product-detail"),
+    # TODO: need fix for update product
+    # path("<uuid:pk>/update/", product_private_update, name="product-update"),
+    # TODO: need fix for delete stored files
+    # path("<uuid:pk>/delete/", product_private_delete, name="product-delete"),
+]

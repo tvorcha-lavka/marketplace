@@ -1,0 +1,10 @@
+services:
+  web-frontend:
+    image: tvorchalavka/web-frontend:develop
+    restart: no
+    volumes:
+      - ../:/src/
+      - node-modules:/src/node_modules
+
+volumes:
+  node-modules:

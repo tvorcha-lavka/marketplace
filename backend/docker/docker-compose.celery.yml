@@ -1,0 +1,72 @@
+services:
+  celery-beat:
+    image: tvorchalavka/web-backend:latest
+    container_name: celery-beat
+    env_file: ../../.env
+    restart: always
+    command: /scripts/entrypoint.py --beat
+    networks:
+      - tvorcha-network
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    volumes:
+      - logs:/var/log/backend/celery/beat
+    mem_limit: 128m
+    cpus: 0.25
+
+  celery-database-worker:
+    image: tvorchalavka/web-backend:latest
+    container_name: celery-database-worker
+    env_file: ../../.env
+    restart: always
+    command: /scripts/entrypoint.py --worker database
+    networks:
+      - tvorcha-network
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    volumes:
+      - logs:/var/log/backend/celery/worker
+    mem_limit: 1024m
+    cpus: 1
+
+  celery-notification-worker:
+    image: tvorchalavka/web-backend:latest
+    container_name: celery-notification-worker
+    env_file: ../../.env
+    restart: always
+    command: /scripts/entrypoint.py --worker notification
+    networks:
+      - tvorcha-network
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    volumes:
+      - logs:/var/log/backend/celery/worker
+    mem_limit: 1024m
+    cpus: 1
+
+  celery-statistics-worker:
+    image: tvorchalavka/web-backend:latest
+    container_name: celery-statistics-worker
+    env_file: ../../.env
+    restart: always
+    command: /scripts/entrypoint.py --worker statistics
+    networks:
+      - tvorcha-network
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    volumes:
+      - logs:/var/log/backend/celery/worker
+    mem_limit: 512m
+    cpus: 0.5
+
+
+networks:
+  tvorcha-network:
+    external: true
+
+volumes:
+  logs:

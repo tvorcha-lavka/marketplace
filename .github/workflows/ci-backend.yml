@@ -1,0 +1,38 @@
+name: Backend CI
+
+on:
+  pull_request:
+    branches:
+      - develop
+    paths:
+      - 'backend/**'
+
+env:
+  IMAGE_NAME: tvorchalavka/web-backend
+  LOCAL_DEV_SERVICE: backend
+
+jobs:
+  ci-backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "^3.11"
+
+      - run: sudo apt-get update && sudo apt-get install -y make
+      - run: cp $GITHUB_WORKSPACE/.env.example $GITHUB_WORKSPACE/.env
+      - run: pip install poetry && poetry install --no-root
+
+      - name: Run linters, formatters and typechecks
+        run: make isort black flake8 mypy
+
+      - name: Build docker image
+        run: ENV_STATE=development make build
+
+      - name: Run tests in docker
+        run: make pytest
