@@ -63,7 +63,6 @@ export const getCatalog = createAsyncThunk(
       const tree = res.data;
       const categoryTrees = buildCategoryTree(tree);
       const catalog = categoryTrees[0].children;
-      // console.log(catalog);
       return catalog;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);

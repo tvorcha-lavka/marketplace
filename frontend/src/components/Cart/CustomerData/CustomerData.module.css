@@ -29,17 +29,14 @@
   color: var(--default-black);
   border: none;
   background-color: transparent;
+  text-decoration: underline;
+  font-size: var(--font-size-tiny);
 }
 
 .titleBox {
   display: flex;
   align-items: center;
   justify-content: space-between;
-}
-
-.edit {
-  text-decoration: underline;
-  font-size: var(--font-size-tiny);
 }
 
 .text {

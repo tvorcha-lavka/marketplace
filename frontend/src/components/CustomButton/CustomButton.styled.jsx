@@ -5,11 +5,12 @@ const widths = {
   larger: '452px',
   large: '442px',
   medium: '368px',
-  semiMedium: '322.5px',
-  small: '187px',
-  custom1: '284px',
   custom2: '325px',
+  semiMedium: '322.5px',
+  custom1: '284px',
   custom3: '244px',
+  custom4: '232px',
+  small: '187px',
 };
 
 const BaseButtonStyled = styled('button')(({ theme }) => ({
@@ -22,6 +23,7 @@ const BaseButtonStyled = styled('button')(({ theme }) => ({
   fontSize: theme.custom.sizes.fontSizeExtraSmall,
   fontWeight: theme.typography.fontWeightBold,
   color: theme.custom.colors.defaultBlack,
+  outline: `${theme.custom.borders.borderWidth} ${theme.custom.borders.borderStyle} transparent`,
   cursor: 'pointer',
 }));
 

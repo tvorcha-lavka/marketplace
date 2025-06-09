@@ -24,17 +24,14 @@ const filterSlice = createSlice({
     toggleFilter: (state, action) => {
       const { id, value } = action.payload;
 
-      // Отримуємо поточний стан фільтра
       const currentFilterValues = state.activeFilters[id] || [];
 
-      // Оновлюємо список активних значень
       const newFilterValues = currentFilterValues.includes(value)
         ? currentFilterValues.filter((v) => v !== value)
         : [...currentFilterValues, value];
 
       state.activeFilters[id] = newFilterValues;
 
-      // Оновлюємо список активних фільтрів для відображення
       state.selectedFilters = Object.entries(state.activeFilters).flatMap(
         ([id, values]) =>
           values.map((val) => ({
@@ -46,19 +43,16 @@ const filterSlice = createSlice({
     removeActiveFilters: (state, action) => {
       const { id, value } = action.payload;
 
-      // Видаляємо значення з активних фільтрів
       if (Array.isArray(state.activeFilters[id])) {
         state.activeFilters[id] = state.activeFilters[id].filter(
           (v) => v !== value
         );
       }
 
-      // Видаляємо ключ з об'єкта
       if (state.activeFilters[id]?.length === 0) {
         delete state.activeFilters[id];
       }
 
-      // Оновлюємо список вибраних фільтрів
       state.selectedFilters = state.selectedFilters.filter(
         (f) => !(String(f.id) === String(id) && f.value === value)
       );
@@ -86,4 +80,5 @@ export const {
   removeActiveFilters,
   clearAllFilters,
 } = filterSlice.actions;
+
 export const filtersReducer = filterSlice.reducer;

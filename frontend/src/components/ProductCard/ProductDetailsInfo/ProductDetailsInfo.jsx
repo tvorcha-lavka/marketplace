@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-hot-toast';
-import { FiShoppingCart, FiCheckCircle } from 'react-icons/fi';
+import { FiCheckCircle } from 'react-icons/fi';
 
 import CustomButton from '../../CustomButton/CustomButton';
 import ModalBtnCross from '../../ModalBtnCross/ModalBtnCross';

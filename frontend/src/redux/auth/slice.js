@@ -37,8 +37,8 @@ const handleFulfilledAuth = (state, action) => {
   state.isLoggedOut = false;
   state.isLoggedIn = true;
   state.loading = false;
-	state.error = false;
-	state.isSessionExpired = false;
+  state.error = false;
+  state.isSessionExpired = false;
 };
 
 const handleRejected = (state, action) => {
@@ -114,7 +114,6 @@ const authSlice = createSlice({
       })
       .addCase(refreshUser.fulfilled, handleFulfilledAuth)
       .addCase(refreshUser.rejected, (state, action) => {
-        // Якщо не вдалося оновити токен — встановлюємо прапорець сесії як закінчену
         state.isRefreshing = false;
         state.loading = false;
         state.error = action.payload;
@@ -159,6 +158,11 @@ const authSlice = createSlice({
   },
 });
 
-export const { setVerificationCode, updateTokens, setRefreshing, setSessionExpired } =
-  authSlice.actions;
+export const {
+  setVerificationCode,
+  updateTokens,
+  setRefreshing,
+  setSessionExpired,
+} = authSlice.actions;
+
 export const authReducer = authSlice.reducer;
