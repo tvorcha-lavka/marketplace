@@ -19,7 +19,7 @@
 }
 
 .spanLabel {
-	margin-block-start: 17px;
+  margin-block-start: 17px;
   margin-block-end: 5px;
 }
 
@@ -32,6 +32,7 @@
   outline: var(--border-width) var(--border-style) transparent;
   color: var(--default-black);
   resize: none;
+  scrollbar-width: none; 
 }
 
 .inputNameItem {
