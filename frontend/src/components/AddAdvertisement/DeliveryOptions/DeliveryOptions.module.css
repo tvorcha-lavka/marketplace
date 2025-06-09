@@ -1,0 +1,89 @@
+.wrapper {
+  padding: 24px;
+  border-radius: var(--border-radius-medium);
+  box-shadow: var(--cart-shadow);
+  border: none;
+}
+
+.title {
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-bold);
+  margin-block-end: 20px;
+}
+
+.advertSpan {
+  display: block;
+  margin-block-start: 4px;
+  width: 757px;
+  font-size: var(--font-size-tiny);
+  color: var(--grey-darkest);
+}
+
+.deliveryBox {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.deliveryLabel {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 32px 24px;
+  border: var(--border-width) var(--border-style) var(--grey-dark);
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  user-select: none;
+}
+
+.deliveryImg {
+  height: 50px;
+  width: auto;
+}
+
+.deliveryLabel input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.deliveryLabel .checkmark {
+  min-width: 20px;
+  height: 20px;
+  background-color: var(--default-white);
+  border: var(--border-width) var(--border-style) var(--grey-dark);
+  border-radius: var(--border-radius-small);
+  display: inline-block;
+  transition:
+    background-color 0.3s,
+    color 0.3s,
+    border-color 0.3s;
+}
+
+.deliveryLabel input:checked + .checkmark {
+  background-color: var(--primary-yellow);
+  border: none;
+}
+
+.deliveryLabel .checkmark::after {
+  content: '';
+  position: absolute;
+  display: none;
+  left: 31px;
+  top: 49px;
+  width: 7px;
+  height: 12px;
+  border: solid var(--default-white);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.deliveryLabel input:checked + .checkmark::after {
+  display: block;
+}
+
+.deliveryLabel.selected {
+  border-color: var(--default-black);
+}
