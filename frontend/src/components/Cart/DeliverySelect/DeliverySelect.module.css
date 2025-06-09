@@ -58,7 +58,13 @@ input {
   border: var(--border-width) var(--border-style) var(--grey-dark);
   background-color: var(--default-white);
   color: var(--default-black);
-  outline: none;
+  outline: var(--border-width) var(--border-style) transparent;
+}
+
+.detailsInputCity:focus,
+.detailsInputHouse:focus,
+.detailsInputApart:focus {
+  border: var(--border-width) var(--border-style) var(--primary-yellow);
 }
 
 .detailsInputCity {
@@ -79,7 +85,7 @@ input {
   height: 20px;
   border: var(--border-width-big) var(--border-style) var(--grey-dark);
   border-radius: var(--border-radius-circle);
-  outline: none;
+  outline: var(--border-width) var(--border-style) transparent;
   cursor: pointer;
   position: relative;
 }
@@ -99,4 +105,8 @@ input {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.inputFilled {
+  border: var(--border-width-big) var(--border-style) var(--default-black);
 }

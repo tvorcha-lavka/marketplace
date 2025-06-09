@@ -13,69 +13,59 @@ export default function MethodPayment({ isClickBtn, setIsClickBtn }) {
   const dispatch = useDispatch();
 
   const handleSubmit = () => {
-    if (paymentData.type) dispatch(nextStep());
-    setIsClickBtn(!isClickBtn);
+    if (paymentData.type) {
+      dispatch(nextStep());
+      setIsClickBtn(true);
+    }
   };
 
   const handlePaymentTypeChange = (type) => {
     dispatch(updatePaymentData({ type }));
   };
 
+  const paymentOptions = [
+    {
+      id: 'liqpay',
+      value: 'liqpay',
+      label: 'LiqPay (Кредитна карта, Google/Apple pay)',
+    },
+    {
+      id: 'imposed_payment',
+      value: 'imposed_payment',
+      label: 'Накладений платіж',
+    },
+  ];
+
   return (
     <div className={css.paymentSection}>
-      {!isClickBtn && (
-        <>
-          <RadioPaymentInput
-            id="liqpay"
-            name="paymentData"
-            value="liqpay"
-            checked={paymentData.type === 'liqpay'}
-            onChange={() => handlePaymentTypeChange('liqpay')}
-            label="LiqPay (Кредитна карта, Google/Apple pay)"
-            className={css.paymentOption}
-          />
-          <RadioPaymentInput
-            id="imposed_payment"
-            name="paymentData"
-            value="imposed_payment"
-            checked={paymentData.type === 'imposed_payment'}
-            onChange={() => handlePaymentTypeChange('imposed_payment')}
-            label="Накладений платіж"
-            className={css.paymentOption}
-          />
-          <CustomButton
-            className={css.btnContinue}
-            size="small"
-            type="submit"
-            onClick={handleSubmit}
-            disabled={!paymentData.type}
-          >
-            Продовжити
-          </CustomButton>
-        </>
-      )}
+      {paymentOptions.map(({ id, value, label }) => {
+        const isChecked = paymentData.type === value;
+        const className = `${css.paymentOption}${isClickBtn && isChecked ? ' ' + css.inputResult : ''}`;
 
-      {isClickBtn && paymentData.type === 'liqpay' && (
-        <RadioPaymentInput
-          id="liqpay"
-          name="paymentData"
-          value="liqpay"
-          checked={paymentData.type === 'liqpay'}
-          onChange={() => handlePaymentTypeChange('liqpay')}
-          label="LiqPay (Кредитна карта, Google/Apple pay)"
-          className={css.paymentOption + ' ' + css.inputResult}
-        />
-      )}
-      {isClickBtn && paymentData.type === 'imposed_payment' && (
-        <RadioPaymentInput
-          id="imposed_payment"
-          name="paymentData"
-          value="imposed_payment"
-          checked={paymentData.type === 'imposed_payment'}
-          onChange={() => handlePaymentTypeChange('imposed_payment')}
-          label="Накладений платіж"
-          className={css.paymentOption + ' ' + css.inputResult}
-        />
+        return !isClickBtn || isChecked ? (
+          <RadioPaymentInput
+            key={id}
+            id={id}
+            name="paymentData"
+            value={value}
+            checked={isChecked}
+            onChange={() => handlePaymentTypeChange(value)}
+            label={label}
+            className={className}
+          />
+        ) : null;
+      })}
+
+      {!isClickBtn && (
+        <CustomButton
+          className={css.btnContinue}
+          size="small"
+          type="submit"
+          onClick={handleSubmit}
+          disabled={!paymentData.type}
+        >
+          Продовжити
+        </CustomButton>
       )}
     </div>
   );
