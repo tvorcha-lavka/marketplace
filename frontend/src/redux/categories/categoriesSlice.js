@@ -18,14 +18,19 @@ const handleRejected = (state, action) => {
 const categoriesSlice = createSlice({
   name: 'categories',
   initialState: {
-    items: [],    
+    items: [],
     catalog: [],
     popular: [],
     categoryById: {},
+    selectedCategoryId: null,
     loading: false,
     error: null,
   },
-  reducers: {},
+  reducers: {
+    setSelectedCategoryId(state, action) {
+      state.selectedCategoryId = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getAllCategoriesWithPopular.pending, handlePending)
@@ -44,14 +49,16 @@ const categoriesSlice = createSlice({
         state.error = null;
       })
       .addCase(getCategoryById.rejected, handleRejected)
-    .addCase(getCatalog.pending, handlePending)
+      .addCase(getCatalog.pending, handlePending)
       .addCase(getCatalog.fulfilled, (state, action) => {
         state.catalog = action.payload;
         state.loading = false;
         state.error = null;
       })
-      .addCase(getCatalog.rejected, handleRejected)
+      .addCase(getCatalog.rejected, handleRejected);
   },
 });
+
+export const { setSelectedCategoryId } = categoriesSlice.actions;
 
 export const categoriesReducer = categoriesSlice.reducer;

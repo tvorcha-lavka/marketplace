@@ -31,7 +31,7 @@ export const getProducts = createAsyncThunk(
       if (is_vip !== null) params.vip_status = is_vip;
 
       const res = await axios.get(`${baseApiUrl}/products/`, { params });
-      console.log(res.data);
+
       return res.data;
     } catch (e) {
       console.error('Error fetching products:', e);
@@ -63,5 +63,25 @@ export const getProductsId = createAsyncThunk(
       const state = getState();
       return !state.product.loading;
     },
+  }
+);
+
+export const createProduct = createAsyncThunk(
+  'product/createProduct',
+  async (productData, thunkAPI) => {
+    try {
+      const res = await axios.post(
+        `${baseApiUrl}/products/create/`,
+        productData
+      );
+
+      return res.data;
+    } catch (e) {
+      if (e.response) {
+        console.error('Server response:', e.response.data);
+      }
+      console.error('Error creating product:', e.message);
+      return thunkAPI.rejectWithValue(e.message);
+    }
   }
 );
