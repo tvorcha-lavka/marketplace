@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { GoChevronDown, GoChevronUp } from 'react-icons/go';
 
 import {
@@ -14,6 +14,7 @@ export default function FiltersSection({
   filtersDescription,
   selectedFilters,
   setSelectedFilters,
+  shouldReset,
 }) {
   const [openSelect, setOpenSelect] = useState(null);
   const [touchedFilters, setTouchedFilters] = useState({});
@@ -28,10 +29,18 @@ export default function FiltersSection({
   };
 
   const getIconColor = (showError, hasValue, isOpen) => {
-		if (showError) return 'var(--error-red)';
-		if (isOpen) return 'var(--grey-dark)';		
+    if (showError) return 'var(--error-red)';
+    if (isOpen) return 'var(--grey-dark)';
     return hasValue ? 'var(--default-black)' : 'var(--grey-dark)';
-  };
+	};
+	
+	useEffect(() => {
+    if (shouldReset) {
+      setSelectedFilters({});
+      setTouchedFilters({});
+      setOpenSelect(null);
+    }
+  }, [shouldReset]);
 
   return (
     <fieldset className={css.wrapper}>
@@ -42,7 +51,7 @@ export default function FiltersSection({
 
           const value = selectedFilters[filter.name];
           const hasValue = Boolean(value);
-          const isOpen = openSelect === filter.name; 
+          const isOpen = openSelect === filter.name;
           const showError = touchedFilters[filter.name] && !hasValue && !isOpen;
 
           return (

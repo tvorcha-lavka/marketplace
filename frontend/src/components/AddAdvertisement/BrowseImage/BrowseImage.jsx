@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { FiCamera } from 'react-icons/fi';
 import { GoAlert } from 'react-icons/go';
 import { toast } from 'react-hot-toast';
@@ -7,7 +7,7 @@ import { useImageUploader } from '../../../hooks/useImageUploader';
 
 import css from './BrowseImage.module.css';
 
-export default function BrowseImage() {
+export default function BrowseImage({ shouldReset }) {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const { uploadFile } = useImageUploader();
 
@@ -57,6 +57,15 @@ export default function BrowseImage() {
   const handleClick = (index) => {
     fileInputsRef.current[index]?.click();
   };
+
+  useEffect(() => {
+    if (shouldReset) {
+      setSelectedFiles([]);
+      fileInputsRef.current.forEach((input) => {
+        if (input) input.value = '';
+      });
+    }
+  }, [shouldReset]);
 
   return (
     <fieldset className={css.wrapper}>

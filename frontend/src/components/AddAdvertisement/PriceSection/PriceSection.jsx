@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import css from './PriceSection.module.css';
 
-export default function PriceSection() {
+export default function PriceSection({ shouldReset }) {
   const [price, setPrice] = useState('');
   const [touched, setTouched] = useState(false);
 
@@ -14,7 +14,14 @@ export default function PriceSection() {
 
   const inputClass = `${css.inputAdvert} ${
     isInvalid ? css.inputError : price ? css.inputActive : ''
-  }`;
+		}`;
+	
+		useEffect(() => {
+      if (shouldReset) {
+        setPrice('');
+        setTouched(false);
+      }
+    }, [shouldReset]);
 
   return (
     <fieldset className={css.wrapper}>

@@ -30,6 +30,7 @@ export default function AddAdvert() {
   const [selectedFilters, setSelectedFilters] = useState({});
   const [selectedColors, setSelectedColors] = useState([]);
   const [filters, setFilters] = useState('');
+  const [shouldReset, setShouldReset] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -67,8 +68,16 @@ export default function AddAdvert() {
       setSelectedColors([]);
       setIsSelectedDelivery([]);
       setFilters('');
+
+      setShouldReset(true);
     }
   }, [success, created]);
+
+  useEffect(() => {
+    if (shouldReset) {
+      setShouldReset(false);
+    }
+  }, [shouldReset]);
 
   const getFilterIds = () => {
     const ids = [];
@@ -102,7 +111,7 @@ export default function AddAdvert() {
     const price = formData.get('price')?.trim();
     const filterIds = getFilterIds();
 
-		const requiredFields = [
+    const requiredFields = [
       { value: title, name: 'Title' },
       { value: categoryId, name: 'Category' },
       { value: description, name: 'Description' },
@@ -147,16 +156,18 @@ export default function AddAdvert() {
           setSelectedSubCategory={setSelectedSubCategory}
           selectedChildCategory={selectedChildCategory}
           setSelectedChildCategory={setSelectedChildCategory}
+          shouldReset={shouldReset}
         />
 
-        <DescriptionField />
+        <DescriptionField shouldReset={shouldReset} />
 
-        <BrowseImage />
+        <BrowseImage shouldReset={shouldReset} />
 
         <FiltersSection
           filtersDescription={filtersDescription}
           selectedFilters={selectedFilters}
           setSelectedFilters={setSelectedFilters}
+          shouldReset={shouldReset}
         />
 
         <ColorOptionsSelector
@@ -165,7 +176,7 @@ export default function AddAdvert() {
           setSelectedColors={setSelectedColors}
         />
 
-        <PriceSection />
+        <PriceSection shouldReset={shouldReset} />
 
         <DeliveryOptions
           isSelectedDelivery={isSelectedDelivery}

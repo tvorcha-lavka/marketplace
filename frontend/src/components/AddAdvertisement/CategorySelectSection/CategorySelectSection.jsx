@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { GoChevronDown, GoChevronUp } from 'react-icons/go';
 import { LiaEditSolid } from 'react-icons/lia';
 
@@ -13,6 +13,7 @@ export default function CategorySelectSection({
   setSelectedSubCategory,
   selectedChildCategory,
   setSelectedChildCategory,
+  shouldReset,
 }) {
   const [open, setOpen] = useState(false);
   const [isCategoryConfirmed, setIsCategoryConfirmed] = useState(false);
@@ -51,14 +52,25 @@ export default function CategorySelectSection({
     setIsCategoryConfirmed(true);
   };
 
-  const handleEditCategory = () => {
-    setSelectedCategory(null);
-    setSelectedSubCategory(null);
-    setSelectedChildCategory(null);
-    setIsCategoryConfirmed(false);
-    setOpen(true);
-    setTouched(false);
-  };
+  // const handleEditCategory = () => {
+  //   setSelectedCategory(null);
+  //   setSelectedSubCategory(null);
+  //   setSelectedChildCategory(null);
+  //   setIsCategoryConfirmed(false);
+  //   setOpen(true);
+  //   setTouched(false);
+  // };
+
+  useEffect(() => {
+    if (shouldReset) {
+      setSelectedCategory(null);
+      setSelectedSubCategory(null);
+      setSelectedChildCategory(null);
+      setIsCategoryConfirmed(false);
+      setTouched(false);
+      setOpen(false);
+    }
+  }, [shouldReset]);
 
   return (
     <fieldset className={css.wrapper}>
@@ -114,7 +126,7 @@ export default function CategorySelectSection({
           <button
             type="button"
             className={css.editBtn}
-            onClick={handleEditCategory}
+            // onClick={handleEditCategory}
           >
             Редагувати <LiaEditSolid className={css.editIcon} />
           </button>
