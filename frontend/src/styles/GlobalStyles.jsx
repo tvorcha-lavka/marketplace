@@ -68,7 +68,7 @@ const GlobalStylesComponent = () => {
         },
 
         '::-webkit-scrollbar-track': {
-          backgroundColor: 'var(--primary-light)',
+          backgroundColor: 'var(--primary-yellow-light)',
         },
 
         '.scrollBox': {
