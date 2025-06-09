@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 import Logo from '../Logo/Logo';
 
-import { footerLinks } from './footerLinks.js';
+import { footerLinks } from '../../utils/footerLinks';
 
 import css from './Footer.module.css';
 

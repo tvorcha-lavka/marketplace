@@ -127,6 +127,7 @@ const GlobalStylesComponent = () => {
           '--background-small-backdrop':
             theme.custom.colors.backgroundSmallBackdrop, //rgba(0, 0, 0, 0.5);
           '--background-modal': theme.custom.colors.backgroundModal, //#fffdf9
+          '--dote-border-color': theme.custom.colors.doteBorderColor, //rgba(0, 0, 0, 0.1)
 
           '--font-family': theme.typography.fontFamily,
           '--font-weight-extra-bold': theme.typography.fontWeightExtraBold, //800

@@ -23,8 +23,8 @@ export default function CustomerData() {
   const step = useSelector(selectCartStep);
   const customerData = useSelector(selectCustomerData);
 
-	const handleSubmit = (values) => {
-		console.log('Submitted values:', values);
+  const handleSubmit = (values) => {
+    console.log('Submitted values:', values);
     dispatch(updateCustomerData(values));
     dispatch(nextStep());
   };
@@ -35,7 +35,7 @@ export default function CustomerData() {
     <div className={css.section}>
       {step === 1 ? (
         <>
-          <h2 className={css.title}>1. Дані замовника</h2>
+          <h2 className={css.title}>1. Дані отримувача</h2>
           <Formik
             initialValues={{
               name: '',
@@ -52,7 +52,7 @@ export default function CustomerData() {
                   <FormField
                     id="customer"
                     name="name"
-                    label="Ім’я"
+                    label="Імʼя"
                     type="text"
                     placeholder="Валерія"
                     touched={touched}
@@ -114,8 +114,10 @@ export default function CustomerData() {
               className={css.editBtn}
               onClick={handleStepBack}
             >
-              <p className={css.edit}>Редагувати</p>
-              <LiaEditSolid size={16} />
+              Редагувати
+              <span>
+                <LiaEditSolid size={16} />
+              </span>
             </button>
           </div>
 

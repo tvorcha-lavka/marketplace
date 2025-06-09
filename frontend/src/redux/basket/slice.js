@@ -52,8 +52,8 @@ const basketSlice = createSlice({
         state.deliveryData[owner] = {};
       }
       state.deliveryData[owner] = {
-        ...state.deliveryData[owner], // існуючі дані seller
-        ...data, // нові дані з payload
+        ...state.deliveryData[owner], 
+        ...data, 
       };
     },
     updatePaymentData: (state, action) => {

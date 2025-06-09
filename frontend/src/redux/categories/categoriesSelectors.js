@@ -9,3 +9,6 @@ export const selectCatalog = (state) => state.categories.catalog;
 export const selectPopCategories = (state) => state.categories.popular;
 
 export const selectCategoryById = (state) => state.categories.categoryById;
+
+export const selectSelectedCategoryId = (state) =>
+  state.categories.selectedCategoryId;

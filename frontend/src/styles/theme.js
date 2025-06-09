@@ -57,10 +57,11 @@ const theme = createTheme({
       backgroundBackdrop: 'rgba(0, 0, 0, 0.7)',
       backgroundSmallBackdrop: 'rgba(0, 0, 0, 0.5)',
       backgroundModal: '#fffdf9',
+      doteBorderColor: 'rgba(0, 0, 0, 0.1)',
     },
     sizes: {
       fontSizeBiggest: '200px',
-      fontSizeExtraBig: '56px', 
+      fontSizeExtraBig: '56px',
       fontSizeLarge: '44px',
       fontSizeLargeMedium: '32px',
       fontSizeMedium: '24px',
