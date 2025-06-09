@@ -1,299 +1,180 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { GoChevronDown, GoChevronUp } from 'react-icons/go';
-import { FiCamera } from 'react-icons/fi';
 
-import CategoryModal from '../CategoryModal/CategoryModal';
+import BrowseImage from '../BrowseImage/BrowseImage';
+import CategorySelectSection from '../CategorySelectSection/CategorySelectSection';
+import FiltersSection from '../FiltersSection/FiltersSection';
+import ColorOptionsSelector from '../ColorOptionsSelector/ColorOptionsSelector';
+import PriceSection from '../PriceSection/PriceSection';
+import DescriptionField from '../DescriptionField/DescriptionField';
+import DeliveryOptions from '../DeliveryOptions/DeliveryOptions';
+import CustomButton from '../../CustomButton/CustomButton';
 
+import { createProduct } from '../../../redux/products/operations';
+import {
+  selectCreateSuccess,
+  selectCreatedProduct,
+} from '../../../redux/products/selectors';
+import { selectSelectedCategoryId } from '../../../redux/categories/categoriesSelectors';
+import { setSelectedCategoryId } from '../../../redux/categories/categoriesSlice';
+import { getFiltersCategory } from '../../../redux/filters/filtersOperations';
 import { selectFiltersCategory } from '../../../redux/filters/filtersSelector';
-import { media } from '../../../utils/mediaConfig';
 
 import css from './AddAdvert.module.css';
 
 export default function AddAdvert() {
-  const [open, setOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState('');
+  const [isSelectedDelivery, setIsSelectedDelivery] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedSubCategory, setSelectedSubCategory] = useState(null);
   const [selectedChildCategory, setSelectedChildCategory] = useState(null);
-  const [isSelectedDelivery, setIsSelectedDelivery] = useState([]);
-
-  const filters = useSelector(selectFiltersCategory);
-
-  console.log(filters);
+  const [selectedFilters, setSelectedFilters] = useState({});
+  const [selectedColors, setSelectedColors] = useState([]);
+  const [filters, setFilters] = useState('');
 
   const dispatch = useDispatch();
 
-  const deliveryType = ['Нова пошта', 'Укрпошта'];
+  const success = useSelector(selectCreateSuccess);
+  const created = useSelector(selectCreatedProduct);
 
-  const handleDeliveryChange = (option) => {
-    setIsSelectedDelivery((prevSelected) =>
-      prevSelected.includes(option)
-        ? prevSelected.filter((item) => item !== option)
-        : [...prevSelected, option]
-    );
-  };
+  const filtersDescription = useSelector(selectFiltersCategory);
 
-  const handleCategorySelect = (category) => {
-    if (category.isChild) {
-      setSelectedChildCategory(category);
-    } else if (category.isSubCategory) {
-      setSelectedSubCategory(category);
-      setSelectedChildCategory(null);
-    } else {
-      setSelectedCategory(category);
+  const session_id = localStorage.getItem('userId');
+
+  useEffect(() => {
+    const id =
+      selectedChildCategory?.id ||
+      selectedSubCategory?.id ||
+      selectedCategory?.id;
+    if (id) {
+      dispatch(setSelectedCategoryId(id));
+    }
+  }, [selectedCategory, selectedSubCategory, selectedChildCategory, dispatch]);
+
+  const categoryId = useSelector(selectSelectedCategoryId);
+
+  useEffect(() => {
+    if (categoryId) {
+      dispatch(getFiltersCategory(categoryId));
+    }
+  }, [categoryId, dispatch]);
+
+  useEffect(() => {
+    if (success && created) {
+      setSelectedCategory(null);
       setSelectedSubCategory(null);
       setSelectedChildCategory(null);
+      setSelectedFilters({});
+      setSelectedColors([]);
+      setIsSelectedDelivery([]);
+      setFilters('');
     }
-    setOpen(false);
+  }, [success, created]);
+
+  const getFilterIds = () => {
+    const ids = [];
+
+    Object.entries(selectedFilters).forEach(([filterName, filterValue]) => {
+      if (!filterValue) return;
+
+      const filter = filtersDescription.find((f) => f.name === filterName);
+      if (!filter) return;
+
+      const valueObj = filter.values.find((v) => v.value === filterValue);
+      if (valueObj) {
+        ids.push(valueObj.id);
+      }
+    });
+
+    const colorFilter = filtersDescription.find((f) => f.name === 'color');
+    if (colorFilter) {
+      ids.push(...selectedColors);
+    }
+
+    return ids;
   };
 
-  const categoryFilters = filters?.filter(
-    (filter) =>
-      filter.categoryId === selectedCategory?.id ||
-      filter.categoryId === selectedSubCategory?.id ||
-      filter.categoryId === selectedChildCategory?.id
-  );
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+    const title = formData.get('title')?.trim();
+    const description = formData.get('description')?.trim();
+    const price = formData.get('price')?.trim();
+    const filterIds = getFilterIds();
+
+		const requiredFields = [
+      { value: title, name: 'Title' },
+      { value: categoryId, name: 'Category' },
+      { value: description, name: 'Description' },
+      { value: price, name: 'Price' },
+    ];
+
+    for (const field of requiredFields) {
+      if (!field.value) {
+        return;
+      }
+    }
+
+    if (filterIds.length === 0) {
+      return;
+    }
+
+    const data = {
+      category_id: categoryId,
+      session_id,
+      title,
+      description,
+      price,
+      filters: filterIds.join(','),
+      delivery: isSelectedDelivery,
+      draft: false,
+    };
+
+    console.log('Отправляем данные:', data);
+
+    dispatch(createProduct(data));
+  };
 
   return (
     <div>
       <h2 className={css.advertTitle}>Додати оголошення</h2>
-      <form className={css.form} action="">
-        <fieldset className={css.wrapper}>
-          <h3 className={css.title}>Виберіть категорію</h3>
-          <label className={css.labelAdvert} htmlFor="categories">
-            <p className={css.spanLabel}>Категорія&#42;</p>
-          </label>
-          <div className={css.categoryBox}>
-            <input
-              className={css.inputAdvert}
-              id="categories"
-              name="categories"
-              value={
-                selectedChildCategory ||
-                selectedSubCategory ||
-                selectedCategory ||
-                ''
-              }
-              type="text"
-              placeholder="Оберіть категорію"
-              onClick={() => setOpen(!open)}
-              readOnly
-              required
-            />
-            <button type="button" onClick={() => setOpen(!open)}>
-              {open ? (
-                <GoChevronUp className={css.categoryIcon} size={24} />
-              ) : (
-                <GoChevronDown className={css.categoryIcon} size={24} />
-              )}
-            </button>
-            {open && <CategoryModal onSelectCategory={handleCategorySelect} />}
-          </div>
-        </fieldset>
-        <fieldset className={css.wrapper}>
-          <h3 className={css.title}>Опишіть вашу річ</h3>
-          <label className={css.labelAdvert}>
-            <p className={css.spanLabel}>Назва (Українською Мовою)&#42;</p>
-            <input
-              className={css.inputNameItem}
-              type="text"
-              name="title"
-              id="title"
-              placeholder="Наприклад: Українська традиційна вишиванка жіночка Львівська"
-              required
-            />
-          </label>
-          <label className={css.labelAdvert}>
-            <p className={css.spanLabel}>Опис (Українською Мовою)&#42;</p>
-            <textarea
-              className={css.textarea}
-              name="description"
-              id="description"
-              rows="5"
-              required
-            />
-          </label>
-        </fieldset>
-        <fieldset className={css.wrapper}>
-          <h3 className={css.title}>
-            Завантажте фото
-            <span className={css.advertSpan}>(0 з 10 завантажено)</span>
-          </h3>
 
-          <ul className={css.fotoList}>
-            <li className={css.fotoItem}>
-              <FiCamera size={24} />
-              <button className={css.btnFoto}>Завантажте</button>
-              <p className={css.textFoto}>
-                Головне фото товару
-                <br /> в повному розмірі
-              </p>
-            </li>
-            <li className={css.fotoItem}>
-              <FiCamera size={24} />
-              <button className={css.btnFoto}>Завантажте</button>
-              <p className={css.textFoto}>
-                Головне фото товару
-                <br /> в повному розмірі
-              </p>
-            </li>
-            <li className={css.fotoItem}>
-              <FiCamera size={24} />
-              <button className={css.btnFoto}>Завантажте</button>
-              <p className={css.textFoto}>
-                Головне фото товару
-                <br /> в повному розмірі
-              </p>
-            </li>
-            <li className={css.fotoItem}>
-              <FiCamera size={24} />
-              <button className={css.btnFoto}>Завантажте</button>
-              <p className={css.textFoto}>
-                Головне фото товару
-                <br /> в повному розмірі
-              </p>
-            </li>
-            <li className={css.fotoItem}>
-              <FiCamera size={24} />
-              <button className={css.btnFoto}>Завантажте</button>
-              <p className={css.textFoto}>
-                Головне фото товару
-                <br /> в повному розмірі
-              </p>
-            </li>
-            <li className={css.fotoItem}>
-              <FiCamera size={24} />
-              <button className={css.btnFoto}>Завантажте</button>
-              <p className={css.textFoto}>
-                Головне фото товару
-                <br /> в повному розмірі
-              </p>
-            </li>
-          </ul>
-        </fieldset>
-        <fieldset className={css.wrapper}>
-          <h3 className={css.title}>Додайте характеристики</h3>
-          <div className={css.detailbox}>
-            {categoryFilters?.map((filter) => {
-              if (filter.name !== 'Цвет')
-                return (
-                  <div key={filter.id}>
-                    <label className={css.labelAdvert} htmlFor={filter.name}>
-                      {filter.name}&#42;
-                    </label>
-                    <div className={css.dropdown}>
-                      <select
-                        className={css.selectAdvert}
-                        name="style"
-                        id={filter.name}
-                      >
-                        <option className={css.optionAdvert} value="">
-                          Оберіть {filter.name.toLowerCase()}
-                        </option>
-                      </select>
-                      <GoChevronDown className={css.selectIcon} size={24} />
-                    </div>
-                  </div>
-                );
-            })}
-          </div>
-        </fieldset>
-        <fieldset className={css.wrapper}>
-          <h3 className={css.title}>Виберіть до 2 кольорів</h3>
-        </fieldset>
-        <fieldset className={css.wrapper}>
-          <h3 className={css.title}>Ключові слова</h3>
-          <label htmlFor="word" className={css.wordLabel}>
-            Введіть ключові слова через кому або Enter. Кльочові слова - це
-            слова за яким будуть шукати ваш твоар на Tvorcha Lavka.
-          </label>
-          <input id="word" type="text" className={css.wordInput} />
-          <span className={css.wordSpan}>
-            Наприклад: вишиванка, львівська вишиванка, вишитий одяг
-          </span>
-        </fieldset>
-        <fieldset className={css.wrapper}>
-          <h3 className={css.title}>Додатково</h3>
-          {[
-            'З гравіюванням',
-            'Екологічні товари',
-            'Україньска символіка',
-            'Під замовлення',
-          ].map((option, index) => (
-            <label key={index} className={css.optionLabel}>
-              <input type="checkbox" value={option} />
-              <span className={css.checkmark}></span>
-              {option}
-            </label>
-          ))}
-        </fieldset>
-        <fieldset className={css.wrapper}>
-          <h3 className={css.title}>Локалізація</h3>
-          <div className={css.locationBox}>
-            <label className={css.labelAdvert} htmlFor="city">
-              Місто&#42;
-            </label>
-            <div className={css.dropdown}>
-              <select className={css.selectAdvert} name="style" id="city">
-                <option className={css.optionAdvert} value="">
-                  Оберіть місто
-                </option>
-                <option className={css.optionAdvert} value="">
-                  Київ
-                </option>
-              </select>
-              <GoChevronDown className={css.selectIcon} size={24} />
-            </div>
-          </div>
-        </fieldset>
-        <fieldset className={css.wrapper}>
-          <h3 className={css.title}>Умови продажу</h3>
-          <div className={css.priceBox}>
-            <label className={css.labelAdvert} htmlFor="">
-              <p className={css.spanLabel}>Ціна&#42;</p>
-              <input className={css.inputAdvert} type="number" />
-            </label>
-          </div>
-        </fieldset>
-        <fieldset className={css.wrapper}>
-          <h3 className={css.title}>
-            Виберіть спосіб доставки
-            <span className={css.advertSpan}>
-              Оберіть зручний спосіб доставки для ваших товарів (можна кілька).
-              За потреби ви легко зможете змінити його у своєму особистому
-              кабінеті.
-            </span>
-          </h3>
+      <form className={css.form} onSubmit={handleSubmit}>
+        <CategorySelectSection
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+          selectedSubCategory={selectedSubCategory}
+          setSelectedSubCategory={setSelectedSubCategory}
+          selectedChildCategory={selectedChildCategory}
+          setSelectedChildCategory={setSelectedChildCategory}
+        />
 
-          <div className={css.deliveryBox}>
-            {deliveryType.map((option, index) => (
-              <label htmlFor={option} key={index} className={css.deliveryLabel}>
-                <input
-                  id={option}
-                  type="checkbox"
-                  name="delivery"
-                  value={option}
-                  checked={isSelectedDelivery.includes(option)}
-                  onChange={() => handleDeliveryChange(option)}
-                />
-                <span className={css.checkmark}></span>
+        <DescriptionField />
 
-                <img
-                  className={css.deliveryImg}
-                  src={
-                    option.includes('Укрпошта')
-                      ? `${media}/logo/ukrposhta_logo.png`
-                      : `${media}/logo/Nova_Poshta_logo.png`
-                  }
-                  alt={option}
-                />
-              </label>
-            ))}
-          </div>
-        </fieldset>
-        <button className={css.btnContinue} type="submit">
+        <BrowseImage />
+
+        <FiltersSection
+          filtersDescription={filtersDescription}
+          selectedFilters={selectedFilters}
+          setSelectedFilters={setSelectedFilters}
+        />
+
+        <ColorOptionsSelector
+          filtersDescription={filtersDescription}
+          selectedColors={selectedColors}
+          setSelectedColors={setSelectedColors}
+        />
+
+        <PriceSection />
+
+        <DeliveryOptions
+          isSelectedDelivery={isSelectedDelivery}
+          setIsSelectedDelivery={setIsSelectedDelivery}
+        />
+
+        <CustomButton className={css.btn} size="custom4" type="submit">
           Опублікувати оголошення
-        </button>
+        </CustomButton>
       </form>
     </div>
   );
