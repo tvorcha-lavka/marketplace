@@ -21,14 +21,11 @@ export default function SummaryCart({ isClickBtn }) {
 
   const location = useLocation();
   const navigate = useNavigate();
-
   const isOrderPage = location.pathname === '/order';
 
-  const getDeliveryPrice = (deliveryData) => {
-    if (!deliveryData) return 0;
-
-    return Object.values(deliveryData).reduce((total, sellerData) => {
-      switch (sellerData?.type) {
+  const getDeliveryPrice = () =>
+    Object.values(deliveryData || {}).reduce((total, { type }) => {
+      switch (type) {
         case 'nova-poshta':
         case 'post_box':
           return total + 120;
@@ -40,21 +37,11 @@ export default function SummaryCart({ isClickBtn }) {
           return total;
       }
     }, 0);
-  };
 
-  const deliveryPrice = getDeliveryPrice(deliveryData);
+  const deliveryPrice = getDeliveryPrice();
+  const totalWithDelivery = totalOrderPrice + deliveryPrice;
 
-  const transferOrder = () => {
-    navigate('/order');
-  };
-
-  const transferShopping = () => {
-    navigate('/categories');
-  };
-
-  const finalTransfer = () => {
-    navigate('/confirmation');
-  };
+  const handleNavigate = (path) => () => navigate(path);
 
   return (
     <div className={css.summarySection}>
@@ -73,32 +60,24 @@ export default function SummaryCart({ isClickBtn }) {
           <div className={css.wrapper}>
             <p className={css.textUp}>До сплати</p>
             <p className={css.text}>
-              <b>{totalOrderPrice + deliveryPrice} грн</b>
+              <b>{totalWithDelivery} грн</b>
             </p>
           </div>
         </div>
 
-        {isOrderPage ? (
-          <CustomButton
-            className={css.btnOrder}
-            size="large"
-            type="button"
-            onClick={finalTransfer}
-            disabled={!isClickBtn}
-          >
-            Оформити замовлення
-          </CustomButton>
-        ) : (
-          <CustomButton
-            className={css.btnOrder}
-            size="large"
-            type="button"
-            onClick={transferOrder}
-            disabled={isCartEmpty}
-          >
-            Перейти до оформлення
-          </CustomButton>
-        )}
+        <CustomButton
+          className={css.btnOrder}
+          size="large"
+          type="button"
+          onClick={
+            isOrderPage
+              ? handleNavigate('/confirmation')
+              : handleNavigate('/order')
+          }
+          disabled={isOrderPage ? !isClickBtn : isCartEmpty}
+        >
+          {isOrderPage ? 'Оформити замовлення' : 'Перейти до оформлення'}
+        </CustomButton>
 
         {isOrderPage ? (
           <p className={css.coordination}>
@@ -110,13 +89,14 @@ export default function SummaryCart({ isClickBtn }) {
             className={css.btn}
             size="large"
             type="button"
-            onClick={transferShopping}
+            onClick={handleNavigate('/categories')}
             variant="another"
           >
             Продовжити покупки
           </CustomButton>
         )}
       </div>
+
       <div className={css.infobox}>
         <BsShieldFillExclamation size={24} />
         <div>
@@ -126,6 +106,7 @@ export default function SummaryCart({ isClickBtn }) {
           <Link className={css.infoLink}>Більше деталей</Link>
         </div>
       </div>
+
       <div className={css.paymentInfobox}>
         <p className={css.paymentInfo}>Способи оплати:&nbsp;</p>
         <img

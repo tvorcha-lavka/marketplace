@@ -30,8 +30,6 @@ const basketSlice = createSlice({
       if (!isNaN(price)) {
         state.items.push({ ...action.payload, price });
         state.total += price;
-      } else {
-        console.error('Invalid price:', action.payload.price);
       }
     },
     removeFromBasket: (state, action) => {
@@ -52,8 +50,8 @@ const basketSlice = createSlice({
         state.deliveryData[owner] = {};
       }
       state.deliveryData[owner] = {
-        ...state.deliveryData[owner], 
-        ...data, 
+        ...state.deliveryData[owner],
+        ...data,
       };
     },
     updatePaymentData: (state, action) => {

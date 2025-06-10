@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { GoChevronDown, GoChevronUp } from 'react-icons/go';
 
@@ -17,77 +17,89 @@ export default function DropdownSelector({
 }) {
   const dispatch = useDispatch();
   const cachedData = useSelector(cachedDataSelector);
+
   const [open, setOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-  const [dataList, setDataList] = useState([]);
+  const [isSelected, setIsSelected] = useState(false);
 
   useEffect(() => {
-    if (value) {
-      setSearchTerm(value);
-    }
+    setIsSelected(Boolean(searchTerm.trim()));
+  }, [searchTerm]);
+
+  useEffect(() => {
+    setSearchTerm(value || '');
   }, [value]);
 
   useEffect(() => {
-    if (open) {
-      setSearchTerm('');
-    }
+    if (open) setSearchTerm('');
   }, [open]);
 
-  useEffect(() => {
-    if (Object.keys(cachedData).length === 0) {
-      const fetchInitialData = async () => {
-        dispatch(cacheAction({ searchTerm: '', data: fetchData }));
-        setDataList(fetchData);
-      };
-      fetchInitialData();
-    } else {
-      setDataList(cachedData[''] || []);
+	useEffect(() => {
+    if (!cachedData[searchTerm] && fetchData?.length) {
+      const filtered = fetchData.filter((item) =>
+        item.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      dispatch(cacheAction({ searchTerm, data: filtered }));
     }
-  }, [cachedData, dispatch, cacheAction, fetchData]);
+  }, [searchTerm, cachedData, dispatch, cacheAction, fetchData]);
 
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      if (cachedData[searchTerm]) {
-        setDataList(cachedData[searchTerm]);
-      } else {
-        const fetchFilteredData = async () => {
-          const filteredData = fetchData.filter((item) =>
-            item.toLowerCase().includes(searchTerm.toLowerCase())
-          );
-          dispatch(cacheAction({ searchTerm, data: filteredData }));
-          setDataList(filteredData);
-        };
-        fetchFilteredData();
-      }
-    }, 500);
+  const dataList = useMemo(() => {
+    if (cachedData[searchTerm]) {
+      return cachedData[searchTerm];
+    }
 
-    return () => clearTimeout(timeoutId);
+    const filtered = fetchData.filter((item) =>
+      item.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    dispatch(cacheAction({ searchTerm, data: filtered }));
+    return filtered;
   }, [searchTerm, cachedData, dispatch, cacheAction, fetchData]);
 
   const handleSelectItem = (item) => {
-    const selectedItem = String(item);
-    setSearchTerm(selectedItem);
-    onChange(selectedItem);
-    dispatch(updateAction({ [fieldKey]: selectedItem }));
+    setSearchTerm(item);
+    onChange(item);
+    dispatch(updateAction({ [fieldKey]: item }));
     setOpen(false);
+  };
+
+  const handleInputChange = (e) => {
+    const val = e.target.value;
+    setSearchTerm(val);
+
+    if (val === '') {
+      onChange('');
+      dispatch(updateAction({ [fieldKey]: '' }));
+      setIsSelected(false);
+    } else {
+      setIsSelected(true);
+    }
   };
 
   return (
     <div className={css.detailsWrapper}>
       <label htmlFor={fieldKey} className={css.detailsLabel}>
-        {label}&#42;
+        {label} &#42;
       </label>
+
       <div className={css.detailsInputBox}>
         <input
           id={fieldKey}
           name={fieldKey}
-          className={css.detailsInput}
+          className={`${css.detailsInput} ${isSelected ? css.inputSelected : ''}`}
           type="text"
           placeholder={placeholder}
           value={searchTerm}
-          onClick={() => setOpen(!open)}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onClick={() => setOpen((prev) => !prev)}
+          onChange={handleInputChange}
           required
+          autoComplete="off"
+          onBlur={() => {
+            if (searchTerm.trim() === '') {
+              onChange('');
+              dispatch(updateAction({ [fieldKey]: '' }));
+              setIsSelected(false);
+            }
+          }}
         />
         <button
           type="button"
@@ -95,24 +107,29 @@ export default function DropdownSelector({
           onClick={() => setOpen((prev) => !prev)}
         >
           {open ? (
-            <GoChevronUp className={css.detailsIcon} size={24} />
+            <GoChevronUp
+              className={`${css.detailsIcon} ${isSelected ? css.selectedIcon : ''}`}
+            />
           ) : (
-            <GoChevronDown className={css.detailsIcon} size={24} />
+            <GoChevronDown
+              className={`${css.detailsIcon} ${isSelected ? css.selectedIcon : ''}`}
+            />
           )}
         </button>
       </div>
-      {open && (
+
+      {open && dataList.length > 0 && (
         <div className={css.detailsSelect}>
           <div className={css.scrollBox}>
             <div className={css.scrollBoxInner}>
               <ul className={css.optionList}>
                 {dataList.map((item) => (
                   <li
-                    key={item}
+                    key={item.id || item}
                     className={css.optionItem}
                     onClick={() => handleSelectItem(item)}
                   >
-                    {item}
+                    {typeof item === 'string' ? item : item.label}
                   </li>
                 ))}
               </ul>

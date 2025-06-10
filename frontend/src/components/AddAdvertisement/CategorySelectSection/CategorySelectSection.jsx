@@ -52,14 +52,14 @@ export default function CategorySelectSection({
     setIsCategoryConfirmed(true);
   };
 
-  // const handleEditCategory = () => {
-  //   setSelectedCategory(null);
-  //   setSelectedSubCategory(null);
-  //   setSelectedChildCategory(null);
-  //   setIsCategoryConfirmed(false);
-  //   setOpen(true);
-  //   setTouched(false);
-  // };
+  const handleEditCategory = () => {
+    setSelectedCategory(null);
+    setSelectedSubCategory(null);
+    setSelectedChildCategory(null);
+    setIsCategoryConfirmed(false);
+    setOpen(true);
+    setTouched(false);
+  };
 
   useEffect(() => {
     if (shouldReset) {
@@ -126,7 +126,7 @@ export default function CategorySelectSection({
           <button
             type="button"
             className={css.editBtn}
-            // onClick={handleEditCategory}
+            onClick={handleEditCategory}
           >
             Редагувати <LiaEditSolid className={css.editIcon} />
           </button>

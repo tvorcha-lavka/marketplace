@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 
 import CustomButton from '../../CustomButton/CustomButton';
 import DeliveryResult from '../DeliveryResult/DeliveryResult';
@@ -12,6 +12,7 @@ import {
 } from '../../../redux/basket/selectors';
 import { nextStep } from '../../../redux/basket/slice';
 import { media } from '../../../utils/mediaConfig';
+import { isDeliveryDataValid } from '../../../utils/deliveryDetails';
 
 import css from './MethodDelivery.module.css';
 
@@ -22,31 +23,32 @@ export default function MethodDelivery({ onDeliveryChange }) {
   const { deliveryData } = useSelector(selectCart);
   const step = useSelector(selectCartStep);
 
-  const groupedItemsBySeller = orderItems.reduce((acc, item) => {
-    const ownerId = item.owner.id;
-    if (!acc[ownerId]) {
-      acc[ownerId] = [];
-    }
-    acc[ownerId].push(item);
-    return acc;
-  }, {});
+  const groupedItemsBySeller = useMemo(() => {
+    return orderItems.reduce((acc, item) => {
+      const ownerId = item.owner.id;
+      (acc[ownerId] = acc[ownerId] || []).push(item);
+      return acc;
+    }, {});
+  }, [orderItems]);
 
-  const sellerIds = Object.keys(groupedItemsBySeller);
+  console.log(deliveryData);
 
-  const sellersWithNames = sellerIds.map((ownerId) => {
-    const items = groupedItemsBySeller[ownerId];
-    return {
+  const sellersWithNames = useMemo(() => {
+    return Object.entries(groupedItemsBySeller).map(([ownerId, items]) => ({
       id: ownerId,
       username: items[0].owner.username,
       items,
-    };
-  });
+    }));
+  }, [groupedItemsBySeller]);
 
-  const allSellersHaveDeliveryType = sellerIds.every(
-    (ownerId) => deliveryData[ownerId]?.type
+  const sellerIds = sellersWithNames.map(({ id }) => id);
+
+  const isDeliveryValid = useMemo(
+    () => isDeliveryDataValid(deliveryData, sellerIds),
+    [deliveryData, sellerIds]
   );
 
-  const [switchState, setSwitchState] = useState(
+  const [switchState, setSwitchState] = useState(() =>
     sellerIds.reduce((acc, ownerId) => {
       acc[ownerId] = false;
       return acc;
@@ -58,45 +60,37 @@ export default function MethodDelivery({ onDeliveryChange }) {
     const firstSellerId = sellerIds[0];
     const firstSellerData = deliveryData[firstSellerId] || {};
 
-    setSwitchState((prevState) => ({
-      ...prevState,
-      [ownerId]: isActive,
-    }));
+    setSwitchState((prev) => ({ ...prev, [ownerId]: isActive }));
 
-    if (isActive) {
-      dispatch({
-        type: 'basket/updateDeliveryData',
-        payload: {
-          [ownerId]: firstSellerData,
-        },
-      });
-    } else {
-      dispatch({
-        type: 'basket/updateDeliveryData',
-        payload: {
+    const payload = isActive
+      ? {
+          ...deliveryData,
+          [ownerId]: JSON.parse(JSON.stringify(firstSellerData)),
+        }
+      : {
           ...deliveryData,
           [ownerId]: {},
-        },
-      });
-    }
+        };
+
+    dispatch({ type: 'basket/updateDeliveryData', payload });
   };
 
   const handleSubmit = () => {
-    if (allSellersHaveDeliveryType) {
-      dispatch(nextStep());
-    }
+    if (isDeliveryValid) dispatch(nextStep());
   };
 
-  const quantityGoods = (quantity) => {
-    if (quantity === 1) return 'предмет';
-    if (quantity > 1 && quantity < 5) return 'предмети';
-    return 'предметів';
-  };
+  const quantityGoods = (quantity) =>
+    quantity === 1
+      ? 'предмет'
+      : quantity > 1 && quantity < 5
+        ? 'предмети'
+        : 'предметів';
 
   return (
     <div className={css.deliverySection}>
       {sellersWithNames.map(({ id: ownerId, username, items }, index) => {
         const isSwitchActive = switchState[ownerId];
+        const totalPrice = items.reduce((sum, item) => sum + item.price, 0);
 
         return (
           <div key={ownerId} className={css.deliverySeller}>
@@ -104,29 +98,26 @@ export default function MethodDelivery({ onDeliveryChange }) {
               <p className={css.sellerName}>
                 Доставка від продавця {username}
                 <span className={css.quantityGoods}>
-                  &nbsp; ({items.length} {quantityGoods(items.length)})
+                  &nbsp;({items.length} {quantityGoods(items.length)})
                 </span>
               </p>
-              <p className={css.sellerPrice}>
-                {items.reduce((total, item) => total + item.price, 0)} грн
-              </p>
+              <p className={css.sellerPrice}>{totalPrice} грн</p>
             </div>
 
-            <ul className={css.cartList}>
-              {items.map((item) => (
-                <li key={item.id} className={css.cartItem}>
+            <ul role="list" className={css.cartList}>
+              {items.map(({ id, imagesSmall, title, price }) => (
+                <li role="listitem" key={id} className={css.cartItem}>
                   <img
                     className={css.itemImg}
                     src={
-                      item.imagesSmall?.[0]?.url ||
-                      `${media}/defaults/no-image.jpg`
+                      imagesSmall?.[0]?.url || `${media}/defaults/no-image.jpg`
                     }
-                    alt={item.title}
+                    alt={title}
                   />
                   <div>
                     <div className={css.titleBox}>
-                      <h3 className={css.itemTitle}>{item.title}</h3>
-                      <p className={css.itemPrice}>{item.price}&nbsp;грн</p>
+                      <h3 className={css.itemTitle}>{title}</h3>
+                      <p className={css.itemPrice}>{price}&nbsp;грн</p>
                     </div>
                     <div className={css.itemFilter}>
                       <p>Розмір: ...</p>
@@ -143,12 +134,13 @@ export default function MethodDelivery({ onDeliveryChange }) {
                 <div
                   className={`${css.toggle} ${isSwitchActive ? css.active : ''}`}
                   onClick={() => handleSwitchClick(ownerId)}
-                ></div>
+                />
                 <span className={css.label}>
                   Використати ті ж дані, що вище
                 </span>
               </div>
             )}
+
             {step === 3 ? (
               <DeliveryResult owner={ownerId} />
             ) : (
@@ -160,13 +152,14 @@ export default function MethodDelivery({ onDeliveryChange }) {
           </div>
         );
       })}
+
       {step === 2 && (
         <CustomButton
           className={css.btnContinue}
           size="small"
           type="submit"
           onClick={handleSubmit}
-          disabled={!allSellersHaveDeliveryType}
+          disabled={!isDeliveryValid}
         >
           Продовжити
         </CustomButton>
