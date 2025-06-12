@@ -10,7 +10,8 @@
   padding: 36px;
   border-radius: var(--border-radius-medium);
   background-color: var(--default-white);
-  box-shadow: var(--modal-shadow);
+  box-shadow: var(--cart-shadow);
+  z-index: 9999999;
 }
 
 .categoryBox {

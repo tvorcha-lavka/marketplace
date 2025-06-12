@@ -5,6 +5,7 @@
   left: 9.5%;
   box-shadow: var(--modal-shadow);
   z-index: 500;
+	box-shadow: var(--cart-shadow);
 }
 
 .boxCategories {
