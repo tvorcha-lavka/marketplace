@@ -12,11 +12,14 @@ export default function DeliveryOptions({
   setIsSelectedDelivery,
 }) {
   const handleDeliveryChange = (option) => {
-    setIsSelectedDelivery((prev) =>
-      prev.includes(option)
-        ? prev.filter((item) => item !== option)
-        : [...prev, option]
-    );
+    const selected = Array.isArray(isSelectedDelivery)
+      ? isSelectedDelivery
+      : [];
+    const updatedDelivery = selected.includes(option)
+      ? selected.filter((item) => item !== option)
+      : [...selected, option];
+
+    setIsSelectedDelivery(updatedDelivery);
   };
 
   return (
@@ -24,14 +27,17 @@ export default function DeliveryOptions({
       <h3 className={css.title}>
         Виберіть спосіб доставки
         <span className={css.advertSpan}>
-          Оберіть зручні способи доставки для ваших товарів. За
-          потреби ви легко зможете змінити його у своєму особистому кабінеті.
+          Оберіть зручні способи доставки для ваших товарів. За потреби ви легко
+          зможете змінити його у своєму особистому кабінеті.
         </span>
       </h3>
 
       <div className={css.deliveryBox}>
         {deliveryType.map(({ name, img }) => {
-          const isChecked = isSelectedDelivery.includes(name);
+          const isChecked =
+            Array.isArray(isSelectedDelivery) &&
+						isSelectedDelivery.includes(name);
+					
           return (
             <label
               key={name}

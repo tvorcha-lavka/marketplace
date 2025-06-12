@@ -34,8 +34,13 @@
   border-radius: var(--border-radius);
   border: var(--border-width) var(--border-style) var(--grey-dark);
   outline: var(--border-width) var(--border-style) transparent;
-	color: var(--default-black);
+  color: var(--default-black);
   appearance: none;
+}
+
+.inputAdvert:hover,
+.inputAdvert:focus {
+	border-color: var(--primary-yellow);
 }
 
 .inputAdvert::placeholder {
@@ -52,16 +57,12 @@
   margin: 0;
 }
 
-.inputAdvert[type='number'] {
-  -moz-appearance: textfield;
-}
-
 .inputError {
   border: var(--border-width) var(--border-style) var(--error-red);
 }
 
 .errorText {
-	margin-top: 5px;
+  margin-top: 5px;
   font-size: var(--font-size-extra-tiny);
   font-weight: var(--font-weight-normal);
   color: var(--error-red);

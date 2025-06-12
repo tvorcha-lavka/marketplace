@@ -6,10 +6,12 @@ const widths = {
   large: '442px',
   medium: '368px',
   custom2: '325px',
-  semiMedium: '322.5px',
+	semiMedium: '322.5px',
+	custom: '289px',
   custom1: '284px',
   custom3: '244px',
-  custom4: '232px',
+	custom4: '232px',
+	custom5: '213px',
   small: '187px',
 };
 

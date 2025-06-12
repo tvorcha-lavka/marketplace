@@ -2,6 +2,14 @@ import { styled } from '@mui/system';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
+import { GoChevronDown } from 'react-icons/go';
+
+export const StyledSelectWrapper = styled('div')({
+  position: 'relative',
+  '&:hover .indicator': {
+    color: 'var(--primary-yellow)',
+  },
+});
 
 export const StyledInputLabel = styled(InputLabel)(() => ({
   display: 'block',
@@ -37,6 +45,14 @@ export const StyledSelect = styled(Select, {
   MozAppearance: 'none',
   cursor: 'pointer',
 
+  '&:hover': {
+    border: 'var(--border-width) var(--border-style) var(--primary-yellow)',
+  },
+
+  '&.Mui-focused': {
+    border: 'var(--border-width) var(--border-style) var(--primary-yellow)',
+  },
+
   '& .MuiSelect-select': {
     padding: 0,
   },
@@ -48,6 +64,29 @@ export const StyledSelect = styled(Select, {
   '&.MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
     borderColor: 'transparent',
   },
+}));
+
+export const StyledIndicator = styled(GoChevronDown, {
+  shouldForwardProp: (prop) =>
+    prop !== 'focused' &&
+    prop !== 'hasValue' &&
+    prop !== 'hasError' &&
+    prop !== 'isOpen',
+})(({ focused, hasValue, hasError, isOpen }) => ({
+  position: 'absolute',
+  top: '23%',
+  right: '12px',
+  pointerEvents: 'none',
+  width: 'var(--icon-size-normal)',
+  height: 'var(--icon-size-normal)',
+  color: hasError
+    ? 'var(--error-red)'
+    : focused || isOpen
+      ? 'var(--primary-yellow)'
+      : hasValue
+        ? 'var(--default-black)'
+        : 'var(--grey-dark)',
+  transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
 }));
 
 export const Options = styled(MenuItem)(() => ({

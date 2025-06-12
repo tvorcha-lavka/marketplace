@@ -1,35 +1,56 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 import css from './DescriptionField.module.css';
 
-export default function DescriptionField({ shouldReset }) {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+export default function DescriptionField({
+  title,
+  setTitle,
+  description,
+  setDescription,
+}) {
   const [touched, setTouched] = useState({ title: false, description: false });
 
-  const isTitleTooLong = title.length > 50;
-  const isTitleEmpty = touched.title && title.trim() === '';
-  const isTitleTooShort =
-    touched.title && title.trim().length > 0 && title.trim().length < 15;
+  function validateField({ value, touched, minLength, maxLength }) {
+    const trimmed = value.trim();
 
-  const isDescriptionEmpty = touched.description && description.trim() === '';
-  const isDescriptionTooShort =
-    touched.description &&
-    description.trim().length > 0 &&
-    description.trim().length < 40;
-  const isDescriptionTooLong = description.length > 4000;
+    return {
+      isEmpty: touched && trimmed === '',
+      isTooShort: touched && trimmed.length > 0 && trimmed.length < minLength,
+      isTooLong: value.length > maxLength,
+      hasError:
+        (touched && trimmed === '') ||
+        (touched && trimmed.length > 0 && trimmed.length < minLength) ||
+        value.length > maxLength,
+    };
+  }
+
+  const {
+    isEmpty: isTitleEmpty,
+    isTooShort: isTitleTooShort,
+    isTooLong: isTitleTooLong,
+    hasError: hasTitleError,
+  } = validateField({
+    value: title,
+    touched: touched.title,
+    minLength: 15,
+    maxLength: 50,
+  });
+
+  const {
+    isEmpty: isDescriptionEmpty,
+    isTooShort: isDescriptionTooShort,
+    isTooLong: isDescriptionTooLong,
+    hasError: hasDescriptionError,
+  } = validateField({
+    value: description,
+    touched: touched.description,
+    minLength: 40,
+    maxLength: 4000,
+  });
 
   const handleBlur = (field) => {
     setTouched((prev) => ({ ...prev, [field]: true }));
   };
-
-  useEffect(() => {
-    if (shouldReset) {
-      setTitle('');
-      setDescription('');
-      setTouched({ title: false, description: false });
-    }
-  }, [shouldReset]);
 
   return (
     <fieldset className={css.wrapper}>
@@ -42,9 +63,7 @@ export default function DescriptionField({ shouldReset }) {
           name="title"
           id="title"
           placeholder="Наприклад: Українська традиційна вишиванка жіночка Львівська"
-          className={`${css.inputNameItem} ${title ? css.filled : ''} ${
-            isTitleTooLong || isTitleEmpty ? css.errorBorder : ''
-          }`}
+          className={`${css.inputNameItem} ${title ? css.filled : ''} ${hasTitleError ? css.errorBorder : ''}`}
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           onBlur={() => handleBlur('title')}
@@ -73,9 +92,7 @@ export default function DescriptionField({ shouldReset }) {
           name="description"
           id="description"
           rows="5"
-          className={`${css.textarea} ${description ? css.filled : ''} ${
-            isDescriptionEmpty ? css.errorBorder : ''
-          }`}
+          className={`${css.textarea} ${description ? css.filled : ''} ${hasDescriptionError ? css.errorBorder : ''}`}
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           onBlur={() => handleBlur('description')}

@@ -10,15 +10,19 @@ export default function ColorOptionsSelector({
   );
 
   const handleColorClick = (id) => {
-    setSelectedColors((prevSelected) => {
-      if (prevSelected.includes(id)) {
-        return prevSelected.filter((colorId) => colorId !== id);
+    const selected = Array.isArray(selectedColors) ? selectedColors : [];
+
+    const newValue = (() => {
+      if (selected.includes(id)) {
+        return selected.filter((colorId) => colorId !== id);
       }
-      if (prevSelected.length < 2) {
-        return [...prevSelected, id];
+      if (selected.length < 2) {
+        return [...selected, id];
       }
-      return prevSelected;
-    });
+      return selected;
+    })();
+
+    setSelectedColors(newValue);
   };
 
   return (
@@ -26,7 +30,8 @@ export default function ColorOptionsSelector({
       <h3 className={css.title}>Виберіть до 2 кольорів</h3>
       <div className={css.colorGrid}>
         {colorFilter?.values.map(({ id, value, metadata }) => {
-          const isSelected = selectedColors.includes(id);
+          const isSelected =
+            Array.isArray(selectedColors) && selectedColors.includes(id);
           const borderStyle = metadata?.border
             ? `var(--border-width) var(--border-style) var(--dote-border-color)`
             : 'none';
