@@ -72,20 +72,32 @@ export default function App() {
           />
 
           <Route
-            path="/confirmation"
+            path="/confirmation/order"
             element={
               <RestrictedRoute
                 redirectTo="/"
-                component={<ConfirmationPage />}
+                component={<ConfirmationPage type="order" />}
               />
             }
           />
+
+          <Route
+            path="/confirmation/ad"
+            element={
+              <RestrictedRoute
+                redirectTo="/"
+                component={<ConfirmationPage type="ad" />}
+              />
+            }
+          />
+
           <Route
             path="/cards/:cardId"
             element={
               <RestrictedRoute redirectTo="/" component={<CardDetailsPage />} />
             }
           />
+
           <Route
             path="/categories"
             element={
@@ -95,24 +107,28 @@ export default function App() {
               />
             }
           />
+
           <Route
             path="/categories/:categoryId"
             element={
               <RestrictedRoute redirectTo="/" component={<CategoryPage />} />
             }
           />
+
           <Route
             path="/categories/:categoryId/cards"
             element={
               <RestrictedRoute redirectTo="/" component={<ProductList />} />
             }
           />
+
           <Route
             path="/categories/:categoryId/cards/:id"
             element={
               <RestrictedRoute redirectTo="/" component={<CardDetailsPage />} />
             }
           />
+
           <Route
             path="/advertisement"
             element={
