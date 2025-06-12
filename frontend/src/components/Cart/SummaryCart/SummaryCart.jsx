@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { BsShieldFillExclamation } from 'react-icons/bs';
 
@@ -10,6 +10,7 @@ import {
   selectCart,
   selectBasketItems,
 } from '../../../redux/basket/selectors';
+import { clearBasket } from '../../../redux/basket/slice';
 
 import css from './SummaryCart.module.css';
 
@@ -20,7 +21,8 @@ export default function SummaryCart({ isClickBtn }) {
   const isCartEmpty = items.length === 0;
 
   const location = useLocation();
-  const navigate = useNavigate();
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
   const isOrderPage = location.pathname === '/order';
 
   const getDeliveryPrice = () =>
@@ -41,7 +43,12 @@ export default function SummaryCart({ isClickBtn }) {
   const deliveryPrice = getDeliveryPrice();
   const totalWithDelivery = totalOrderPrice + deliveryPrice;
 
-  const handleNavigate = (path) => () => navigate(path);
+  const handleNavigate = (path) => () => {
+    if (isOrderPage && path === '/confirmation/order') {
+      dispatch(clearBasket());
+    }
+    navigate(path);
+  };
 
   return (
     <div className={css.summarySection}>
@@ -71,7 +78,7 @@ export default function SummaryCart({ isClickBtn }) {
           type="button"
           onClick={
             isOrderPage
-              ? handleNavigate('/confirmation')
+              ? handleNavigate('/confirmation/order')
               : handleNavigate('/order')
           }
           disabled={isOrderPage ? !isClickBtn : isCartEmpty}

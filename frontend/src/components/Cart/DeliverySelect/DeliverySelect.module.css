@@ -22,61 +22,8 @@
   gap: 8px;
 }
 
-input {
-  width: 20px;
-  height: 20px;
-  color: var(--grey-dark);
-}
-
 .deliveryDetails {
   margin-top: 17px;
-}
-
-.detailsWrapperAddress {
-  display: inline-block;
-  margin-block-end: 8px;
-}
-
-.detailsInputAddress {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.detailsInputAddress {
-  gap: 12px;
-}
-
-.detailsInputCity,
-.detailsInputHouse,
-.detailsInputApart {
-  width: 100%;
-  height: 44px;
-  padding-inline: 12px;
-  border-radius: var(--border-radius);
-  border: var(--border-width) var(--border-style) var(--grey-dark);
-  background-color: var(--default-white);
-  color: var(--default-black);
-  outline: var(--border-width) var(--border-style) transparent;
-}
-
-.detailsInputCity:focus,
-.detailsInputHouse:focus,
-.detailsInputApart:focus {
-  border: var(--border-width) var(--border-style) var(--primary-yellow);
-}
-
-.detailsInputCity {
-  width: 226px;
-}
-
-.detailsInputHouse {
-  width: 72px;
-}
-
-.detailsInputApart {
-  width: 58px;
 }
 
 .optionInput[type='radio'] {
@@ -105,8 +52,4 @@ input {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-}
-
-.inputFilled {
-  border: var(--border-width-big) var(--border-style) var(--default-black);
 }

@@ -38,6 +38,9 @@
 
 .resultText {
   margin-block-end: 8px;
+  font-size: var(--font-size-tiny);
+  color: var(--default-black);
+  font-weight: var(--font-weight-normal);
 }
 
 .resultText:last-of-type {

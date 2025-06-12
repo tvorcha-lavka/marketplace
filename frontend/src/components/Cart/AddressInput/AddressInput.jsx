@@ -1,4 +1,4 @@
-import css from "./AdressInput.module.css";
+import css from './AdressInput.module.css';
 
 export default function AddressInput({
   id,
@@ -8,12 +8,13 @@ export default function AddressInput({
   value,
   onChange,
   className,
+  onBlur,
   required = true,
 }) {
   return (
     <div>
       <label htmlFor={id} className={css.detailsLabel} name={name}>
-        {label}
+        {label}&nbsp;
         {required && <span>&#42;</span>}
       </label>
 
@@ -25,6 +26,7 @@ export default function AddressInput({
         placeholder={placeholder}
         value={value}
         onChange={onChange}
+        onBlur={onBlur}
         required={required}
       />
     </div>

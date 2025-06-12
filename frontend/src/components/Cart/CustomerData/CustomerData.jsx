@@ -18,13 +18,6 @@ import { validationSchema } from '../../../utils/formSchema';
 
 import css from './CustomerData.module.css';
 
-const initialValues = {
-  name: '',
-  surname: '',
-  phone: '',
-  email: '',
-};
-
 export default function CustomerData() {
   const dispatch = useDispatch();
   const step = useSelector(selectCartStep);
@@ -37,115 +30,18 @@ export default function CustomerData() {
 
   const handleStepBack = () => dispatch(previousStep());
 
-  const renderForm = () => (
-    <>
-      <h2 className={css.title}>1. Дані замовника</h2>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={handleSubmit}
-      >
-        {({ isValid, dirty, touched, errors }) => (
-          <Form className={css.form}>
-            <div className={css.formWrapper}>
-              <FormField
-                id="customer"
-                name="name"
-                label="Ім'я"
-                type="text"
-                placeholder="Валерія"
-                touched={touched}
-                errors={errors}
-              />
-              <FormField
-                id="customer"
-                name="surname"
-                type="text"
-                label="Прізвище"
-                placeholder="Шевченко"
-                touched={touched}
-                errors={errors}
-              />
-            </div>
-
-            <div className={css.formWrapper}>
-              <FormField
-                id="customer"
-                name="phone"
-                type="phone"
-                label="Номер телефону"
-                placeholder="+38 067 1234567"
-                touched={touched}
-                errors={errors}
-                maxLength={13}
-              />
-              <FormField
-                id="customer"
-                name="email"
-                type="email"
-                label="E-mail адреса"
-                placeholder="example@gmail.com"
-                touched={touched}
-                errors={errors}
-              />
-            </div>
-
-            <CustomButton
-              className={css.btnContinue}
-              size="small"
-              type="submit"
-              disabled={!(isValid && dirty)}
-            >
-              Продовжити
-            </CustomButton>
-          </Form>
-        )}
-      </Formik>
-    </>
-  );
-
-  const renderSummary = () => (
-    <>
-      <div className={css.titleBox}>
-        <h2 className={css.title}>1. Дані замовника</h2>
-        <button type="button" className={css.editBtn} onClick={handleStepBack}>
-          <p className={css.edit}>Редагувати</p>
-          <LiaEditSolid size={16} />
-        </button>
-      </div>
-      <p className={css.text}>
-        Ім&#8217;я та прізвище:&nbsp;
-        <span className={css.userData}>
-          {customerData.surname}&nbsp;{customerData.name}
-        </span>
-      </p>
-      <p className={css.text}>
-        Номер телефону:&nbsp;
-        <span className={css.userData}>{customerData.phone}</span>
-      </p>
-      <p className={css.text}>
-        E-mail адреса:&nbsp;
-        <span className={css.userData}>{customerData.email}</span>
-      </p>
-    </>
-  );
-
   return (
     <div className={css.section}>
       {step === 1 ? (
         <>
           <h2 className={css.title}>1. Дані отримувача</h2>
           <Formik
-            initialValues={{
-              name: '',
-              surname: '',
-              phone: '',
-              email: '',
-            }}
+            initialValues={customerData}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
+            enableReinitialize
           >
-            {({ isValid, dirty, touched, errors }) => (
+            {({ isValid, dirty, touched, errors, values }) => (
               <Form className={css.form}>
                 <div className={css.formWrapper}>
                   <FormField
@@ -156,6 +52,7 @@ export default function CustomerData() {
                     placeholder="Валерія"
                     touched={touched}
                     errors={errors}
+                    values={values}
                   />
 
                   <FormField
@@ -166,6 +63,7 @@ export default function CustomerData() {
                     placeholder="Шевченко"
                     touched={touched}
                     errors={errors}
+                    values={values}
                   />
                 </div>
 
@@ -175,10 +73,11 @@ export default function CustomerData() {
                     name="phone"
                     type="phone"
                     label="Номер телефону"
-                    placeholder="+380671234567"
+                    placeholder="+38 (067) 112-45-45"
                     touched={touched}
                     errors={errors}
                     maxLength={13}
+                    values={values}
                   />
 
                   <FormField
@@ -189,6 +88,7 @@ export default function CustomerData() {
                     placeholder="example@gmail.com"
                     touched={touched}
                     errors={errors}
+                    values={values}
                   />
                 </div>
 
@@ -213,7 +113,7 @@ export default function CustomerData() {
               className={css.editBtn}
               onClick={handleStepBack}
             >
-              Редагувати
+              Редагувати дані
               <span>
                 <LiaEditSolid size={16} />
               </span>

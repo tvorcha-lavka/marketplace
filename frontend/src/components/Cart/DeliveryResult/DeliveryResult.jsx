@@ -5,7 +5,8 @@ import { selectCart } from '../../../redux/basket/selectors';
 import css from './DeliveryResult.module.css';
 
 export default function DeliveryResult({ owner }) {
-  const { deliveryData } = useSelector(selectCart);
+	const { deliveryData } = useSelector(selectCart);
+	
   const delivery = deliveryData[owner];
   const { type, branch, postbox, city, street, house, apartment } = delivery;
 
@@ -31,15 +32,17 @@ export default function DeliveryResult({ owner }) {
         </p>
       </>
     ),
+
     post_box: commonBox(
       'Доставка Нова Пошта у поштомат',
       <>
         <p className={css.resultText}>
-          <b>Адреса поштомату:</b>&nbsp;{city}
+          <b>Адреса поштомату:</b>&nbsp;{branch}
         </p>
         <p className={css.resultText}>{postbox}</p>
       </>
     ),
+
     courier: commonBox(
       'Доставка кур`єром',
       <p className={css.resultText}>
@@ -47,6 +50,7 @@ export default function DeliveryResult({ owner }) {
         {[street, house, apartment, city].filter(Boolean).join(', ')}
       </p>
     ),
+
     ukrposhta: commonBox(
       'Доставка Укрпошта у відділення',
       <>
@@ -54,7 +58,7 @@ export default function DeliveryResult({ owner }) {
           <b>Адреса відділення:</b>&nbsp;{branch}
         </p>
         <p className={css.resultText}>
-          <b>Години роботи:</b>&nbsp;
+          <b>Години роботи:</b>&nbsp; Пн-Сб 09:00 - 19:00, Нд - вихідний
         </p>
       </>
     ),
