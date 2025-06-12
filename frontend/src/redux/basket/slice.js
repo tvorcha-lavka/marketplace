@@ -15,10 +15,6 @@ const initialState = {
     type: '',
   },
   deliveryFee: 0,
-  cachedCities: {},
-  cachedBranches: {},
-  cachedPboxCities: {},
-  cachedPostbox: {},
 };
 
 const basketSlice = createSlice({
@@ -67,22 +63,6 @@ const basketSlice = createSlice({
       if (state.step === 2) state.step -= 1;
       if (state.step === 3) state.step -= 2;
     },
-    cacheCityList: (state, action) => {
-      const { searchTerm, cities } = action.payload;
-      state.cachedCities[searchTerm] = cities;
-    },
-    cacheBranchList: (state, action) => {
-      const { city, branches } = action.payload;
-      state.cachedBranches[city] = branches;
-    },
-    cachePboxCityList: (state, action) => {
-      const { searchTerm, city } = action.payload;
-      state.cachedCities[searchTerm] = city;
-    },
-    cachePostboxList: (state, action) => {
-      const { city, branch } = action.payload;
-      state.cachedPostbox[city] = branch;
-    },
     clearBasket: (state) => {
       state.items = [];
       state.customerData = { name: '', surname: '', phone: '', email: '' };
@@ -103,10 +83,6 @@ export const {
   clearBasket,
   nextStep,
   previousStep,
-  cacheCityList,
-  cacheBranchList,
-  cachePboxCityList,
-  cachePostboxList,
 } = basketSlice.actions;
 
 export const basketReducer = basketSlice.reducer;

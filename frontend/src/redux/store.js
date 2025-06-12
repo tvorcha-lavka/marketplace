@@ -4,6 +4,7 @@ import { categoriesReducer } from './categories/categoriesSlice';
 import { productReducer } from './products/slice';
 import { filtersReducer } from './filters/filtersSlice';
 import { basketReducer } from './basket/slice';
+import { advertReducer } from './addAdverts/slice';
 import storage from 'redux-persist/lib/storage';
 
 import {
@@ -44,11 +45,31 @@ const persistedProductsReducer = persistReducer(
   productReducer
 );
 
+const persistedAdvertReducer = persistReducer(
+  {
+    key: 'advert',
+    storage,
+    whitelist: [
+      'selectedCategory',
+      'selectedSubCategory',
+      'selectedChildCategory',
+      'selectedFilters',
+      'selectedColors',
+			'isSelectedDelivery',
+			'isCategoryConfirmed',
+      'title',
+      'description',
+      'price',
+    ],
+  },
+  advertReducer
+);
+
 const persistedBasketReducer = persistReducer(
   {
     key: 'basket',
     storage,
-    whitelist: ['items', 'total'],
+    whitelist: ['items', 'total', 'customerData', 'step'],
   },
   basketReducer
 );
@@ -58,6 +79,7 @@ export const store = configureStore({
     auth: persistedAuthReducer,
     categories: persistedCategoriesReducer,
     product: persistedProductsReducer,
+    advert: persistedAdvertReducer,
     basket: persistedBasketReducer,
     filters: filtersReducer,
   },
