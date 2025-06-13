@@ -1,6 +1,7 @@
+/*Create order confirmation*/
 .content {
   padding-block: 40px 64px;
-	height: 100vh;
+  height: 100vh;
 }
 
 .wrapper {
@@ -26,15 +27,40 @@
 .text {
   margin-block-end: 16px;
   font-size: var(--font-size-tiny);
+  font-variant: --font-weight-normal;
 }
 
 .text:last-of-type {
   margin-block-end: 0;
 }
 
-.img {
+.imgOrder {
   position: absolute;
   bottom: 7px;
   right: 19px;
   width: 413px;
+  height: 287px;
+}
+
+/*Create adverts confirmation*/
+.addedOrder {
+  white-space: nowrap;
+  font-size: var(--font-size-medium);
+  font-weight: var(--font-weight-bold);
+  margin-block-end: 16px;
+}
+
+.finalText {
+  margin-block-end: 30px;
+  font-size: var(--font-size-tiny);
+  font-variant: --font-weight-normal;
+}
+
+.imgAdd {
+  transform: rotate(-2deg);
+  position: absolute;
+  bottom: -20%;
+  right: 95px;
+  width: 309px;
+  height: 303px;
 }

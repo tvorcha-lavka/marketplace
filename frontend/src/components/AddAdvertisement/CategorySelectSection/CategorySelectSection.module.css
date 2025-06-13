@@ -29,6 +29,14 @@
   height: 44px;
 }
 
+.categoryBox:hover .inputAdvert {
+  border-color: var(--primary-yellow);
+}
+
+.categoryBox:hover .categoryIcon {
+  color: var(--primary-yellow);
+}
+
 .inputAdvert {
   display: block;
   width: 100%;
@@ -49,7 +57,7 @@
 }
 
 .openBorder {
-  border-color: var(--grey-dark);
+  border-color: var(--primary-yellow);
 }
 
 .categoryIcon {
@@ -67,7 +75,7 @@
 }
 
 .openIcon {
-  color: var(--grey-dark);
+  color: var(--primary-yellow);
 }
 
 .resultBox {

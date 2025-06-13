@@ -31,8 +31,13 @@
   border: var(--border-width) var(--border-style) var(--grey-dark);
   outline: var(--border-width) var(--border-style) transparent;
   color: var(--default-black);
-  resize: none;
-  scrollbar-width: none; 
+  resize: vertical;
+  scrollbar-width: none;
+}
+
+.textarea:focus,
+.textarea:hover {
+  border-color: var(--primary-yellow);
 }
 
 .inputNameItem {
@@ -44,6 +49,11 @@
   border: var(--border-width) var(--border-style) var(--grey-dark);
   outline: var(--border-width) var(--border-style) transparent;
   color: var(--default-black);
+}
+
+.inputNameItem:focus,
+.inputNameItem:hover {
+  border-color: var(--primary-yellow);
 }
 
 .inputNameItem::placeholder {

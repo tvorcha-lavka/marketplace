@@ -1,11 +1,12 @@
-import { useState, useEffect } from 'react';
-import { GoChevronDown, GoChevronUp } from 'react-icons/go';
+import { useState } from 'react';
 
 import {
   StyledInputLabel,
   StyledSelect,
   Options,
   menuStyles,
+  StyledIndicator,
+  StyledSelectWrapper,
 } from './FiltersSection.styled';
 
 import css from './FiltersSection.module.css';
@@ -14,13 +15,14 @@ export default function FiltersSection({
   filtersDescription,
   selectedFilters,
   setSelectedFilters,
-  shouldReset,
 }) {
   const [openSelect, setOpenSelect] = useState(null);
   const [touchedFilters, setTouchedFilters] = useState({});
+  const [focused, setFocused] = useState(false);
 
   const handleChange = (name, value) => {
-    setSelectedFilters((prev) => ({ ...prev, [name]: value }));
+    const updatedFilters = { ...selectedFilters, [name]: value };
+    setSelectedFilters(updatedFilters);
     setTouchedFilters((prev) => ({ ...prev, [name]: true }));
   };
 
@@ -28,19 +30,15 @@ export default function FiltersSection({
     setOpenSelect(null);
   };
 
-  const getIconColor = (showError, hasValue, isOpen) => {
-    if (showError) return 'var(--error-red)';
-    if (isOpen) return 'var(--grey-dark)';
-    return hasValue ? 'var(--default-black)' : 'var(--grey-dark)';
-	};
-	
-	useEffect(() => {
-    if (shouldReset) {
-      setSelectedFilters({});
-      setTouchedFilters({});
-      setOpenSelect(null);
-    }
-  }, [shouldReset]);
+  const renderValue = (selected, title) => (
+    <span
+      style={{
+        color: selected === '' ? 'var(--grey-dark)' : 'var(--default-black)',
+      }}
+    >
+      {selected === '' ? `Оберіть ${title.toLowerCase()}` : selected}
+    </span>
+  );
 
   return (
     <fieldset className={css.wrapper}>
@@ -55,9 +53,8 @@ export default function FiltersSection({
           const showError = touchedFilters[filter.name] && !hasValue && !isOpen;
 
           return (
-            <div
+            <StyledSelectWrapper
               key={filter.name}
-              className={css.dropdown}
               onClick={() => {
                 setOpenSelect(isOpen ? null : filter.name);
                 setTouchedFilters((prev) => ({ ...prev, [filter.name]: true }));
@@ -70,46 +67,36 @@ export default function FiltersSection({
               <StyledSelect
                 name={filter.name}
                 id={filter.name}
-                className={showError ? css.errorBorder : ''}
                 value={value ?? ''}
                 onChange={(e) => handleChange(filter.name, e.target.value)}
                 open={isOpen}
+                inputProps={{
+                  'aria-label': isOpen
+                    ? 'Закрити список фільтрів'
+                    : 'Відкрити список фільтрів',
+                }}
                 onClose={handleClose}
-                IconComponent={() =>
-                  isOpen ? (
-                    <GoChevronUp
-                      className={css.icon}
-                      style={{
-                        color: getIconColor(showError, hasValue, isOpen),
-                      }}
-                    />
-                  ) : (
-                    <GoChevronDown
-                      className={css.icon}
-                      style={{
-                        color: getIconColor(showError, hasValue, isOpen),
-                      }}
-                    />
-                  )
+                onFocus={() =>
+                  setFocused((prev) => ({ ...prev, [filter.name]: true }))
+                }
+                onBlur={() =>
+                  setFocused((prev) => ({ ...prev, [filter.name]: false }))
+                }
+                IconComponent={() => null}
+                endAdornment={
+                  <StyledIndicator
+                    className="indicator"
+                    focused={focused[filter.name] || false}
+                    hasError={showError}
+                    hasValue={hasValue}
+                    isOpen={isOpen}
+                  />
                 }
                 MenuProps={menuStyles}
                 hasValue={hasValue}
                 hasError={showError && !isOpen}
                 isOpen={isOpen}
-                renderValue={(selected) => (
-                  <span
-                    style={{
-                      color:
-                        selected === ''
-                          ? 'var(--grey-dark)'
-                          : 'var(--default-black)',
-                    }}
-                  >
-                    {selected === ''
-                      ? `Оберіть ${filter.title.toLowerCase()}`
-                      : selected}
-                  </span>
-                )}
+                renderValue={(selected) => renderValue(selected, filter.title)}
                 displayEmpty
               >
                 {filter.values?.map((val) => (
@@ -124,10 +111,10 @@ export default function FiltersSection({
 
               {showError && (
                 <p className={css.errorText}>
-                  Вибір &#171;{filter.title}&#187; є обовʼязковим
+                  Вибір &#171;{filter.title}&#187; є обов&#8217;язковим
                 </p>
               )}
-            </div>
+            </StyledSelectWrapper>
           );
         })}
       </div>

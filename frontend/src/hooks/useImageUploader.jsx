@@ -1,4 +1,39 @@
 import { useEffect, useRef } from 'react';
+import { toast } from 'react-hot-toast';
+import { GoAlert } from 'react-icons/go';
+
+function showErrorToast(message) {
+  toast.custom(() => (
+    <div
+      style={{
+        backgroundColor: 'var(--error-red)',
+        color: 'var(--default-white)',
+        width: '450px',
+        height: '100px',
+        padding: '15px',
+        borderRadius: '8px',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '16px',
+        fontSize: 'var(--font-size-tiny)',
+        fontWeight: 'var(--font-weight-bold)',
+        borderLeft:
+          'var(--border-width-biggest) var(--border-style) var(--primary-yellow)',
+        boxShadow: 'var(--cart-shadow)',
+      }}
+    >
+      <GoAlert
+        style={{
+          width: 'var(--icon-size-large)',
+          height: 'var(--icon-size-large)',
+          fontSize: '32px',
+          color: 'var(--default-white)',
+        }}
+      />
+      {message}
+    </div>
+  ));
+}
 
 export function useImageUploader() {
   const wsUrl = 'ws://localhost:9000/image/upload';
@@ -77,7 +112,9 @@ export function useImageUploader() {
       };
       wsRef.current.onerror = (error) => {
         console.error('WebSocket помилка:', error);
-        alert('Не вдалося підключитися до сервера завантаження зображень.');
+        showErrorToast(
+          'Не вдалося підключитися до сервера завантаження зображень.'
+        );
       };
       wsRef.current.onclose = () => {
         console.log('WebSocket закрито');
@@ -92,7 +129,7 @@ export function useImageUploader() {
     const data = JSON.parse(event.data);
 
     if (activeAction.current?.type === 'upload') {
-      resolve?.(); // Розблокуємо наступну порцію chunk
+      resolve?.();
     }
   }
 
@@ -128,12 +165,12 @@ export function useImageUploader() {
 
   function uploadFile(file, index) {
     if (uploadsCount.current >= maxFiles) {
-      alert('Перевищено ліміт завантажень!');
+      showErrorToast('Перевищено ліміт завантажень!');
       return;
     }
 
     if (file.size > maxSize) {
-      alert('Файл перевищує 5 МБ!');
+      showErrorToast('Файл перевищує 5 МБ!');
       return;
     }
 

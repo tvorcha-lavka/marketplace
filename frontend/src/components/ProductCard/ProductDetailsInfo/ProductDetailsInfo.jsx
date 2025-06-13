@@ -98,7 +98,7 @@ export default function ProductDetailsInfo({ product }) {
         Замовити з доставкою
       </CustomButton>
       <CustomButton size="large" variant="another" onClick={handleClick}>
-        {isAdded ? 'Додано до кошика' : 'Додати до кошика'}
+        {isAdded ? 'Переглянути обране у кошику' : 'Додати до кошика'}
       </CustomButton>
 
       {isOpenBasketDetailsModal && (

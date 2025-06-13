@@ -1,177 +1,92 @@
-import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import DropdownSelector from '../DropdownSelector/DropdownSelector';
-import AddressInput from '../AddressInput/AddressInput';
+import CourierDeliveryRender from '../CourierDeliveryRender/CourierDeliveryRender';
 
+import { updateDeliveryData } from '../../../redux/basket/slice';
+import { selectCart } from '../../../redux/basket/selectors';
 import {
-  cacheBranchList,
-  cacheCityList,
-  updateDeliveryData,
-} from '../../../redux/basket/slice';
-import {
-  selectCart,
-  selectCachedBranches,
-  selectCachedCities,
-  selectCachedPboxCities,
-  selectCachedPostbox,
-} from '../../../redux/basket/selectors';
-import {
-  branchList,
-  cityList,
+  fakeDepartments,
   deliveryOptions,
   getInitialDeliveryFields,
-} from '../../../utils/deliveryDetails';
+} from '../../../utils/cartDetails';
 
 import css from './DeliverySelect.module.css';
 
 export default function DeliverySelect({ owner, onDeliveryChange }) {
-  const [localState, setLocalState] = useState({
-    city: '',
-    branch: '',
-    postboxCity: '',
-    postbox: '',
-    courierCity: '',
-  });
-
   const dispatch = useDispatch();
   const { deliveryData } = useSelector(selectCart);
+  const currentData = deliveryData[owner] || {};
 
-  const handleDeliveryTypeChange = (owner, type) => {
+  const handleDeliveryTypeChange = (type) => {
     const baseFields = getInitialDeliveryFields(type);
-    const updated = { ...deliveryData, [owner]: baseFields };
     dispatch(updateDeliveryData({ [owner]: baseFields }));
-    onDeliveryChange?.(updated);
+    onDeliveryChange?.({ [owner]: baseFields });
   };
 
   const handleInputChange = (field, value) => {
     const updated = {
-      ...deliveryData,
-      [owner]: {
-        ...deliveryData[owner],
-        [field]: typeof value === 'string' ? value : String(value),
-      },
+      ...currentData,
+      [field]: value?.toString() || '',
     };
-    dispatch(updateDeliveryData({ [owner]: updated[owner] }));
-    onDeliveryChange?.(updated);
+    dispatch(updateDeliveryData({ [owner]: updated }));
+    onDeliveryChange?.({ [owner]: updated });
   };
 
-  const renderDropdowns = ({
-    citySelector,
-    branchSelector,
-    cityField,
-    branchField,
-    cityValue,
-    branchValue,
-  }) => (
-    <ul className={css.detailsBox}>
-      <DropdownSelector
-        label="Місто"
-        placeholder="Введіть місто"
-        cachedDataSelector={citySelector}
-        cacheAction={cacheCityList}
-        updateAction={updateDeliveryData}
-        fetchData={cityList}
-        value={cityValue}
-        onChange={(value) => handleInputChange(cityField, value)}
-        fieldKey={cityField}
-      />
-      <DropdownSelector
-        label="Відділення"
-        placeholder="Оберіть відділення"
-        cachedDataSelector={branchSelector}
-        cacheAction={cacheBranchList}
-        updateAction={updateDeliveryData}
-        fetchData={branchList}
-        value={branchValue}
-        onChange={(value) => handleInputChange(branchField, value)}
-        fieldKey={branchField}
-      />
-    </ul>
-  );
+  const getCityOptions = () => {
+    return [...new Set(fakeDepartments.map((d) => d.city))];
+  };
+
+  const getBranchOptions = (city) => {
+    return fakeDepartments
+      .filter((d) => d.city === city)
+      .map((d) => `${d.name}, ${d.address}`);
+  };
+
+  const renderDropdowns = (type) => {
+    const cityValue = currentData.city || '';
+    const branchValue = currentData.branch || '';
+
+    return (
+      <ul>
+        <DropdownSelector
+          label="Місто"
+          placeholder="Введіть місто"
+          fetchData={getCityOptions()}
+          value={cityValue}
+          onChange={(selected) => handleInputChange('city', selected)}
+          fieldKey="city"
+        />
+        <DropdownSelector
+          label="Відділення"
+          placeholder="Оберіть відділення"
+          fetchData={getBranchOptions(cityValue)}
+          value={branchValue}
+          onChange={(selected) =>
+            handleInputChange('branch', selected?.value || selected)
+          }
+          fieldKey="branch"
+          isDisabled={!cityValue}
+          disabledMessage="Спочатку оберіть місто"
+        />
+      </ul>
+    );
+  };
 
   const renderDeliveryDetails = (type) => {
-    switch (type) {
-      case 'nova-poshta':
-        return renderDropdowns({
-          citySelector: selectCachedCities,
-          branchSelector: selectCachedBranches,
-          cityField: 'city',
-          branchField: 'branch',
-          cityValue: deliveryData[owner]?.city || '',
-          branchValue: deliveryData[owner]?.branch || '',
-        });
-
-      case 'post_box':
-        return renderDropdowns({
-          citySelector: selectCachedPboxCities,
-          branchSelector: selectCachedPostbox,
-          cityField: 'city',
-          branchField: 'branch',
-          cityValue: deliveryData[owner]?.city || '',
-          branchValue: deliveryData[owner]?.branch || '',
-        });
-
-      case 'ukrposhta':
-        return renderDropdowns({
-          citySelector: selectCachedCities,
-          branchSelector: selectCachedBranches,
-          cityField: 'city',
-          branchField: 'branch',
-          cityValue: deliveryData[owner]?.city || '',
-          branchValue: deliveryData[owner]?.branch || '',
-        });
-
-      case 'courier':
-        return (
-          <div className={css.detailsBox}>
-            <div className={css.detailsWrapperAddress}>
-              <div className={css.detailsInputAddress}>
-                <AddressInput
-                  id="city"
-                  label="Місто"
-                  name="city"
-                  placeholder="місто"
-                  value={deliveryData[owner]?.city || ''}
-                  onChange={(e) => handleInputChange('city', e.target.value)}
-                  className={`${css.detailsInputCity} ${deliveryData[owner]?.city ? css.inputFilled : ''}`}
-                />
-                <AddressInput
-                  id="street"
-                  label="Вулиця"
-                  name="street"
-                  placeholder="вулиця"
-                  value={deliveryData[owner]?.street || ''}
-                  onChange={(e) => handleInputChange('street', e.target.value)}
-                  className={`${css.detailsInputCity} ${deliveryData[owner]?.street ? css.inputFilled : ''}`}
-                />
-                <AddressInput
-                  id="house"
-                  label="Будинок"
-                  name="house"
-                  placeholder="будинок"
-                  value={deliveryData[owner]?.house || ''}
-                  onChange={(e) => handleInputChange('house', e.target.value)}
-                  className={`${css.detailsInputHouse} ${deliveryData[owner]?.house ? css.inputFilled : ''}`}
-                />
-                <AddressInput
-                  id="apartment"
-                  label="Кв"
-                  name="apartment"
-                  placeholder="кв"
-                  value={deliveryData[owner]?.apartment || ''}
-                  onChange={(e) =>
-                    handleInputChange('apartment', e.target.value)
-                  }
-                  className={`${css.detailsInputApart} ${deliveryData[owner]?.apartment ? css.inputFilled : ''}`}
-                />
-              </div>
-            </div>
-          </div>
-        );
-      default:
-        return null;
+    if (['nova-poshta', 'ukrposhta', 'post_box'].includes(type)) {
+      return renderDropdowns(type);
     }
+    if (type === 'courier') {
+      return (
+        <CourierDeliveryRender
+          deliveryData={deliveryData}
+          owner={owner}
+          handleInputChange={handleInputChange}
+        />
+      );
+    }
+    return null;
   };
 
   return (
@@ -186,8 +101,8 @@ export default function DeliverySelect({ owner, onDeliveryChange }) {
                 type="radio"
                 name={`deliveryData-${owner}`}
                 value={type}
-                checked={deliveryData[owner]?.type === type}
-                onChange={() => handleDeliveryTypeChange(owner, type)}
+                checked={currentData.type === type}
+                onChange={() => handleDeliveryTypeChange(type)}
                 required
               />
               <label
@@ -199,8 +114,7 @@ export default function DeliverySelect({ owner, onDeliveryChange }) {
             </div>
             <p>{cost}</p>
           </div>
-
-          {deliveryData[owner]?.type === type && (
+          {currentData.type === type && (
             <div className={css.deliveryDetails}>
               {renderDeliveryDetails(type)}
             </div>

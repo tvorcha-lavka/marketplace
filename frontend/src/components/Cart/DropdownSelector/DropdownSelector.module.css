@@ -24,36 +24,41 @@
   border: var(--border-width) var(--border-style) var(--grey-dark);
   background-color: var(--default-white);
   color: var(--default-black);
-  outline: none;
+  outline: var(--border-width) var(--border-style) transparent;
 }
 
 .detailsIcon {
-	width: var(--icon-size-normal);
-	height: var(--icon-size-normal);
+  width: var(--icon-size-normal);
+  height: var(--icon-size-normal);
   position: absolute;
   top: 50%;
   right: 12px;
   transform: translateY(-50%);
-	color: var(--grey-dark);
-}
-
-.optionList {
-  width: 574px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-	cursor: pointer;
+  color: var(--grey-dark);
 }
 
 .detailsSelect {
-  width: 614px;
-  height: 172px;
-  display: flex;
-  justify-content: space-between;
+  margin-top: 5px;
+  width: 609px;
   border-radius: var(--border-radius);
   padding: 16px;
   background-color: var(--default-white);
   box-shadow: var(--cart-shadow);
+}
+
+.optionList {
+  width: 574px;
+  height: 172px;
+  cursor: pointer;
+  overflow-x: hidden;
+}
+
+.optionItem {
+  padding-bottom: 10px;
+}
+
+.optionItem:last-child {
+  padding-bottom: 0;
 }
 
 .inputSelected {
@@ -62,4 +67,29 @@
 
 .selectedIcon {
   color: var(--default-black);
+}
+
+.detailsInputBox:hover .detailsInput,
+.detailsInputBox:focus .detailsInput {
+  border-color: var(--primary-yellow);
+}
+
+.detailsInputBox:hover .detailsIcon,
+.detailsInputBox:focus .detailsIcon {
+  color: var(--primary-yellow);
+}
+
+.inputError {
+  border-color: var(--error-red);
+}
+
+.iconError {
+  color: var(--error-red);
+}
+
+.errorMessage {
+  margin-top: 5px;
+  font-size: var(--font-size-extra-tiny);
+  font-weight: var(--font-weight-normal);
+  color: var(--error-red);
 }

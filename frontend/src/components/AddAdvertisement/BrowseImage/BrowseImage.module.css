@@ -34,6 +34,11 @@
   justify-content: center;
   border: var(--border-width) dashed var(--background-grey);
   border-radius: var(--border-radius);
+	cursor: pointer;
+}
+
+.fotoItem:hover {
+	border-color: var(--primary-yellow);
 }
 
 .previewImage {
@@ -48,13 +53,10 @@
   color: var(--primary-yellow);
 }
 
-.btnFoto {
+.text {
   color: var(--default-black);
-  border: none;
   font-weight: var(--font-weight-normal);
   font-size: var(--font-size-extra-small);
-  background-color: transparent;
-  outline: var(--border-width) var(--border-style) transparent;
 }
 
 .textFoto {

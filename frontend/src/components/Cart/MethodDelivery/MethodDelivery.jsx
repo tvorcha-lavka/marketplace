@@ -10,9 +10,9 @@ import {
   selectCart,
   selectCartStep,
 } from '../../../redux/basket/selectors';
-import { nextStep } from '../../../redux/basket/slice';
+import { nextStep, previousStep } from '../../../redux/basket/slice';
 import { media } from '../../../utils/mediaConfig';
-import { isDeliveryDataValid } from '../../../utils/deliveryDetails';
+import { isDeliveryDataValid } from '../../../utils/cartDetails';
 
 import css from './MethodDelivery.module.css';
 
@@ -30,8 +30,6 @@ export default function MethodDelivery({ onDeliveryChange }) {
       return acc;
     }, {});
   }, [orderItems]);
-
-  console.log(deliveryData);
 
   const sellersWithNames = useMemo(() => {
     return Object.entries(groupedItemsBySeller).map(([ownerId, items]) => ({
@@ -65,7 +63,7 @@ export default function MethodDelivery({ onDeliveryChange }) {
     const payload = isActive
       ? {
           ...deliveryData,
-          [ownerId]: JSON.parse(JSON.stringify(firstSellerData)),
+          [ownerId]: { ...firstSellerData },
         }
       : {
           ...deliveryData,
@@ -85,6 +83,10 @@ export default function MethodDelivery({ onDeliveryChange }) {
       : quantity > 1 && quantity < 5
         ? 'предмети'
         : 'предметів';
+
+  const handleEditClick = () => {
+    dispatch(previousStep());
+  };
 
   return (
     <div className={css.deliverySection}>
@@ -142,7 +144,7 @@ export default function MethodDelivery({ onDeliveryChange }) {
             )}
 
             {step === 3 ? (
-              <DeliveryResult owner={ownerId} />
+              <DeliveryResult owner={ownerId} onEdit={handleEditClick} />
             ) : (
               <DeliverySelect
                 owner={ownerId}

@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import BrowseImage from '../BrowseImage/BrowseImage';
 import CategorySelectSection from '../CategorySelectSection/CategorySelectSection';
@@ -10,32 +11,37 @@ import DescriptionField from '../DescriptionField/DescriptionField';
 import DeliveryOptions from '../DeliveryOptions/DeliveryOptions';
 import CustomButton from '../../CustomButton/CustomButton';
 
-import { createProduct } from '../../../redux/products/operations';
+import { createProduct } from '../../../redux/addAdverts/operations';
 import {
   selectCreateSuccess,
   selectCreatedProduct,
-} from '../../../redux/products/selectors';
+  selectAdvertsDetails,
+} from '../../../redux/addAdverts/selectors';
 import { selectSelectedCategoryId } from '../../../redux/categories/categoriesSelectors';
 import { setSelectedCategoryId } from '../../../redux/categories/categoriesSlice';
 import { getFiltersCategory } from '../../../redux/filters/filtersOperations';
 import { selectFiltersCategory } from '../../../redux/filters/filtersSelector';
+import { setField, resetAdvert } from '../../../redux/addAdverts/slice';
 
 import css from './AddAdvert.module.css';
 
 export default function AddAdvert() {
-  const [isSelectedDelivery, setIsSelectedDelivery] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  const [selectedSubCategory, setSelectedSubCategory] = useState(null);
-  const [selectedChildCategory, setSelectedChildCategory] = useState(null);
-  const [selectedFilters, setSelectedFilters] = useState({});
-  const [selectedColors, setSelectedColors] = useState([]);
-  const [filters, setFilters] = useState('');
-  const [shouldReset, setShouldReset] = useState(false);
-
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const success = useSelector(selectCreateSuccess);
   const created = useSelector(selectCreatedProduct);
+  const {
+    selectedCategory,
+    selectedSubCategory,
+    selectedChildCategory,
+    selectedFilters,
+    selectedColors,
+    isSelectedDelivery,
+    title,
+    description,
+    price,
+  } = useSelector(selectAdvertsDetails);
 
   const filtersDescription = useSelector(selectFiltersCategory);
 
@@ -61,23 +67,9 @@ export default function AddAdvert() {
 
   useEffect(() => {
     if (success && created) {
-      setSelectedCategory(null);
-      setSelectedSubCategory(null);
-      setSelectedChildCategory(null);
-      setSelectedFilters({});
-      setSelectedColors([]);
-      setIsSelectedDelivery([]);
-      setFilters('');
-
-      setShouldReset(true);
+      dispatch(resetAdvert());
     }
   }, [success, created]);
-
-  useEffect(() => {
-    if (shouldReset) {
-      setShouldReset(false);
-    }
-  }, [shouldReset]);
 
   const getFilterIds = () => {
     const ids = [];
@@ -102,13 +94,13 @@ export default function AddAdvert() {
     return ids;
   };
 
+  const submitTypeRef = useRef('publish');
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const formData = new FormData(e.target);
-    const title = formData.get('title')?.trim();
-    const description = formData.get('description')?.trim();
-    const price = formData.get('price')?.trim();
+    const isDraftSubmission = submitTypeRef.current === 'draft';
+
     const filterIds = getFilterIds();
 
     const requiredFields = [
@@ -131,17 +123,23 @@ export default function AddAdvert() {
     const data = {
       category_id: categoryId,
       session_id,
-      title,
-      description,
-      price,
+      title: title.trim(),
+      description: description.trim(),
+      price: price.trim(),
       filters: filterIds.join(','),
       delivery: isSelectedDelivery,
-      draft: false,
+      draft: isDraftSubmission,
     };
 
     console.log('Отправляем данные:', data);
 
-    dispatch(createProduct(data));
+    dispatch(createProduct(data)).then(() => {
+      sessionStorage.removeItem('ad_selectedFiles');
+
+      navigate('/confirmation/ad', {
+        state: { isDraft: isDraftSubmission },
+      });
+    });
   };
 
   return (
@@ -151,41 +149,76 @@ export default function AddAdvert() {
       <form className={css.form} onSubmit={handleSubmit}>
         <CategorySelectSection
           selectedCategory={selectedCategory}
-          setSelectedCategory={setSelectedCategory}
+          setSelectedCategory={(value) =>
+            dispatch(setField({ field: 'selectedCategory', value }))
+          }
           selectedSubCategory={selectedSubCategory}
-          setSelectedSubCategory={setSelectedSubCategory}
+          setSelectedSubCategory={(value) =>
+            dispatch(setField({ field: 'selectedSubCategory', value }))
+          }
           selectedChildCategory={selectedChildCategory}
-          setSelectedChildCategory={setSelectedChildCategory}
-          shouldReset={shouldReset}
+          setSelectedChildCategory={(value) =>
+            dispatch(setField({ field: 'selectedChildCategory', value }))
+          }
         />
 
-        <DescriptionField shouldReset={shouldReset} />
+        <DescriptionField
+          title={title}
+          setTitle={(value) => dispatch(setField({ field: 'title', value }))}
+          description={description}
+          setDescription={(value) =>
+            dispatch(setField({ field: 'description', value }))
+          }
+        />
 
-        <BrowseImage shouldReset={shouldReset} />
+        <BrowseImage />
 
         <FiltersSection
           filtersDescription={filtersDescription}
           selectedFilters={selectedFilters}
-          setSelectedFilters={setSelectedFilters}
-          shouldReset={shouldReset}
+          setSelectedFilters={(value) =>
+            dispatch(setField({ field: 'selectedFilters', value }))
+          }
         />
 
         <ColorOptionsSelector
           filtersDescription={filtersDescription}
           selectedColors={selectedColors}
-          setSelectedColors={setSelectedColors}
+          setSelectedColors={(value) =>
+            dispatch(setField({ field: 'selectedColors', value }))
+          }
         />
 
-        <PriceSection shouldReset={shouldReset} />
+        <PriceSection
+          price={price}
+          setPrice={(value) => dispatch(setField({ field: 'price', value }))}
+        />
 
         <DeliveryOptions
           isSelectedDelivery={isSelectedDelivery}
-          setIsSelectedDelivery={setIsSelectedDelivery}
+          setIsSelectedDelivery={(value) =>
+            dispatch(setField({ field: 'isSelectedDelivery', value }))
+          }
         />
 
-        <CustomButton className={css.btn} size="custom4" type="submit">
-          Опублікувати оголошення
-        </CustomButton>
+        <div className={css.btnWrapper}>
+          <CustomButton
+            variant="another"
+            size="custom5"
+            type="submit"
+            onClick={() => (submitTypeRef.current = 'draft')}
+          >
+            Зберегти чорнетку
+          </CustomButton>
+          <CustomButton
+            variant="default"
+            size="custom4"
+            type="submit"
+            onClick={() => (submitTypeRef.current = 'publish')}
+          >
+            Опублікувати оголошення
+          </CustomButton>
+        </div>
       </form>
     </div>
   );

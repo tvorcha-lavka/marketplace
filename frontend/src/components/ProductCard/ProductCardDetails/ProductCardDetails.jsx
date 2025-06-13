@@ -28,7 +28,7 @@ export default function ProductCardDetails() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const product = useSelector(selectProductDetails);
+	const product = useSelector(selectProductDetails);
   const isLoading = useSelector(selectLoading);
   const category = useSelector(selectCategoryById);
 

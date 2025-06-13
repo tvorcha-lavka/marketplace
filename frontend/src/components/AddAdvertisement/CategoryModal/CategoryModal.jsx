@@ -63,10 +63,11 @@ export default function CategoryModal({ onSelectCategory }) {
             <li
               key={category.id}
               className={css.categoryItem}
-              onMouseEnter={() => handleMouseEnter(category.id)}
               onClick={() => handleCategoryClick(category)}
             >
-              <p>{category.title}</p>
+              <p onMouseEnter={() => handleMouseEnter(category.id)}>
+                {category.title}
+              </p>
               {category.children?.length > 0 && <GoChevronRight />}
             </li>
           ))}
@@ -81,10 +82,15 @@ export default function CategoryModal({ onSelectCategory }) {
               <li
                 key={subcategory.id}
                 className={css.categoryItem}
-                onMouseEnter={() => handleMouseSubcategoryEnter(subcategory.id)}
                 onClick={() => handleCategoryClick(subcategory, 'sub')}
               >
-                <p>{subcategory.title}</p>
+                <p
+                  onMouseEnter={() =>
+                    handleMouseSubcategoryEnter(subcategory.id)
+                  }
+                >
+                  {subcategory.title}
+                </p>
                 {subcategory.children?.length > 0 && <GoChevronRight />}
               </li>
             ))}
@@ -96,12 +102,10 @@ export default function CategoryModal({ onSelectCategory }) {
       {focusSubcategoriesId !== null && subcategoriesChildren.length > 0 && (
         <ul className={css.listCategories}>
           {subcategoriesChildren.map((child) => (
-            <li
-              key={child.id}
-              className={css.categoryItem}
-              onClick={() => handleCategoryClick(child, 'child')}
-            >
-              <p>{child.title}</p>
+            <li key={child.id} className={css.categoryItem}>
+              <p onClick={() => handleCategoryClick(child, 'child')}>
+                {child.title}
+              </p>
             </li>
           ))}
         </ul>

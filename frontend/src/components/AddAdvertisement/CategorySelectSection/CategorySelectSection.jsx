@@ -13,11 +13,21 @@ export default function CategorySelectSection({
   setSelectedSubCategory,
   selectedChildCategory,
   setSelectedChildCategory,
-  shouldReset,
 }) {
   const [open, setOpen] = useState(false);
   const [isCategoryConfirmed, setIsCategoryConfirmed] = useState(false);
-  const [touched, setTouched] = useState(false);
+	const [touched, setTouched] = useState(false);
+
+	useEffect(() => {
+    if (
+      (selectedCategory || selectedSubCategory || selectedChildCategory) &&
+      !isCategoryConfirmed
+    ) {
+      setIsCategoryConfirmed(true);
+    }
+  }, [selectedCategory, selectedSubCategory, selectedChildCategory]);
+	
+	const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
   const fullCategoryPath = [
     selectedCategory?.title,
@@ -25,7 +35,8 @@ export default function CategorySelectSection({
     selectedChildCategory?.title,
   ]
     .filter(Boolean)
-    .join(', ');
+    .map(capitalize)
+    .join(' / ');
 
   const showError = touched && !isCategoryConfirmed && !fullCategoryPath;
 
@@ -60,17 +71,6 @@ export default function CategorySelectSection({
     setOpen(true);
     setTouched(false);
   };
-
-  useEffect(() => {
-    if (shouldReset) {
-      setSelectedCategory(null);
-      setSelectedSubCategory(null);
-      setSelectedChildCategory(null);
-      setIsCategoryConfirmed(false);
-      setTouched(false);
-      setOpen(false);
-    }
-  }, [shouldReset]);
 
   return (
     <fieldset className={css.wrapper}>
@@ -114,7 +114,7 @@ export default function CategorySelectSection({
           </div>
 
           {showError && (
-            <p className={css.error}>Вибір категорії є обов'язковим</p>
+            <p className={css.error}>Вибір категорії є обов&#8217;язковим</p>
           )}
         </>
       ) : (

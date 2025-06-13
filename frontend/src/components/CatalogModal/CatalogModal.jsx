@@ -54,10 +54,11 @@ export default function CatalogModal({ noFocuseModal }) {
             <li
               key={category.id}
               className={css.categoryItem}
-              onMouseEnter={() => handleMouseEnter(category.id)}
               onClick={() => handleCategoryClick(category.id)}
             >
-              <p>{category.title}</p>
+              <p onMouseEnter={() => handleMouseEnter(category.id)}>
+                {category.title}
+              </p>
 
               {category.children && category.children.length > 0 && (
                 <GoChevronRight />
@@ -66,6 +67,7 @@ export default function CatalogModal({ noFocuseModal }) {
           ))}
         </ul>
       </div>
+
       {focusId !== null && subcategories.length > 0 && (
         <div className={css.categoryMenu}>
           <div className={`${css.box} scrollBox`}>
