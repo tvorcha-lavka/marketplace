@@ -70,6 +70,9 @@ const basketSlice = createSlice({
       state.paymentData = { type: '' };
       state.deliveryFee = 0;
     },
+    resetStep(state) {
+      state.step = 1;
+    },
   },
 });
 
@@ -83,6 +86,7 @@ export const {
   clearBasket,
   nextStep,
   previousStep,
+  resetStep,
 } = basketSlice.actions;
 
 export const basketReducer = basketSlice.reducer;

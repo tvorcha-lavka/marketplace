@@ -10,7 +10,7 @@ import {
   selectCart,
   selectBasketItems,
 } from '../../../redux/basket/selectors';
-import { clearBasket } from '../../../redux/basket/slice';
+import { clearBasket, resetStep } from '../../../redux/basket/slice';
 
 import css from './SummaryCart.module.css';
 
@@ -21,8 +21,8 @@ export default function SummaryCart({ isClickBtn }) {
   const isCartEmpty = items.length === 0;
 
   const location = useLocation();
-	const navigate = useNavigate();
-	const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const isOrderPage = location.pathname === '/order';
 
   const getDeliveryPrice = () =>
@@ -46,6 +46,7 @@ export default function SummaryCart({ isClickBtn }) {
   const handleNavigate = (path) => () => {
     if (isOrderPage && path === '/confirmation/order') {
       dispatch(clearBasket());
+      dispatch(resetStep());
     }
     navigate(path);
   };

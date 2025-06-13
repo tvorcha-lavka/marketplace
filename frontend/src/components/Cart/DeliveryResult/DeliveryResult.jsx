@@ -5,9 +5,11 @@ import { selectCart } from '../../../redux/basket/selectors';
 import css from './DeliveryResult.module.css';
 
 export default function DeliveryResult({ owner }) {
-	const { deliveryData } = useSelector(selectCart);
-	
+  const { deliveryData } = useSelector(selectCart);
   const delivery = deliveryData[owner];
+
+  if (!delivery || !delivery.type) return null;
+
   const { type, branch, postbox, city, street, house, apartment } = delivery;
 
   const commonBox = (text, extra = null) => (
