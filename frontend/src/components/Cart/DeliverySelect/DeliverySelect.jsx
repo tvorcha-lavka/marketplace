@@ -66,6 +66,8 @@ export default function DeliverySelect({ owner, onDeliveryChange }) {
             handleInputChange('branch', selected?.value || selected)
           }
           fieldKey="branch"
+          isDisabled={!cityValue}
+          disabledMessage="Спочатку оберіть місто"
         />
       </ul>
     );

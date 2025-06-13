@@ -10,10 +10,14 @@ export default function DropdownSelector({
   value,
   onChange,
   fieldKey,
+  disabledMessage,
+  isDisabled = false,
 }) {
   const [open, setOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [isTouched, setIsTouched] = useState(false);
+  const [hasTriedToOpenWhenDisabled, setHasTriedToOpenWhenDisabled] =
+    useState(false);
 
   useEffect(() => {
     setSearchTerm(value || '');
@@ -33,16 +37,23 @@ export default function DropdownSelector({
     setSearchTerm(label);
     onChange(item);
     setOpen(false);
+    setIsTouched(false);
+    setHasTriedToOpenWhenDisabled(false);
   };
 
   const handleInputChange = (e) => {
     const val = e.target.value;
     setSearchTerm(val);
-    if (!open) setOpen(true); 
+    if (!open) setOpen(true);
   };
 
   const handleBlur = () => {
-    setTimeout(() => setOpen(false), 100);
+    setTimeout(() => {
+      setOpen(false);
+      if (open && !searchTerm.trim()) {
+        setIsTouched(true);
+      }
+    }, 100);
   };
 
   const isSelected = Boolean(searchTerm.trim());
@@ -65,8 +76,8 @@ export default function DropdownSelector({
           onChange={handleInputChange}
           onBlur={handleBlur}
           onFocus={() => {
-            setIsTouched(true);
             setOpen(true);
+            setHasTriedToOpenWhenDisabled(false);
           }}
           required
           autoComplete="off"
@@ -75,8 +86,17 @@ export default function DropdownSelector({
           type="button"
           aria-label={open ? 'Закрити список' : 'Відкрити список'}
           onClick={() => {
-            setIsTouched(true);
-            setOpen((prev) => !prev);
+            if (isDisabled) {
+              setHasTriedToOpenWhenDisabled(true);
+              return;
+            }
+            setOpen((prev) => {
+              const nextState = !prev;
+              if (!nextState && !searchTerm.trim()) {
+                setIsTouched(true);
+              }
+              return nextState;
+            });
           }}
         >
           {open ? (
@@ -91,8 +111,11 @@ export default function DropdownSelector({
         </button>
       </div>
       {hasError && <p className={css.errorMessage}>Обов&#8217;язкове поле</p>}
+      {isDisabled && hasTriedToOpenWhenDisabled && (
+        <p className={css.errorMessage}>{disabledMessage}</p>
+      )}
 
-      {open && dataList.length > 0 && (
+      {open && !isDisabled && dataList.length > 0 && (
         <div className={css.detailsSelect}>
           <div className="scrollBox">
             <div className="scrollBoxInner">
@@ -101,7 +124,7 @@ export default function DropdownSelector({
                   <li
                     key={item.id || item}
                     className={css.optionItem}
-                    onMouseDown={() => handleSelectItem(item)} 
+                    onMouseDown={() => handleSelectItem(item)}
                   >
                     {typeof item === 'string' ? item : item.label}
                   </li>
