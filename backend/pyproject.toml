@@ -185,7 +185,7 @@ DJANGO_SETTINGS_MODULE = "core.settings.testing"
 [tool.coverage.run]
 source = ["/src"]
 data_file = "/tmp/htmlcov/.coverage"
-omit = ["manage.py", "core/settings/*"]
+omit = ["manage.py", "settings.py", "core/*", "*/local/*"]
 branch = true
 
 

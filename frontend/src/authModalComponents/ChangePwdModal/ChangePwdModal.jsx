@@ -9,7 +9,7 @@ import CustomButton from '../../components/ButtonElements/CustomButton/CustomBut
 import PasswordField from '../../components/FormElements/PasswordField/PasswordField';
 
 import { useModal } from '../../hooks/useModal';
-import { resetPassword } from '../../redux/auth/operations';
+import { passwordRecovery } from '../../redux/auth/operations';
 import {
   selectLoading,
   selectUserEmail,
@@ -39,7 +39,7 @@ export default function ChangePwdModal() {
       email,
     };
 
-    dispatch(resetPassword(payload))
+    dispatch(passwordRecovery(payload))
       .unwrap()
       .then(() => {
         actions.resetForm();

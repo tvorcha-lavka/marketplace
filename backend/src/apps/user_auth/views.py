@@ -9,7 +9,7 @@ from rest_framework.response import Response
 
 from apps.user.models import User
 
-from .serializers import PasswordResetSerializer, VerifyCodeSerializer
+from .serializers import PasswordRecoverySerializer, VerifyCodeSerializer
 
 
 class VerifyCodeAPIView(GenericAPIView[Any]):
@@ -30,10 +30,10 @@ class VerifyCodeAPIView(GenericAPIView[Any]):
         return Response(response_data, status=status.HTTP_200_OK)
 
 
-class ResetPasswordAPIView(GenericAPIView[Any]):
-    """Resets the user's password using the provided reset code sent to email."""
+class PasswordRecoveryAPIView(GenericAPIView[Any]):
+    """Recovers the user's password using the provided recovery code sent to email."""
 
-    serializer_class = PasswordResetSerializer
+    serializer_class = PasswordRecoverySerializer
     permission_classes = [AllowAny]
 
     def post(self, request: Request) -> Response:

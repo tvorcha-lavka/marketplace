@@ -1,9 +1,9 @@
 from collections import namedtuple as nt
 from typing import TypeAlias
-from unittest.mock import MagicMock, patch
 
 import pytest
 from django.urls import reverse
+from pytest_mock import MockerFixture
 from rest_framework import status
 
 from core.tests.typing import APIClient, AuthClientType, UsersTuple
@@ -18,8 +18,8 @@ send_email_test_cases = [
     E_TestCase("admin", "send-email-verification-code", True, status.HTTP_200_OK, ["email", "message"]),
     E_TestCase("admin", "send-email-verification-code", False, status.HTTP_200_OK, ["email", "message"]),
     E_TestCase("user1", "send-email-verification-code", False, status.HTTP_200_OK, ["email", "message"]),
-    E_TestCase("admin", "send-reset-password-code", None, status.HTTP_200_OK, ["email", "message"]),
-    E_TestCase("user1", "send-reset-password-code", None, status.HTTP_200_OK, ["email", "message"]),
+    E_TestCase("admin", "send-password-recovery-code", None, status.HTTP_200_OK, ["email", "message"]),
+    E_TestCase("user1", "send-password-recovery-code", None, status.HTTP_200_OK, ["email", "message"]),
 ]
 
 
@@ -32,14 +32,24 @@ class TestEmailAPIView:
         self.users = users
 
     @pytest.mark.parametrize("test_case", send_email_test_cases)
-    @patch("apps.email.tasks.send_verification_code_task.apply_async")
-    @patch("apps.user_auth.jwt.redis.cache.get")
-    def test_send_email(self, mock_redis_cache: MagicMock, mock_email_task: MagicMock, test_case: E_TestCase) -> None:
+    def test_send_email(self, mocker: MockerFixture, test_case: E_TestCase) -> None:
         client = self.get_testcase_client(test_case)
 
         url = reverse(test_case.url_name)
         data = {"email": self.users.user1.email}
+
+        mock_redis_cache = mocker.patch("apps.user_auth.jwt.redis.cache.get")
         mock_redis_cache.return_value = data if test_case.has_cache else None
+
+        # Mock notify user method
+        mock_notify = mocker.patch(
+            (
+                "apps.email.views.notify_user_password_recovery"
+                if "recovery" in test_case.url_name
+                else "apps.email.views.notify_user_verify_email"
+            ),
+            return_value="Message",
+        )
 
         response = client.post(url, data=data)
 
@@ -47,7 +57,7 @@ class TestEmailAPIView:
         for key in test_case.expected_data:
             assert key in response.data
 
-        mock_email_task.assert_called_once()
+        mock_notify.assert_called_once()
 
     def test_send_email_verification_code_to_verified_user(self) -> None:
         client = self.auth_client(self.users.admin)
