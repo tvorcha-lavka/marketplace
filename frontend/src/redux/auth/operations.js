@@ -134,7 +134,7 @@ export const forgotPassword = createAsyncThunk(
   async (user, thunkAPI) => {
     try {
       const res = await axios.post(
-        `${baseApiUrl}/send-mail/reset-password/`,
+        `${baseApiUrl}/send-mail/password-recovery/`,
         user
       );
       return res.data;
@@ -159,11 +159,11 @@ export const verifyCode = createAsyncThunk(
   }
 );
 
-export const resetPassword = createAsyncThunk(
-  'auth/reset-password',
+export const passwordRecovery = createAsyncThunk(
+  'auth/password-recovery',
   async ({ email, code, password }, thunkAPI) => {
     try {
-      const res = await axios.post(`${baseApiUrl}/auth/reset/password/`, {
+      const res = await axios.post(`${baseApiUrl}/auth/password/recovery/`, {
         email,
         code,
         password,

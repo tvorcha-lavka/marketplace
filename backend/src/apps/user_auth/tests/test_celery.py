@@ -36,7 +36,7 @@ def test_prune_unused_verification_code_task(
     mock_revoke_task = mocker.patch.object(app.control, "revoke")
 
     user = getattr(users, test_case.assigned_user)
-    code_obj = code_factory.create(user.email, EmailType.RESET_PASSWORD)
+    code_obj = code_factory.create(user.email, EmailType.PASSWORD_RECOVERY)
     code_factory.make_expired(code_obj) if test_case.is_expired else None
 
     result = prune_unused_verification_code_task.apply_async(

@@ -7,7 +7,7 @@ import {
   refreshUser,
   forgotPassword,
   verifyCode,
-  resetPassword,
+  passwordRecovery,
   resendRegisterCode,
   fetchGoogleAuthUrl,
   logInWithGoogleComplete,
@@ -128,13 +128,13 @@ const authSlice = createSlice({
       .addCase(verifyCode.fulfilled, handleFulfilled)
       .addCase(verifyCode.rejected, handleRejected)
 
-      .addCase(resetPassword.pending, handlePending)
-      .addCase(resetPassword.fulfilled, (state) => {
+      .addCase(passwordRecovery.pending, handlePending)
+      .addCase(passwordRecovery.fulfilled, (state) => {
         state.code = null;
         state.loading = false;
         state.error = false;
       })
-      .addCase(resetPassword.rejected, handleRejected)
+      .addCase(passwordRecovery.rejected, handleRejected)
 
       .addCase(resendRegisterCode.pending, handlePending)
       .addCase(resendRegisterCode.fulfilled, handleFulfilled)

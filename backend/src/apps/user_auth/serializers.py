@@ -24,5 +24,5 @@ class VerifyCodeSerializer(serializers.Serializer[dict[str, Any]]):
         return attrs
 
 
-class PasswordResetSerializer(VerifyCodeSerializer):
+class PasswordRecoverySerializer(VerifyCodeSerializer):
     password = serializers.CharField(write_only=True, validators=[password_validator])

@@ -1,9 +1,9 @@
 from collections import namedtuple as nt
 from typing import Any, TypeAlias
-from unittest.mock import MagicMock, patch
 
 import pytest
 from django.urls import reverse
+from pytest_mock import MockerFixture
 from rest_framework import status
 
 from apps.user.models import User
@@ -61,16 +61,14 @@ class TestSocialOAuth2:
             assert key in response_data
 
     # ----- Social OAuth2 Callback View --------------------------------------------------------------------------------
-    @patch("apps.email.tasks.send_mail")
-    @patch("apps.user_auth.social.mixins.load_backend")
     @pytest.mark.parametrize("test_case", social_oauth2_callback_test_cases)
-    def test_social_oauth2_callback_view(
-        self,
-        mock_load_backend: MagicMock,
-        mock_send_email: MagicMock,
-        test_case: C_TestCase,
-    ) -> None:
+    def test_social_oauth2_callback_view(self, mocker: MockerFixture, test_case: C_TestCase) -> None:
+        # Mock backend complete method
+        mock_load_backend = mocker.patch("apps.user_auth.social.mixins.load_backend")
         mock_load_backend.return_value.complete.side_effect = lambda: self.mock_complete(test_case)
+
+        # Mock notify user method
+        mock_send_email = mocker.patch("apps.user_auth.social.views.notify_user_successful_registration")
 
         url = reverse(f"{test_case.social}-login-complete")
         data: dict[str, Any] = getattr(self.data, test_case.user_data)
