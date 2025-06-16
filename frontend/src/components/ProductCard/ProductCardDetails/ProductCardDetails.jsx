@@ -23,12 +23,15 @@ import { selectCategoryById } from '../../../redux/categories/categoriesSelector
 import css from './ProductCardDetails.module.css';
 
 export default function ProductCardDetails() {
-  const { id: cardId, categoryId } = useParams();
+  const { id: cardId } = useParams();
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
 
-	const product = useSelector(selectProductDetails);
+	const categoryId = location.state?.categoryId;
+  const from = location.state?.from || 'direct';
+
+  const product = useSelector(selectProductDetails);
   const isLoading = useSelector(selectLoading);
   const category = useSelector(selectCategoryById);
 
@@ -48,7 +51,7 @@ export default function ProductCardDetails() {
         product && (
           <section>
             <ul className={css.pathList}>
-              {location.state?.from === 'main' && (
+              {from === 'main' && (
                 <li>
                   <NavLink to="/" className={css.pathItem}>
                     Головна /&nbsp;
@@ -56,7 +59,7 @@ export default function ProductCardDetails() {
                 </li>
               )}
 
-              {location.state?.from === 'categories' && (
+              {from === 'categories' && (
                 <li>
                   <NavLink
                     className={css.pathItem}
@@ -67,7 +70,7 @@ export default function ProductCardDetails() {
                 </li>
               )}
 
-              {location.state?.from === 'recommended' && (
+              {from === 'recommended' && (
                 <>
                   {location.state?.prevFrom === 'main' && (
                     <li>
@@ -106,7 +109,7 @@ export default function ProductCardDetails() {
                     </>
                   )}
 
-                  {location.state?.from === 'search' && (
+                  {from === 'search' && (
                     <li>
                       <NavLink to="/" className={css.pathItem}>
                         Пошук /&nbsp;
