@@ -15,7 +15,6 @@ const AllCategoriesPage = lazy(
   () => import('./pages/AllCategoriesPage/AllCategoriesPage')
 );
 const CategoryPage = lazy(() => import('./pages/CategoryPage/CategoryPage'));
-const ProductListPage = lazy(() => import('./pages/ProductListPage/ProductListPage'));
 const CartPage = lazy(() => import('./pages/CartPage/CartPage'));
 const PlaceOrderPage = lazy(
   () => import('./pages/PlaceOrderPage/PlaceOrderPage')
@@ -92,13 +91,6 @@ export default function App() {
           />
 
           <Route
-            path="/cards/:cardId"
-            element={
-              <RestrictedRoute redirectTo="/" component={<CardDetailsPage />} />
-            }
-          />
-
-          <Route
             path="/categories"
             element={
               <RestrictedRoute
@@ -116,14 +108,7 @@ export default function App() {
           />
 
           <Route
-            path="/categories/:categoryId/cards"
-            element={
-              <RestrictedRoute redirectTo="/" component={<ProductListPage />} />
-            }
-          />
-
-          <Route
-            path="/categories/:categoryId/cards/:id"
+            path="/:cardId"
             element={
               <RestrictedRoute redirectTo="/" component={<CardDetailsPage />} />
             }
