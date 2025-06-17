@@ -13,3 +13,11 @@
   font-size: var(--font-size-tiny);
   color: var(--default-black);
 }
+
+.btnLink {
+	font-weight: var(--font-weight-normal);
+  font-size: var(--font-size-tiny);
+  color: var(--grey-darker);
+	background-color: transparent;
+	border: none;
+}
