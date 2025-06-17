@@ -8,7 +8,6 @@ import { RestrictedRoute } from './components/RestrictedRoute/RestrictedRoute';
 import SharedLayout from './components/SharedLayout/SharedLayout';
 import ModalParentComponent from './formModalComponents/ModalParentComponent/ModalParentComponent';
 import SocialAuthHandler from './formModalComponents/SocialAuthHandler/SocialAuthHandler';
-import ProductList from './components/Categories/ProductList/ProductList';
 import SessionExpiredModal from './formModalComponents/SessionExpiredModal/SessionExpiredModal';
 
 const HomePage = lazy(() => import('./pages/HomePage/HomePage'));
@@ -92,13 +91,6 @@ export default function App() {
           />
 
           <Route
-            path="/cards/:cardId"
-            element={
-              <RestrictedRoute redirectTo="/" component={<CardDetailsPage />} />
-            }
-          />
-
-          <Route
             path="/categories"
             element={
               <RestrictedRoute
@@ -116,14 +108,7 @@ export default function App() {
           />
 
           <Route
-            path="/categories/:categoryId/cards"
-            element={
-              <RestrictedRoute redirectTo="/" component={<ProductList />} />
-            }
-          />
-
-          <Route
-            path="/categories/:categoryId/cards/:id"
+            path="/:cardId"
             element={
               <RestrictedRoute redirectTo="/" component={<CardDetailsPage />} />
             }

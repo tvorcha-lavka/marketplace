@@ -9,7 +9,7 @@ import css from './CardCollection.module.css';
 export default function CardCollection({ item, categoryId, from }) {
   const [likedItems, setLikedItems] = useState([]);
 
-  const { id, date_published, price, image, title, is_vip } = item;
+  const { id, date_published, price, image, title } = item;
 
   const location = useLocation();
 
@@ -31,8 +31,8 @@ export default function CardCollection({ item, categoryId, from }) {
         <FaRegHeart />
       </button>
       <Link
-        to={`/categories/${categoryId}/cards/${id}`}
-        state={{ from, prevFrom: location?.state?.from }}
+        to={`/${id}`}
+        state={{ from, prevFrom: location.state?.from || null, categoryId }}
         className={css.link}
       >
         <div className={css.item}>

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { NavLink, useParams, useLocation, useNavigate } from 'react-router-dom';
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
 
 import RecommendedCards from '../../RecommendedCards/RecommendedCards';
 
@@ -21,14 +21,18 @@ import {
 import { selectCategoryById } from '../../../redux/categories/categoriesSelectors';
 
 import css from './ProductCardDetails.module.css';
+import Breadcrumbs from '../../Breadcrumbs/Breadcrumbs';
 
 export default function ProductCardDetails() {
-  const { id: cardId, categoryId } = useParams();
+  const { categoryId, cardId } = useParams();
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
 
-	const product = useSelector(selectProductDetails);
+  const from = location.state?.from || 'direct';
+  const prevFrom = location.state?.from;
+
+  const product = useSelector(selectProductDetails);
   const isLoading = useSelector(selectLoading);
   const category = useSelector(selectCategoryById);
 
@@ -37,6 +41,56 @@ export default function ProductCardDetails() {
       dispatch(getProductsId(cardId));
     }
   }, [dispatch, cardId]);
+
+  // BREADCRUMBS FOR PRODUCT DETAILS CARD
+  const links = [];
+
+  if (from === 'main') {
+    links.push({ label: 'Головна', to: '/', isActive: false });
+  }
+
+  if (from === 'categories') {
+    links.push({
+      label: category?.title || 'Категорія',
+      to: `/categories/${categoryId}`,
+      isActive: false,
+    });
+  }
+
+  if (from === 'recommended') {
+    if (prevFrom === 'main') {
+      links.push({ label: 'Головна', to: '/', isActive: false });
+    }
+
+    if (prevFrom === 'categories') {
+      links.push({
+        label: category?.title || 'Категорія',
+        to: `/categories/${categoryId}`,
+        isActive: false,
+      });
+    }
+
+    if (prevFrom === 'recommended') {
+      links.push({ label: 'Головна', to: '/', isActive: false });
+      links.push({
+        label: 'Повернутись назад',
+        to: '',
+        isActive: false,
+        isButton: true,
+        onClick: () => navigate(-1),
+      });
+    }
+  }
+
+  if (from === 'search') {
+    links.push({ label: 'Пошук', to: '/', isActive: false });
+  }
+
+  links.push({
+    label: product?.title || 'Товар',
+    to: `/cards/${cardId}`,
+    isActive: true,
+  });
 
   return (
     <>
@@ -47,84 +101,7 @@ export default function ProductCardDetails() {
       ) : (
         product && (
           <section>
-            <ul className={css.pathList}>
-              {location.state?.from === 'main' && (
-                <li>
-                  <NavLink to="/" className={css.pathItem}>
-                    Головна /&nbsp;
-                  </NavLink>
-                </li>
-              )}
-
-              {location.state?.from === 'categories' && (
-                <li>
-                  <NavLink
-                    className={css.pathItem}
-                    to={`/categories/${categoryId}`}
-                  >
-                    {category?.title} /&nbsp;
-                  </NavLink>
-                </li>
-              )}
-
-              {location.state?.from === 'recommended' && (
-                <>
-                  {location.state?.prevFrom === 'main' && (
-                    <li>
-                      <NavLink to="/" className={css.pathItem}>
-                        Головна /&nbsp;
-                      </NavLink>
-                    </li>
-                  )}
-
-                  {location.state?.prevFrom === 'categories' && (
-                    <li>
-                      <NavLink
-                        to={`/categories/${categoryId}`}
-                        className={css.pathItem}
-                      >
-                        {category?.title} /&nbsp;
-                      </NavLink>
-                    </li>
-                  )}
-
-                  {location.state?.prevFrom === 'recommended' && (
-                    <>
-                      <li>
-                        <NavLink to="/" className={css.pathItem}>
-                          Головна /&nbsp;
-                        </NavLink>
-                      </li>
-                      <li>
-                        <button
-                          onClick={() => navigate(-1)}
-                          className={`${css.backButton} ${css.pathItem}`}
-                        >
-                          Повернутись назад /&nbsp;
-                        </button>
-                      </li>
-                    </>
-                  )}
-
-                  {location.state?.from === 'search' && (
-                    <li>
-                      <NavLink to="/" className={css.pathItem}>
-                        Пошук /&nbsp;
-                      </NavLink>
-                    </li>
-                  )}
-                </>
-              )}
-
-              <li>
-                <NavLink
-                  className={`${css.active} ${css.pathItem}`}
-                  to={`/cards/${cardId}`}
-                >
-                  {product?.title}
-                </NavLink>
-              </li>
-            </ul>
+            <Breadcrumbs links={links} />
 
             <div className={css.container}>
               <div className={css.galleryContainer}>

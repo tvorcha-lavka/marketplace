@@ -37,7 +37,7 @@ export default function AdvertList() {
             >
               <CardCollection
                 item={item}
-                categoryId={item.categoryId}
+                categoryId={item.id}
                 from="main"
               />
             </li>

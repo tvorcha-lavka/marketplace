@@ -26,8 +26,6 @@ export default function ProductList({ categoryId }) {
   const allProducts = useSelector(selectProducts)?.results || [];
   const totalCount = useSelector(selectTotalCount);
 
-  console.log(allProducts);
-
   const totalPages = Math.ceil(totalCount / COUNT_PRODUCTS);
 
   const currentPage = new URLSearchParams(location.search).get('page') || 1;
