@@ -16,3 +16,12 @@
   font-weight: var(--font-weight-bold);
   color: var(--default-black);
 }
+
+/*SHOP CART STYLES*/
+.cartItemShop {
+  display: flex;
+  padding-block-start: 16px;
+  padding-block-end: 16px;
+  width: 618px;
+  border-bottom: var(--border-width) var(--border-style) var(--grey-lighter);
+}

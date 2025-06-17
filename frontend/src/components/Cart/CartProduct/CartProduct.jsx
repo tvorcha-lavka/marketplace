@@ -1,16 +1,31 @@
 import { useDispatch } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { LuTrash } from 'react-icons/lu';
 
 import { removeFromBasket } from '../../../redux/basket/slice';
 import { media } from '../../../utils/mediaConfig';
+import { getFilters } from '../../../utils/filtersDB';
 
 import css from './CartProduct.module.css';
 
-export default function CartProduct({ item }) {
+export default function CartProduct({
+  item,
+  showSeller = true,
+  showRemoveButton = false,
+  variant = 'default', // 'default' | 'shop'
+  className = '',
+  titleBoxWidth,
+}) {
+  const [filters, setFilters] = useState([]);
   const dispatch = useDispatch();
-  const location = useLocation();
-  const isCartPage = location.pathname === '/cart';
+
+  useEffect(() => {
+    if (!item?.id) return;
+
+    getFilters(item.id).then((savedFilters) => {
+      setFilters(savedFilters);
+    });
+  }, [item?.id]);
 
   const images = item.images || [];
   const processedImages = images.flatMap(
@@ -24,31 +39,30 @@ export default function CartProduct({ item }) {
     dispatch(removeFromBasket({ id: itemId }));
   };
 
+  const isShop = variant === 'shop';
+
   return (
-    <li
-      key={item.id}
-      className={isCartPage ? `${css.cartItemShop}` : `${css.cartItem}`}
-    >
+    <li key={item.id} className={className}>
       <img
-        className={isCartPage ? `${css.itemImgShop}` : `${css.itemImg}`}
+        className={isShop ? css.itemImgShop : css.itemImg}
         src={imagesSmall?.[0]?.url || `${media}/defaults/no-image.jpg`}
         alt={item.title}
       />
       <div>
-        <div className={isCartPage ? `${css.titleBoxShop}` : `${css.titleBox}`}>
-          <h3
-            className={isCartPage ? `${css.itemTitleShop}` : `${css.itemTitle}`}
-          >
+        <div
+          className={css.titleBox}
+          style={titleBoxWidth ? { width: titleBoxWidth } : {}}
+        >
+          <h3 className={isShop ? css.itemTitleShop : css.itemTitle}>
             {item.title}
           </h3>
-          <p
-            className={isCartPage ? `${css.itemPriceShop}` : `${css.itemPrice}`}
-          >
+          <p className={isShop ? css.itemPriceShop : css.itemPrice}>
             {item.price}&nbsp;грн
           </p>
-          {isCartPage && (
+
+          {showRemoveButton && (
             <button
-              className={css.trashBtn}
+              className={`${css.trashBtn} ${isShop ? css.trashBtnShop : css.trashBtnDefault}`}
               type="button"
               onClick={() => handleRemoveItem(item.id)}
             >
@@ -56,20 +70,23 @@ export default function CartProduct({ item }) {
             </button>
           )}
         </div>
-        <p
-          className={isCartPage ? `${css.itemSellerShop}` : `${css.itemSeller}`}
-        >
-          Продавець:&nbsp;
-          <span className={css.sellerName}>{item.owner.username}</span>
-        </p>
 
-        <div
-          className={isCartPage ? `${css.itemFilterShop}` : `${css.itemFilter}`}
-        >
-          <p>Розмір: ...</p>
-          <p>Матеріал: ...</p>
-          <p>Стан: ...</p>
-        </div>
+        {showSeller && (
+          <p className={isShop ? css.itemSellerShop : css.itemSeller}>
+            Продавець:&nbsp;
+            <span className={css.sellerName}>{item.owner.username}</span>
+          </p>
+        )}
+
+        <ul className={isShop ? css.itemFilterShop : css.itemFilter}>
+          {filters.map((value) => (
+            <li key={value.title} className={css.filtersItem}>
+              <p>
+                {value.title}:&nbsp;{value.value}
+              </p>
+            </li>
+          ))}
+        </ul>
       </div>
     </li>
   );
