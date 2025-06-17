@@ -35,7 +35,7 @@
   height: 120px;
   border-radius: var(--border-radius);
   margin-bottom: 8px;
-  background-color: var(--medium-pink);
+  background-color: var(--grey-lighter);
   object-fit: cover;
 }
 

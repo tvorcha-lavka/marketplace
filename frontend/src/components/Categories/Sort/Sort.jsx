@@ -13,7 +13,7 @@ export default function Sort() {
               Сортувати за:
             </label>
             <select
-              label
+              label="true"
               className={css.select}
               name="price"
               id="price"
@@ -28,7 +28,7 @@ export default function Sort() {
             </select>
           </div>
           <div className={css.number}>
-            <label label className={css.label} htmlFor="number">
+            <label label="true" className={css.label} htmlFor="number">
               Показувати по:
             </label>
             <select

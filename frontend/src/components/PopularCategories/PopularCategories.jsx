@@ -26,7 +26,7 @@ export default function PopularCategories() {
         <div className={css.titleBox}>
           <h2 className={css.title}>Популярні категорії</h2>
 
-          <Link to="/categories/" className={css.link}>
+          <Link to="/categories" className={css.link}>
             Всі категорії
           </Link>
         </div>

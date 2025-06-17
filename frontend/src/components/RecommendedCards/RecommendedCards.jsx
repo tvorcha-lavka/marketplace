@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { IoIosArrowBack } from 'react-icons/io';
 import { IoIosArrowForward } from 'react-icons/io';
@@ -10,14 +10,22 @@ import { selectProducts } from '../../redux/products/selectors';
 
 import css from './RecommendedCards.module.css';
 
-export default function RecommendedCards({ title = 'Вам також може сподобатись:' }) {
+export default function RecommendedCards({
+  title = 'Вам також може сподобатись:',
+}) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [activeCardId, setActiveCardId] = useState(null);
 
   const itemsPerSlide = 4;
 
   const dispatch = useDispatch();
-  const allProducts = useSelector(selectProducts)?.results || [];
+
+  const productsData = useSelector(selectProducts);
+
+  const allProducts = useMemo(
+    () => productsData?.results || [],
+    [productsData?.results]
+  );
 
   useEffect(() => {
     if (!allProducts || allProducts.length === 0) {
@@ -53,36 +61,36 @@ export default function RecommendedCards({ title = 'Вам також може �
   };
 
   return (
-      <section>
-        <h2 className={css.title}>{title}</h2>
-        <div className={css.slider}>
-          <button className={css.prevBtn} onClick={prevSlide}>
-            <IoIosArrowBack className={css.arrowIcon} />
-          </button>
+    <section>
+      <h2 className={css.title}>{title}</h2>
+      <div className={css.slider}>
+        <button className={css.prevBtn} onClick={prevSlide}>
+          <IoIosArrowBack className={css.arrowIcon} />
+        </button>
 
-          <ul className={css.card}>
-            {cards.map((item) => (
-              <li
-                className={`${css.container} ${
-                  activeCardId === item.id ? css.active : ''
-                }`}
-                onClick={() => handleCardClick(item.id)}
-                onBlur={handleCardBlur}
-                key={item.id}
-              >
-                <CardCollection
-                  item={item}
-                  categoryId={item.categoryId}
-                  from="recommended"
-                />
-              </li>
-            ))}
-          </ul>
+        <ul className={css.card}>
+          {cards.map((item) => (
+            <li
+              className={`${css.container} ${
+                activeCardId === item.id ? css.active : ''
+              }`}
+              onClick={() => handleCardClick(item.id)}
+              onBlur={handleCardBlur}
+              key={item.id}
+            >
+              <CardCollection
+                item={item}
+                categoryId={item.id}
+                from="recommended"
+              />
+            </li>
+          ))}
+        </ul>
 
-          <button className={css.nextBtn} onClick={nextSlide}>
-            <IoIosArrowForward className={css.arrowIcon} />
-          </button>
-        </div>
-      </section>
+        <button className={css.nextBtn} onClick={nextSlide}>
+          <IoIosArrowForward className={css.arrowIcon} />
+        </button>
+      </div>
+    </section>
   );
 }
