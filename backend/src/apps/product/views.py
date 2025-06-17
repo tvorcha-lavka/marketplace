@@ -15,6 +15,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.serializers import ModelSerializer
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
+from uuid6 import uuid7
 
 from core.celery.client import app
 
@@ -24,6 +25,7 @@ from .pagination import ProductPageNumberPagination
 from .permissions import IsProductOwnerOrAdmin
 from .serializers import (
     ProductCrateSerializer,
+    ProductCreateResponseSerializer,
     ProductDetailSerializer,
     ProductListSerializer,
     ProductPrivateDetailSerializer,
@@ -89,10 +91,13 @@ class ProductPrivateViewSet(ModelViewSet[Product]):
             .order_by("-draft")
         )
 
-    @extend_schema(request=ProductCrateSerializer)
+    @extend_schema(request=ProductCrateSerializer, responses=ProductCreateResponseSerializer)
     def create(self, request: Request, *args: Any, **kwargs: Any) -> Response:
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+
+        product_id = uuid7()
+        serializer.validated_data["id"] = product_id
 
         app.send_task(
             name="database.product.create",
@@ -110,7 +115,10 @@ class ProductPrivateViewSet(ModelViewSet[Product]):
         }
 
         message = is_draft[serializer.validated_data.get("draft", False)]
-        return Response({"message": message}, status=status.HTTP_201_CREATED)
+
+        data = {"product_id": product_id, "message": message}
+        response_data = ProductCreateResponseSerializer(data).data
+        return Response(response_data, status=status.HTTP_201_CREATED)
 
     @extend_schema(request=ProductUpdateSerializer, responses=ProductPrivateDetailSerializer)
     def update(self, request: Request, *args: Any, **kwargs: Any) -> Response:

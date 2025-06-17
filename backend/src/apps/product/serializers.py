@@ -1,3 +1,5 @@
+from typing import Any
+
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
@@ -82,6 +84,11 @@ class ProductCrateSerializer(serializers.ModelSerializer[Product]):
         except ValueError:
             message = str(_("Filters must be a comma-separated list of integers."))
             raise serializers.ValidationError(message, code="invalid")
+
+
+class ProductCreateResponseSerializer(serializers.Serializer[dict[str, Any]]):
+    product_id = serializers.UUIDField(read_only=True)
+    message = serializers.CharField(read_only=True)
 
 
 class ProductUpdateSerializer(ProductCrateSerializer):
