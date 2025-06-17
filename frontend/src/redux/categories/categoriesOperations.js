@@ -8,13 +8,10 @@ export const getAllCategoriesWithPopular = createAsyncThunk(
   'categories/getAllWithPopular',
   async (_, thunkAPI) => {
     try {
-      const params = { lang: 'uk' };
-      const popularParams = { ...params, popular: true };
-
-      const [allCategoriesRes, popCategoriesRes] = await Promise.all([
-        axios.get(`${baseApiUrl}/categories/`, { params }),
-        axios.get(`${baseApiUrl}/categories/`, { params: popularParams }),
-      ]);
+      const allCategoriesRes = await axios.get(`${baseApiUrl}/categories/`);
+      const popCategoriesRes = await axios.get(`${baseApiUrl}/categories/`, {
+        params: { popular: true },
+      });
 
       const tree = allCategoriesRes.data;
       const categoryTrees = buildCategoryTree(tree);
