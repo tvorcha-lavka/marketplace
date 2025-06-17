@@ -4,6 +4,7 @@ import { useState, useMemo } from 'react';
 import CustomButton from '../../CustomButton/CustomButton';
 import DeliveryResult from '../DeliveryResult/DeliveryResult';
 import DeliverySelect from '../DeliverySelect/DeliverySelect';
+import CartProduct from '../CartProduct/CartProduct';
 
 import {
   selectBasketItems,
@@ -11,7 +12,6 @@ import {
   selectCartStep,
 } from '../../../redux/basket/selectors';
 import { nextStep, previousStep } from '../../../redux/basket/slice';
-import { media } from '../../../utils/mediaConfig';
 import { isDeliveryDataValid } from '../../../utils/cartDetails';
 
 import css from './MethodDelivery.module.css';
@@ -62,13 +62,13 @@ export default function MethodDelivery({ onDeliveryChange }) {
 
     const payload = isActive
       ? {
-          ...deliveryData,
-          [ownerId]: { ...firstSellerData },
-        }
+        ...deliveryData,
+        [ownerId]: { ...firstSellerData },
+      }
       : {
-          ...deliveryData,
-          [ownerId]: {},
-        };
+        ...deliveryData,
+        [ownerId]: {},
+      };
 
     dispatch({ type: 'basket/updateDeliveryData', payload });
   };
@@ -106,28 +106,17 @@ export default function MethodDelivery({ onDeliveryChange }) {
               <p className={css.sellerPrice}>{totalPrice} грн</p>
             </div>
 
-            <ul role="list" className={css.cartList}>
-              {items.map(({ id, imagesSmall, title, price }) => (
-                <li role="listitem" key={id} className={css.cartItem}>
-                  <img
-                    className={css.itemImg}
-                    src={
-                      imagesSmall?.[0]?.url || `${media}/defaults/no-image.jpg`
-                    }
-                    alt={title}
-                  />
-                  <div>
-                    <div className={css.titleBox}>
-                      <h3 className={css.itemTitle}>{title}</h3>
-                      <p className={css.itemPrice}>{price}&nbsp;грн</p>
-                    </div>
-                    <div className={css.itemFilter}>
-                      <p>Розмір: ...</p>
-                      <p>Матеріал: ...</p>
-                      <p>Стан: ...</p>
-                    </div>
-                  </div>
-                </li>
+            <ul role="list">
+              {items.map((item) => (
+                <CartProduct
+                  key={item.id}
+                  item={item}
+                  showSeller={false}
+                  showRemoveButton={false}
+                  variant="default"
+                  titleBoxWidth="538px"
+                  className={css.cartItemCustom}
+                />
               ))}
             </ul>
 

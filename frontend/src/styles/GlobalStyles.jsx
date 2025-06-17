@@ -72,7 +72,8 @@ const GlobalStylesComponent = () => {
         },
 
         '.scrollBox': {
-          overflowY: 'auto',
+					overflowY: 'auto',
+					overflowX: 'hidden',
         },
 
         '.scrollBoxInner': {

@@ -1,4 +1,5 @@
 .modalBox {
+	margin-top: 8px;
   position: absolute;
   display: grid;
   grid-template-columns: 1fr 1fr 0.7fr;

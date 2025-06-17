@@ -23,9 +23,17 @@ export default function ShoppingCart() {
 
           <div className="scrollBox">
             <div className="scrollBoxInner">
-              <ul className={css.cartList}>
+              <ul>
                 {items.map((item) => (
-                  <CartProduct key={item.id} item={item} />
+                  <CartProduct
+                    key={item.id}
+                    item={item}
+                    showSeller={true}
+                    showRemoveButton={true}
+                    variant="shop"
+                    titleBoxWidth="494px"
+                    className={css.cartItemShop}
+                  />
                 ))}
               </ul>
             </div>

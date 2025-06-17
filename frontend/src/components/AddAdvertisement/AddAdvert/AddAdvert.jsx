@@ -17,11 +17,12 @@ import {
   selectCreatedProduct,
   selectAdvertsDetails,
 } from '../../../redux/addAdverts/selectors';
+import { setField, resetAdvert } from '../../../redux/addAdverts/slice';
 import { selectSelectedCategoryId } from '../../../redux/categories/categoriesSelectors';
 import { setSelectedCategoryId } from '../../../redux/categories/categoriesSlice';
 import { getFiltersCategory } from '../../../redux/filters/filtersOperations';
 import { selectFiltersCategory } from '../../../redux/filters/filtersSelector';
-import { setField, resetAdvert } from '../../../redux/addAdverts/slice';
+import { saveFilters } from '../../../utils/filtersDB';
 
 import css from './AddAdvert.module.css';
 
@@ -31,6 +32,7 @@ export default function AddAdvert() {
 
   const success = useSelector(selectCreateSuccess);
   const created = useSelector(selectCreatedProduct);
+
   const {
     selectedCategory,
     selectedSubCategory,
@@ -65,12 +67,6 @@ export default function AddAdvert() {
     }
   }, [categoryId, dispatch]);
 
-  useEffect(() => {
-    if (success && created) {
-      dispatch(resetAdvert());
-    }
-  }, [success, created]);
-
   const getFilterIds = () => {
     const ids = [];
 
@@ -92,6 +88,24 @@ export default function AddAdvert() {
     }
 
     return ids;
+  };
+
+  const getReadableFilters = () => {
+    const result = [];
+
+    Object.entries(selectedFilters).forEach(([filterName, filterValue]) => {
+      if (!filterValue) return;
+
+      const filter = filtersDescription.find((f) => f.name === filterName);
+      if (!filter) return;
+
+      result.push({
+        title: filter.title,
+        value: filterValue,
+      });
+    });
+
+    return result;
   };
 
   const submitTypeRef = useRef('publish');
@@ -131,8 +145,6 @@ export default function AddAdvert() {
       draft: isDraftSubmission,
     };
 
-    console.log('Отправляем данные:', data);
-
     dispatch(createProduct(data)).then(() => {
       sessionStorage.removeItem('ad_selectedFiles');
 
@@ -141,6 +153,20 @@ export default function AddAdvert() {
       });
     });
   };
+
+  useEffect(() => {
+    if (success && created) {
+      const productId = created.product_id;
+
+      const readableFilters = getReadableFilters();
+
+      if (productId && session_id && readableFilters.length > 0) {
+        saveFilters(productId, session_id, readableFilters).then(() => {});
+      }
+
+      dispatch(resetAdvert());
+    }
+  }, [success, created, session_id]);
 
   return (
     <div>

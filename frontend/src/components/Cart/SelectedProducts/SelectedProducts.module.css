@@ -32,9 +32,11 @@
   font-size: var(--font-size-tiny);
 }
 
-.cartList {
-  margin-block-end: 20px;
+/*SELECTED PRODUCT CART STYLES*/
+.cartItem {
   display: flex;
-  flex-direction: column;
-  gap: 12px;
+  padding-block-end: 11.5px;
+  padding-block-start: 11.5px;
+  width: 416px;
+  border-bottom: var(--border-width) var(--border-style) var(--grey-lighter);
 }

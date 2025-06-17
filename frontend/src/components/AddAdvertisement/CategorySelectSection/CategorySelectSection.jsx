@@ -16,18 +16,23 @@ export default function CategorySelectSection({
 }) {
   const [open, setOpen] = useState(false);
   const [isCategoryConfirmed, setIsCategoryConfirmed] = useState(false);
-	const [touched, setTouched] = useState(false);
+  const [touched, setTouched] = useState(false);
 
-	useEffect(() => {
+  useEffect(() => {
     if (
       (selectedCategory || selectedSubCategory || selectedChildCategory) &&
       !isCategoryConfirmed
     ) {
       setIsCategoryConfirmed(true);
     }
-  }, [selectedCategory, selectedSubCategory, selectedChildCategory]);
-	
-	const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
+  }, [
+    selectedCategory,
+    selectedSubCategory,
+    selectedChildCategory,
+    isCategoryConfirmed,
+  ]);
+
+  const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
   const fullCategoryPath = [
     selectedCategory?.title,
@@ -40,9 +45,23 @@ export default function CategorySelectSection({
 
   const showError = touched && !isCategoryConfirmed && !fullCategoryPath;
 
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    if (!selectedCategory && !selectedSubCategory && !selectedChildCategory) {
+      setTouched(true);
+    }
+  };
+
   const toggleOpen = () => {
-    setOpen((prev) => !prev);
-    setTouched(true);
+    if (open) {
+      handleClose();
+    } else {
+      handleOpen();
+    }
   };
 
   const handleCategorySelect = (category) => {
@@ -59,8 +78,10 @@ export default function CategorySelectSection({
       setSelectedSubCategory(null);
       setSelectedChildCategory(null);
     }
+
     setOpen(false);
     setIsCategoryConfirmed(true);
+    setTouched(false);
   };
 
   const handleEditCategory = () => {
