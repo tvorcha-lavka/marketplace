@@ -1,0 +1,19 @@
+services:
+  elasticsearch:
+    environment:
+      xpack.security.enabled: false
+
+  kibana:
+    image: kibana:9.0.2
+    container_name: kibana
+    ports:
+      - "5601:5601"
+    environment:
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    networks:
+      - tvorcha-network
+    mem_limit: 1024m
+    cpus: 0.5

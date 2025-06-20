@@ -22,6 +22,7 @@ def to_kebab_case(text: str) -> str:
 
 class CeleryWorkers(BaseModel):
     database: list[str]
+    elasticsearch: list[str]
     notification: list[str]
     statistics: list[str]
 
@@ -74,6 +75,13 @@ def run_celery(worker: str) -> None:
             "--autoscale=10,1",
             "--max-tasks-per-child=50",
             "--queues=database.queue",
+        ],
+        elasticsearch=[
+            "worker",
+            "--loglevel=info",
+            "--autoscale=10,1",
+            "--max-tasks-per-child=50",
+            "--queues=elasticsearch.queue",
         ],
         notification=[
             "worker",

@@ -31,6 +31,24 @@ services:
     mem_limit: 1024m
     cpus: 1
 
+  celery-elasticsearch-worker:
+    image: tvorchalavka/web-backend:latest
+    container_name: celery-elasticsearch-worker
+    env_file: ../../.env
+    restart: always
+    command: /scripts/entrypoint.py --worker elasticsearch
+    networks:
+      - tvorcha-network
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+    volumes:
+      - logs:/var/log/backend/celery/worker
+    mem_limit: 1024m
+    cpus: 1
+
   celery-notification-worker:
     image: tvorchalavka/web-backend:latest
     container_name: celery-notification-worker
