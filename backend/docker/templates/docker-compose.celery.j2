@@ -1,7 +1,8 @@
 {%- set workers = [
-  ("database", 1, "1024m"),
-  ("notification", 1, "1024m"),
-  ("statistics", 0.5, "512m"),
+  ("database", 1, "1024m", []),
+  ("elasticsearch", 1, "1024m", ["elasticsearch"]),
+  ("notification", 1, "1024m", []),
+  ("statistics", 0.5, "512m", []),
 ] -%}
 
 {%- set env_file = "../../.env" -%}
@@ -24,7 +25,7 @@ services:
       - logs:/var/log/backend/celery/beat
     mem_limit: 128m
     cpus: 0.25
-{% for worker, cpu, mem in workers %}
+{% for worker, cpu, mem, extra_deps in workers %}
   celery-{{ worker }}-worker:
     image: {{ image_tag }}
     container_name: celery-{{ worker }}-worker
@@ -36,6 +37,10 @@ services:
     depends_on:
       rabbitmq:
         condition: service_healthy
+    {%- for dep in extra_deps %}
+      {{ dep }}:
+        condition: service_healthy
+    {%- endfor %}
     volumes:
       - logs:/var/log/backend/celery/worker
     mem_limit: {{ mem }}

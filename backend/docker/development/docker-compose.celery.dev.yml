@@ -13,6 +13,13 @@ services:
       - ../src:/src/
       - ../scripts:/scripts/
 
+  celery-elasticsearch-worker:
+    image: tvorchalavka/web-backend:develop
+    restart: no
+    volumes:
+      - ../src:/src/
+      - ../scripts:/scripts/
+
   celery-notification-worker:
     image: tvorchalavka/web-backend:develop
     restart: no

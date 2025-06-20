@@ -24,7 +24,8 @@ DOCKER_COMPOSE_BASE_FLAGS := \
 	-f $(DOCKER_DIR)/docker-compose.yml \
 	-f $(DOCKER_DIR)/docker-compose.redis.yml \
 	-f $(DOCKER_DIR)/docker-compose.rabbitmq.yml \
-	-f $(DOCKER_DIR)/docker-compose.celery.yml
+	-f $(DOCKER_DIR)/docker-compose.celery.yml \
+	-f $(DOCKER_DIR)/docker-compose.elasticsearch.yml
 
 DOCKER_COMPOSE_TESTING_FLAGS := \
 	--env-file $(ENV_FILE) \
@@ -38,7 +39,8 @@ ifeq ($(ENV_STATE), development)
   DOCKER_COMPOSE_FLAGS := \
   	$(DOCKER_COMPOSE_BASE_FLAGS) \
 	-f $(DOCKER_DEV_DIR)/docker-compose.dev.yml \
-	-f $(DOCKER_DEV_DIR)/docker-compose.celery.dev.yml
+	-f $(DOCKER_DEV_DIR)/docker-compose.celery.dev.yml \
+	-f $(DOCKER_DEV_DIR)/docker-compose.elasticsearch.dev.yml
 
   DOCKER_VOLUME := $(DOCKER_VOLUME_NAME)
 else
