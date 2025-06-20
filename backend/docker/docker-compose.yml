@@ -18,6 +18,8 @@ services:
     depends_on:
       redis:
         condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
     volumes:
       - logs:/var/log/backend/django
     mem_limit: 512m
