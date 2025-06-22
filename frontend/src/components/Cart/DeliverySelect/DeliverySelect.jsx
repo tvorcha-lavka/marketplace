@@ -43,7 +43,7 @@ export default function DeliverySelect({ owner, onDeliveryChange }) {
       .map((d) => `${d.name}, ${d.address}`);
   };
 
-  const renderDropdowns = (type) => {
+  const renderDropdowns = () => {
     const cityValue = currentData.city || '';
     const branchValue = currentData.branch || '';
 

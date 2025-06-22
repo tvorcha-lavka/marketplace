@@ -133,10 +133,6 @@ export default function CategorySelectSection({
             </button>
             {open && <CategoryModal onSelectCategory={handleCategorySelect} />}
           </div>
-
-          {showError && (
-            <p className={css.error}>Вибір категорії є обов&#8217;язковим</p>
-          )}
         </>
       ) : (
         <div className={css.resultBox}>

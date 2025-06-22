@@ -30,10 +30,6 @@ export default function CourierDeliveryRender({ deliveryData, owner, handleInput
       .join(' ');
   };
 
-  const hasErrors = ['city', 'street', 'house', 'apartment'].some((field) =>
-    fieldHasError(field)
-  );
-
   return (
     <div className={css.detailsBox}>
       <div className={css.detailsWrapperAddress}>
@@ -82,11 +78,6 @@ export default function CourierDeliveryRender({ deliveryData, owner, handleInput
             onBlur={() => handleBlur('apartment')}
           />
         </div>
-        {hasErrors && (
-          <p className={css.errorMessage}>
-            Усі поля обов&#8217;язкові для заповнення
-          </p>
-        )}
       </div>
     </div>
   );

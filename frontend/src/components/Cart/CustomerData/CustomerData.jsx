@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Form } from 'formik';
 import { LiaEditSolid } from 'react-icons/lia';
+import { useState, useEffect } from 'react';
 
 import CustomButton from '../../CustomButton/CustomButton';
 import FormField from '../FormField/FormField';
@@ -22,6 +23,15 @@ export default function CustomerData() {
   const dispatch = useDispatch();
   const step = useSelector(selectCartStep);
   const customerData = useSelector(selectCustomerData);
+
+  const [isPersistValid, setIsPersistValid] = useState(false);
+
+  useEffect(() => {
+    validationSchema
+      .isValid(customerData)
+      .then((valid) => setIsPersistValid(valid))
+      .catch(() => setIsPersistValid(false));
+  }, [customerData]);
 
   const handleSubmit = (values) => {
     dispatch(updateCustomerData(values));
@@ -96,7 +106,7 @@ export default function CustomerData() {
                   className={css.btnContinue}
                   size="small"
                   type="submit"
-                  disabled={!(isValid && dirty)}
+                  disabled={!(isValid && dirty) && !isPersistValid}
                 >
                   Продовжити
                 </CustomButton>
@@ -115,7 +125,7 @@ export default function CustomerData() {
             >
               Редагувати дані
               <span>
-                <LiaEditSolid size={16} />
+                <LiaEditSolid className={css.editIcon} />
               </span>
             </button>
           </div>

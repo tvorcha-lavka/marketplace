@@ -11,18 +11,15 @@ export default function PriceSection({ price, setPrice }) {
 
   const isEmpty = touched && price.trim() === '';
   const isTooHigh = touched && numericPrice > MAX_PRICE;
+  const isInvalid = isEmpty || isTooHigh;
+  const showErrorText = isTooHigh;
 
-  let error = '';
-  if (isEmpty) {
-    error = 'Ціна є обовʼязковою';
-  } else if (isTooHigh) {
-    error = `Максимальна ціна: ${MAX_PRICE.toLocaleString('uk-UA', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    })}`;
-  }
-
-  const isInvalid = Boolean(error);
+  const error = isTooHigh
+    ? `Максимальна ціна: ${MAX_PRICE.toLocaleString('uk-UA', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })}`
+    : '';
 
   const handleChange = (e) => {
     let value = e.target.value;
@@ -65,7 +62,7 @@ export default function PriceSection({ price, setPrice }) {
             onChange={handleChange}
             onBlur={handleBlur}
           />
-          {isInvalid && <span className={css.errorText}>{error}</span>}
+          {showErrorText && <span className={css.errorText}>{error}</span>}
         </label>
       </div>
     </fieldset>

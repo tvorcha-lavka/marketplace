@@ -72,7 +72,7 @@ export default function PasswordField({
 
       {showInfo && (
         <p className={css.additionalInfo}>
-          Пароль має складатись з мін. 8 та макс. 30 символів, цифр і
+          Пароль має складатись з мін. 8 та макс. 128 символів, цифр і
           спеціальних знаків
         </p>
       )}

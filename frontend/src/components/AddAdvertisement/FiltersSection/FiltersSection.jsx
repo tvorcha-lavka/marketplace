@@ -108,12 +108,6 @@ export default function FiltersSection({
                   </Options>
                 ))}
               </StyledSelect>
-
-              {showError && (
-                <p className={css.errorText}>
-                  Вибір &#171;{filter.title}&#187; є обов&#8217;язковим
-                </p>
-              )}
             </StyledSelectWrapper>
           );
         })}

@@ -14,7 +14,6 @@ export default function DescriptionField({
     const trimmed = value.trim();
 
     return {
-      isEmpty: touched && trimmed === '',
       isTooShort: touched && trimmed.length > 0 && trimmed.length < minLength,
       isTooLong: value.length > maxLength,
       hasError:
@@ -25,7 +24,6 @@ export default function DescriptionField({
   }
 
   const {
-    isEmpty: isTitleEmpty,
     isTooShort: isTitleTooShort,
     isTooLong: isTitleTooLong,
     hasError: hasTitleError,
@@ -37,7 +35,6 @@ export default function DescriptionField({
   });
 
   const {
-    isEmpty: isDescriptionEmpty,
     isTooShort: isDescriptionTooShort,
     isTooLong: isDescriptionTooLong,
     hasError: hasDescriptionError,
@@ -80,10 +77,6 @@ export default function DescriptionField({
             Мінімальна кількість символів - 15. Зараз: {title.trim().length}
           </p>
         )}
-
-        {isTitleEmpty && (
-          <p className={css.errorMessage}>Це поле не може бути порожнім</p>
-        )}
       </label>
 
       <label className={css.labelAdvert}>
@@ -103,10 +96,6 @@ export default function DescriptionField({
             Мінімальна кількість символів - 40. Зараз:{' '}
             {description.trim().length}
           </p>
-        )}
-
-        {isDescriptionEmpty && (
-          <p className={css.errorMessage}>Це поле не може бути порожнім</p>
         )}
 
         {isDescriptionTooLong && (

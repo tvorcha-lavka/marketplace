@@ -112,10 +112,3 @@
   width: 16px;
   height: 16px;
 }
-
-.error {
-  margin-top: 5px;
-  font-size: var(--font-size-extra-tiny);
-  font-weight: var(--font-weight-normal);
-  color: var(--error-red);
-}

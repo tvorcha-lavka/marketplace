@@ -20,8 +20,10 @@ export default function DropdownSelector({
     useState(false);
 
   useEffect(() => {
-    setSearchTerm(value || '');
-  }, [value]);
+    if (!open) {
+      setSearchTerm(value || '');
+    }
+  }, [value, open]);
 
   const dataList = useMemo(() => {
     return fetchData.filter((item) => {
@@ -75,6 +77,9 @@ export default function DropdownSelector({
           value={searchTerm}
           onChange={handleInputChange}
           onBlur={handleBlur}
+          onClick={() => {
+            setSearchTerm('');
+          }}
           onFocus={() => {
             setOpen(true);
             setHasTriedToOpenWhenDisabled(false);
@@ -92,9 +97,15 @@ export default function DropdownSelector({
             }
             setOpen((prev) => {
               const nextState = !prev;
+
+              if (nextState) {
+                setSearchTerm('');
+              }
+
               if (!nextState && !searchTerm.trim()) {
                 setIsTouched(true);
               }
+
               return nextState;
             });
           }}
@@ -110,7 +121,6 @@ export default function DropdownSelector({
           )}
         </button>
       </div>
-      {hasError && <p className={css.errorMessage}>Обов&#8217;язкове поле</p>}
       {isDisabled && hasTriedToOpenWhenDisabled && (
         <p className={css.errorMessage}>{disabledMessage}</p>
       )}
