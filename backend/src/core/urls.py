@@ -29,6 +29,7 @@ urlpatterns: list[URLPattern | URLResolver] = [
     path("api/categories/", include("apps.category.urls")),
     path("api/products/", include("apps.product.urls")),
     path("api/filters/", include("apps.filter.urls")),
+    path("api/search/", include("apps.search.urls")),
 ]
 
 if settings.DEBUG:
