@@ -1,7 +1,7 @@
 from django.urls import path
 
-from .views import SearchView
+from .views import SearchPanelView
 
 urlpatterns = [
-    path("", SearchView.as_view(), name="search"),
+    path("", SearchPanelView.as_view(), name="search"),
 ]
