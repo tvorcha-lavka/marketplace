@@ -156,6 +156,18 @@ create-superuser:
 	@docker compose $(DOCKER_COMPOSE_FLAGS) run --rm $(BASE_IMAGE_TAG) \
 	python manage.py createsuperuser
 
+index-all:
+	@docker compose $(DOCKER_COMPOSE_FLAGS) run --rm $(BASE_IMAGE_TAG) \
+	python manage.py index_documents --all
+
+index-categories:
+	@docker compose $(DOCKER_COMPOSE_FLAGS) run --rm $(BASE_IMAGE_TAG) \
+	python manage.py index_documents category
+
+index-products:
+	@docker compose $(DOCKER_COMPOSE_FLAGS) run --rm $(BASE_IMAGE_TAG) \
+	python manage.py index_documents product
+
 # --- Code Linters -----------------------------------------------------------------------------------------------------
 .PHONY: lint flake8
 
