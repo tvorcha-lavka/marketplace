@@ -6,22 +6,19 @@
   padding: 18px 0 18px 0;
 }
 
-.leftPart,
-.rightPart {
+.leftPart {
   display: flex;
   flex-direction: row;
+	justify-content: center;
   align-items: center;
 }
 
 .rightPart {
-  column-gap: 20px;
-}
-
-.likeIcon {
-  width: var(--icon-size-normal);
-  height: var(--icon-size-normal);
-  color: var(--default-black);
-  outline: var(--default-black);
+  display: flex;
+  flex-direction: row;
+	justify-content: center;
+  align-items: center;
+	column-gap: 24px;
 }
 
 .catalogBtn {
@@ -41,13 +38,10 @@
   stroke: var(--default-black);
 }
 
-.shoppingIcon {
-  width: var(--icon-size-normal);
-  height: var(--icon-size-normal);
-  stroke: var(--default-black);
-}
-
 .loginButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 40px;
   height: 40px;
   border-radius: var(--border-radius-circle);
@@ -56,8 +50,81 @@
   outline: var(--border-width) var(--border-style) transparent;
 }
 
-.userIcon {
-  width: var(--icon-size-medium);
-  height: var(--icon-size-medium);
-  stroke: var(--default-black);
+.likeIcon,
+.shoppingIcon,
+.userIcon,
+.popupIcon,
+.chatIcon {
+  width: var(--icon-size-normal);
+  height: var(--icon-size-normal);
+  color: var(--default-black);
+  outline: var(--default-black);
+}
+
+.noticeIcon {
+  width: 27px;
+  height: 27px;
+  color: var(--default-black);
+  outline: var(--default-black);
+}
+
+.popupBtn {
+  display: flex;
+  align-items: center;
+  font-size: var(--font-size-extra-small);
+  background-color: transparent;
+  border: none;
+}
+
+.avatarItem {
+  display: flex;
+}
+
+.avatar {
+  object-fit: cover;
+  margin-right: 8px;
+  width: 42px;
+  height: 42px;
+  border-radius: var(--border-radius-circle);
+}
+
+.avatarImage {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--border-radius-circle);
+  border: 0.4px var(--border-style) var(--primary-yellow);
+}
+
+.avatarItem:has(.popupBtn:hover) .avatarImage {
+  border: 0.8px var(--border-style) var(--primary-yellow);
+}
+
+.avatarItem:has(.popupBtn:focus) .avatarImage {
+  border: var(--bord-width-bigger) var(--border-style) var(--primary-yellow);
+}
+
+/*USER POPUP STYLES*/
+.modalBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 777;
+}
+
+.modal {
+  top: -26.5%;
+  right: -21%;
+  width: 214px;
+  position: relative;
+  border-bottom-left-radius: var(--border-radius-medium);
+  border-bottom-right-radius: var(--border-radius-medium);
+  box-shadow: var(--cart-shadow);
+  background-color: var(--default-white);
 }

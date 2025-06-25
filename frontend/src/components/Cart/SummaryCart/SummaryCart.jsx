@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { BsShieldFillExclamation } from 'react-icons/bs';
 
-import CustomButton from '../../CustomButton/CustomButton';
+import CustomButton from '../../ButtonElements/CustomButton/CustomButton';
 
 import { media } from '../../../utils/mediaConfig';
 import {
@@ -11,6 +11,8 @@ import {
   selectBasketItems,
 } from '../../../redux/basket/selectors';
 import { clearBasket, resetStep } from '../../../redux/basket/slice';
+import { selectLoggedIn } from '../../../redux/auth/selectors';
+import { useModal } from '../../../hooks/useModal';
 
 import css from './SummaryCart.module.css';
 
@@ -18,6 +20,9 @@ export default function SummaryCart({ isClickBtn }) {
   const totalOrderPrice = useSelector(selectTotal);
   const { deliveryData } = useSelector(selectCart);
   const items = useSelector(selectBasketItems);
+  const isLoggedIn = useSelector(selectLoggedIn);
+  const { openModal } = useModal();
+
   const isCartEmpty = items.length === 0;
 
   const location = useLocation();
@@ -25,18 +30,33 @@ export default function SummaryCart({ isClickBtn }) {
   const dispatch = useDispatch();
   const isOrderPage = location.pathname === '/order';
 
+  const handleOrderClick = () => {
+    if (!isLoggedIn) {
+      openModal('login');
+      return;
+    }
+
+    if (isOrderPage) {
+      dispatch(clearBasket());
+      dispatch(resetStep());
+      navigate('/confirmation/order');
+    } else {
+      navigate('/order');
+    }
+  };
+
   const getDeliveryPrice = () =>
     Object.values(deliveryData || {}).reduce((total, { type }) => {
       switch (type) {
-        case 'nova-poshta':
-        case 'post_box':
-          return total + 120;
-        case 'courier':
-          return total + 135;
-        case 'ukrposhta':
-          return total + 80;
-        default:
-          return total;
+      case 'nova-poshta':
+      case 'post_box':
+        return total + 120;
+      case 'courier':
+        return total + 135;
+      case 'ukrposhta':
+        return total + 80;
+      default:
+        return total;
       }
     }, 0);
 
@@ -77,11 +97,7 @@ export default function SummaryCart({ isClickBtn }) {
           className={css.btnOrder}
           size="large"
           type="button"
-          onClick={
-            isOrderPage
-              ? handleNavigate('/confirmation/order')
-              : handleNavigate('/order')
-          }
+          onClick={handleOrderClick}
           disabled={isOrderPage ? !isClickBtn : isCartEmpty}
         >
           {isOrderPage ? 'Оформити замовлення' : 'Перейти до оформлення'}

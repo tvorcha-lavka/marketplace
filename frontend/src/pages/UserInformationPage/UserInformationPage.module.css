@@ -1,0 +1,129 @@
+.container {
+  border-radius: var(--border-radius-medium);
+  padding: 24px;
+  width: 1200px;
+  box-shadow: var(--cart-shadow);
+  background-color: var(--default-white);
+}
+
+.formContainer {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  column-gap: 94px;
+}
+
+/*AVATAR INPUT STYLES*/
+.avatarWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.avatarImage {
+  margin-bottom: 16px;
+  width: 184px;
+  height: 184px;
+  overflow: hidden;
+  object-fit: cover;
+  border-radius: var(--border-radius-circle);
+  border: 4px var(--border-style) var(--primary-yellow);
+}
+
+.avatarInput {
+  display: none;
+}
+
+/*ELSE STYLES*/
+.title {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-small);
+  color: var(--default-black);
+  margin-bottom: 20px;
+}
+
+.title:last-of-type {
+  margin-bottom: 4px;
+}
+
+.fieldsWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.headerWithButton {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.borderStyle::after {
+  content: '';
+  display: block;
+  width: 874px;
+  margin-top: 16px;
+  margin-bottom: 32px;
+  border-top: var(--border-width) var(--border-style) var(--grey-dark);
+}
+
+.borderSecurityStyle {
+  content: '';
+  display: block;
+  width: 874px;
+  margin-top: 32px;
+  margin-bottom: 32px;
+  border-top: var(--border-width) var(--border-style) var(--grey-dark);
+}
+
+.newPwdWrap {
+  width: 429px;
+  display: block;
+  margin-inline-start: auto;
+}
+
+.saveBtn {
+  margin-bottom: 32px;
+  display: block;
+  margin-inline-start: auto;
+}
+
+.saveBtnSecurity {
+  margin-top: 4px;
+  margin-bottom: 32px;
+  display: block;
+  margin-inline-start: auto;
+}
+
+.generalError {
+  color: var(--error-red);
+	font-weight: var(--font-weight-normal);
+  font-size: var(--font-size-tiny);
+  margin-bottom: 8px;
+}
+
+.noticeText {
+  margin-bottom: 20px;
+  font-weight: var(--font-weight-normal);
+  font-size: var(--font-size-tiny);
+  color: #414141;
+}
+
+.removeBtn {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  font-weight: var(--font-weight-normal);
+  font-size: var(--font-size-tiny);
+  color: var(--error-red);
+}
+
+.removeIcon {
+  margin-right: 6px;
+  width: var(--icon-size-medium);
+  height: var(--icon-size-medium);
+  stroke: var(--error-red);
+}

@@ -1,0 +1,22 @@
+.wrapper {
+  padding: 24px;
+  border-radius: var(--border-radius-medium);
+  box-shadow: var(--cart-shadow);
+  background-color: var(--default-white);
+}
+
+.title {
+  margin-bottom: 20px;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-small);
+  color: var(--default-black);
+}
+
+.flexWrap {
+  display: flex;
+  align-items: center;
+}
+
+.addBtn {
+  margin-top: 32px;
+}
