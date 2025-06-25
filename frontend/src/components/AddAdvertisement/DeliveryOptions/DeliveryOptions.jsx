@@ -1,11 +1,7 @@
-import { media } from '../../../utils/mediaConfig';
+import CheckboxInput from '../../FormElements/CheckboxInput/CheckboxInput';
+import { deliveryType } from '../../../utils/cartDetails';
 
 import css from './DeliveryOptions.module.css';
-
-const deliveryType = [
-  { name: 'Нова пошта', img: `${media}/logo/Nova_Poshta_logo.png` },
-  { name: 'Укрпошта', img: `${media}/logo/ukrposhta_logo.png` },
-];
 
 export default function DeliveryOptions({
   isSelectedDelivery,
@@ -32,32 +28,29 @@ export default function DeliveryOptions({
         </span>
       </h3>
 
-      <div className={css.deliveryBox}>
-        {deliveryType.map(({ name, img }) => {
+      <ul className={css.deliveryBox}>
+        {deliveryType.map(({ name, img, width, height }) => {
           const isChecked =
             Array.isArray(isSelectedDelivery) &&
-						isSelectedDelivery.includes(name);
-					
+            isSelectedDelivery.includes(name);
+
           return (
-            <label
-              key={name}
-              htmlFor={name}
-              className={`${css.deliveryLabel} ${isChecked ? css.selected : ''}`}
-            >
-              <input
+            <li key={name}>
+              <CheckboxInput
                 id={name}
-                type="checkbox"
-                name="delivery"
-                value={name}
+                name={name}
                 checked={isChecked}
                 onChange={() => handleDeliveryChange(name)}
+                icon={() => (
+                  <img width={width} height={height} src={img} alt={name} />
+                )}
+                variant="image"
+                width="261px"
               />
-              <span className={css.checkmark}></span>
-              <img className={css.deliveryImg} src={img} alt={name} />
-            </label>
+            </li>
           );
         })}
-      </div>
+      </ul>
     </fieldset>
   );
 }

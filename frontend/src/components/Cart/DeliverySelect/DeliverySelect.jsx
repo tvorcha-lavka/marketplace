@@ -1,7 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux';
 
-import DropdownSelector from '../DropdownSelector/DropdownSelector';
 import CourierDeliveryRender from '../CourierDeliveryRender/CourierDeliveryRender';
+import RadioInput from '../../FormElements/RadioInput/RadioInput';
+import DropdownCustomInput from '../../FormElements/DropdownCustomInput/DropdownCustomInput';
 
 import { updateDeliveryData } from '../../../redux/basket/slice';
 import { selectCart } from '../../../redux/basket/selectors';
@@ -48,28 +49,34 @@ export default function DeliverySelect({ owner, onDeliveryChange }) {
     const branchValue = currentData.branch || '';
 
     return (
-      <ul>
-        <DropdownSelector
-          label="Місто"
-          placeholder="Введіть місто"
-          fetchData={getCityOptions()}
-          value={cityValue}
-          onChange={(selected) => handleInputChange('city', selected)}
+      <div className={css.listWrap}>
+        <DropdownCustomInput
           fieldKey="city"
+          label="Місто"
+          value={cityValue}
+          placeholder="Введіть місто"
+          options={getCityOptions()}
+          onChange={(selected) => handleInputChange('city', selected)}
+          disabled={false}
+          mode="list"
+          editable={true}
+          inputWidth="614px"
         />
-        <DropdownSelector
+        <DropdownCustomInput
+          fieldKey="branch"
           label="Відділення"
-          placeholder="Оберіть відділення"
-          fetchData={getBranchOptions(cityValue)}
           value={branchValue}
+          placeholder="Оберіть відділення"
           onChange={(selected) =>
             handleInputChange('branch', selected?.value || selected)
           }
-          fieldKey="branch"
-          isDisabled={!cityValue}
-          disabledMessage="Спочатку оберіть місто"
+          disabled={!cityValue}
+          mode="list"
+          editable={true}
+          inputWidth="614px"
+          options={getBranchOptions(cityValue)}
         />
-      </ul>
+      </div>
     );
   };
 
@@ -94,24 +101,15 @@ export default function DeliverySelect({ owner, onDeliveryChange }) {
       {deliveryOptions.map(({ type, label, cost }) => (
         <li key={type} className={css.deliveryItem}>
           <div className={css.deliveryBox}>
-            <div className={css.deliveryOption}>
-              <input
-                className={css.optionInput}
-                id={`delivery-${owner}-${type}`}
-                type="radio"
-                name={`deliveryData-${owner}`}
-                value={type}
-                checked={currentData.type === type}
-                onChange={() => handleDeliveryTypeChange(type)}
-                required
-              />
-              <label
-                htmlFor={`delivery-${owner}-${type}`}
-                className={css.deliveryOption}
-              >
-                {label}
-              </label>
-            </div>
+            <RadioInput
+              id={`delivery-${owner}-${type}`}
+              name={`deliveryData-${owner}`}
+              value={type}
+              checked={currentData.type === type}
+              onChange={() => handleDeliveryTypeChange(type)}
+              label={label}
+              required
+            />
             <p>{cost}</p>
           </div>
           {currentData.type === type && (

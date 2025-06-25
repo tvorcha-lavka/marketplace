@@ -14,30 +14,12 @@
 .formWrapper {
   display: flex;
   gap: 12px;
-  margin-bottom: 16px;
 }
 
 .btnContinue {
   display: block;
   margin-block-start: 12px;
   margin-inline-start: auto;
-}
-
-.editBtn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--default-black);
-  border: none;
-  background-color: transparent;
-  text-decoration: underline;
-  font-size: var(--font-size-tiny);
-}
-
-.editIcon {
-  stroke: var(--default-black);
-  width: 16px;
-  height: 16px;
 }
 
 .titleBox {

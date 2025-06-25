@@ -1,0 +1,47 @@
+.option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.optionExtended {
+  padding: 16px;
+  border-radius: var(--border-radius);
+  border: var(--border-style) var(--border-width) var(--grey-dark);
+  font-size: var(--font-size-tiny);
+  margin-block-end: 12px;
+}
+
+.optionInput[type='radio'] {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: var(--border-width-big) var(--border-style) var(--grey-dark);
+  border-radius: var(--border-radius-circle);
+  outline: var(--border-width) var(--border-style) transparent;
+  cursor: pointer;
+  position: relative;
+}
+
+.optionInput[type='radio']:checked {
+  background-color: var(--default-white);
+  border-color: var(--primary-yellow);
+}
+
+.optionInput[type='radio']:checked::after {
+  content: '';
+  width: 10px;
+  height: 10px;
+  background-color: var(--primary-yellow);
+  border-radius: var(--border-radius-circle);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.label {
+  font-weight: var(--font-weight-normal);
+  font-size: var(--font-size-tiny);
+  color: var(--default-black);
+}

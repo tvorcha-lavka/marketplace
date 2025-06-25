@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import FormInput from '../../FormElements/FormInput/FormInput';
+
 import css from './PriceSection.module.css';
 
 const MAX_PRICE = 99999999.99;
@@ -12,19 +14,18 @@ export default function PriceSection({ price, setPrice }) {
   const isEmpty = touched && price.trim() === '';
   const isTooHigh = touched && numericPrice > MAX_PRICE;
   const isInvalid = isEmpty || isTooHigh;
-  const showErrorText = isTooHigh;
+  const showErrorText = isInvalid;
 
   const error = isTooHigh
     ? `Максимальна ціна: ${MAX_PRICE.toLocaleString('uk-UA', {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      })}`
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })}`
     : '';
 
   const handleChange = (e) => {
-    let value = e.target.value;
-
-    let formatted = value.replace(/[^0-9.,]/g, '');
+    let values = e.target.value;
+    let formatted = values.replace(/[^0-9.,]/g, '');
 
     formatted = formatted.replace(/-/g, '');
 
@@ -41,29 +42,22 @@ export default function PriceSection({ price, setPrice }) {
   };
   const handleBlur = () => setTouched(true);
 
-  const inputClass = `${css.inputAdvert} ${
-    isInvalid ? css.inputError : price ? css.inputActive : ''
-  }`;
-
   return (
     <fieldset className={css.wrapper}>
       <h3 className={css.title}>Умови продажу</h3>
       <div className={css.priceBox}>
-        <label className={css.labelAdvert} htmlFor="price">
-          <p className={css.spanLabel}>Ціна &#42;</p>
-          <input
-            className={inputClass}
-            placeholder="150"
-            type="text"
-            name="price"
-            id="price"
-            inputMode="decimal"
-            value={price}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-          {showErrorText && <span className={css.errorText}>{error}</span>}
-        </label>
+        <FormInput
+          id="price"
+          name="price"
+          label="Ціна"
+          placeholder="150"
+          value={price}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          showError={showErrorText}
+          error={error}
+          inputWidth="230px"
+        />
       </div>
     </fieldset>
   );

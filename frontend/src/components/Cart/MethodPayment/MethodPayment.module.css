@@ -2,45 +2,6 @@
   margin-block-start: 20px;
 }
 
-.paymentOption {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 16px;
-  border-radius: var(--border-radius);
-  border: var(--border-style) var(--border-width) var(--grey-dark);
-  font-size: var(--font-size-tiny);
-  margin-block-end: 12px;
-}
-
-input[type='radio'] {
-  appearance: none;
-  width: 20px;
-  height: 20px;
-  border: var(--border-style) var(--border-width-big) var(--grey-dark);
-  border-radius: var(--border-radius-circle);
-  outline: none;
-  cursor: pointer;
-  position: relative;
-}
-
-input[type='radio']:checked {
-  background-color: var(--default-white);
-  border-color: var(--primary-yellow);
-}
-
-input[type='radio']:checked::after {
-  content: '';
-  width: 10px;
-  height: 10px;
-  background-color: var(--primary-yellow);
-  border-radius: var(--border-radius-circle);
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
 .btnContinue {
   display: block;
   margin-block-start: 24px;

@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { GoChevronDown, GoChevronUp } from 'react-icons/go';
-import { LiaEditSolid } from 'react-icons/lia';
 
 import CategoryModal from '../CategoryModal/CategoryModal';
+import DropdownCustomInput from '../../FormElements/DropdownCustomInput/DropdownCustomInput';
+import CustomEditButton from '../../ButtonElements/CustomEditButton/CustomEditButton';
 
 import css from './CategorySelectSection.module.css';
 
@@ -43,8 +43,6 @@ export default function CategorySelectSection({
     .map(capitalize)
     .join(' / ');
 
-  const showError = touched && !isCategoryConfirmed && !fullCategoryPath;
-
   const handleOpen = () => {
     setOpen(true);
   };
@@ -53,14 +51,6 @@ export default function CategorySelectSection({
     setOpen(false);
     if (!selectedCategory && !selectedSubCategory && !selectedChildCategory) {
       setTouched(true);
-    }
-  };
-
-  const toggleOpen = () => {
-    if (open) {
-      handleClose();
-    } else {
-      handleOpen();
     }
   };
 
@@ -99,40 +89,22 @@ export default function CategorySelectSection({
 
       {!isCategoryConfirmed ? (
         <>
-          <label className={css.labelAdvert} htmlFor="categories">
-            <p className={css.spanLabel}>Категорія &#42;</p>
-          </label>
-
-          <div className={css.categoryBox}>
-            <input
-              id="categories"
-              name="categories"
-              type="text"
-              placeholder="Оберіть категорію"
-              value={fullCategoryPath}
-              readOnly
-              onClick={toggleOpen}
-              className={`${css.inputAdvert} ${open ? css.openBorder : ''} ${showError ? css.errorBorder : ''}`}
-            />
-            <button
-              type="button"
-              onClick={toggleOpen}
-              aria-label={
-                open ? 'Закрити список категорій' : 'Відкрити список категорій'
-              }
-            >
-              {open ? (
-                <GoChevronUp
-                  className={`${css.categoryIcon} ${open ? css.openIcon : ''} ${showError ? css.errorIcon : ''}`}
-                />
-              ) : (
-                <GoChevronDown
-                  className={`${css.categoryIcon} ${open ? css.openIcon : ''} ${showError ? css.errorIcon : ''}`}
-                />
-              )}
-            </button>
-            {open && <CategoryModal onSelectCategory={handleCategorySelect} />}
-          </div>
+          <DropdownCustomInput
+            label="Категорія"
+            value={fullCategoryPath}
+            placeholder="Оберіть категорію"
+            onSelect={handleCategorySelect}
+            isOpen={open}
+            onOpen={handleOpen}
+            onClose={handleClose}
+            error={!isCategoryConfirmed}
+            touched={touched}
+            mode="modal"
+            renderModal={() => (
+              <CategoryModal onSelectCategory={handleCategorySelect} />
+            )}
+            inputWidth="373px"
+          />
         </>
       ) : (
         <div className={css.resultBox}>
@@ -140,13 +112,10 @@ export default function CategorySelectSection({
             Категорія:{' '}
             <span className={css.resultText}>{fullCategoryPath}</span>
           </p>
-          <button
-            type="button"
-            className={css.editBtn}
-            onClick={handleEditCategory}
-          >
-            Редагувати <LiaEditSolid className={css.editIcon} />
-          </button>
+
+          <CustomEditButton onClick={handleEditCategory}>
+            Редагувати
+          </CustomEditButton>
         </div>
       )}
     </fieldset>

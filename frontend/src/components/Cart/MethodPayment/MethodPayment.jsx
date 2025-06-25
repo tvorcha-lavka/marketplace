@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 
-import CustomButton from '../../CustomButton/CustomButton';
-import RadioPaymentInput from '../RadioPaymentInput/RadioPaymentInput';
+import CustomButton from '../../ButtonElements/CustomButton/CustomButton';
+import RadioInput from '../../FormElements/RadioInput/RadioInput';
 
 import { nextStep, updatePaymentData } from '../../../redux/basket/slice';
 import { selectPaymentData } from '../../../redux/basket/selectors';
@@ -40,10 +40,9 @@ export default function MethodPayment({ isClickBtn, setIsClickBtn }) {
     <div className={css.paymentSection}>
       {paymentOptions.map(({ id, value, label }) => {
         const isChecked = paymentData.type === value;
-        const className = `${css.paymentOption}${isClickBtn && isChecked ? ' ' + css.inputResult : ''}`;
 
         return !isClickBtn || isChecked ? (
-          <RadioPaymentInput
+          <RadioInput
             key={id}
             id={id}
             name="paymentData"
@@ -51,7 +50,7 @@ export default function MethodPayment({ isClickBtn, setIsClickBtn }) {
             checked={isChecked}
             onChange={() => handlePaymentTypeChange(value)}
             label={label}
-            className={className}
+            variant="extended"
           />
         ) : null;
       })}

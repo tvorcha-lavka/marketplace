@@ -1,0 +1,111 @@
+.label {
+  display: block;
+  font-size: var(--font-size-tiny);
+  font-weight: var(--font-weight-bold);
+  color: var(--default-black);
+  margin-bottom: 4px;
+}
+
+.dropdownPosition {
+  height: 44px;
+  position: relative;
+}
+
+.input {
+  margin-bottom: 7px;
+  height: 44px;
+  padding: 12px 36px 12px 12px;
+  font-size: var(--font-size-tiny);
+  background-color: transparent;
+  border-radius: var(--border-radius);
+  border: var(--border-width) var(--border-style) var(--grey-dark);
+  outline: var(--border-width) var(--border-style) transparent;
+  cursor: pointer;
+}
+
+.input:hover,
+.input:focus {
+  border: var(--border-width) var(--border-style) var(--primary-yellow);
+}
+
+.dropdownPosition:hover .icon,
+.dropdownPosition:focus-within .icon {
+  color: var(--primary-yellow);
+}
+
+.input::placeholder {
+  color: var(--grey-dark);
+  font-size: var(--font-size-tiny);
+  font-weight: var(--font-weight-normal);
+}
+
+input[data-status='error'] {
+  border-color: var(--error-red);
+}
+
+input[data-status='filled'] {
+  border-color: var(--default-black);
+}
+
+.icon {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  width: var(--icon-size-normal);
+  height: var(--icon-size-normal);
+  color: var(--grey-dark);
+}
+
+.icon[data-status='filled'] {
+  color: var(--default-black);
+}
+
+.icon[data-status='error'] {
+  color: var(--error-red);
+}
+
+.optionWrap {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  height: 172px;
+  padding: 16px;
+  border-radius: var(--border-radius);
+  background-color: var(--default-white);
+  color: var(--default-black);
+  box-shadow: var(--cart-shadow);
+  z-index: 700;
+  overflow: hidden;
+}
+
+.scrollContainer {
+  height: 100%;
+  overflow-y: auto;
+  padding-right: 24px;
+}
+
+.dropdownList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  cursor: pointer;
+}
+
+.dropdownItem {
+  font-size: var(--font-size-tiny);
+  font-weight: var(--font-weight-normal);
+  color: var(--default-black);
+  margin-bottom: 10px;
+}
+
+.dropdownItem:last-child {
+  margin-bottom: 0px;
+}
+
+.errorMessage {
+  margin-top: 4px;
+  font-size: var(--font-size-extra-tiny);
+  font-weight: var(--font-weight-normal);
+  color: var(--error-red);
+}

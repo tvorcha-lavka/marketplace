@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import FormInput from '../../FormElements/FormInput/FormInput';
+
 import css from './DescriptionField.module.css';
 
 export default function DescriptionField({
@@ -53,57 +55,46 @@ export default function DescriptionField({
     <fieldset className={css.wrapper}>
       <h3 className={css.title}>Опишіть вашу річ</h3>
 
-      <label className={css.labelAdvert}>
-        <p className={css.spanLabel}>Назва (Українською Мовою) &#42;</p>
-        <input
-          type="text"
-          name="title"
-          id="title"
-          placeholder="Наприклад: Українська традиційна вишиванка жіночка Львівська"
-          className={`${css.inputNameItem} ${title ? css.filled : ''} ${hasTitleError ? css.errorBorder : ''}`}
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          onBlur={() => handleBlur('title')}
-        />
+      <FormInput
+        id="title"
+        name="title"
+        label="Назва (Українською Мовою)"
+        placeholder="Наприклад: Українська традиційна вишиванка жіночка Львівська"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        onBlur={() => handleBlur('title')}
+        showError={hasTitleError}
+        error={
+          isTitleTooShort
+            ? `Мінімальна кількість символів - 15. Зараз: ${title.trim().length}`
+            : isTitleTooLong
+              ? `Максимальна кількість символів - 50. Зараз: ${title.length}`
+              : ''
+        }
+        inputWidth="1128px"
+      />
 
-        {isTitleTooLong && (
-          <p className={css.errorMessage}>
-            Максимальна кількість символів - 50. Зараз: {title.length}
-          </p>
-        )}
-
-        {isTitleTooShort && (
-          <p className={css.errorMessage}>
-            Мінімальна кількість символів - 15. Зараз: {title.trim().length}
-          </p>
-        )}
-      </label>
-
-      <label className={css.labelAdvert}>
-        <p className={css.spanLabel}>Опис (Українською Мовою) &#42;</p>
-        <textarea
-          name="description"
-          id="description"
-          rows="5"
-          className={`${css.textarea} ${description ? css.filled : ''} ${hasDescriptionError ? css.errorBorder : ''}`}
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          onBlur={() => handleBlur('description')}
-        />
-
-        {isDescriptionTooShort && (
-          <p className={css.errorMessage}>
-            Мінімальна кількість символів - 40. Зараз:{' '}
-            {description.trim().length}
-          </p>
-        )}
-
-        {isDescriptionTooLong && (
-          <p className={css.errorMessage}>
-            Максимальна кількість символів - 4000. Зараз: {title.length}
-          </p>
-        )}
-      </label>
+      <FormInput
+        id="description"
+        name="description"
+        label="Опис (Українською Мовою)"
+        placeholder="Наприклад: Українська традиційна вишиванка жіночка Львівська"
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+        onBlur={() => handleBlur('description')}
+        isTextarea={true}
+        rows={5}
+        showError={hasDescriptionError}
+        error={
+          isDescriptionTooShort
+            ? `Мінімальна кількість символів - 40. Зараз: ${description.trim().length}`
+            : isDescriptionTooLong
+              ? `Максимальна кількість символів - 4000. Зараз: ${description.length}`
+              : ''
+        }
+        inputWidth="1128px"
+        variant="extended"
+      />
     </fieldset>
   );
 }

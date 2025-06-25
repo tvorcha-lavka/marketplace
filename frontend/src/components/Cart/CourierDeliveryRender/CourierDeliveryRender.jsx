@@ -1,83 +1,45 @@
 import { useState } from 'react';
-import AddressInput from '../AddressInput/AddressInput'; 
+
+import FormInput from '../../FormElements/FormInput/FormInput';
 
 import css from './CourierDeliveryRender.module.css';
 
-export default function CourierDeliveryRender({ deliveryData, owner, handleInputChange }) {
+export default function CourierDeliveryRender({
+  deliveryData,
+  owner,
+  handleInputChange,
+}) {
   const [touchedFields, setTouchedFields] = useState({});
 
   const handleBlur = (field) => {
     setTouchedFields((prev) => ({ ...prev, [field]: true }));
   };
 
-  const fieldHasError = (field) =>
-    touchedFields[field] && !deliveryData[owner]?.[field];
+  const isFieldTouched = (field) => touchedFields[field];
+  const isFieldEmpty = (field) =>
+    isFieldTouched(field) && !deliveryData[owner]?.[field]?.trim();
 
-  const inputClass = (field) => {
-    const fieldClassMap = {
-      city: css.detailsInputCity,
-      street: css.detailsInputCity,
-      house: css.detailsInputHouse,
-      apartment: css.detailsInputApart,
-    };
-
-    return [
-      fieldClassMap[field],
-      deliveryData[owner]?.[field] ? css.inputFilled : '',
-      fieldHasError(field) ? css.inputError : '',
-    ]
-      .filter(Boolean)
-      .join(' ');
-  };
+  const renderField = (field, label, placeholder, width) => (
+    <FormInput
+      id={field}
+      name={field}
+      label={label}
+      placeholder={placeholder}
+      value={deliveryData[owner]?.[field] || ''}
+      onChange={(e) => handleInputChange(field, e.target.value)}
+      onBlur={() => handleBlur(field)}
+      showError={isFieldEmpty(field)}
+      inputWidth={width}
+    />
+  );
 
   return (
-    <div className={css.detailsBox}>
-      <div className={css.detailsWrapperAddress}>
-        <div className={css.detailsInputAddress}>
-          <AddressInput
-            id="city"
-            label="Місто"
-            name="city"
-            placeholder="місто"
-            value={deliveryData[owner]?.city || ''}
-            onChange={(e) => handleInputChange('city', e.target.value)}
-            className={inputClass('city')}
-            onBlur={() => handleBlur('city')}
-          />
-
-          <AddressInput
-            id="street"
-            label="Вулиця"
-            name="street"
-            placeholder="вулиця"
-            value={deliveryData[owner]?.street || ''}
-            onChange={(e) => handleInputChange('street', e.target.value)}
-            className={inputClass('street')}
-            onBlur={() => handleBlur('street')}
-          />
-
-          <AddressInput
-            id="house"
-            label="Будинок"
-            name="house"
-            placeholder="буд"
-            value={deliveryData[owner]?.house || ''}
-            onChange={(e) => handleInputChange('house', e.target.value)}
-            className={inputClass('house')}
-            onBlur={() => handleBlur('house')}
-          />
-
-          <AddressInput
-            id="apartment"
-            label="Кв"
-            name="apartment"
-            placeholder="кв"
-            value={deliveryData[owner]?.apartment || ''}
-            onChange={(e) => handleInputChange('apartment', e.target.value)}
-            className={inputClass('apartment')}
-            onBlur={() => handleBlur('apartment')}
-          />
-        </div>
+    <div className={css.detailsWrapperAddress}>
+      <div className={css.detailsInputAddress}>
+        {renderField('city', 'Місто', 'місто', '226px')}
+        {renderField('street', 'Вулиця', 'вулиця', '226px')}
+        {renderField('house', 'Будинок', 'буд', '72px')}
+        {renderField('apartment', 'Кв', 'кв', '54px')}
       </div>
     </div>
   );
