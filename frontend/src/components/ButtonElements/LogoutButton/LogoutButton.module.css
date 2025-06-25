@@ -1,0 +1,21 @@
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--font-weight-normal);
+  font-size: var(--font-size-tiny);
+  color: var(--default-black);
+  background-color: transparent;
+  border: none;
+}
+
+.icon {
+  margin-right: 6px;
+  width: var(--icon-size-normal);
+  height: var(--icon-size-normal);
+  color: var(--default-black);
+}
+
+.btn:hover {
+  font-weight: var(--font-weight-bold);
+}

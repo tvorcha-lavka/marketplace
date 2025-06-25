@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
-import { LiaEditSolid } from 'react-icons/lia';
 import { useSelector } from 'react-redux';
 
 import CartProduct from '../CartProduct/CartProduct';
+import CustomEditButton from '../../ButtonElements/CustomEditButton/CustomEditButton';
 
 import { selectBasketItems } from '../../../redux/basket/selectors';
 
@@ -16,8 +16,7 @@ export default function SelectedProducts() {
       <div className={css.goodsEdit}>
         <p className={css.quantityGoods}>Ваш кошик ({items.length})</p>
         <Link to="/cart" className={css.editBox}>
-          <p className={css.edit}>Редагувати</p>
-          <LiaEditSolid size={16} />
+          <CustomEditButton>Редагувати</CustomEditButton>
         </Link>
       </div>
       <div className="scrollBox">

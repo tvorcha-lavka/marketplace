@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-hot-toast';
 import { FiCheckCircle } from 'react-icons/fi';
 
-import CustomButton from '../../CustomButton/CustomButton';
-import ModalBtnCross from '../../ModalBtnCross/ModalBtnCross';
+import CustomButton from '../../ButtonElements/CustomButton/CustomButton';
+import ModalBtnCross from '../../ButtonElements/ModalBtnCross/ModalBtnCross';
 import BasketDetailsModal from '../BasketDetailsModal/BasketDetailsModal';
 
 import { addToBasket } from '../../../redux/basket/slice';
@@ -91,13 +91,13 @@ export default function ProductDetailsInfo({ product }) {
       <h1 className={css.cartTitle}>{product.title}</h1>
       <p className={css.price}>{product.price}&nbsp;грн.</p>
       <CustomButton
-        size="large"
+        size="auto"
         onClick={transferOrder}
         className={css.deliveryBtn}
       >
         Замовити з доставкою
       </CustomButton>
-      <CustomButton size="large" variant="another" onClick={handleClick}>
+      <CustomButton size="auto" variant="another" onClick={handleClick}>
         {isAdded ? 'Переглянути обране у кошику' : 'Додати до кошика'}
       </CustomButton>
 

@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 
-import CustomButton from '../../CustomButton/CustomButton';
+import CustomButton from '../../ButtonElements/CustomButton/CustomButton';
 
 import css from './CardDetailsDescription.module.css';
 
@@ -34,7 +34,7 @@ export default function CardDetailsDescription({ product }) {
         <CustomButton
           className={css.descriptionBtn}
           onClick={toggleExpand}
-          size="extraLarge"
+          size="auto"
           variant="another"
         >
           {isExpanded ? 'Згорнути' : 'Докладніше'}

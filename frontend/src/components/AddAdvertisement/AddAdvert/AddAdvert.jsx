@@ -9,7 +9,7 @@ import ColorOptionsSelector from '../ColorOptionsSelector/ColorOptionsSelector';
 import PriceSection from '../PriceSection/PriceSection';
 import DescriptionField from '../DescriptionField/DescriptionField';
 import DeliveryOptions from '../DeliveryOptions/DeliveryOptions';
-import CustomButton from '../../CustomButton/CustomButton';
+import CustomButton from '../../ButtonElements/CustomButton/CustomButton';
 
 import { createProduct } from '../../../redux/addAdverts/operations';
 import {
