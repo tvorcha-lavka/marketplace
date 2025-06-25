@@ -59,7 +59,7 @@ export default function CustomerData() {
                   <FormField
                     id="customer_name"
                     name="name"
-                    label="Імʼя"
+                    label="Ім&#8217;я"
                     placeholder="Валерія"
                     touched={touched}
                     errors={errors}

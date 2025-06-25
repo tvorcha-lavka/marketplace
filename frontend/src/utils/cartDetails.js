@@ -54,31 +54,28 @@ export const fakeDepartments = cityList.flatMap((city, cityIndex) =>
   }))
 );
 
-export function isDeliveryDataValid(deliveryData, sellerIds) {
-  return sellerIds.every((sellerId) => {
+const isNonEmpty = (value) =>
+  value !== null && value !== undefined && String(value).trim() !== '';
+
+const DELIVERY_VALIDATION_MAP = {
+  'nova-poshta': (data) => isNonEmpty(data.city) && isNonEmpty(data.branch),
+  post_box: (data) => isNonEmpty(data.city) && isNonEmpty(data.branch),
+  ukrposhta: (data) => isNonEmpty(data.city) && isNonEmpty(data.branch),
+  courier: (data) =>
+    isNonEmpty(data.city) &&
+    isNonEmpty(data.street) &&
+    isNonEmpty(data.house) &&
+    isNonEmpty(data.apartment),
+};
+
+export const isDeliveryDataValid = (deliveryData, sellerIds) =>
+  sellerIds.every((sellerId) => {
     const data = deliveryData[sellerId];
     if (!data || !data.type) return false;
 
-    const isNonEmpty = (value) =>
-      value !== null && value !== undefined && String(value).trim() !== '';
-
-    switch (data.type) {
-      case 'nova-poshta':
-      case 'post_box':
-      case 'ukrposhta':
-        return isNonEmpty(data.city) && isNonEmpty(data.branch);
-      case 'courier':
-        return (
-          isNonEmpty(data.city) &&
-          isNonEmpty(data.street) &&
-          isNonEmpty(data.house) &&
-          isNonEmpty(data.apartment)
-        );
-      default:
-        return false;
-    }
+    const validate = DELIVERY_VALIDATION_MAP[data.type];
+    return validate ? validate(data) : false;
   });
-}
 
 export const deliveryOptions = [
   {
@@ -99,18 +96,24 @@ export const deliveryOptions = [
   },
 ];
 
-export const getInitialDeliveryFields = (type) => {
-  switch (type) {
-    case 'courier':
-      return { type, city: '', street: '', house: '', apartment: '' };
-    case 'nova-poshta':
-    case 'post_box':
-    case 'ukrposhta':
-      return { type, city: '', branch: '' };
-    default:
-      return { type };
-  }
+export const DELIVERY_PRICES = {
+  'nova-poshta': 120,
+  post_box: 120,
+  courier: 135,
+  ukrposhta: 80,
 };
+
+const DELIVERY_INITIAL_FIELDS_MAP = {
+  courier: { city: '', street: '', house: '', apartment: '' },
+  'nova-poshta': { city: '', branch: '' },
+  post_box: { city: '', branch: '' },
+  ukrposhta: { city: '', branch: '' },
+};
+
+export const getInitialDeliveryFields = (type) => ({
+  type,
+  ...(DELIVERY_INITIAL_FIELDS_MAP[type] || {}),
+});
 
 export const deliveryType = [
   {
@@ -125,4 +128,11 @@ export const deliveryType = [
     height: 56,
     img: `${media}/logo/ukrposhta_logo.png`,
   },
+];
+
+export const FIELDS = [
+  { field: 'city', label: 'Місто', placeholder: 'місто', width: '226px' },
+  { field: 'street', label: 'Вулиця', placeholder: 'вулиця', width: '226px' },
+  { field: 'house', label: 'Будинок', placeholder: 'буд', width: '72px' },
+  { field: 'apartment', label: 'Кв', placeholder: 'кв', width: '54px' },
 ];

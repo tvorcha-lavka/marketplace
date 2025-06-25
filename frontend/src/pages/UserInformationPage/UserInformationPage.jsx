@@ -99,19 +99,11 @@ export default function UserInformationPage() {
       {/* ========== AVATAR FIELD ========== */}
       <div className={css.formContainer}>
         <div className={css.avatarWrapper}>
-          {/* {avatar ? (
-            <img
-              className={css.avatarImage}
-              src={user.avatar}
-              alt="Avatar"
-            /> 
-          ) : (*/}
           <img
             src={`${media}/profile/avatar.png`}
             alt="Avatar"
             className={css.avatarImage}
           />
-          {/* )} */}
 
           <input
             type="image"
@@ -119,9 +111,7 @@ export default function UserInformationPage() {
             accept="image/*"
             className={css.avatarInput}
             style={{ display: 'none' }}
-            onChange={(e) => {
-              const file = e.target.files[0];
-            }}
+            //onChange={(e) => { const file = e.target.files[0]}}
           />
 
           <CustomEditButton
@@ -139,7 +129,6 @@ export default function UserInformationPage() {
               surname: selectedUser?.last_name || '',
               email: selectedUser?.email || '',
               city: selectedUser?.city || '',
-              //avatar: [],
             }}
             validationSchema={personalSchema}
             onSubmit={handlePersonalSubmit}
@@ -248,7 +237,6 @@ export default function UserInformationPage() {
               phone: selectedUser?.phone_number || '',
               oldPassword: '',
               newPassword: '',
-              //avatar: [],
             }}
             validationSchema={securitySchema}
             onSubmit={handleSecuritySubmit}

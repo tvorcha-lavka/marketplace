@@ -26,27 +26,22 @@ export default function ModalParentComponent() {
 
   useNoScroll(activeModal);
 
-  const renderModalContent = () => {
-    switch (activeModal) {
-    case 'session-expired':
-      return <SessionExpiredModal />;
-    case 'login':
-      return <LoginForm />;
-    case 'register':
-      return <RegisterForm />;
-    case 'forgot-password':
-      return <ForgotPassword />;
-    case 'change-pwd':
-      return <ChangePwdModal />;
-    case 'confirmation-modal':
-      return modalProps && <ConfirmationModal type={modalProps.type} />;
-    case 'verification-register':
-    case 'verification-reset':
-      return <CodeVerificationModal type={activeModal} />;
-    default:
-      return null;
-    }
+  const MODAL_COMPONENT_MAP = {
+    'session-expired': <SessionExpiredModal />,
+    'login': <LoginForm />,
+    'register': <RegisterForm />,
+    'forgot-password': <ForgotPassword />,
+    'change-pwd': <ChangePwdModal />,
+    'confirmation-modal': modalProps && (
+      <ConfirmationModal type={modalProps.type} />
+    ),
+    'verification-register': (
+      <CodeVerificationModal type="verification-register" />
+    ),
+    'verification-reset': <CodeVerificationModal type="verification-reset" />,
   };
+
+  const renderModalContent = () => MODAL_COMPONENT_MAP[activeModal] || null;
 
   return (
     <>{activeModal && <ModalWrapper>{renderModalContent()}</ModalWrapper>}</>

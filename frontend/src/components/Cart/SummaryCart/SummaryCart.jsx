@@ -13,6 +13,7 @@ import {
 import { clearBasket, resetStep } from '../../../redux/basket/slice';
 import { selectLoggedIn } from '../../../redux/auth/selectors';
 import { useModal } from '../../../hooks/useModal';
+import { DELIVERY_PRICES } from '../../../utils/cartDetails';
 
 import css from './SummaryCart.module.css';
 
@@ -47,17 +48,7 @@ export default function SummaryCart({ isClickBtn }) {
 
   const getDeliveryPrice = () =>
     Object.values(deliveryData || {}).reduce((total, { type }) => {
-      switch (type) {
-      case 'nova-poshta':
-      case 'post_box':
-        return total + 120;
-      case 'courier':
-        return total + 135;
-      case 'ukrposhta':
-        return total + 80;
-      default:
-        return total;
-      }
+      return total + (DELIVERY_PRICES[type] || 0);
     }, 0);
 
   const deliveryPrice = getDeliveryPrice();

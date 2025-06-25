@@ -30,7 +30,7 @@ export default function DeliveryResult({ owner }) {
           <b>Адреса відділення:</b>&nbsp;{branch}
         </p>
         <p className={css.resultText}>
-          <b>Години роботи:</b>&nbsp;
+          <b>Години роботи:</b>&nbsp; Пн-Сб 09:00 - 19:00, Нд - вихідний
         </p>
       </>
     ),

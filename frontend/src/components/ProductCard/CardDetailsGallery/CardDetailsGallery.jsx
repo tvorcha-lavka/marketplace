@@ -3,6 +3,11 @@ import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import clsx from 'clsx';
 
 import { media } from '../../../utils/mediaConfig';
+import {
+  getProcessedImages,
+  getSmallImages,
+  getMediumImages,
+} from '../../../utils/imageSizeHelpers';
 
 import css from './CardDetailsGallery.module.css';
 
@@ -10,16 +15,9 @@ export default function CardDetailsGallery({ product }) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const images = product.images || [];
-  const processedImages = images.flatMap(
-    (image) => image?.processed_images || []
-  );
-
-  const imagesMedium = processedImages.filter(
-    (image) => image?.height === 600 && image?.width === 450
-  );
-  const imagesSmall = processedImages.filter(
-    (image) => image?.height === 200 && image?.width === 150
-  );
+  const processedImages = getProcessedImages(images);
+  const imagesMedium = getMediumImages(processedImages);
+  const imagesSmall = getSmallImages(processedImages);
 
   const hasMultipleImages = images.length > 1;
   const hasSmallImages = imagesSmall.length > 0;
