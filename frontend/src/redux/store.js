@@ -1,11 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
+import storage from 'redux-persist/lib/storage';
+
 import { authReducer } from './auth/slice';
 import { categoriesReducer } from './categories/categoriesSlice';
 import { productReducer } from './products/slice';
 import { filtersReducer } from './filters/filtersSlice';
 import { basketReducer } from './basket/slice';
 import { advertReducer } from './addAdverts/slice';
-import storage from 'redux-persist/lib/storage';
+import { usersReducer } from './users/slice';
+import { paymentReducer } from './paymentUserCards/slice';
 
 import {
   persistStore,
@@ -55,8 +58,8 @@ const persistedAdvertReducer = persistReducer(
       'selectedChildCategory',
       'selectedFilters',
       'selectedColors',
-			'isSelectedDelivery',
-			'isCategoryConfirmed',
+      'isSelectedDelivery',
+      'isCategoryConfirmed',
       'title',
       'description',
       'price',
@@ -74,6 +77,29 @@ const persistedBasketReducer = persistReducer(
   basketReducer
 );
 
+const persistedUsersReducer = persistReducer(
+  {
+    key: 'users',
+    storage,
+    whitelist: [
+      'list',
+      'selectedUser',
+      'isEditingPersonal',
+      'isEditingSecurity',
+    ],
+  },
+  usersReducer
+);
+
+const persistedPaymentReducer = persistReducer(
+  {
+    key: 'payment',
+    storage,
+    whitelist: ['cards', 'mainCardIndex'],
+  },
+  paymentReducer
+);
+
 export const store = configureStore({
   reducer: {
     auth: persistedAuthReducer,
@@ -82,6 +108,8 @@ export const store = configureStore({
     advert: persistedAdvertReducer,
     basket: persistedBasketReducer,
     filters: filtersReducer,
+    users: persistedUsersReducer,
+    payment: persistedPaymentReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
