@@ -22,7 +22,7 @@ import {
 
 import css from './CodeVerificationModal.module.css';
 
-const CodeVerificationModal = ({ type }) => {
+export default function CodeVerificationModal({ type }) {
   const [otp, setOtp] = useState(Array(6).fill(''));
   const [authError, setAuthError] = useState(false);
 
@@ -65,33 +65,34 @@ const CodeVerificationModal = ({ type }) => {
 
   const handleKeyDown = (e, index) => {
     switch (e.key) {
-      case 'Backspace':
-        e.preventDefault();
-        const newOtp = [...otp];
+    case 'Backspace': {
+      e.preventDefault();
+      const newOtp = [...otp];
 
-        for (let i = otp.length - 1; i >= 0; i--) {
-          if (newOtp[i] !== '') {
-            newOtp[i] = '';
-            setOtp(newOtp);
-            inputRefs.current[i].focus();
-            break;
-          }
+      for (let i = otp.length - 1; i >= 0; i--) {
+        if (newOtp[i] !== '') {
+          newOtp[i] = '';
+          setOtp(newOtp);
+          inputRefs.current[i].focus();
+          break;
         }
-        break;
-      case 'ArrowLeft':
-        e.preventDefault();
-        if (index > 0) {
-          inputRefs.current[index - 1].focus();
-        }
-        break;
-      case 'ArrowRight':
-        e.preventDefault();
-        if (index < otp.length - 1) {
-          inputRefs.current[index + 1].focus();
-        }
-        break;
-      default:
-        break;
+      }
+      break;
+    }
+    case 'ArrowLeft':
+      e.preventDefault();
+      if (index > 0) {
+        inputRefs.current[index - 1].focus();
+      }
+      break;
+    case 'ArrowRight':
+      e.preventDefault();
+      if (index < otp.length - 1) {
+        inputRefs.current[index + 1].focus();
+      }
+      break;
+    default:
+      break;
     }
   };
 
@@ -217,6 +218,4 @@ const CodeVerificationModal = ({ type }) => {
       )}
     </div>
   );
-};
-
-export default CodeVerificationModal;
+}

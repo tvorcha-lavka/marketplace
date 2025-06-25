@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import Loader from '../Loader/Loader';
 import FormImgComponent from '../FormImgComponent/FormImgComponent';
-import CustomButton from '../../components/CustomButton/CustomButton';
+import CustomButton from '../../components/ButtonElements/CustomButton/CustomButton';
 
 import { useModal } from '../../hooks/useModal';
 import { selectLoading } from '../../redux/auth/selectors';
@@ -53,7 +53,7 @@ export default function ConfirmationModal({ type }) {
 
           <CustomButton
             className={css.btn}
-            size="medium"
+            size="auto"
             type="button"
             onClick={handleSubmit}
           >

@@ -1,7 +1,7 @@
 import { useModal } from '../../hooks/useModal';
 import { useClickEsc } from '../../hooks/useClickEsc';
 
-import ModalBtnCross from '../../components/ModalBtnCross/ModalBtnCross';
+import ModalBtnCross from '../../components/ButtonElements/ModalBtnCross/ModalBtnCross';
 
 import css from './ModalWrapper.module.css';
 

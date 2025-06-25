@@ -23,31 +23,27 @@ export default function SocialAuthHandler({ provider }) {
       return;
     }
 
-    if (provider === 'google') {
-    } else if (provider === 'facebook') {
-    }
-		if (code && state) {
-			
-      let loginAction;
+    const loginActions = {
+      google: logInWithGoogleComplete,
+      facebook: logInWithFacebookComplete,
+    };
 
-      if (provider === 'google') {
-        loginAction = logInWithGoogleComplete;
-      } else if (provider === 'facebook') {
-        loginAction = logInWithFacebookComplete;
-      }
+    const loginAction = loginActions[provider];
 
-      if (loginAction) {
-        dispatch(loginAction({ code, state }))
-          .unwrap()
-          .then(() => {
-            navigate('/');
-          })
-          .catch((e) => {
-            console.error(`${provider} login error:`, e);
-            navigate('/');
-          });
-      }
+    if (!loginAction) {
+      navigate('/');
+      return;
     }
-  }, [dispatch, navigate, provider]);
+
+    dispatch(loginAction({ code, state }))
+      .unwrap()
+      .then(() => {
+        navigate('/');
+      })
+      .catch(() => {
+        navigate('/');
+      });
+  }, [dispatch, navigate, provider, location]);
+
   return null;
 }

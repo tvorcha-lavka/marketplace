@@ -12,7 +12,7 @@ import LoginForm from '../LoginForm/LoginForm';
 import useNoScroll from '../../hooks/useNoScroll';
 import SessionExpiredModal from '../SessionExpiredModal/SessionExpiredModal';
 
-const ModalParentComponent = () => {
+export default function ModalParentComponent() {
   const { activeModal, openModal, modalProps } = useModal();
   const location = useLocation();
 
@@ -28,29 +28,27 @@ const ModalParentComponent = () => {
 
   const renderModalContent = () => {
     switch (activeModal) {
-      case 'session-expired':
-        return <SessionExpiredModal />;
-      case 'login':
-        return <LoginForm />;
-      case 'register':
-        return <RegisterForm />;
-      case 'forgot-password':
-        return <ForgotPassword />;
-      case 'change-pwd':
-        return <ChangePwdModal />;
-      case 'confirmation-modal':
-        return modalProps && <ConfirmationModal type={modalProps.type} />;
-      case 'verification-register':
-      case 'verification-reset':
-        return <CodeVerificationModal type={activeModal} />;
-      default:
-        return null;
+    case 'session-expired':
+      return <SessionExpiredModal />;
+    case 'login':
+      return <LoginForm />;
+    case 'register':
+      return <RegisterForm />;
+    case 'forgot-password':
+      return <ForgotPassword />;
+    case 'change-pwd':
+      return <ChangePwdModal />;
+    case 'confirmation-modal':
+      return modalProps && <ConfirmationModal type={modalProps.type} />;
+    case 'verification-register':
+    case 'verification-reset':
+      return <CodeVerificationModal type={activeModal} />;
+    default:
+      return null;
     }
   };
 
   return (
     <>{activeModal && <ModalWrapper>{renderModalContent()}</ModalWrapper>}</>
   );
-};
-
-export default ModalParentComponent;
+}

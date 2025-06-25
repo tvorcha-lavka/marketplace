@@ -7,8 +7,8 @@ import { LuArrowLeft } from 'react-icons/lu';
 
 import Loader from '../Loader/Loader';
 import FormImgComponent from '../FormImgComponent/FormImgComponent';
-import CustomButton from '../../components/CustomButton/CustomButton';
-import EmailField from '../EmailField/EmailField';
+import CustomButton from '../../components/ButtonElements/CustomButton/CustomButton';
+import EmailField from '../../components/FormElements/EmailField/EmailField';
 
 import { useModal } from '../../hooks/useModal';
 import { selectLoading } from '../../redux/auth/selectors';
@@ -67,11 +67,17 @@ export default function ForgotPassword() {
           >
             {({ values, errors }) => (
               <Form>
-                <EmailField showLabel={false} id={id} values={values} />
+                <EmailField
+                  showLabel={false}
+                  id={id}
+                  values={values}
+                  errors={errors}
+                  inputWidth="368px"
+                />
 
                 <CustomButton
                   className={css.btn}
-                  size="medium"
+                  size="auto"
                   disabled={!values.email || !!errors.email}
                   type="submit"
                 >

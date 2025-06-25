@@ -5,11 +5,11 @@ import {
   resendRegisterCode,
   forgotPassword,
 } from '../../redux/auth/operations';
-import CustomButton from '../../components/CustomButton/CustomButton';
+import CustomButton from '../../components/ButtonElements/CustomButton/CustomButton';
 
 import css from './ResendCodeBtn.module.css';
 
-const ResendCodeBtn = ({ type }) => {
+export default function ResendCodeBtn({ type }) {
   const email = useSelector(selectUserEmail);
   const dispatch = useDispatch();
 
@@ -34,12 +34,10 @@ const ResendCodeBtn = ({ type }) => {
     <CustomButton
       onClick={handleSubmit}
       className={css.btn}
-      size="medium"
+      size="auto"
       variant="another"
     >
       Надіслати код
     </CustomButton>
   );
-};
-
-export default ResendCodeBtn;
+}

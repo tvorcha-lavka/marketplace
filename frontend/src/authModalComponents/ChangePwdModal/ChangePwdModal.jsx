@@ -5,8 +5,8 @@ import { Formik, Form } from 'formik';
 
 import Loader from '../Loader/Loader';
 import FormImgComponent from '../FormImgComponent/FormImgComponent';
-import CustomButton from '../../components/CustomButton/CustomButton';
-import PasswordField from '../PasswordField/PasswordField';
+import CustomButton from '../../components/ButtonElements/CustomButton/CustomButton';
+import PasswordField from '../../components/FormElements/PasswordField/PasswordField';
 
 import { useModal } from '../../hooks/useModal';
 import { resetPassword } from '../../redux/auth/operations';
@@ -72,19 +72,20 @@ export default function ChangePwdModal() {
             onSubmit={handleSubmit}
             validationSchema={passwordSchema}
           >
-            {({ setFieldValue, isValid, dirty, values }) => (
+            {({ setFieldValue, isValid, dirty, values, errors }) => (
               <Form>
                 <PasswordField
                   id={id}
                   values={values}
+                  errors={errors}
                   setFieldValue={setFieldValue}
-                >
-                  Новий пароль
-                </PasswordField>
+                  label="Новий пароль"
+                  inputWidth="368px"
+                />
 
                 <CustomButton
                   className={css.btn}
-                  size="medium"
+                  size="auto"
                   type="submit"
                   disabled={!(isValid && dirty)}
                 >

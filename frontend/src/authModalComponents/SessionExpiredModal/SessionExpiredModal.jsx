@@ -5,8 +5,8 @@ import { media } from '../../utils/mediaConfig';
 import { useModal } from '../../hooks/useModal';
 import { setSessionExpired } from '../../redux/auth/slice';
 
-import ModalBtnCross from '../../components/ModalBtnCross/ModalBtnCross';
-import CustomButton from '../../components/CustomButton/CustomButton';
+import ModalBtnCross from '../../components/ButtonElements/ModalBtnCross/ModalBtnCross';
+import CustomButton from '../../components/ButtonElements/CustomButton/CustomButton';
 
 import css from './SessionExpiredModal.module.css';
 
@@ -17,15 +17,15 @@ export default function SessionExpiredModal() {
   const isSessionExpired = useSelector((state) => state.auth.isSessionExpired);
 
   const handleClose = () => {
-		dispatch(setSessionExpired(false));
+    dispatch(setSessionExpired(false));
     closeModal();
     navigate('/');
   };
 
   if (!isSessionExpired) return null;
 
-	const handleReLogin = () => {
-		dispatch(setSessionExpired(false));
+  const handleReLogin = () => {
+    dispatch(setSessionExpired(false));
     closeModal();
     openModal('login');
   };
@@ -44,7 +44,7 @@ export default function SessionExpiredModal() {
           Здається, ваша сесія завершилася. Будь ласка, увійдіть знову, щоб
           продовжити покупки.
         </p>
-        <CustomButton size="larger" type="button" onClick={handleReLogin}>
+        <CustomButton size="auto" type="button" onClick={handleReLogin}>
           Увійти знову
         </CustomButton>
       </div>

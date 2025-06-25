@@ -6,9 +6,9 @@ import toast from 'react-hot-toast';
 import Loader from '../Loader/Loader';
 import FormImgComponent from '../FormImgComponent/FormImgComponent';
 import SocialAuthComponent from '../SocialAuthComponent/SocialAuthComponent';
-import CustomButton from '../../components/CustomButton/CustomButton';
-import EmailField from '../EmailField/EmailField';
-import PasswordField from '../PasswordField/PasswordField';
+import CustomButton from '../../components/ButtonElements/CustomButton/CustomButton';
+import EmailField from '../../components/FormElements/EmailField/EmailField';
+import PasswordField from '../../components/FormElements/PasswordField/PasswordField';
 
 import { useModal } from '../../hooks/useModal';
 import { selectLoading } from '../../redux/auth/selectors';
@@ -32,7 +32,7 @@ export default function RegisterForm() {
     dispatch(register(newUser))
       .unwrap()
       .then(() => {
-        resetFormData();
+        actions.resetForm();
         openModal('verification-register');
       })
       .catch((e) => {
@@ -84,25 +84,28 @@ export default function RegisterForm() {
           >
             {({ setFieldValue, values, errors }) => (
               <Form>
-                <EmailField id={id} values={values}>
-                  Електронна пошта
-                </EmailField>
+                <EmailField
+                  id={id}
+                  inputWidth="368px"
+                  label="Електронна пошта"
+                  values={values}
+                  errors={errors}
+                />
 
                 <PasswordField
                   id={id}
                   values={values}
                   setFieldValue={setFieldValue}
-                >
-                  Пароль
-                </PasswordField>
+                  label="Пароль"
+                  inputWidth="368px"
+                />
 
                 <p className={css.privacyText}>
                   Натискаючи &#x201C;Зареєструватись&#x201D; ви приймаєте
                   Правила користування сайтом
                 </p>
-
                 <CustomButton
-                  size="medium"
+                  size="auto"
                   type="submit"
                   disabled={
                     !values.email ||

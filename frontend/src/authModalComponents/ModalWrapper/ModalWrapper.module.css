@@ -17,6 +17,6 @@
   width: 816px;
   display: flex;
   border-radius: var(--border-radius-medium);
-  background-color: var(--background-modal);
+  background-color: var(--default-white);
   position: relative;
 }
