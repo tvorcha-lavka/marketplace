@@ -13,6 +13,7 @@ const theme = createTheme({
     colors: {
       defaultWhite: '#FFFFFF',
       white: '#f7f4ef',
+      lightColor: '#d6dce5',
       greyExtraLight: '#c8c8c8',
       greyLightest: 'rgba(255, 255, 255, 0.8)',
       greyLight: '#E8E8E8',
@@ -103,6 +104,8 @@ const theme = createTheme({
       modalShadow: '0px 1px 8px 0px rgba(130, 84, 8, 0.102',
       shadow: '5px 5px 10px rgb(119, 119, 119)',
       shadowColor: '2px 2px 8px rgba(112, 92, 2, 0.7)',
+      shadowPaymentCard:
+        '0 2px 20px 0 rgba(183, 183, 183, 0.08), 0 20px 40px 0 rgba(183, 183, 183, 0.08)',
     },
   },
 });

@@ -1,3 +1,5 @@
+import { media } from './mediaConfig';
+
 const cityList = [
   'Вінниця',
   'Дніпро',
@@ -109,3 +111,18 @@ export const getInitialDeliveryFields = (type) => {
       return { type };
   }
 };
+
+export const deliveryType = [
+  {
+    name: 'Нова пошта',
+    width: 129,
+    height: 50,
+    img: `${media}/logo/Nova_Poshta_logo.png`,
+  },
+  {
+    name: 'Укрпошта',
+    width: 161,
+    height: 56,
+    img: `${media}/logo/ukrposhta_logo.png`,
+  },
+];

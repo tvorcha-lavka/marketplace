@@ -1,9 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-//import css from './LoveDayHeaderPage.module.css';
-
-export default function LoveDayHeaderPage() {
+export default function LikeCartPage() {
   const navigate = useNavigate();
 
   useEffect(() => {

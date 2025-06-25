@@ -7,7 +7,7 @@
   border: var(--border-width) var(--border-style) var(--grey-lighter);
   border-radius: var(--border-radius);
   padding: 13px 12px;
-  width: 492px;
+  width: 450px;
 	height: 44px;
 	color: var(--grey-darker);
 }

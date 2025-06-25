@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import Header from '../Header/Header';
 import HeaderCart from '../HeaderCart/HeaderCart';
 import Footer from '../Footer/Footer';
-import Loader from '../../formModalComponents/Loader/Loader';
+import Loader from '../../authModalComponents/Loader/Loader';
 
 import { getAllCategoriesWithPopular } from '../../redux/categories/categoriesOperations';
 

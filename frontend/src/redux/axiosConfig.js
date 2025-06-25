@@ -64,7 +64,7 @@ export const setupAxiosInterceptors = () => {
               setAuthHeader(accessToken);
               originalRequest.headers.Authorization = `Bearer ${accessToken}`;
               store.dispatch(setRefreshing(false));
-              return axios(originalRequest); 
+              return axios(originalRequest);
             } else {
               store.dispatch(setSessionExpired(true));
               store.dispatch(setRefreshing(false));

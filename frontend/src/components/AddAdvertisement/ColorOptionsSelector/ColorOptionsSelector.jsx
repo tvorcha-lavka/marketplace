@@ -33,7 +33,7 @@ export default function ColorOptionsSelector({
           const isSelected =
             Array.isArray(selectedColors) && selectedColors.includes(id);
           const borderStyle = metadata?.border
-            ? `var(--border-width) var(--border-style) var(--dote-border-color)`
+            ? 'var(--border-width) var(--border-style) var(--dote-border-color)'
             : 'none';
 
           return (
