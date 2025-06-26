@@ -1,8 +1,8 @@
-import { HiOutlinePencilAlt } from 'react-icons/hi';
 import { format, parseISO } from 'date-fns';
 import { uk } from 'date-fns/locale';
 
 import RatingStars from '../RatingStars/RatingStars';
+import CustomEditButton from '../../ButtonElements/CustomEditButton/CustomEditButton';
 
 import { media } from '../../../utils/mediaConfig';
 
@@ -45,12 +45,7 @@ export default function Owner({ product }) {
         </div>
 
         <div className={css.startChat}>
-          <button type="button" className={css.chatBtn}>
-            Зв&#x2019;язатись з продавцем
-          </button>
-          <span className={css.pencilIcon}>
-            <HiOutlinePencilAlt />
-          </span>
+          <CustomEditButton>Зв&#x2019;язатись з продавцем</CustomEditButton>
         </div>
       </div>
     </>

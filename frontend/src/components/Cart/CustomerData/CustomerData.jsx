@@ -1,9 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Form } from 'formik';
-import { LiaEditSolid } from 'react-icons/lia';
+import { useState, useEffect } from 'react';
 
-import CustomButton from '../../CustomButton/CustomButton';
-import FormField from '../FormField/FormField';
+import CustomButton from '../../ButtonElements/CustomButton/CustomButton';
+import FormField from '../../FormElements/FormField/FormField';
+import CardNumberField from '../../FormElements/CardNumberField/CardNumberField';
+import EmailField from '../../FormElements/EmailField/EmailField';
+import CustomEditButton from '../../ButtonElements/CustomEditButton/CustomEditButton';
 
 import {
   updateCustomerData,
@@ -22,6 +25,15 @@ export default function CustomerData() {
   const dispatch = useDispatch();
   const step = useSelector(selectCartStep);
   const customerData = useSelector(selectCustomerData);
+
+  const [isPersistValid, setIsPersistValid] = useState(false);
+
+  useEffect(() => {
+    validationSchema
+      .isValid(customerData)
+      .then((valid) => setIsPersistValid(valid))
+      .catch(() => setIsPersistValid(false));
+  }, [customerData]);
 
   const handleSubmit = (values) => {
     dispatch(updateCustomerData(values));
@@ -45,50 +57,45 @@ export default function CustomerData() {
               <Form className={css.form}>
                 <div className={css.formWrapper}>
                   <FormField
-                    id="customer"
+                    id="customer_name"
                     name="name"
-                    label="Імʼя"
-                    type="text"
+                    label="Ім&#8217;я"
                     placeholder="Валерія"
                     touched={touched}
                     errors={errors}
                     values={values}
+                    inputWidth="317px"
                   />
-
                   <FormField
-                    id="customer"
+                    id="customer_surname"
                     name="surname"
-                    type="text"
                     label="Прізвище"
                     placeholder="Шевченко"
                     touched={touched}
                     errors={errors}
                     values={values}
+                    inputWidth="317px"
                   />
                 </div>
 
                 <div className={css.formWrapper}>
-                  <FormField
-                    id="customer"
+                  <CardNumberField
+                    id="customer_phone"
                     name="phone"
-                    type="phone"
                     label="Номер телефону"
                     placeholder="+38 (067) 112-45-45"
                     touched={touched}
                     errors={errors}
-                    maxLength={13}
                     values={values}
+                    inputWidth="317px"
                   />
-
-                  <FormField
-                    id="customer"
-                    name="email"
-                    type="email"
+                  <EmailField
+                    id="customer_email"
                     label="E-mail адреса"
-                    placeholder="example@gmail.com"
                     touched={touched}
                     errors={errors}
                     values={values}
+                    inputWidth="317px"
                   />
                 </div>
 
@@ -96,7 +103,7 @@ export default function CustomerData() {
                   className={css.btnContinue}
                   size="small"
                   type="submit"
-                  disabled={!(isValid && dirty)}
+                  disabled={!(isValid && dirty) && !isPersistValid}
                 >
                   Продовжити
                 </CustomButton>
@@ -108,16 +115,9 @@ export default function CustomerData() {
         <>
           <div className={css.titleBox}>
             <h2 className={css.title}>1. Дані замовника</h2>
-            <button
-              type="button"
-              className={css.editBtn}
-              onClick={handleStepBack}
-            >
+            <CustomEditButton onClick={handleStepBack}>
               Редагувати дані
-              <span>
-                <LiaEditSolid size={16} />
-              </span>
-            </button>
+            </CustomEditButton>
           </div>
 
           <p className={css.text}>

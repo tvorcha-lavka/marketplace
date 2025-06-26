@@ -8,10 +8,11 @@ import CardDetailsGallery from '../CardDetailsGallery/CardDetailsGallery';
 import CardDetailsDescription from '../CardDetailsDescription/CardDetailsDescription';
 
 import ProductDetailsInfo from '../ProductDetailsInfo/ProductDetailsInfo';
-import Loader from '../../../formModalComponents/Loader/Loader';
+import Loader from '../../../authModalComponents/Loader/Loader';
 import Owner from '../Owner/Owner';
 import Delivery from '../Delivery/Delivery';
 import Payment from '../Payment/Payment';
+import Breadcrumbs from '../../Breadcrumbs/Breadcrumbs';
 
 import { getProductsId } from '../../../redux/products/operations';
 import {
@@ -21,7 +22,6 @@ import {
 import { selectCategoryById } from '../../../redux/categories/categoriesSelectors';
 
 import css from './ProductCardDetails.module.css';
-import Breadcrumbs from '../../Breadcrumbs/Breadcrumbs';
 
 export default function ProductCardDetails() {
   const { categoryId, cardId } = useParams();

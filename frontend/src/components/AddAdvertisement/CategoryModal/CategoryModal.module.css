@@ -1,11 +1,11 @@
 .modalBox {
-	margin-top: 8px;
   position: absolute;
+	top: 50px;
+	left: 0;
   display: grid;
   grid-template-columns: 1fr 1fr 0.7fr;
   gap: 32px;
-  top: 100%;
-  left: 0;
+  
   width: 981px;
   height: 420px;
   padding: 36px;

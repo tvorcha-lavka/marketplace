@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import CustomButton from '../../CustomButton/CustomButton';
+import CustomButton from '../../ButtonElements/CustomButton/CustomButton';
 import EmptyCartMessage from '../../Cart/EmptyCartMessage/EmptyCartMessage';
 import CartProduct from '../../Cart/CartProduct/CartProduct';
 
@@ -18,7 +18,7 @@ export default function BasketDetailsModal() {
   const total = useSelector(selectTotal);
 
   const transferOrder = () => {
-    navigate('/order');
+    navigate('/cart');
   };
 
   return (
@@ -51,11 +51,7 @@ export default function BasketDetailsModal() {
             Разом: {typeof total === 'number' ? total.toFixed(2) : '0.00'} грн.
           </p>
 
-          <CustomButton
-            onClick={transferOrder}
-            variant="default"
-            size="large"
-          >
+          <CustomButton onClick={transferOrder} variant="default" size="auto">
             Перейти до оформлення
           </CustomButton>
         </>

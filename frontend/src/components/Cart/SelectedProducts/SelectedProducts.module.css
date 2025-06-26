@@ -27,11 +27,6 @@
   color: var(--default-black);
 }
 
-.edit {
-  text-decoration: underline;
-  font-size: var(--font-size-tiny);
-}
-
 /*SELECTED PRODUCT CART STYLES*/
 .cartItem {
   display: flex;

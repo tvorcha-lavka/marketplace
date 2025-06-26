@@ -2,18 +2,17 @@
   display: grid;
   grid-template-columns: 694px 490px;
   gap: 16px;
+	align-items: start;
 }
 
 .leftColumn {
   display: flex;
-  flex: 2;
   flex-direction: column;
   gap: 16px;
 }
 
 .rightColumn {
   position: relative;
-  flex: 1;
 }
 
 .stickyBlock {

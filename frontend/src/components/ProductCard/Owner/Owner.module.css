@@ -40,18 +40,3 @@
   width: 317px;
   height: 0px;
 }
-
-.chatBtn {
-  border: none;
-  text-decoration: underline;
-  margin-right: 8px;
-  background-color: transparent;
-}
-
-.pencilIcon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: var(--icon-size);
-  height: var(--icon-size);
-}

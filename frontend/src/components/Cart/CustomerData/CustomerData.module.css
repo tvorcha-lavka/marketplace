@@ -22,17 +22,6 @@
   margin-inline-start: auto;
 }
 
-.editBtn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--default-black);
-  border: none;
-  background-color: transparent;
-  text-decoration: underline;
-  font-size: var(--font-size-tiny);
-}
-
 .titleBox {
   display: flex;
   align-items: center;

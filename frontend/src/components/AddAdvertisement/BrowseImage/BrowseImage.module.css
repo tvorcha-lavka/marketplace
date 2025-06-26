@@ -34,11 +34,11 @@
   justify-content: center;
   border: var(--border-width) dashed var(--background-grey);
   border-radius: var(--border-radius);
-	cursor: pointer;
+  cursor: pointer;
 }
 
 .fotoItem:hover {
-	border-color: var(--primary-yellow);
+  border-color: var(--primary-yellow);
 }
 
 .previewImage {
@@ -63,4 +63,8 @@
   text-align: center;
   font-size: var(--font-size-tiny);
   color: var(--grey-lighter);
+}
+
+.fotoItem:hover .textFoto {
+  color: var(--default-black);
 }

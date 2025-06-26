@@ -1,0 +1,221 @@
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useId, useState, useEffect, useRef } from 'react';
+import { Formik, Field, Form } from 'formik';
+import clsx from 'clsx';
+import { LuArrowLeft } from 'react-icons/lu';
+
+import FormImgComponent from '../FormImgComponent/FormImgComponent';
+import ResendCodeBtn from '../ResendCodeBtn/ResendCodeBtn';
+import Loader from '../Loader/Loader';
+
+import { useModal } from '../../hooks/useModal';
+import { selectLoading, selectUserEmail } from '../../redux/auth/selectors';
+import { registerComplete, verifyCode } from '../../redux/auth/operations';
+import { setVerificationCode } from '../../redux/auth/slice';
+import { codeSchema } from '../../utils/formSchema';
+import {
+  handleSupportClick,
+  handleBack,
+  getDescription,
+} from '../../utils/formUtils';
+
+import css from './CodeVerificationModal.module.css';
+
+export default function CodeVerificationModal({ type }) {
+  const [otp, setOtp] = useState(Array(6).fill(''));
+  const [authError, setAuthError] = useState(false);
+
+  const isLoading = useSelector(selectLoading);
+  const email = useSelector(selectUserEmail);
+  const { openModal, closeModal } = useModal();
+  const id = useId();
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const inputRefs = useRef([]);
+
+  useEffect(() => {
+    inputRefs.current[0].focus();
+  }, []);
+
+  const handleChange = (e, index) => {
+    const value = e.target.value;
+
+    if (!/^\d$/.test(value) && value !== '') return;
+
+    if (index > 0 && otp.slice(0, index).includes('')) {
+      inputRefs.current[otp.indexOf('')].focus();
+      return;
+    }
+
+    const newOtp = [...otp];
+    newOtp[index] = value;
+    setOtp(newOtp);
+
+    if (value && index < otp.length - 1) {
+      inputRefs.current[index + 1].focus();
+    }
+
+    if (newOtp.every((digit) => digit !== '')) {
+      handleSubmit({ code: newOtp });
+    }
+  };
+
+  const handleKeyDown = (e, index) => {
+    switch (e.key) {
+    case 'Backspace': {
+      e.preventDefault();
+      const newOtp = [...otp];
+
+      for (let i = otp.length - 1; i >= 0; i--) {
+        if (newOtp[i] !== '') {
+          newOtp[i] = '';
+          setOtp(newOtp);
+          inputRefs.current[i].focus();
+          break;
+        }
+      }
+      break;
+    }
+    case 'ArrowLeft':
+      e.preventDefault();
+      if (index > 0) {
+        inputRefs.current[index - 1].focus();
+      }
+      break;
+    case 'ArrowRight':
+      e.preventDefault();
+      if (index < otp.length - 1) {
+        inputRefs.current[index + 1].focus();
+      }
+      break;
+    default:
+      break;
+    }
+  };
+
+  const handlePaste = (e) => {
+    e.preventDefault();
+    const pasteData = e.clipboardData.getData('text');
+    if (/^\d{6}$/.test(pasteData)) {
+      const newOtp = pasteData.split('');
+      setOtp(newOtp);
+      newOtp.forEach((value, index) => {
+        inputRefs.current[index].value = value;
+      });
+      handleSubmit({ code: newOtp });
+    }
+  };
+
+  const handleSubmit = (values) => {
+    const code = values.code.join('');
+    const numericCode = Number(code);
+
+    dispatch(setVerificationCode(numericCode));
+
+    let dispatchAction;
+
+    if (type === 'verification-register') {
+      dispatchAction = registerComplete({ code, email });
+    } else if (type === 'verification-reset') {
+      dispatchAction = verifyCode({ code, email });
+    } else {
+      return;
+    }
+
+    dispatch(dispatchAction)
+      .unwrap()
+      .then(() => {
+        setAuthError(false);
+        setOtp(Array(6).fill(''));
+
+        if (type === 'verification-register') {
+          openModal('confirmation-modal', { type });
+        } else if (type === 'verification-reset') {
+          openModal('change-pwd');
+        }
+      })
+      .catch((e) => {
+        setAuthError(true);
+        setOtp(Array(6).fill(''));
+
+        console.error('Code verification:', e.message);
+      });
+  };
+
+  return (
+    <div className={css.container}>
+      <FormImgComponent />
+
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <div className={css.pageContent}>
+          <div className={css.backLinkWrap}>
+            <button
+              onClick={() => handleBack(type, openModal)}
+              className={css.backLink}
+            >
+              <LuArrowLeft className={css.arrowIcon} /> Повернутись назад
+            </button>
+          </div>
+          <h2 className={css.title}>Введіть код</h2>
+          <p className={css.info}>{getDescription(type)}</p>
+
+          <Formik
+            initialValues={{ code: otp }}
+            validationSchema={codeSchema}
+            onSubmit={(values) => handleSubmit(values)}
+          >
+            {({ setFieldValue }) => (
+              <Form>
+                <div>
+                  <div
+                    onPaste={(e) => handlePaste(e, setFieldValue)}
+                    className={css.codeInputWrapper}
+                  >
+                    {otp.map((value, index) => (
+                      <label key={index} htmlFor={`${id}-code-${index}`}>
+                        <Field
+                          id={`${id}-code-${index}`}
+                          type="text"
+                          maxLength="1"
+                          value={value}
+                          innerRef={(elem) => (inputRefs.current[index] = elem)}
+                          onChange={(e) => handleChange(e, index)}
+                          onKeyDown={(e) => handleKeyDown(e, index)}
+                          className={clsx(
+                            css.input,
+                            value !== '' && css.filled,
+                            authError && css.inputError
+                          )}
+                          autoComplete="off"
+                        />
+                      </label>
+                    ))}
+                  </div>
+                  {authError && (
+                    <p className={css.additionalInfo}>
+                      Введено неправильний код. Спробуйте ще раз
+                    </p>
+                  )}
+                </div>
+
+                <ResendCodeBtn type={type} />
+              </Form>
+            )}
+          </Formik>
+          <Link
+            to="#"
+            onClick={() => handleSupportClick(closeModal, navigate)}
+            className={css.supportLink}
+          >
+            Потрібна допомога?
+          </Link>
+        </div>
+      )}
+    </div>
+  );
+}

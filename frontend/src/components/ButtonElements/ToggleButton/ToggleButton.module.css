@@ -1,0 +1,42 @@
+.switch {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-block-end: 12px;
+}
+
+.toggle {
+	all: unset;
+  position: relative;
+  width: 36px;
+  height: 20px;
+  background-color: var(--grey-dark);
+  border-radius: var(--border-radius-medium);
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.toggle::before {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background-color: var(--default-white);
+  border-radius: var(--border-radius-circle);
+  top: 2px;
+  left: 2px;
+  transition: transform 0.3s;
+}
+
+.toggle.active {
+  background-color: var(--primary-yellow);
+}
+
+.toggle.active::before {
+  transform: translateX(16px);
+}
+
+.label {
+  font-size: var(--font-size-extra-small);
+  color: var(--default-black);
+}

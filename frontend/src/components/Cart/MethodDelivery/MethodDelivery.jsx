@@ -1,10 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useMemo } from 'react';
 
-import CustomButton from '../../CustomButton/CustomButton';
+import CustomButton from '../../ButtonElements/CustomButton/CustomButton';
 import DeliveryResult from '../DeliveryResult/DeliveryResult';
 import DeliverySelect from '../DeliverySelect/DeliverySelect';
 import CartProduct from '../CartProduct/CartProduct';
+import ToggleButton from '../../ButtonElements/ToggleButton/ToggleButton';
 
 import {
   selectBasketItems,
@@ -91,7 +92,6 @@ export default function MethodDelivery({ onDeliveryChange }) {
   return (
     <div className={css.deliverySection}>
       {sellersWithNames.map(({ id: ownerId, username, items }, index) => {
-        const isSwitchActive = switchState[ownerId];
         const totalPrice = items.reduce((sum, item) => sum + item.price, 0);
 
         return (
@@ -121,15 +121,10 @@ export default function MethodDelivery({ onDeliveryChange }) {
             </ul>
 
             {step === 2 && index > 0 && (
-              <div className={css.switch}>
-                <div
-                  className={`${css.toggle} ${isSwitchActive ? css.active : ''}`}
-                  onClick={() => handleSwitchClick(ownerId)}
-                />
-                <span className={css.label}>
-                  Використати ті ж дані, що вище
-                </span>
-              </div>
+              <ToggleButton
+                onClick={() => handleSwitchClick(ownerId)}
+                label="Використати ті ж дані, що вище"
+              />
             )}
 
             {step === 3 ? (

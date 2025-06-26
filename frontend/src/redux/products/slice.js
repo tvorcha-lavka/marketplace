@@ -39,7 +39,7 @@ const productSlice = createSlice({
         state.loading = false;
         state.error = false;
       })
-      .addCase(getProductsId.rejected, handleRejected)
+      .addCase(getProductsId.rejected, handleRejected);
   },
 });
 

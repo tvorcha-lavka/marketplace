@@ -1,0 +1,18 @@
+.editBtn {
+  font-weight: var(--font-weight-normal);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--default-black);
+  border: none;
+  background-color: transparent;
+  text-decoration: underline;
+  font-size: var(--font-size-tiny);
+  cursor: pointer;
+}
+
+.editIcon {
+  stroke: var(--default-black);
+  width: var(--icon-size);
+  height: var(--icon-size);
+}

@@ -5,6 +5,10 @@ import { LuTrash } from 'react-icons/lu';
 import { removeFromBasket } from '../../../redux/basket/slice';
 import { media } from '../../../utils/mediaConfig';
 import { getFilters } from '../../../utils/filtersDB';
+import {
+  getProcessedImages,
+  getSmallImages,
+} from '../../../utils/imageSizeHelpers';
 
 import css from './CartProduct.module.css';
 
@@ -28,12 +32,8 @@ export default function CartProduct({
   }, [item?.id]);
 
   const images = item.images || [];
-  const processedImages = images.flatMap(
-    (image) => image?.processed_images || []
-  );
-  const imagesSmall = processedImages.filter(
-    (image) => image?.height === 200 && image?.width === 150
-  );
+  const processedImages = getProcessedImages(images);
+  const imagesSmall = getSmallImages(processedImages);
 
   const handleRemoveItem = (itemId) => {
     dispatch(removeFromBasket({ id: itemId }));

@@ -1,26 +1,57 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { useRef, useState } from 'react';
-import { FiShoppingCart, FiUser } from 'react-icons/fi';
+import { useRef, useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { HiMiniBars4 } from 'react-icons/hi2';
-import { FaRegHeart } from 'react-icons/fa';
 
 import Logo from '../Logo/Logo';
 import SearchFieldBar from '../SearchFieldBar/SearchFieldBar';
 import CatalogModal from '../CatalogModal/CatalogModal';
 import HeaderDown from '../HeaderDown/HeaderDown';
-import CustomButton from '../CustomButton/CustomButton';
+import HeaderUserPopup from '../HeaderUserPopup/HeaderUserPopup';
+import HeaderUserControls from './HeaderUserControls';
 
 import { useModal } from '../../hooks/useModal';
+import { selectLoggedIn } from '../../redux/auth/selectors';
 
 import css from './Header.module.css';
 
 export default function Header() {
+  const [isOpenPopup, setIsOpenPopup] = useState(false);
   const { openModal } = useModal();
   const [isFocused, setIsFocused] = useState(false);
+
+  const isLoggedIn = useSelector(selectLoggedIn);
   const modalRef = useRef(null);
   const buttonRef = useRef(null);
-  let closeTimeout = useRef(null);
-  const navigate = useNavigate();
+  const userPopupRef = useRef(null);
+  const popupBtnRef = useRef(null);
+  const closeTimeout = useRef(null);
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      setIsOpenPopup(false);
+    }
+  }, [isLoggedIn]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        isOpenPopup &&
+        userPopupRef.current &&
+        !userPopupRef.current.contains(event.target) &&
+        popupBtnRef.current &&
+        !popupBtnRef.current.contains(event.target)
+      ) {
+        setIsOpenPopup(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isOpenPopup]);
+
+  const togglePopup = () => {
+    setIsOpenPopup((prev) => !prev);
+  };
 
   const handleLoginClick = () => {
     openModal('login');
@@ -50,6 +81,7 @@ export default function Header() {
           <div className={css.leftPart}>
             <Logo />
             <button
+              type="button"
               className={css.catalogBtn}
               ref={buttonRef}
               onFocus={handleOpen}
@@ -72,25 +104,23 @@ export default function Header() {
             )}
 
             <SearchFieldBar />
+          </div>
 
-            <CustomButton
-              size="small"
-              onClick={() => navigate('/advertisement')}
-            >
-              Додати товар
-            </CustomButton>
-          </div>
-          <div className={css.rightPart}>
-            <Link to="/like-cart">
-              <FaRegHeart className={css.likeIcon} />
-            </Link>
-            <Link to="/cart">
-              <FiShoppingCart className={css.shoppingIcon} />
-            </Link>
-            <button className={css.loginButton} onClick={handleLoginClick}>
-              <FiUser className={css.userIcon} />
-            </button>
-          </div>
+          <ul className={css.rightPart}>
+            <HeaderUserControls
+              togglePopup={togglePopup}
+              popupBtnRef={popupBtnRef}
+              handleLoginClick={handleLoginClick}
+            />
+          </ul>
+
+          {isOpenPopup && (
+            <div className={css.modalBackdrop}>
+              <div className={css.modal} ref={userPopupRef}>
+                <HeaderUserPopup onClose={() => setIsOpenPopup(false)} />
+              </div>
+            </div>
+          )}
         </div>
       </div>
       <HeaderDown />

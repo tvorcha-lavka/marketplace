@@ -1,6 +1,6 @@
 import { GlobalStyles, useTheme } from '@mui/material';
 
-const GlobalStylesComponent = () => {
+export default function GlobalStylesComponent() {
   const theme = useTheme();
 
   return (
@@ -36,7 +36,6 @@ const GlobalStylesComponent = () => {
 
         img: {
           display: 'block',
-          //max-width: '100%',
           height: 'auto',
         },
 
@@ -50,11 +49,11 @@ const GlobalStylesComponent = () => {
           padding: '20px 0 114px 0',
         },
 
-        "input[type='password']::-ms-reveal": {
+        'input[type="password"]::-ms-reveal': {
           display: 'none',
         },
 
-        "input[type='password']::-ms-clear": {
+        'input[type="password"]::-ms-clear': {
           display: 'none',
         },
 
@@ -72,8 +71,8 @@ const GlobalStylesComponent = () => {
         },
 
         '.scrollBox': {
-					overflowY: 'auto',
-					overflowX: 'hidden',
+          overflowY: 'auto',
+          overflowX: 'hidden',
         },
 
         '.scrollBoxInner': {
@@ -82,6 +81,7 @@ const GlobalStylesComponent = () => {
 
         ':root': {
           '--default-white': theme.custom.colors.defaultWhite, //fff
+          '--light-color': theme.custom.colors.lightColor, //#d6dce5
           '--white': theme.custom.colors.white, //#f7f4ef
           '--grey-extra-light': theme.custom.colors.greyExtraLight, //#c8c8c8
           '--grey-lightest': theme.custom.colors.greyLightest, //rgba(255, 255, 255, 0.8);
@@ -179,10 +179,9 @@ const GlobalStylesComponent = () => {
           '--modal-shadow': theme.custom.shadows.modalShadow, //0px 1px 8px 0px rgba(130, 84, 8, 0.102);
           '--shadow': theme.custom.shadows.shadow, //5px 5px 10px rgb(119, 119, 119)
           '--shadow-color': theme.custom.shadows.shadowColor, //2px 2px 8px rgba(112, 92, 2, 0.7)
+          '--shadow-payment-card': theme.custom.shadows.shadowPaymentCard, // 0 2px 20px 0 rgba(183, 183, 183, 0.08), 0 20px 40px 0 rgba(183, 183, 183, 0.08);
         },
       }}
     />
   );
-};
-
-export default GlobalStylesComponent;
+}

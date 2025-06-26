@@ -1,0 +1,31 @@
+.navigationMenu {
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+  border-radius: var(--border-radius-medium);
+  padding: 24px;
+  width: 214px;
+}
+
+.navText {
+  font-weight: var(--font-weight-normal);
+  font-size: var(--font-size-tiny);
+  color: var(--default-black);
+}
+
+.navText:hover {
+  font-weight: var(--font-weight-bold);
+}
+.wrap {
+  width: 100px;
+}
+
+.navigationMenu li:last-child::before {
+  content: '';
+  display: block;
+  margin-top: 11.5px;
+  margin-bottom: 24.5px;
+  border-bottom: var(--border-width) var(--border-style) var(--grey-dark);
+  width: 166px;
+  height: 0;
+}
