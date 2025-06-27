@@ -23,7 +23,7 @@ export default function ProductDetailsInfo({ product }) {
   const navigate = useNavigate();
 
   const transferOrder = () => {
-    navigate('/order');
+    navigate('/cart');
   };
 
   const handleContinueShopping = () => {
