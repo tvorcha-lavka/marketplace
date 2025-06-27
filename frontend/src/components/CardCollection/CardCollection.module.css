@@ -6,18 +6,6 @@
   border-radius: var(--border-radius);
 }
 
-.titleVip {
-  position: absolute;
-  top: 16px;
-  left: 16px;
-  border-radius: var(--border-radius-small);
-  padding: 4px 12px;
-  font-weight: var(--font-weight-medium);
-  font-size: var(--font-size-extra-tiny);
-  color: var(--default-black);
-  background-color: var(--grey-lighter);
-}
-
 .likeBtn {
   position: absolute;
   top: 16px;
@@ -26,16 +14,22 @@
   justify-content: center;
   align-items: center;
   border-radius: var(--border-radius-small);
-  padding: 4px;
   width: 24px;
   height: 24px;
   border: none;
-  background-color: var(--grey-lighter);
+  background-color: var(--grey-lightest);
   z-index: 111;
 }
 
+.likeIcon {
+  stroke-width: 1.4;
+  width: var(--icon-size);
+  height: var(--icon-size);
+  color: var(--default-black);
+}
+
 .liked {
-  color: var(--secondary-pink);
+  fill: var(--secondary-pink);
 }
 
 .publicDate {
@@ -46,10 +40,19 @@
 }
 
 .cartTitle {
-  margin-bottom: 12px;
-  font-weight: var(--font-weight-normal);
   font-size: var(--font-size-extra-small);
+  font-weight: var(--font-weight-normal);
   color: var(--default-black);
+  line-height: 1.255;
+  max-width: 264px;
+}
+
+.cartTitleShort {
+  margin-bottom: 30px;
+}
+
+.cartTitleLong {
+  margin-bottom: 12px;
 }
 
 .price {

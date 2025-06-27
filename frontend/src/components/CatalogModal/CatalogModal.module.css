@@ -89,6 +89,7 @@
   height: 172px;
   border-top-right-radius: var(--border-radius-medium);
   border-top-left-radius: var(--border-radius-medium);
+	cursor: pointer;
 }
 
 .itemImg {
