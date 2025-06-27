@@ -1,0 +1,44 @@
+.slider {
+  position: relative;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+}
+
+.cardList {
+  display: flex;
+  flex-direction: row;
+  column-gap: 16px;
+  margin-block-end: 31px;
+}
+
+.prevBtn,
+.nextBtn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: var(--border-radius-small);
+  padding: 4px;
+  border: none;
+  background-color: var(--grey-lightest);
+}
+
+.prevBtn:focus,
+.nextBtn:focus {
+  outline: none;
+  color: var(--primary-yellow);
+}
+
+.arrowIcon {
+  stroke: var(--default-black);
+}
+
+.prevBtn:disabled,
+.nextBtn:disabled {
+  color: var(--grey-dark);
+  cursor: not-allowed;
+}
