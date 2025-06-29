@@ -1,4 +1,5 @@
 import CheckboxInput from '../../FormElements/CheckboxInput/CheckboxInput';
+
 import { deliveryType } from '../../../utils/cartDetails';
 
 import css from './DeliveryOptions.module.css';
