@@ -5,18 +5,19 @@ from uuid import UUID
 from celery import Task
 
 from core.celery.client import app
+from core.celery.enums import QueueEnum
 
 from .dto import OptimizeProductImages
 from .models import Product
 
 # from django.core.files.storage import default_storage
 
-# @app.task  # type: ignore[misc]
+# @app.task
 # def remove_images_task(file_names: list[str]):
 #     [default_storage.delete(file_name) for file_name in file_names]
 
 
-@app.task(name="database.product.create", queue="database.queue", bind=True)  # type: ignore[misc]
+@app.task(name="database.product.create", queue=QueueEnum.DATABASE, bind=True)
 def create_db_product_task(self: Task, validated_data: str, user_id: str, session_id: str) -> None:
     """Create product in database and call next task to optimize images."""
     data: dict[str, Any] = loads(validated_data)
@@ -35,4 +36,4 @@ def create_db_product_task(self: Task, validated_data: str, user_id: str, sessio
     )
 
     kwargs = {"json_str": optimize_dto.model_dump_json()}
-    app.send_task(name="optimize.product.images", queue="optimize.queue", kwargs=kwargs)
+    app.send_task(name="optimize.product.images", queue=QueueEnum.FILE_OPTIMIZER, kwargs=kwargs)

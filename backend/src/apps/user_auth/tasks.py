@@ -2,9 +2,10 @@ from celery import Task
 
 from apps.user_auth.models import VerificationCode
 from core.celery.client import app
+from core.celery.enums import QueueEnum
 
 
-@app.task(name="database.prune.unused.verification-code", queue="database.queue", bind=True)  # type: ignore[misc]
+@app.task(name="database.prune.unused.verification-code", queue=QueueEnum.DATABASE, bind=True)
 def prune_unused_verification_code_task(self: Task, code_id: int) -> None:
     try:
         code = VerificationCode.objects.get(id=code_id)

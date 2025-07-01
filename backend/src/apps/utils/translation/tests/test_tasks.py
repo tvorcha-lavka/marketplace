@@ -6,6 +6,7 @@ from django_redis.cache import RedisCache
 from pytest_mock import MockerFixture
 
 from apps.utils.translation.tasks import translate_fields_task
+from core.celery.enums import QueueEnum
 
 from .test_model import DummyModel
 
@@ -27,7 +28,7 @@ class TestTranslateTask:
 
         translate_fields_task.apply_async(
             args=(self.model_label, self.instance.pk, self.instance.language_code),
-            queue="database.queue",
+            queue=QueueEnum.DATABASE,
             priority=10,
         )
 
@@ -59,7 +60,7 @@ class TestTranslateTask:
         # Run the task
         translate_fields_task.apply_async(
             args=(self.instance._meta.label, self.instance.pk, self.instance.language_code),
-            queue="database.queue",
+            queue=QueueEnum.DATABASE,
             priority=10,
         )
 

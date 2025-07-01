@@ -8,6 +8,8 @@ from django.db.models import Model
 from parler.managers import TranslatableManager
 from parler.models import TranslatableModel
 
+from core.celery.enums import QueueEnum
+
 from .tasks import translate_fields_task
 
 
@@ -31,7 +33,7 @@ class AutoTranslatableModel(TranslatableModel, Model):  # type: ignore[misc]
         """Starts the celery task to translate each field in translatable_fields."""
         translate_fields_task.apply_async(
             args=(self._meta.label, self.pk, self.language_code),
-            queue="database.queue",
+            queue=QueueEnum.DATABASE,
             priority=10,
         )
 

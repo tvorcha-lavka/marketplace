@@ -2,6 +2,7 @@
 # from django.dispatch import receiver
 
 # from apps.product.models import ProductImage
+# from core.celery.enums import QueueEnum
 
 # from .tasks import remove_images_task
 
@@ -13,6 +14,6 @@
 #
 #     remove_images_task.apply_async(
 #         args=(images_to_delete,),
-#         queue="celery",
+#         queue=QueueEnum.ORCHESTRATOR,
 #         priority=10,
 #     )

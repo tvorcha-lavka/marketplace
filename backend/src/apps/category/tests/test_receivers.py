@@ -15,6 +15,7 @@ from apps.category.receivers import (
     handle_category_viewed,
 )
 from apps.category.tasks import update_category_purchase_task, update_category_views_task
+from core.celery.enums import QueueEnum
 
 ModelType: TypeAlias = type[CategoryImage | CardImage]
 
@@ -75,7 +76,7 @@ class TestStatisticsReceivers:
         handle_category_viewed(sender=CategoryStatisticMiddleware(mocker.ANY), category_id=1)
 
         # Check that the task has been called once with the correct arguments
-        mock_task.assert_called_once_with(args=(1,), queue="statistics.queue", priority=10)
+        mock_task.assert_called_once_with(args=(1,), queue=QueueEnum.STATISTICS, priority=10)
 
     def test_handle_category_purchase(self, mocker: MockerFixture) -> None:
         # Mock the `update_category_purchase_task` task
@@ -85,4 +86,4 @@ class TestStatisticsReceivers:
         handle_category_purchase(sender=mocker.ANY, category_id=1)
 
         # Check that the task has been called once with the correct arguments
-        mock_task.assert_called_once_with(args=(1,), queue="statistics.queue", priority=10)
+        mock_task.assert_called_once_with(args=(1,), queue=QueueEnum.STATISTICS, priority=10)

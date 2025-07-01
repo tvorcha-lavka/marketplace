@@ -10,6 +10,7 @@ from django.utils.translation import gettext_lazy as _
 from apps.user.models import User
 from apps.user_auth.models import VerificationCode
 from core.celery.client import app
+from core.celery.enums import QueueEnum
 
 from .choices import EmailType
 
@@ -24,7 +25,7 @@ def send_verify_email(email: str) -> tuple[AsyncResult, str]:
     return (
         send_verification_code_task.apply_async(
             args=(email, email_type, template, subject, body),
-            queue="notification.queue",
+            queue=QueueEnum.NOTIFICATION,
             priority=0,
         ),
         api_message,
@@ -46,14 +47,14 @@ def send_reset_password(user: User) -> tuple[AsyncResult, str]:
         send_verification_code_task.apply_async(
             args=(user.email, email_type, template, subject, body),
             kwargs={"username": user.username},
-            queue="notification.queue",
+            queue=QueueEnum.NOTIFICATION,
             priority=0,
         ),
         api_message,
     )
 
 
-@app.task(name="notification.email.verification", queue="notification.queue", bind=True)  # type: ignore[misc]
+@app.task(name="notification.email.verification", queue=QueueEnum.NOTIFICATION, bind=True)
 def send_verification_code_task(  # noqa: CFQ002 (7 args, allowed 6)
     self: Task,
     recipient: str,
@@ -83,7 +84,7 @@ def send_verification_code_task(  # noqa: CFQ002 (7 args, allowed 6)
         raise self.retry(exc=e)
 
 
-@app.task(name="notification.email.welcome", queue="notification.queue", bind=True)  # type: ignore[misc]
+@app.task(name="notification.email.welcome", queue=QueueEnum.NOTIFICATION, bind=True)
 def send_welcome_email_task(self: Task, email: str) -> None:
     try:
         user = User.objects.get(email=email)
