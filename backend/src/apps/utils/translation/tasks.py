@@ -7,9 +7,10 @@ from django_redis.cache import RedisCache
 from parler.models import TranslatableModel
 
 from core.celery.client import app
+from core.celery.enums import QueueEnum
 
 
-@app.task(name="database.translations.create", queue="database.queue", bind=True)  # type: ignore[misc]
+@app.task(name="database.translations.create", queue=QueueEnum.DATABASE, bind=True)
 def translate_fields_task(self: Task, app_label: str, instance_pk: int, language_code: str) -> None:
     """Create translations to each field in translatable_fields."""
     lock_key = f"translate_task_lock_{app_label}:{instance_pk}"

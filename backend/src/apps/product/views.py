@@ -18,6 +18,7 @@ from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 from uuid6 import uuid7
 
 from core.celery.client import app
+from core.celery.enums import QueueEnum
 
 from .filters import ProductPrivateFilter, ProductPublicFilter
 from .models import Product
@@ -101,7 +102,7 @@ class ProductPrivateViewSet(ModelViewSet[Product]):
 
         app.send_task(
             name="database.product.create",
-            queue="database.queue",
+            queue=QueueEnum.DATABASE,
             kwargs={
                 "user_id": str(self.request.user.pk),
                 "session_id": str(serializer.validated_data.pop("session_id")),

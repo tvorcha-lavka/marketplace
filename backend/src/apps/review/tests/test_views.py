@@ -2,10 +2,10 @@ from collections import namedtuple as nt
 from typing import Any, cast
 
 import pytest
-from _pytest.fixtures import FixtureRequest
 from django.contrib.contenttypes.models import ContentType, ContentTypeManager
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
+from pytest import FixtureRequest
 from pytest_mock import MockFixture
 from rest_framework import status
 from rest_framework.exceptions import NotFound

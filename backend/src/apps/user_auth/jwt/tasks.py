@@ -3,9 +3,10 @@ from django.utils import timezone
 from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken, OutstandingToken
 
 from core.celery.client import app
+from core.celery.enums import QueueEnum
 
 
-@app.task(name="database.prune.expired.tokens", queue="database.queue", bind=True)  # type: ignore[misc]
+@app.task(name="database.prune.expired.tokens", queue=QueueEnum.DATABASE, bind=True)
 def prune_expired_tokens_task(self: Task) -> None:
     try:
         # Removing expired tokens from BlacklistedToken

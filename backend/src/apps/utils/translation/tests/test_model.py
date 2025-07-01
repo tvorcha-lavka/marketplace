@@ -9,6 +9,7 @@ from pytest_mock import MockerFixture
 
 from apps.utils.translation.models import AutoTranslatableModel
 from apps.utils.translation.tasks import translate_fields_task
+from core.celery.enums import QueueEnum
 
 
 class DummyModel(AutoTranslatableModel):
@@ -52,7 +53,7 @@ class TestAutoTranslatableModel:
         # Check that the translation task was called with the correct arguments
         mock_task.assert_called_once_with(
             args=(self.instance._meta.label, self.instance.pk, self.instance.language_code),
-            queue="database.queue",
+            queue=QueueEnum.DATABASE,
             priority=10,
         )
 

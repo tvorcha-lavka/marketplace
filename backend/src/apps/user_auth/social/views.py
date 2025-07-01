@@ -12,6 +12,7 @@ from apps.email.tasks import send_welcome_email_task
 from apps.user.serializers import UserSerializer
 from apps.user_auth.jwt.mixins import TokenMixin
 from apps.user_auth.serializers import UserAuthSerializer
+from core.celery.enums import QueueEnum
 
 from .mixins import BackendMixin
 from .serializers import SocialCallbackOAuth2Serializer, SocialOAuth2RedirectSerializer
@@ -51,7 +52,7 @@ class SocialOAuth2CallbackView(CreateAPIView[Any], TokenMixin, BackendMixin):
 
         if user and not user.is_email_verified:
             user.verify_email()
-            send_welcome_email_task.apply_async((user.email,), queue="notification.queue", priority=0)
+            send_welcome_email_task.apply_async((user.email,), queue=QueueEnum.NOTIFICATION, priority=0)
 
         if user and user.is_active:
             response_data = {"user": UserSerializer(user).data, "token": {**self.get_token_pair(user)}}

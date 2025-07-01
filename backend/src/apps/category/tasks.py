@@ -1,11 +1,12 @@
 from celery import Task
 
 from core.celery.client import app
+from core.celery.enums import QueueEnum
 
 from .models import Statistics
 
 
-@app.task(name="statistics.category.increment.views", queue="statistics.queue", bind=True)  # type: ignore[misc]
+@app.task(name="statistics.category.increment.views", queue=QueueEnum.STATISTICS, bind=True)
 def update_category_views_task(self: Task, category_id: int) -> str:
     try:
         statistics, created = Statistics.objects.get_or_create(category_id=category_id)
@@ -15,7 +16,7 @@ def update_category_views_task(self: Task, category_id: int) -> str:
         raise self.retry(exc=e)
 
 
-@app.task(name="statistics.category.increment.purchases", queue="statistics.queue", bind=True)  # type: ignore[misc]
+@app.task(name="statistics.category.increment.purchases", queue=QueueEnum.STATISTICS, bind=True)
 def update_category_purchase_task(self: Task, category_id: int) -> str:
     try:
         statistics, created = Statistics.objects.get_or_create(category_id=category_id)

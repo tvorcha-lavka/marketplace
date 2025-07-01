@@ -149,6 +149,10 @@ module = [
     "social_django.*",
 ]
 
+[[tool.mypy.overrides]]
+module = ["tasks.*", "*.tasks"]
+disable_error_code = ["misc"]
+
 
 [tool.django-stubs]
 django_settings_module = "core.settings.development"
