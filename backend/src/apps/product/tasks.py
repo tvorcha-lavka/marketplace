@@ -52,7 +52,6 @@ def create_product_chain_task(user_email: str, product_id: str, is_draft: bool, 
             immutable=False,
         ),
         # 5. Indexing the product in Elasticsearch
-        # TODO: need to be implemented
         app.signature(
             "elasticsearch.product.index",
             queue=QueueEnum.ELASTICSEARCH,
@@ -82,7 +81,6 @@ def create_product_chain_task(user_email: str, product_id: str, is_draft: bool, 
                 immutable=True,
             ),
             # 7. Update product index in Elasticsearch
-            # TODO: need to be implemented
             app.signature(
                 "elasticsearch.product.index.update",
                 queue=QueueEnum.ELASTICSEARCH,
