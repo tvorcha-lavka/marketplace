@@ -1,4 +1,5 @@
 {%- set workers = [
+  ("orchestrator", 0.25, "256m", []),
   ("database", 1, "1024m", []),
   ("elasticsearch", 1, "1024m", ["elasticsearch"]),
   ("notification", 1, "1024m", []),

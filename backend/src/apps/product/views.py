@@ -97,25 +97,25 @@ class ProductPrivateViewSet(ModelViewSet[Product]):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        product_id = uuid7()
-        serializer.validated_data["id"] = product_id
+        data = serializer.validated_data
+        product_id = str(uuid7())
 
-        app.send_task(
-            name="database.product.create",
-            queue=QueueEnum.DATABASE,
-            kwargs={
-                "user_id": str(self.request.user.pk),
-                "session_id": str(serializer.validated_data.pop("session_id")),
-                "validated_data": dumps(serializer.validated_data, cls=DjangoJSONEncoder),
-            },
-        )
+        data["id"] = product_id
+        data["owner_id"] = str(self.request.user.pk)
 
-        is_draft = {
+        user_email = self.request.user.email  # type: ignore
+        is_draft = data.get("draft", False)
+
+        args = (user_email, product_id, is_draft)
+        kwargs = {"json_str": dumps(data, cls=DjangoJSONEncoder)}
+        app.send_task(name="product.create", queue=QueueEnum.ORCHESTRATOR, args=args, kwargs=kwargs)
+
+        is_draft_map = {
             True: _("The product has been saved as a draft."),
             False: _("The product will be published in a few minutes."),
         }
 
-        message = is_draft[serializer.validated_data.get("draft", False)]
+        message = is_draft_map[is_draft]
 
         data = {"product_id": product_id, "message": message}
         response_data = ProductCreateResponseSerializer(data).data
