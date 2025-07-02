@@ -43,7 +43,7 @@ const persistedProductsReducer = persistReducer(
   {
     key: 'product',
     storage,
-    whitelist: ['products'],
+    whitelist: ['products', 'searchResults', 'query', 'searchHistory'],
   },
   productReducer
 );
