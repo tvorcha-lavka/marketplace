@@ -78,6 +78,7 @@ export default function UserProfileDeliveryPage() {
             variant="default"
             size="small"
             className={css.btn}
+            disabled={localSelection.length === 0}
           >
             Зберегти зміни
           </CustomButton>
@@ -102,17 +103,6 @@ export default function UserProfileDeliveryPage() {
               height={deliveryType[0].height}
               className={css.inactiveImage}
             />
-            {/* {deliveryType.map(({ name, img, width, height }) => (
-              <img
-                key={name}
-                src={img}
-                alt={name}
-                width={width}
-                height={height}
-                className={css.inactiveImage}
-                draggable="false"
-              />
-            ))} */}
           </div>
         </div>
       )}
