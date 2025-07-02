@@ -27,6 +27,10 @@
   gap: 16px;
 }
 
+.box {
+  margin-top: 16px;
+}
+
 .deliveryBoxItem {
   display: flex;
   justify-content: center;
@@ -53,15 +57,25 @@
 }
 
 .emptyDelivery {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 32px;
+  margin-top: 16px;
 }
 
-.iconDelivery {
-  color: var(--primary-yellow);
-  width: 50px;
-  height: 50px;
+.imageContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  opacity: 0.3;
+}
+
+.inactiveImage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: var(--border-width) var(--border-style) var(--grey-dark);
+  border-radius: var(--border-radius);
+  padding: 32px 0px;
+  width: 224px;
+  height: 114px;
+  object-fit: contain;
+  filter: grayscale(100%);
 }
