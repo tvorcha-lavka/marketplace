@@ -2,9 +2,13 @@ import { NavLink } from 'react-router-dom';
 
 import LogoutButton from '../ButtonElements/LogoutButton/LogoutButton';
 
+import useNoScroll from '../../hooks/useNoScroll';
+
 import css from './HeaderUserPopup.module.css';
 
-export default function HeaderUserPopup({ onClose }) {
+export default function HeaderUserPopup({ onClose, isOpenPopup }) {
+  useNoScroll(isOpenPopup);
+
   return (
     <>
       <ul className={css.navigationMenu}>

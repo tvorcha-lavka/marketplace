@@ -117,7 +117,10 @@ export default function Header() {
           {isOpenPopup && (
             <div className={css.modalBackdrop}>
               <div className={css.modal} ref={userPopupRef}>
-                <HeaderUserPopup onClose={() => setIsOpenPopup(false)} />
+                <HeaderUserPopup
+                  isOpenPopup={isOpenPopup}
+                  onClose={() => setIsOpenPopup(false)}
+                />
               </div>
             </div>
           )}

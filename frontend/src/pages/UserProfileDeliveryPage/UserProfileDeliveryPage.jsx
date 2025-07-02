@@ -1,6 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
-import { CiDeliveryTruck } from 'react-icons/ci';
 
 import CustomButton from '../../components/ButtonElements/CustomButton/CustomButton';
 import CustomEditButton from '../../components/ButtonElements/CustomEditButton/CustomEditButton';
@@ -40,14 +39,13 @@ export default function UserProfileDeliveryPage() {
   return (
     <div className={css.container}>
       <div className={css.wrap}>
-        <h2 className={css.title}>Способи доставки</h2>
+        <h2 className={css.title}>Спосіб доставки</h2>
         {!editMode && (
           <CustomEditButton onClick={handleToggleEdit}>
             Редагувати
           </CustomEditButton>
         )}
       </div>
-
       {editMode ? (
         <form onSubmit={handleSubmit}>
           <p className={css.text}>
@@ -80,12 +78,13 @@ export default function UserProfileDeliveryPage() {
             variant="default"
             size="small"
             className={css.btn}
+            disabled={localSelection.length === 0}
           >
             Зберегти зміни
           </CustomButton>
         </form>
       ) : isSelectedDelivery?.length > 0 ? (
-        <ul className={css.deliveryBox}>
+        <ul className={`${css.deliveryBox} ${css.box}`}>
           {deliveryType
             .filter(({ name }) => isSelectedDelivery.includes(name))
             .map(({ name, img, width, height }) => (
@@ -96,11 +95,15 @@ export default function UserProfileDeliveryPage() {
         </ul>
       ) : (
         <div className={css.emptyDelivery}>
-          <span>
-            <CiDeliveryTruck className={css.iconDelivery} />
-          </span>
-
-          <p className={css.text}>Наразі спосіб доставки не обрано</p>
+          <div className={css.imageContainer}>
+            <img
+              src={deliveryType[0].img}
+              alt={deliveryType[0].name}
+              width={deliveryType[0].width}
+              height={deliveryType[0].height}
+              className={css.inactiveImage}
+            />
+          </div>
         </div>
       )}
     </div>

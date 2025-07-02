@@ -3,10 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 
 import RecommendedCards from '../../RecommendedCards/RecommendedCards';
-
 import CardDetailsGallery from '../CardDetailsGallery/CardDetailsGallery';
 import CardDetailsDescription from '../CardDetailsDescription/CardDetailsDescription';
-
 import ProductDetailsInfo from '../ProductDetailsInfo/ProductDetailsInfo';
 import Loader from '../../../authModalComponents/Loader/Loader';
 import Owner from '../Owner/Owner';
