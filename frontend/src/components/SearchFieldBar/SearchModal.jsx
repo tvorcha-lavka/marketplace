@@ -19,11 +19,15 @@ export default function SearchModal({
         {results.map((product) => (
           <li className={css.item} key={product.id}>
             <Link
-              to={`/${product.id}`}
-              state={{ from: 'search', searchResults: results }}
+              to={`/categories/${product.category_id}`}
+              state={{ from: 'search' }}
               className={css.linkWrapper}
               onClick={() => {
-                addToSearchHistory({ id: product.id, title: product.title });
+                addToSearchHistory({
+                  id: product.id,
+                  title: product.title,
+                  category_id: product.category_id,
+                });
                 onClose();
               }}
             >
@@ -38,10 +42,10 @@ export default function SearchModal({
         <>
           <p className={css.text}>Останнім часом ви шукали:</p>
           <ul className={css.menu}>
-            {searchHistory.map(({ id, title }) => (
+            {searchHistory.map(({ id, title, category_id }) => (
               <li key={`${id}-${title}`} className={css.item}>
                 <Link
-                  to={`/${id}`}
+                  to={`/categories/${category_id}`}
                   state={{ from: 'search' }}
                   className={css.linkWrapper}
                   onClick={() => {

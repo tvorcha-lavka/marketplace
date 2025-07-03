@@ -25,14 +25,15 @@ export default function SearchFieldBar() {
   const searchHistory = useSelector(selectSearchHistory);
 
   useEffect(() => {
-    if (query.trim().length >= 2) {
-      dispatch(searchProducts(query));
+    const trimmedQuery = query.trim();
+    if (trimmedQuery.length >= 4) {
+      dispatch(searchProducts(trimmedQuery));
     }
   }, [query, dispatch]);
 
   const filteredResults = useMemo(() => {
     const trimmedQuery = query.trim().toLowerCase();
-    if (trimmedQuery.length < 2) return [];
+    if (trimmedQuery.length < 4) return [];
     return allProducts.filter((product) =>
       product.title.toLowerCase().includes(trimmedQuery)
     );
@@ -60,7 +61,11 @@ export default function SearchFieldBar() {
 
     if (exactMatch) {
       dispatch(
-        addSearchHistory({ id: exactMatch.id, title: exactMatch.title })
+        addSearchHistory({
+          id: exactMatch.id,
+          title: exactMatch.title,
+          category_id: exactMatch.category_id,
+        })
       );
       navigate(`/${exactMatch.id}`, { state: { from: 'search' } });
       closeModal();
