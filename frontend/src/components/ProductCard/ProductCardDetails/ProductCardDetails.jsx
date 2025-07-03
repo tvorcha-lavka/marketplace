@@ -25,7 +25,6 @@ export default function ProductCardDetails() {
 
   const from = location.state?.from || 'direct';
   const prevFrom = location.state?.from;
-  const searchResults = location.state?.searchResults;
 
   const product = useSelector(selectProductDetails);
   const category = useSelector(selectCategoryById);
@@ -49,10 +48,6 @@ export default function ProductCardDetails() {
       to: `/categories/${categoryId}`,
       isActive: false,
     });
-  }
-
-  if (location.state?.from === 'search') {
-    links.push({ label: 'Головна', to: '/', isActive: false });
   }
 
   if (from === 'recommended') {
@@ -117,7 +112,6 @@ export default function ProductCardDetails() {
           </div>
 
           <RecommendedCards
-            searchResults={searchResults}
             title="Вам також може сподобатись:"
           />
         </section>

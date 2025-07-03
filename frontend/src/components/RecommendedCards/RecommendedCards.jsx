@@ -11,7 +11,6 @@ import css from './RecommendedCards.module.css';
 
 export default function RecommendedCards({
   title = 'Вам також може сподобатись:',
-  searchResults,
 }) {
   const [activeCardId, setActiveCardId] = useState(null);
 
@@ -30,13 +29,11 @@ export default function RecommendedCards({
     }
   }, [dispatch, allProducts]);
 
-  const items = searchResults || allProducts;
-
   return (
     <section>
       <h2 className={css.title}>{title}</h2>
       <CustomSlider
-        items={items}
+        items={allProducts}
         itemsPerSlide={4}
         renderItem={(item) => (
           <div
