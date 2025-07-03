@@ -44,13 +44,17 @@ export default function CustomSlider({
 
   return (
     <div className={css.slider}>
-      <button
-        className={`${css.prevBtn} ${prevBtnClassName}`}
-        onClick={prevSlide}
-        disabled={disablePrev}
-      >
-        <IoIosArrowBack className={`${css.arrowIcon} ${arrowIconClassName}`} />
-      </button>
+      {items.length > itemsPerSlide && (
+        <button
+          className={`${css.prevBtn} ${prevBtnClassName}`}
+          onClick={prevSlide}
+          disabled={disablePrev}
+        >
+          <IoIosArrowBack
+            className={`${css.arrowIcon} ${arrowIconClassName}`}
+          />
+        </button>
+      )}
 
       <ul className={css.cardList}>
         {visibleItems.map((item, idx) => (
@@ -60,15 +64,17 @@ export default function CustomSlider({
         ))}
       </ul>
 
-      <button
-        className={`${css.nextBtn} ${nextBtnClassName}`}
-        onClick={nextSlide}
-        disabled={disableNext}
-      >
-        <IoIosArrowForward
-          className={`${css.arrowIcon} ${arrowIconClassName}`}
-        />
-      </button>
+      {items.length > itemsPerSlide && (
+        <button
+          className={`${css.nextBtn} ${nextBtnClassName}`}
+          onClick={nextSlide}
+          disabled={disableNext}
+        >
+          <IoIosArrowForward
+            className={`${css.arrowIcon} ${arrowIconClassName}`}
+          />
+        </button>
+      )}
     </div>
   );
 }
