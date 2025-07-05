@@ -8,6 +8,8 @@ from .base import *
 monkeypatch()
 
 DEBUG = True
+ENVIRONMENT = "development"
+
 ALLOWED_HOSTS += ["localhost", "127.0.0.1"] + loads(getenv("ALLOWED_DEV_HOSTS", "[]"))
 
 INSTALLED_APPS += [

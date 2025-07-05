@@ -11,6 +11,7 @@ from core.celery.client import app
 from core.celery.enums import QueueEnum
 
 from .dto import OptimizeProductImages
+from .images import ImagePresetEnum
 from .models import Product
 
 # from django.core.files.storage import default_storage
@@ -153,6 +154,7 @@ def create_db_product_task(self: Task, json_str: str) -> str:
         user_id=owner_id,
         session_id=session_id,
         product_id=product.pk,
+        preset=ImagePresetEnum.to_pydantic(),
     )
 
     return optimize_dto.model_dump_json()
