@@ -4,6 +4,7 @@ from django.db.models.signals import pre_delete, pre_save
 from django.dispatch import receiver
 
 from apps.utils.image import admin_compress_image
+from core.celery.enums import QueueEnum
 
 from .middleware import CategoryStatisticMiddleware
 from .models import CardImage, CategoryImage
@@ -36,9 +37,9 @@ def delete_category_card_image(sender: CardImage, instance: CardImage, **kwargs:
 # --- Receivers to increase category stats -----------------------------------------------------------------------------
 @receiver(category_viewed, sender=CategoryStatisticMiddleware)
 def handle_category_viewed(sender: CategoryStatisticMiddleware, category_id: int, **kwargs: Any) -> None:  # noqa: F841
-    update_category_views_task.apply_async(args=(category_id,), queue="statistics.queue", priority=10)
+    update_category_views_task.apply_async(args=(category_id,), queue=QueueEnum.STATISTICS, priority=10)
 
 
 @receiver(purchase_in_category)
 def handle_category_purchase(sender: Any, category_id: int, **kwargs: Any) -> None:  # noqa: F841
-    update_category_purchase_task.apply_async(args=(category_id,), queue="statistics.queue", priority=10)
+    update_category_purchase_task.apply_async(args=(category_id,), queue=QueueEnum.STATISTICS, priority=10)

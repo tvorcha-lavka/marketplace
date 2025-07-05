@@ -63,6 +63,7 @@ def run_django(_type: str) -> None:
 
 def run_celery(worker: str) -> None:
     from core.celery.client import app
+    from core.celery.enums import QueueEnum
 
     celery_config = CeleryConfig(
         beat=[
@@ -74,28 +75,28 @@ def run_celery(worker: str) -> None:
             "--loglevel=info",
             "--autoscale=10,1",
             "--max-tasks-per-child=50",
-            "--queues=database.queue",
+            "--queues=%s" % QueueEnum.DATABASE,
         ],
         elasticsearch=[
             "worker",
             "--loglevel=info",
             "--autoscale=10,1",
             "--max-tasks-per-child=50",
-            "--queues=elasticsearch.queue",
+            "--queues=%s" % QueueEnum.ELASTICSEARCH,
         ],
         notification=[
             "worker",
             "--loglevel=info",
             "--autoscale=10,1",
             "--max-tasks-per-child=50",
-            "--queues=notification.queue",
+            "--queues=%s" % QueueEnum.NOTIFICATION,
         ],
         statistics=[
             "worker",
             "--loglevel=info",
             "--autoscale=5,1",
             "--max-tasks-per-child=25",
-            "--queues=statistics.queue",
+            "--queues=%s" % QueueEnum.STATISTICS,
         ],
     )
 

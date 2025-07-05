@@ -6,6 +6,8 @@ from celery.schedules import crontab
 from core.celery.settings import celery_settings
 from core.utils import settings_module
 
+from .enums import QueueEnum
+
 # Defining django settings
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", settings_module)
 
@@ -26,9 +28,9 @@ app.conf.update(
 # Configure celery beat schedule
 app.conf.beat_schedule = {
     "database.prune.expired.tokens": {
-        "task": "apps.user_auth.jwt.tasks.prune_expired_tokens_task",
+        "task": "database.prune.expired.tokens",
         "schedule": crontab(hour="0", minute="0"),
-        "options": {"queue": "database.queue"},
+        "options": {"queue": QueueEnum.DATABASE},
     }
 }
 

@@ -7,6 +7,7 @@ from apps.email.choices import EmailType
 from apps.user_auth.models import VerificationCode
 from apps.user_auth.tasks import prune_unused_verification_code_task
 from core.celery.client import app
+from core.celery.enums import QueueEnum
 from core.tests.typing import CodeFactoryTuple, UsersTuple
 
 # ----- Test Case Schemas ----------------------------------------------------------------------------------------------
@@ -40,7 +41,7 @@ def test_prune_unused_verification_code_task(
 
     result = prune_unused_verification_code_task.apply_async(
         args=(code_obj.id,),
-        queue="database.queue",
+        queue=QueueEnum.DATABASE,
         priority=0,
     )
     result.wait()

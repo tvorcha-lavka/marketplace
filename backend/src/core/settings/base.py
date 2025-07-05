@@ -175,7 +175,7 @@ PARLER_LANGUAGES = {
     },
 }
 
-TIME_ZONE = "Europe/Kyiv"
+TIME_ZONE = "UTC"
 
 USE_I18N = True
 
