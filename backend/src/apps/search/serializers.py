@@ -5,7 +5,8 @@ from uuid import UUID
 from pydantic import BaseModel
 from rest_framework import serializers
 
-from apps.search.elastic.documents.product import Image, Owner
+from apps.product.images import ImageBundle
+from apps.search.elastic.schemas import OwnerSchema
 
 
 class SearchParamsSerializer(serializers.Serializer[Any]):
@@ -30,9 +31,9 @@ class ProductDocumentSerializer(BaseDocumentSerializer):
     is_vip: bool
     date_published: date
 
-    owner: Owner
+    owner: OwnerSchema
     category_id: int
-    images: list[Image]
+    images: list[ImageBundle]
     full_path: list[str]
 
 

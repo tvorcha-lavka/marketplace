@@ -50,15 +50,7 @@ PRODUCT_INDEX_SETTINGS = {
                 "type": "object",
                 "properties": {
                     "id": {"type": "keyword"},
-                    "url_path": {"type": "keyword"},
-                    "processed": {
-                        "type": "object",
-                        "properties": {
-                            "url_path": {"type": "keyword"},
-                            "width": {"type": "integer"},
-                            "height": {"type": "integer"},
-                        },
-                    },
+                    "hash": {"type": "keyword"},
                 },
             },
             "filters": {
