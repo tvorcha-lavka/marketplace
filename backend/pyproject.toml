@@ -123,6 +123,7 @@ plugins = [
     "mypy_drf_plugin.main",
 ]
 exclude = [
+    "local",
     "migrations",
 ]
 

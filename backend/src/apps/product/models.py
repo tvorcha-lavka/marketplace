@@ -1,6 +1,5 @@
-from dataclasses import dataclass
 from pathlib import Path
-from typing import cast
+from typing import Any
 
 from django.conf import settings
 from django.db import models
@@ -8,16 +7,10 @@ from django.utils.translation import gettext_lazy as _
 
 from apps.category.models import Category
 from apps.filter.models import FilterValue
+from apps.product.images import ImagePresetEnum, OriginalImage, ProcessedImage, ProcessedImageBundle
 from apps.product.validators import validate_description, validate_price, validate_title
 from apps.user.models import SellerProfile
 from apps.utils.models import UUIDv7Model
-
-
-@dataclass
-class ProcessedImagesBundle:
-    size_s: "ProductProcessedImage"  # 150x200
-    size_m: "ProductProcessedImage"  # 450x600
-    size_l: "ProductProcessedImage"  # 675x900
 
 
 class Product(UUIDv7Model):
@@ -64,10 +57,8 @@ class Product(UUIDv7Model):
     )
 
     def get_card_image_url(self) -> str:
-        if self.original_image.exists():
-            original = cast(ProductImage, self.original_image.first())
-            bundle = ProcessedImagesBundle(*original.processed_images.all())
-            return cast(str, bundle.size_m.image.url)
+        if image := self.images.first():
+            return image.processed_images_bundle.MEDIUM.url
 
         return settings.DEFAULT_IMAGE
 
@@ -104,39 +95,50 @@ class ProductImage(UUIDv7Model):
 
         constraints = [models.CheckConstraint(condition=models.Q(priority__lte=9), name="priority_max_9")]
 
-    hash = models.CharField(_("hash"), max_length=16, null=True, blank=True)  # noqa: VNE003
-    image = models.ImageField(_("image"), null=True, blank=True)
+    hash = models.CharField(_("hash"), max_length=16, null=True, blank=True, db_index=True)  # noqa: VNE003
     priority = models.PositiveSmallIntegerField(_("priority"), default=0)
 
     objects = models.Manager()
     product = models.ForeignKey(
         to=Product,
         on_delete=models.CASCADE,
-        related_name="original_image",
+        related_name="images",
         verbose_name=_("product"),
     )
 
     def __str__(self) -> str:
-        return Path(self.image.url).name
+        return Path(self.original_image.url).name
 
+    @property
+    def original_image(self) -> OriginalImage:
+        """Pydantic model for the original image."""
+        img = ImagePresetEnum.ORIGINAL
+        return OriginalImage(
+            id=self.id,
+            url=img.url_template.format(
+                product_id=self.product_id,
+                hash=self.hash,
+            ),
+        )
 
-class ProductProcessedImage(UUIDv7Model):
-    class Meta:
-        db_table = "product_image_processed"
-        verbose_name = _("Product Processed Image")
-        verbose_name_plural = _("Product Processed Images")
+    @property
+    def processed_images_bundle(self) -> ProcessedImageBundle:
+        """Bundle of Pydantic models for processed images."""
+        pydantic_models_map = {
+            img.name: ProcessedImage(
+                url=img.url_template.format(
+                    product_id=self.product_id,
+                    hash=self.hash,
+                ),
+                height=img.height,
+                width=img.width,
+            )
+            for img in ImagePresetEnum
+            if img != ImagePresetEnum.ORIGINAL
+        }
+        return ProcessedImageBundle(**pydantic_models_map)
 
-    image = models.ImageField(_("image"), null=True, blank=True)
-    height = models.PositiveSmallIntegerField(_("height"))
-    width = models.PositiveSmallIntegerField(_("width"))
-
-    objects = models.Manager()
-    original_image = models.ForeignKey(
-        to=ProductImage,
-        on_delete=models.CASCADE,
-        related_name="processed_images",
-        verbose_name=_("original image"),
-    )
-
-    def __str__(self) -> str:
-        return Path(self.image.url).name
+    @property
+    def processed_images_dump(self) -> list[dict[str, Any]]:
+        """List of dicts for processed images."""
+        return [img.model_dump() for img in self.processed_images_bundle]

@@ -78,12 +78,15 @@ class ProductImageInline(TabularInline[ProductImage, Product]):
     extra = 0
     max_num = 10
     ordering = ("priority",)
-    readonly_fields = ("small_image_preview",)
+    readonly_fields = ("thumbnail_preview",)
 
     @staticmethod
-    def small_image_preview(obj: ProductImage) -> str:
-        # FIXME: this is original image, not preview
-        return format_html_join(", ", '<img src="{}" style="max-height: 100px;" />', (obj.image.url,))
+    def thumbnail_preview(obj: ProductImage) -> str:
+        return format_html_join(
+            sep=", ",
+            format_string='<img src="{}" style="max-height: 100px;" />',
+            args_generator=[(obj.processed_images_bundle.THUMBNAIL.url,)],
+        )
 
     def get_queryset(self, request: HttpRequest) -> QuerySet[ProductImage]:
         return super().get_queryset(request).select_related("product")

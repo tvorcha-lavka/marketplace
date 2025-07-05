@@ -2,6 +2,8 @@ from uuid import UUID
 
 from pydantic import BaseModel
 
+from .images import ImagePreset
+
 
 class OptimizeProductImages(BaseModel):
     """
@@ -12,3 +14,4 @@ class OptimizeProductImages(BaseModel):
     user_id: UUID
     session_id: UUID
     product_id: UUID
+    preset: ImagePreset

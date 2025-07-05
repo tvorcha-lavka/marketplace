@@ -1,5 +1,5 @@
 export const getProcessedImages = (images = []) =>
-  images.flatMap((image) => image?.processed_images || []);
+  images.flatMap((image) => image?.processed || []);
 
 export const filterImagesBySize = (images, width, height) =>
   images.filter((image) => image?.width === width && image?.height === height);
