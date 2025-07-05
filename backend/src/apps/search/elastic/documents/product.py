@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import datetime
 from typing import Any, Iterator, Self
 
 from apps.product.models import Product
@@ -21,7 +21,7 @@ class ProductDocument(BaseDocument[Product]):
     active: bool
     draft: bool
     is_vip: bool
-    date_published: date | None
+    date_published: datetime | None
 
     owner: OwnerSchema
     category_id: int

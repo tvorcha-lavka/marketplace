@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import datetime
 from typing import Any
 from uuid import UUID
 
@@ -29,7 +29,7 @@ class ProductDocumentSerializer(BaseDocumentSerializer):
     description: str
     price: float
     is_vip: bool
-    date_published: date
+    date_published: datetime
 
     owner: OwnerSchema
     category_id: int
