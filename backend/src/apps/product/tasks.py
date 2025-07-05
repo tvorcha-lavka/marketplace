@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import UTC, datetime
 from json import loads
 from logging import getLogger
 from typing import Any
@@ -167,7 +167,7 @@ def product_publish_task(self: Task, product_id: str) -> None:
         product = Product.objects.get(id=product_id)
 
         product.active = True
-        product.date_published = date.today()
+        product.date_published = datetime.now(tz=UTC)
 
         product.save(update_fields=["active", "date_published"])
 

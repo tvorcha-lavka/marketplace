@@ -19,16 +19,16 @@ class Product(UUIDv7Model):
         verbose_name = _("Product")
         verbose_name_plural = _("Products")
 
-    title = models.CharField(_("title"), db_index=True, max_length=50, validators=[validate_title])
+    title = models.CharField(_("title"), max_length=50, validators=[validate_title])
     description = models.TextField(_("description"), validators=[validate_description])
 
     price = models.DecimalField(_("price"), max_digits=10, decimal_places=2, validators=[validate_price])
     quantity = models.PositiveIntegerField(_("quantity"), default=1)
-    date_published = models.DateField(_("date published"), db_index=True, null=True, blank=True)
+    date_published = models.DateTimeField(_("date published"), null=True, blank=True, db_index=True)
 
-    active = models.BooleanField(_("active"), default=False)
-    draft = models.BooleanField(_("draft"), default=False)
-    is_vip = models.BooleanField(_("vip"), default=False)
+    active = models.BooleanField(_("active"), default=False, db_index=True)
+    draft = models.BooleanField(_("draft"), default=False, db_index=True)
+    is_vip = models.BooleanField(_("vip"), default=False, db_index=True)
 
     # TODO: verified = models.BooleanField(_("verified"), default=False)
     #  Не обязательный параметр, но в будущем полезно.
@@ -39,7 +39,6 @@ class Product(UUIDv7Model):
     owner = models.ForeignKey(
         to=SellerProfile,
         on_delete=models.CASCADE,
-        db_index=True,
         related_name="products",
         verbose_name=_("owner"),
     )

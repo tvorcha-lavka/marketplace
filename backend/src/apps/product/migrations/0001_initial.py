@@ -25,10 +25,7 @@ class Migration(migrations.Migration):
                 (
                     "title",
                     models.CharField(
-                        db_index=True,
-                        max_length=50,
-                        validators=[apps.product.validators.TitleValidator()],
-                        verbose_name="title",
+                        max_length=50, validators=[apps.product.validators.TitleValidator()], verbose_name="title"
                     ),
                 ),
                 (
@@ -49,11 +46,11 @@ class Migration(migrations.Migration):
                 ("quantity", models.PositiveIntegerField(default=1, verbose_name="quantity")),
                 (
                     "date_published",
-                    models.DateField(blank=True, db_index=True, null=True, verbose_name="date published"),
+                    models.DateTimeField(blank=True, db_index=True, null=True, verbose_name="date published"),
                 ),
-                ("active", models.BooleanField(default=False, verbose_name="active")),
-                ("draft", models.BooleanField(default=False, verbose_name="draft")),
-                ("is_vip", models.BooleanField(default=False, verbose_name="vip")),
+                ("active", models.BooleanField(db_index=True, default=False, verbose_name="active")),
+                ("draft", models.BooleanField(db_index=True, default=False, verbose_name="draft")),
+                ("is_vip", models.BooleanField(db_index=True, default=False, verbose_name="vip")),
                 (
                     "category",
                     models.ForeignKey(
