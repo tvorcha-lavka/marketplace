@@ -6,11 +6,11 @@ import RecommendedCards from '../../RecommendedCards/RecommendedCards';
 import CardDetailsGallery from '../CardDetailsGallery/CardDetailsGallery';
 import CardDetailsDescription from '../CardDetailsDescription/CardDetailsDescription';
 import ProductDetailsInfo from '../ProductDetailsInfo/ProductDetailsInfo';
-import Loader from '../../../authModalComponents/Loader/Loader';
 import Owner from '../Owner/Owner';
 import Delivery from '../Delivery/Delivery';
 import Payment from '../Payment/Payment';
 import Breadcrumbs from '../../Breadcrumbs/Breadcrumbs';
+import ProductCardDetailsSkeleton from './ProductCardDetailsSkeleton';
 
 import { getProductsId } from '../../../redux/products/operations';
 import {
@@ -18,6 +18,7 @@ import {
   selectLoading,
 } from '../../../redux/products/selectors';
 import { selectCategoryById } from '../../../redux/categories/categoriesSelectors';
+import useDelayedLoading from '../../../hooks/useDelayedLoading';
 
 import css from './ProductCardDetails.module.css';
 
@@ -31,8 +32,10 @@ export default function ProductCardDetails() {
   const prevFrom = location.state?.from;
 
   const product = useSelector(selectProductDetails);
-  const isLoading = useSelector(selectLoading);
   const category = useSelector(selectCategoryById);
+
+  const isLoading = useSelector(selectLoading);
+  const delayedLoading = useDelayedLoading(isLoading);
 
   useEffect(() => {
     if (cardId) {
@@ -91,44 +94,39 @@ export default function ProductCardDetails() {
   });
 
   return (
-    <>
-      {isLoading ? (
-        <div className={css.loader}>
-          <Loader />
-        </div>
+    <section>
+      <Breadcrumbs links={links} />
+
+      {isLoading || delayedLoading ? (
+        <ProductCardDetailsSkeleton />
       ) : (
-        product && (
-          <section>
-            <Breadcrumbs links={links} />
-
-            <div className={css.container}>
-              <div className={css.galleryContainer}>
-                <CardDetailsGallery product={product} />
-
-                <CardDetailsDescription product={product} />
-              </div>
-
-              <div className={css.productDetails}>
-                <ProductDetailsInfo product={product} />
-
-                <div className={css.sellerInfo}>
-                  <Owner product={product} />
-                </div>
-
-                <div className={css.delivery}>
-                  <Delivery />
-                </div>
-
-                <div className={css.paymentInfo}>
-                  <Payment />
-                </div>
-              </div>
+        <>
+          <div className={css.container}>
+            <div className={css.galleryContainer}>
+              <CardDetailsGallery product={product} />
+              <CardDetailsDescription product={product} />
             </div>
 
-            <RecommendedCards title="Вам також може сподобатись:" />
-          </section>
-        )
+            <div className={css.productDetails}>
+              <ProductDetailsInfo product={product} />
+
+              <div className={css.sellerInfo}>
+                <Owner product={product} />
+              </div>
+
+              <div className={css.delivery}>
+                <Delivery />
+              </div>
+
+              <div className={css.paymentInfo}>
+                <Payment />
+              </div>
+            </div>
+          </div>
+        </>
       )}
-    </>
+
+      <RecommendedCards title="Вам також може сподобатись:" />
+    </section>
   );
 }

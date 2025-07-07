@@ -1,10 +1,18 @@
 import { Link } from 'react-router-dom';
 
+import NotFoundPageSkeleton from '../NotFoundPage/NotFoundPageSkeleton';
+
 import { media } from '../../utils/mediaConfig';
+import useDelayedLoading from '../../hooks/useDelayedLoading';
 
 import css from './ComingSoonPage.module.css';
 
 export default function ComingSoonPage() {
+  const delayedLoading = useDelayedLoading();
+  if (delayedLoading) {
+    return <NotFoundPageSkeleton />;
+  }
+
   return (
     <section className="container">
       <div className={css.section}>

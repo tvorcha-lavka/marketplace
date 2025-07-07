@@ -1,6 +1,6 @@
 export const selectAllCategories = (state) => state.categories.items;
 
-export const selectIsLoading = (state) => state.categories.isLoading;
+export const selectIsLoading = (state) => state.categories.loading;
 
 export const selectError = (state) => state.categories.error;
 

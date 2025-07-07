@@ -6,6 +6,7 @@ import { LuTrash } from 'react-icons/lu';
 import ToggleButton from '../../components/ButtonElements/ToggleButton/ToggleButton';
 import UserProfilePaymentModal from '../../components/UserProfilePaymentModal/UserProfilePaymentModal';
 import ModalBtnCross from '../../components/ButtonElements/ModalBtnCross/ModalBtnCross';
+import UserProfilePaymentPageSkeleton from './UserProfilePaymentPageSkeleton';
 
 import { media } from '../../utils/mediaConfig';
 import useNoScroll from '../../hooks/useNoScroll';
@@ -20,6 +21,7 @@ import {
   selectCards,
   selectMainCardIndex,
 } from '../../redux/paymentUserCards/selectors';
+import useDelayedLoading from '../../hooks/useDelayedLoading';
 
 import css from './UserProfilePaymentsPage.module.css';
 
@@ -30,6 +32,8 @@ const CARD_IMAGES = {
 
 export default function UserProfilePaymentsPage() {
   const [isOpenAddCardModal, setIsOpenAddCardModal] = useState(false);
+
+  const delayedLoading = useDelayedLoading();
 
   const dispatch = useDispatch();
 
@@ -80,6 +84,10 @@ export default function UserProfilePaymentsPage() {
   useNoScroll(isOpenAddCardModal);
 
   const modalRef = useClickEsc(() => setIsOpenAddCardModal(false));
+
+  if (delayedLoading) {
+    return <UserProfilePaymentPageSkeleton />;
+  }
 
   return (
     <div className={css.container}>

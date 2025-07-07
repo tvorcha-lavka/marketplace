@@ -1,13 +1,19 @@
 import { useState } from 'react';
 
+import QuestionSkeleton from './QuestionSkeleton';
+
 import { media } from '../../utils/mediaConfig';
 import { faqList } from '../../utils/faqList';
 import QuestionItem from '../QuestionItem/QuestionItem';
+import useDelayedLoading from '../../hooks/useDelayedLoading';
 
 import css from './Question.module.css';
 
 export default function Question() {
   const [openId, setOpenId] = useState(null);
+
+  const delayedLoading = useDelayedLoading();
+  if (delayedLoading) return <QuestionSkeleton />;
 
   return (
     <section className="container">

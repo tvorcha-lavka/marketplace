@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns: 694px 490px;
   gap: 16px;
-	align-items: start;
+  align-items: start;
 }
 
 .leftColumn {

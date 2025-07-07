@@ -1,11 +1,20 @@
 import { NavLink } from 'react-router-dom';
 import clsx from 'clsx';
 
+import UserProfileNavigationSkeleton from './UserProfileNavigationSkeleton';
+
+import useDelayedLoading from '../../hooks/useDelayedLoading';
+
 import css from './UserProfileNavigation.module.css';
 
 export default function UserProfileNavigation() {
   function getClassActiveLink({ isActive }) {
     return clsx(css.link, isActive && css.active);
+  }
+
+  const delayedLoading = useDelayedLoading();
+  if (delayedLoading) {
+    return <UserProfileNavigationSkeleton />;
   }
 
   return (

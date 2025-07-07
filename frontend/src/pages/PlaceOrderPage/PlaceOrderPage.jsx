@@ -7,14 +7,19 @@ import MethodPayment from '../../components/Cart/MethodPayment/MethodPayment';
 import SelectedProducts from '../../components/Cart/SelectedProducts/SelectedProducts';
 import SummaryCart from '../../components/Cart/SummaryCart/SummaryCart';
 import Breadcrumbs from '../../components/Breadcrumbs/Breadcrumbs';
+import PlaceOrderPageSkeleton from './PlaceOrderPageSkeleton';
 
 import { selectCartStep } from '../../redux/basket/selectors';
 import { setDeliveryFee } from '../../redux/basket/slice';
+import useDelayedLoading from '../../hooks/useDelayedLoading';
 
 import css from './PlaceOrderPage.module.css';
 
 export default function PlaceOrderPage() {
   const [isClickBtn, setIsClickBtn] = useState(false);
+
+  const delayedLoading = useDelayedLoading();
+
   const step = useSelector(selectCartStep);
   const dispatch = useDispatch();
 
@@ -38,21 +43,29 @@ export default function PlaceOrderPage() {
             <div className={css.databox}>
               {(step === 1 || step === 2 || step === 3) && <CustomerData />}
             </div>
-            <div className={css.deliverybox}>
-              <h2 className={css.title}>2. Спосіб доставки</h2>
-              {(step === 2 || step === 3) && (
-                <MethodDelivery onDeliveryChange={onDeliveryChange} />
-              )}
-            </div>
-            <div className={css.paymentbox}>
-              <h2 className={css.title}>3. Спосіб оплати</h2>
-              {step === 3 && (
-                <MethodPayment
-                  isClickBtn={isClickBtn}
-                  setIsClickBtn={setIsClickBtn}
-                />
-              )}
-            </div>
+
+            {delayedLoading ? (
+              <PlaceOrderPageSkeleton />
+            ) : (
+              <>
+                <div className={css.deliverybox}>
+                  <h2 className={css.title}>2. Спосіб доставки</h2>
+                  {(step === 2 || step === 3) && (
+                    <MethodDelivery onDeliveryChange={onDeliveryChange} />
+                  )}
+                </div>
+
+                <div className={css.paymentbox}>
+                  <h2 className={css.title}>3. Спосіб оплати</h2>
+                  {step === 3 && (
+                    <MethodPayment
+                      isClickBtn={isClickBtn}
+                      setIsClickBtn={setIsClickBtn}
+                    />
+                  )}
+                </div>
+              </>
+            )}
           </div>
           <div className={css.rightColumn}>
             <div className={css.stickyBlock}>

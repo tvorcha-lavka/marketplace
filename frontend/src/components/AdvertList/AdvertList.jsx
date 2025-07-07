@@ -2,9 +2,11 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import CardCollection from '../CardCollection/CardCollection';
+import AdvertListSkeleton from './AdvertListSkeleton';
 
 import { getProducts } from '../../redux/products/operations';
-import { selectProducts } from '../../redux/products/selectors';
+import { selectProducts, selectLoading } from '../../redux/products/selectors';
+import useDelayedLoading from '../../hooks/useDelayedLoading';
 
 import css from './AdvertList.module.css';
 
@@ -13,6 +15,9 @@ export default function AdvertList() {
 
   const dispatch = useDispatch();
   const allProducts = useSelector(selectProducts)?.results || [];
+
+  const isLoading = useSelector(selectLoading);
+  const delayedLoading = useDelayedLoading(isLoading);
 
   useEffect(() => {
     dispatch(getProducts({ is_vip: true }));
@@ -23,6 +28,8 @@ export default function AdvertList() {
   };
 
   const vipProducts = allProducts.filter((item) => item.is_vip);
+
+  if (isLoading || delayedLoading) return <AdvertListSkeleton />;
 
   return (
     <section className="container">
@@ -35,11 +42,7 @@ export default function AdvertList() {
               onBlur={handleCardBlur}
               key={item.id}
             >
-              <CardCollection
-                item={item}
-                categoryId={item.id}
-                from="main"
-              />
+              <CardCollection item={item} categoryId={item.id} from="main" />
             </li>
           ))}
         </ul>

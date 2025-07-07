@@ -1,6 +1,6 @@
 .section {
   margin-inline: auto;
-  background-color: var(--background-color);
+  background-color: var(--default-white);
 }
 
 .cartAndSummary {
