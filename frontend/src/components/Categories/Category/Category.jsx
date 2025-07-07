@@ -11,9 +11,9 @@ import Breadcrumbs from '../../Breadcrumbs/Breadcrumbs';
 
 import { getCategoryById } from '../../../redux/categories/categoriesOperations';
 import { selectCategoryById } from '../../../redux/categories/categoriesSelectors';
+import { selectSearchCategories } from '../../../redux/searchProducts/selectors';
 
 import css from './Category.module.css';
-import { selectSearchCategories } from '../../../redux/products/selectors';
 
 export default function Category() {
   const { categoryId } = useParams();

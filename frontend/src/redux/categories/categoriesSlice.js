@@ -6,12 +6,12 @@ import {
 } from './categoriesOperations';
 
 const handlePending = (state) => {
-  state.isLoading = true;
+  state.loading = true;
   state.error = false;
 };
 
 const handleRejected = (state, action) => {
-  state.isLoading = false;
+  state.loading = false;
   state.error = action.payload;
 };
 

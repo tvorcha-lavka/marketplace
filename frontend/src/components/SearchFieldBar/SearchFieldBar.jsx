@@ -3,12 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { IoSearchOutline } from 'react-icons/io5';
 
-import { searchProducts } from '../../redux/products/operations';
+import { searchProducts } from '../../redux/searchProducts/operations';
 import {
   selectSearchHistory,
   selectSearchResults,
-} from '../../redux/products/selectors';
-import { addSearchHistory } from '../../redux/products/slice';
+} from '../../redux/searchProducts/selectors';
+import { addSearchHistory } from '../../redux/searchProducts/slice';
 
 import SearchModal from './SearchModal';
 
