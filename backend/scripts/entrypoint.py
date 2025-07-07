@@ -21,6 +21,7 @@ def to_kebab_case(text: str) -> str:
 
 
 class CeleryWorkers(BaseModel):
+    orchestrator: list[str]
     database: list[str]
     elasticsearch: list[str]
     notification: list[str]
@@ -69,6 +70,13 @@ def run_celery(worker: str) -> None:
         beat=[
             "beat",
             "--loglevel=info",
+        ],
+        orchestrator=[
+            "worker",
+            "--loglevel=info",
+            "--autoscale=10,1",
+            "--max-tasks-per-child=50",
+            "--queues=%s" % QueueEnum.ORCHESTRATOR,
         ],
         database=[
             "worker",
