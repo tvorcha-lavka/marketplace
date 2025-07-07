@@ -20,15 +20,15 @@
 }
 
 .backButton {
-  background-color: transparent; 
-  border: none; 
-  cursor: pointer; 
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
   color: var(--grey-darker);
 }
 
 .container {
   display: flex;
-	justify-content: space-between;
+  justify-content: space-between;
   margin-bottom: 81px;
 }
 

@@ -1,10 +1,19 @@
 import { Link } from 'react-router-dom';
 
+import NotFoundPageSkeleton from './NotFoundPageSkeleton';
+
 import { media } from '../../utils/mediaConfig';
+import useDelayedLoading from '../../hooks/useDelayedLoading';
 
 import css from './NotFoundPage.module.css';
 
 export default function NotFoundPage() {
+  const delayedLoading = useDelayedLoading();
+
+  if (delayedLoading) {
+    return <NotFoundPageSkeleton />;
+  }
+
   return (
     <section className="container">
       <div className={css.section}>

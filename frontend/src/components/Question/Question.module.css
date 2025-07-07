@@ -1,5 +1,5 @@
 .section {
-  padding-bottom: 114px;
+  min-height: 600px;
 }
 
 .title {
@@ -22,15 +22,4 @@
   max-height: 406px;
   height: auto;
   object-fit: cover;
-}
-
-.answer {
-  padding-inline: 16px;
-  padding-block: 8px 20px;
-  background-color: var(--secondary-peach);
-  color: var(--default-white);
-  font-size: var(--font-size-extra-small);
-  font-weight: var(--font-weight-normal);
-  border-bottom-left-radius: var(--border-radius-medium);
-  border-bottom-right-radius: var(--border-radius-medium);
 }

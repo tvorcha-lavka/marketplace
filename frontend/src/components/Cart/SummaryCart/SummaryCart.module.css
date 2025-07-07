@@ -53,7 +53,7 @@ hr {
   gap: 10px;
   margin-block-end: 16px;
   padding: 25px 24px;
-  border-radius: var(--border-radius);
+  border-radius: var(--border-radius-medium);
   background-color: var(--default-white);
   box-shadow: var(--cart-shadow);
 }

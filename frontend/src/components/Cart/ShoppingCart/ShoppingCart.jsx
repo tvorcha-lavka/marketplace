@@ -2,13 +2,20 @@ import { useSelector } from 'react-redux';
 
 import CartProduct from '../CartProduct/CartProduct';
 import EmptyCartMessage from '../EmptyCartMessage/EmptyCartMessage';
+import ShoppingCartSkeleton from './ShoppingCartSkeleton';
 
 import { selectBasketItems } from '../../../redux/basket/selectors';
+import useDelayedLoading from '../../../hooks/useDelayedLoading';
 
 import css from './ShoppingCart.module.css';
 
 export default function ShoppingCart() {
   const items = useSelector(selectBasketItems);
+
+  const delayedLoading = useDelayedLoading();
+  if (delayedLoading) {
+    return <ShoppingCartSkeleton />;
+  }
 
   return (
     <div className={css.shoppingBox}>

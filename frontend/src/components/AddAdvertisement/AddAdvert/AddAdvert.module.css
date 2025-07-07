@@ -11,9 +11,9 @@
 }
 
 .btnWrapper {
-	display: flex;
-	justify-content: end;
-	align-items: center;
-	gap: 16px;
-	white-space: nowrap;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: 16px;
+  white-space: nowrap;
 }

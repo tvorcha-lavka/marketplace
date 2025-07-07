@@ -46,3 +46,11 @@
   width: var(--icon-size-normal);
   height: var(--icon-size-normal);
 }
+
+/* LOADER */
+.list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  list-style: none;
+}
