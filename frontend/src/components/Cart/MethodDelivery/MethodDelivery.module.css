@@ -37,7 +37,9 @@
 }
 
 .btnContinue {
+  display: block;
   margin-block-start: 24px;
+  margin-inline-start: auto;
 }
 
 /*DELIVERY CART STYLES*/

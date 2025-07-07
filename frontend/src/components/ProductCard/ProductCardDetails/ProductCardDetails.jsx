@@ -10,10 +10,15 @@ import Owner from '../Owner/Owner';
 import Delivery from '../Delivery/Delivery';
 import Payment from '../Payment/Payment';
 import Breadcrumbs from '../../Breadcrumbs/Breadcrumbs';
+import ProductCardDetailsSkeleton from './ProductCardDetailsSkeleton';
 
 import { getProductsId } from '../../../redux/products/operations';
-import { selectProductDetails } from '../../../redux/products/selectors';
+import {
+  selectProductDetails,
+  selectLoading,
+} from '../../../redux/products/selectors';
 import { selectCategoryById } from '../../../redux/categories/categoriesSelectors';
+import useDelayedLoading from '../../../hooks/useDelayedLoading';
 
 import css from './ProductCardDetails.module.css';
 
@@ -28,6 +33,9 @@ export default function ProductCardDetails() {
 
   const product = useSelector(selectProductDetails);
   const category = useSelector(selectCategoryById);
+
+  const isLoading = useSelector(selectLoading);
+  const delayedLoading = useDelayedLoading(isLoading);
 
   useEffect(() => {
     if (cardId) {
@@ -82,15 +90,16 @@ export default function ProductCardDetails() {
   });
 
   return (
-    <>
-      {product && (
-        <section>
-          <Breadcrumbs links={links} />
+    <section>
+      <Breadcrumbs links={links} />
 
+      {isLoading || delayedLoading ? (
+        <ProductCardDetailsSkeleton />
+      ) : (
+        <>
           <div className={css.container}>
             <div className={css.galleryContainer}>
               <CardDetailsGallery product={product} />
-
               <CardDetailsDescription product={product} />
             </div>
 
@@ -110,12 +119,10 @@ export default function ProductCardDetails() {
               </div>
             </div>
           </div>
-
-          <RecommendedCards
-            title="Вам також може сподобатись:"
-          />
-        </section>
+        </>
       )}
-    </>
+
+      <RecommendedCards title="Вам також може сподобатись:" />
+    </section>
   );
 }

@@ -3,13 +3,20 @@ import { useSelector } from 'react-redux';
 
 import CartProduct from '../CartProduct/CartProduct';
 import CustomEditButton from '../../ButtonElements/CustomEditButton/CustomEditButton';
+import SelectedProductsSkeleton from './SelectedProductsSkeleton';
 
 import { selectBasketItems } from '../../../redux/basket/selectors';
+import useDelayedLoading from '../../../hooks/useDelayedLoading';
 
 import css from './SelectedProducts.module.css';
 
 export default function SelectedProducts() {
   const items = useSelector(selectBasketItems);
+
+  const delayedLoading = useDelayedLoading();
+  if (delayedLoading) {
+    return <SelectedProductsSkeleton />;
+  }
 
   return (
     <div className={css.orderShoppingSection}>

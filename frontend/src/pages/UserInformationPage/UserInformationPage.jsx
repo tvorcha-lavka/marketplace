@@ -10,6 +10,7 @@ import CardNumberField from '../../components/FormElements/CardNumberField/CardN
 import EmailField from '../../components/FormElements/EmailField/EmailField';
 import PasswordField from '../../components/FormElements/PasswordField/PasswordField';
 import CustomEditButton from '../../components/ButtonElements/CustomEditButton/CustomEditButton';
+import UserInformationPageSkeleton from './UserInformationPageSkeleton';
 
 import { personalSchema, securitySchema } from '../../utils/formSchema';
 import { media } from '../../utils/mediaConfig';
@@ -29,10 +30,13 @@ import {
   setIsEditingPersonal,
   setIsEditingSecurity,
 } from '../../redux/users/slice';
+import useDelayedLoading from '../../hooks/useDelayedLoading';
 
 import css from './UserInformationPage.module.css';
 
 export default function UserInformationPage() {
+  const delayedLoading = useDelayedLoading();
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -93,6 +97,10 @@ export default function UserInformationPage() {
       navigate('/');
     }
   };
+
+  if (delayedLoading) {
+    return <UserInformationPageSkeleton />;
+  }
 
   return (
     <div className={css.container}>

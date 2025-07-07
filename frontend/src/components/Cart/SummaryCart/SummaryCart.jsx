@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { BsShieldFillExclamation } from 'react-icons/bs';
 
 import CustomButton from '../../ButtonElements/CustomButton/CustomButton';
+import SummaryCartSkeleton from './SummaryCartSkeleton';
 
 import { media } from '../../../utils/mediaConfig';
 import {
@@ -13,6 +14,7 @@ import {
 import { clearBasket, resetStep } from '../../../redux/basket/slice';
 import { selectLoggedIn } from '../../../redux/auth/selectors';
 import { useModal } from '../../../hooks/useModal';
+import useDelayedLoading from '../../../hooks/useDelayedLoading';
 import { DELIVERY_PRICES } from '../../../utils/cartDetails';
 
 import css from './SummaryCart.module.css';
@@ -61,6 +63,11 @@ export default function SummaryCart({ isClickBtn }) {
     }
     navigate(path);
   };
+
+  const delayedLoading = useDelayedLoading();
+  if (delayedLoading) {
+    return <SummaryCartSkeleton />;
+  }
 
   return (
     <div className={css.summarySection}>

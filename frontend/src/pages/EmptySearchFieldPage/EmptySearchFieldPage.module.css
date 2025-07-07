@@ -9,7 +9,7 @@
   font-size: var(--font-size-medium);
   text-align: center;
   color: var(--black);
-	margin-top: 20px;
+  margin-top: 20px;
   margin-bottom: 12px;
 }
 
@@ -18,5 +18,10 @@
   font-size: var(--font-size-extra-small);
   text-align: center;
   color: var(--black);
+  margin-bottom: 80px;
+}
+
+/* LOADER */
+.loaderBox {
   margin-bottom: 80px;
 }

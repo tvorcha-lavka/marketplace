@@ -7,6 +7,7 @@ import FormField from '../../FormElements/FormField/FormField';
 import CardNumberField from '../../FormElements/CardNumberField/CardNumberField';
 import EmailField from '../../FormElements/EmailField/EmailField';
 import CustomEditButton from '../../ButtonElements/CustomEditButton/CustomEditButton';
+import CustomerDataSkeleton from './CustomerDataSkeleton';
 
 import {
   updateCustomerData,
@@ -18,15 +19,17 @@ import {
   selectCartStep,
 } from '../../../redux/basket/selectors';
 import { validationSchema } from '../../../utils/formSchema';
+import useDelayedLoading from '../../../hooks/useDelayedLoading';
 
 import css from './CustomerData.module.css';
 
 export default function CustomerData() {
+  const [isPersistValid, setIsPersistValid] = useState(false);
+
   const dispatch = useDispatch();
+
   const step = useSelector(selectCartStep);
   const customerData = useSelector(selectCustomerData);
-
-  const [isPersistValid, setIsPersistValid] = useState(false);
 
   useEffect(() => {
     validationSchema
@@ -41,6 +44,9 @@ export default function CustomerData() {
   };
 
   const handleStepBack = () => dispatch(previousStep());
+
+  const delayedLoading = useDelayedLoading();
+  if (delayedLoading) return <CustomerDataSkeleton step={step} />;
 
   return (
     <div className={css.section}>

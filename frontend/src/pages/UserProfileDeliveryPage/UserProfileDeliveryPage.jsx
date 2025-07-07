@@ -4,18 +4,23 @@ import { useState } from 'react';
 import CustomButton from '../../components/ButtonElements/CustomButton/CustomButton';
 import CustomEditButton from '../../components/ButtonElements/CustomEditButton/CustomEditButton';
 import CheckboxInput from '../../components/FormElements/CheckboxInput/CheckboxInput';
+import UserProfileDeliveryPageSkeleton from './UserProfilePaymentPageSkeleton';
 
 import { selectAdvertsDetails } from '../../redux/addAdverts/selectors';
 import { setField } from '../../redux/addAdverts/slice';
 import { deliveryType } from '../../utils/cartDetails';
+import useDelayedLoading from '../../hooks/useDelayedLoading';
 
 import css from './UserProfileDeliveryPage.module.css';
 
 export default function UserProfileDeliveryPage() {
+  const [editMode, setEditMode] = useState(false);
+
+  const delayedLoading = useDelayedLoading();
+
   const dispatch = useDispatch();
   const { isSelectedDelivery } = useSelector(selectAdvertsDetails);
 
-  const [editMode, setEditMode] = useState(false);
   const [localSelection, setLocalSelection] = useState(
     Array.isArray(isSelectedDelivery) ? isSelectedDelivery : []
   );
@@ -35,6 +40,10 @@ export default function UserProfileDeliveryPage() {
     dispatch(setField({ field: 'isSelectedDelivery', value: localSelection }));
     setEditMode(false);
   };
+
+  if (delayedLoading) {
+    return <UserProfileDeliveryPageSkeleton />;
+  }
 
   return (
     <div className={css.container}>

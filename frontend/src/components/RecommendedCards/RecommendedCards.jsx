@@ -3,9 +3,11 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import CardCollection from '../CardCollection/CardCollection';
 import CustomSlider from '../ButtonElements/CustomSlider/CustomSlider';
+import RecommendedCardsSkeleton from './RecommendedCardsSkeleton';
 
 import { getProducts } from '../../redux/products/operations';
-import { selectProducts } from '../../redux/products/selectors';
+import { selectProducts, selectLoading } from '../../redux/products/selectors';
+import useDelayedLoading from '../../hooks/useDelayedLoading';
 
 import css from './RecommendedCards.module.css';
 
@@ -14,9 +16,12 @@ export default function RecommendedCards({
 }) {
   const [activeCardId, setActiveCardId] = useState(null);
 
+  const dispatch = useDispatch();
+
   const productsData = useSelector(selectProducts);
 
-  const dispatch = useDispatch();
+  const isLoading = useSelector(selectLoading);
+  const delayedLoading = useDelayedLoading(isLoading);
 
   const allProducts = useMemo(
     () => productsData?.results || [],
@@ -28,6 +33,8 @@ export default function RecommendedCards({
       dispatch(getProducts());
     }
   }, [dispatch, allProducts]);
+
+  if (isLoading || delayedLoading) return <RecommendedCardsSkeleton />;
 
   return (
     <section>

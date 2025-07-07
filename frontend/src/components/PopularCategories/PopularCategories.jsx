@@ -2,23 +2,34 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { selectPopCategories } from '../../redux/categories/categoriesSelectors';
+import PopularCategoriesSkeleton from './PopularCategoriesSkeleton';
+
+import {
+  selectPopCategories,
+  selectIsLoading,
+} from '../../redux/categories/categoriesSelectors';
 import { getAllCategoriesWithPopular } from '../../redux/categories/categoriesOperations';
 import { positionTitle, cardOrientation } from '../../utils/positionTitle';
+import useDelayedLoading from '../../hooks/useDelayedLoading';
 
 import css from './PopularCategories.module.css';
 
 export default function PopularCategories() {
   const dispatch = useDispatch();
-  const popCategories = useSelector(selectPopCategories);
 
-  let verticalCounter = 0;
+  const popCategories = useSelector(selectPopCategories);
+  const isLoading = useSelector(selectIsLoading);
+  const delayedLoading = useDelayedLoading(isLoading);
 
   useEffect(() => {
     if (popCategories.length === 0) {
       dispatch(getAllCategoriesWithPopular());
     }
   }, [dispatch, popCategories]);
+
+  let verticalCounter = 0;
+
+  if (isLoading || delayedLoading) return <PopularCategoriesSkeleton />;
 
   return (
     <section className="container">

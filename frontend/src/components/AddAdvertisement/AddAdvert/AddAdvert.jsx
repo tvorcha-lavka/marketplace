@@ -10,12 +10,14 @@ import PriceSection from '../PriceSection/PriceSection';
 import DescriptionField from '../DescriptionField/DescriptionField';
 import DeliveryOptions from '../DeliveryOptions/DeliveryOptions';
 import CustomButton from '../../ButtonElements/CustomButton/CustomButton';
+import AddAdvertSkeleton from './AddAdvertSkeleton';
 
 import { createProduct } from '../../../redux/addAdverts/operations';
 import {
   selectCreateSuccess,
   selectCreatedProduct,
   selectAdvertsDetails,
+  selectIsLoading,
 } from '../../../redux/addAdverts/selectors';
 import { setField, resetAdvert } from '../../../redux/addAdverts/slice';
 import { selectSelectedCategoryId } from '../../../redux/categories/categoriesSelectors';
@@ -23,6 +25,7 @@ import { setSelectedCategoryId } from '../../../redux/categories/categoriesSlice
 import { getFiltersCategory } from '../../../redux/filters/filtersOperations';
 import { selectFiltersCategory } from '../../../redux/filters/filtersSelector';
 import { saveFilters } from '../../../utils/filtersDB';
+import useDelayedLoading from '../../../hooks/useDelayedLoading';
 
 import css from './AddAdvert.module.css';
 
@@ -32,6 +35,9 @@ export default function AddAdvert() {
 
   const success = useSelector(selectCreateSuccess);
   const created = useSelector(selectCreatedProduct);
+
+  const isLoading = useSelector(selectIsLoading);
+  const delayedLoading = useDelayedLoading(isLoading);
 
   const {
     selectedCategory,
@@ -167,6 +173,10 @@ export default function AddAdvert() {
       dispatch(resetAdvert());
     }
   }, [success, created, session_id]);
+
+  if (isLoading || delayedLoading) {
+    return <AddAdvertSkeleton />;
+  }
 
   return (
     <div>

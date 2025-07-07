@@ -5,7 +5,6 @@ import { useDispatch } from 'react-redux';
 import Header from '../Header/Header';
 import HeaderCart from '../HeaderCart/HeaderCart';
 import Footer from '../Footer/Footer';
-import Loader from '../../authModalComponents/Loader/Loader';
 
 import { getAllCategoriesWithPopular } from '../../redux/categories/categoriesOperations';
 
@@ -31,13 +30,7 @@ export default function SharedLayout() {
         <Header />
       )}
       <main className={css.layout}>
-        <Suspense
-          fallback={
-            <div className={css.layoutLoader}>
-              <Loader />
-            </div>
-          }
-        >
+        <Suspense fallback={null}>
           <Outlet />
         </Suspense>
       </main>
