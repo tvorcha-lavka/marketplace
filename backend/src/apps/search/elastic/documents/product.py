@@ -91,4 +91,7 @@ class ProductDocument(BaseDocument[Product]):
             if field.annotation == list[ImageSchema]:
                 data[key] = ImageSchema.multi_model_serialize(value, product_id=str(self.id))
 
+            if field.annotation == list[FiltersSchema]:
+                data[key] = FiltersSchema.get_filter_value_ids(value)
+
         return data

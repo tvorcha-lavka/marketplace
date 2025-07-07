@@ -54,7 +54,7 @@ class ElasticMultiSearchBuilder:
     @staticmethod
     def _get_query_terms(query: str) -> list[str]:
         """Remove punctuation, normalize Unicode, lowercase, and split into terms."""
-        text = sub(r"[^\w\s\-]", "", normalize("NFKD", query), flags=UNICODE)
+        text = sub(r"[^\w\s\-]", "", normalize("NFKC", query), flags=UNICODE)
         return [
             term
             # Split text into lowercase terms
@@ -142,7 +142,7 @@ class ElasticMultiSearchBuilder:
                 }
             )
             for nested_field in self._nested_fields:
-                nested_field, _ = self._split_boost(nested_field)
+                nested_field, boost = self._split_boost(nested_field)
                 clauses.append(
                     {
                         "nested": {
@@ -152,6 +152,7 @@ class ElasticMultiSearchBuilder:
                                     nested_field: {
                                         "query": term,
                                         "fuzziness": fuzziness,
+                                        "boost": boost,
                                     }
                                 }
                             },

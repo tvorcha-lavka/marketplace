@@ -33,15 +33,15 @@ class SearchPanelView(GenericAPIView[Any]):
         builder.add(
             index="category",
             fields=[],
-            translatable_fields=["title^2", "full_path"],
+            translatable_fields=["title^10", "full_path^5"],
             collapse_field="title",
             size=5,
         )
         builder.add(
             index="product",
-            fields=["title^4", "description^2"],
-            translatable_fields=["full_path^3"],
-            nested_translatable_fields=["filters.value^5"],
+            fields=["title^10", "description^5"],
+            translatable_fields=["full_path^10"],
+            nested_translatable_fields=["filters.value^25"],
             collapse_field="title",
             size=5,
         )
