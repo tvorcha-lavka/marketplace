@@ -1,48 +1,12 @@
-from datetime import date
-from typing import Iterator, Self
-from uuid import UUID
-
-from pydantic import BaseModel
+from datetime import datetime
+from typing import Any, Iterator, Self
 
 from apps.product.models import Product
 from apps.search.elastic.mappings import PRODUCT_INDEX_SETTINGS
 from apps.search.elastic.models import TranslatableText, TranslatableTextList
+from apps.search.elastic.schemas import FiltersSchema, ImageSchema, OwnerSchema
 
 from .base import BaseDocument
-
-
-class Owner(BaseModel):
-    id: UUID  # noqa: VNE003
-    public_username: str
-
-
-class ProcessedImage(BaseModel):
-    url_path: str
-    height: int
-    width: int
-
-
-class Image(BaseModel):
-    id: UUID  # noqa: VNE003
-    url_path: str
-    processed: list[ProcessedImage]
-
-
-class FiltersDocument(BaseModel):
-    # index_settings = {}
-    # index_name = "filter"
-    # model = FilterValue
-
-    type_id: int
-    type: str  # noqa: VNE003
-    value_id: int
-    value: TranslatableText
-
-    # @classmethod
-    # def from_orm(cls, filter_value: FilterValue) -> Self:
-    #     return cls(
-    #         id=filter_value.id,
-    #     )
 
 
 class ProductDocument(BaseDocument[Product]):
@@ -57,40 +21,22 @@ class ProductDocument(BaseDocument[Product]):
     active: bool
     draft: bool
     is_vip: bool
-    date_published: date | None
+    date_published: datetime | None
 
-    owner: Owner
+    owner: OwnerSchema
     category_id: int
-    images: list[Image]
-    filters: list[FiltersDocument]
+    images: list[ImageSchema]
+    filters: list[FiltersSchema]
     full_path: TranslatableTextList
 
     @classmethod
     def from_orm(cls, product: Product) -> Self:
         """Convert Django model to Document."""
-        owner = Owner(
-            id=product.owner.pk,
-            public_username=str(product.owner),
-        )
-
-        images = [
-            Image(
-                id=image.pk,
-                url_path=image.image.name,
-                processed=[
-                    ProcessedImage(
-                        url_path=p_image.image.name,
-                        height=p_image.height,
-                        width=p_image.width,
-                    )
-                    for p_image in image.processed_images.all()
-                ],
-            )
-            for image in product.original_image.all()
-        ]
+        owner = OwnerSchema.model_validate(product.owner)
+        images = [ImageSchema.model_validate(image) for image in product.images.all()]
 
         filters = [
-            FiltersDocument(
+            FiltersSchema(
                 type_id=FilterValue.filter_type.pk,
                 type=FilterValue.filter_type.slug,
                 value_id=FilterValue.pk,
@@ -130,8 +76,22 @@ class ProductDocument(BaseDocument[Product]):
                 "filters__translations",
                 "filters__filter_type",
                 "filters__filter_type__translations",
-                "original_image",
-                "original_image__processed_images",
+                "images",
             )
             .iterator(chunk_size=2000)
         )
+
+    def model_serialize(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+        """Convert Document to dict for serialization."""
+        data = super().model_serialize(*args, **kwargs)
+
+        for key, value in data.items():
+            field = self.model_fields[key]
+
+            if field.annotation == list[ImageSchema]:
+                data[key] = ImageSchema.multi_model_serialize(value, product_id=str(self.id))
+
+            if field.annotation == list[FiltersSchema]:
+                data[key] = FiltersSchema.get_filter_value_ids(value)
+
+        return data

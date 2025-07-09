@@ -5,6 +5,8 @@ from typing import Any
 from .base import *
 
 DEBUG = False
+ENVIRONMENT = "production"
+
 ALLOWED_HOSTS += loads(getenv("ALLOWED_PROD_HOSTS", "[]"))
 
 # Security settings

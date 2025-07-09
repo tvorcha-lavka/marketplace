@@ -4,25 +4,23 @@ from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 
-from apps.product.models import Product, ProductImage, ProductProcessedImage
+from apps.product.models import Product, ProductImage
 from apps.user.serializers import SellerProfileSerializer
 
 
-class ProductImageProcessedSerializer(serializers.ModelSerializer[ProductProcessedImage]):
-    class Meta:
-        model = ProductProcessedImage
-        fields = ["url", "height", "width"]
-
-    url = serializers.URLField(source="image.url", default=settings.DEFAULT_IMAGE)
+class ProductImageProcessedSerializer(serializers.Serializer[Any]):
+    url = serializers.URLField(default=settings.DEFAULT_IMAGE)
+    height = serializers.IntegerField()
+    width = serializers.IntegerField()
 
 
 class ProductImageSerializer(serializers.ModelSerializer[ProductImage]):
     class Meta:
         model = ProductImage
-        fields = ["id", "url", "processed_images"]
+        fields = ["id", "url", "processed"]
 
-    url = serializers.URLField(source="image.url", default=settings.DEFAULT_IMAGE)
-    processed_images = ProductImageProcessedSerializer(many=True, read_only=True)
+    url = serializers.URLField(source="original_image.url", default=settings.DEFAULT_IMAGE)
+    processed = ProductImageProcessedSerializer(source="processed_images_dump", many=True, read_only=True)
 
 
 class ProductListSerializer(serializers.ModelSerializer[Product]):
@@ -44,7 +42,7 @@ class ProductDetailSerializer(serializers.ModelSerializer[Product]):
         model = Product
         fields = ["id", "title", "description", "date_published", "quantity", "price", "images", "owner"]
 
-    images = ProductImageSerializer(source="original_image", many=True, read_only=True)
+    images = ProductImageSerializer(many=True, read_only=True)
     owner = SellerProfileSerializer(read_only=True)
 
 

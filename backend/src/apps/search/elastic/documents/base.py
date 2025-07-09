@@ -4,7 +4,7 @@ from uuid import UUID
 from django.db.models import Model
 from django.utils.translation import get_language
 from elasticsearch.helpers import bulk
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 from apps.search.elastic.models import TranslatableText, TranslatableTextList
 from core.elasticsearch.client import elastic
@@ -14,6 +14,7 @@ _Model = TypeVar("_Model", bound=Model)
 
 class BaseDocument(BaseModel, Generic[_Model]):
     id: UUID | int  # noqa: VNE003
+    score: float = Field(default_factory=float)
 
     index_name: ClassVar[str]
     index_settings: ClassVar[dict[str, Any]]
@@ -28,7 +29,7 @@ class BaseDocument(BaseModel, Generic[_Model]):
             "_op_type": "index",
             "_index": self.index_name,
             "_id": str(self.id),
-            **self.model_dump(exclude={"id"}),
+            **self.model_dump(exclude={"id", "score"}),
         }
 
     @classmethod
@@ -85,7 +86,7 @@ class BaseDocument(BaseModel, Generic[_Model]):
         elastic.index(
             index=cls.index_name,
             id=str(doc.id),
-            document=doc.model_dump(exclude={"id"}),
+            document=doc.model_dump(exclude={"id", "score"}),
             refresh="wait_for",
         )
 
@@ -123,6 +124,7 @@ class BaseDocument(BaseModel, Generic[_Model]):
         def normalize(hit: dict[str, Any]) -> "BaseDocument[_Model]":
             source = hit["_source"].copy()
             source["id"] = hit["_id"]
+            source["score"] = hit["_score"]
             return cls.model_validate(source)
 
         return [normalize(hit).model_serialize() for hit in hits]

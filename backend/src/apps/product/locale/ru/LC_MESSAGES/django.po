@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-13 16:13+0300\n"
+"POT-Creation-Date: 2025-07-05 13:30+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,164 +16,104 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
-"%100>=11 && n%100<=14)? 2 : 3);\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: .\src\apps\product\choices.py:6
 msgid "24 items per page"
 msgstr "24 элемента на странице"
 
-#: .\src\apps\product\choices.py:7
 msgid "48 items per page"
 msgstr "48 элементов на странице"
 
-#: .\src\apps\product\choices.py:8
 msgid "96 items per page"
 msgstr "96 элементов на странице"
 
-#: .\src\apps\product\choices.py:12
 msgid "From cheap to expensive"
 msgstr "От дешевого к дорогому"
 
-#: .\src\apps\product\choices.py:13
 msgid "From expensive to cheap"
 msgstr "От дорогого к дешевому"
 
-#: .\src\apps\product\choices.py:14
 msgid "New items"
 msgstr "Новинки"
 
-#: .\src\apps\product\choices.py:15
 msgid "By seller rating"
 msgstr "По рейтингу продавца"
 
-#: .\src\apps\product\forms.py:48
 msgid "Upload image"
 msgstr "Загрузить изображение"
 
-#: .\src\apps\product\models.py:26
 msgid "Product"
 msgstr "Продукт"
 
-#: .\src\apps\product\models.py:27
 msgid "Products"
 msgstr "Продукты"
 
-#: .\src\apps\product\models.py:29
 msgid "title"
 msgstr "название"
 
-#: .\src\apps\product\models.py:30
 msgid "description"
 msgstr "описание"
 
-#: .\src\apps\product\models.py:32
 msgid "price"
 msgstr "цена"
 
-#: .\src\apps\product\models.py:33
 msgid "quantity"
 msgstr "количество"
 
-#: .\src\apps\product\models.py:34
 msgid "date published"
 msgstr "дата публикации"
 
-#: .\src\apps\product\models.py:36
 msgid "active"
 msgstr "активно"
 
-#: .\src\apps\product\models.py:37
 msgid "draft"
 msgstr "черновик"
 
-#: .\src\apps\product\models.py:38
 msgid "vip"
 msgstr "вип-объявление"
 
-#: .\src\apps\product\models.py:51
 msgid "owner"
 msgstr "владелец"
 
-#: .\src\apps\product\models.py:57
 msgid "category"
 msgstr "категория"
 
-#: .\src\apps\product\models.py:63
 msgid "filters"
 msgstr "фильтры"
 
-#: .\src\apps\product\models.py:101
 msgid "Product Image"
 msgstr "Изображение продукта"
 
-#: .\src\apps\product\models.py:102
 msgid "Product Images"
 msgstr "Изображения продукта"
 
-#: .\src\apps\product\models.py:107
 msgid "hash"
 msgstr "хеш"
 
-#: .\src\apps\product\models.py:108 .\src\apps\product\models.py:129
-msgid "image"
-msgstr "изображение"
-
-#: .\src\apps\product\models.py:109
 msgid "priority"
 msgstr "приоритет"
 
-#: .\src\apps\product\models.py:116
 msgid "product"
 msgstr "продукт"
 
-#: .\src\apps\product\models.py:126
-msgid "Product Processed Image"
-msgstr "Обработанное изображение продукта"
-
-#: .\src\apps\product\models.py:127
-msgid "Product Processed Images"
-msgstr "Обработанные изображения продукта"
-
-#: .\src\apps\product\models.py:130
-msgid "height"
-msgstr "высота"
-
-#: .\src\apps\product\models.py:131
-msgid "width"
-msgstr "ширина"
-
-#: .\src\apps\product\models.py:138
-msgid "original image"
-msgstr "оригинальное изображение"
-
-#: .\src\apps\product\pagination.py:12
 #, python-format
 msgid "Available number of results per page: %s"
 msgstr "Доступное количество результатов на странице: %s"
 
-#: .\src\apps\product\serializers.py:61
 msgid "Category ID"
 msgstr "ID Категории"
 
-#: .\src\apps\product\serializers.py:66
 msgid "Session ID"
 msgstr "ID Сессии"
 
-#: .\src\apps\product\serializers.py:71
 msgid "Comma-separated list of integers (e.g., '1,2,3')"
 msgstr "Список целых чисел, разделенных запятыми (например, '1,2,3')"
 
-#: .\src\apps\product\serializers.py:83
 msgid "Filters must be a comma-separated list of integers."
-msgstr ""
-"Фильтры должны представлять собой список целых чисел, разделенных запятыми."
+msgstr "Фильтры должны представлять собой список целых чисел, разделенных запятыми."
 
-#: .\src\apps\product\views.py:108
 msgid "The product has been saved as a draft."
 msgstr "Продукт был сохранен как черновик."
 
-#: .\src\apps\product\views.py:109
 msgid "The product will be published in a few minutes."
 msgstr "Продукт будет опубликован через несколько минут."
