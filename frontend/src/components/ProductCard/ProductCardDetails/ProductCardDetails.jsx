@@ -17,8 +17,12 @@ import {
   selectProductDetails,
   selectLoading,
 } from '../../../redux/products/selectors';
-import { selectCategoryById } from '../../../redux/categories/categoriesSelectors';
+import {
+  selectCategoryById,
+  selectCatalogFlat,
+} from '../../../redux/categories/categoriesSelectors';
 import useDelayedLoading from '../../../hooks/useDelayedLoading';
+import { findCategoriesFromFullPath } from '../../../utils/breadcrumbs';
 
 import css from './ProductCardDetails.module.css';
 
@@ -30,9 +34,11 @@ export default function ProductCardDetails() {
 
   const from = location.state?.from || 'direct';
   const prevFrom = location.state?.from;
+  const fullPath = location.state?.full_path || [];
 
   const product = useSelector(selectProductDetails);
-  const category = useSelector(selectCategoryById);
+  const categoryById = useSelector(selectCategoryById);
+  const categoryFlat = useSelector(selectCatalogFlat);
 
   const isLoading = useSelector(selectLoading);
   const delayedLoading = useDelayedLoading(isLoading);
@@ -52,9 +58,24 @@ export default function ProductCardDetails() {
 
   if (from === 'categories') {
     links.push({
-      label: category?.title || 'Категорія',
+      label: categoryById?.title || 'Категорія',
       to: `/categories/${categoryId}`,
       isActive: false,
+    });
+  }
+
+  if (from === 'search' && fullPath.length > 0) {
+    const matchedCategories = findCategoriesFromFullPath(
+      fullPath,
+      categoryFlat
+    );
+
+    matchedCategories.forEach((path) => {
+      links.push({
+        label: path.title,
+        to: `/categories/${path.id}`,
+        isActive: false,
+      });
     });
   }
 
@@ -65,7 +86,7 @@ export default function ProductCardDetails() {
 
     if (prevFrom === 'categories') {
       links.push({
-        label: category?.title || 'Категорія',
+        label: categoryById?.title || 'Категорія',
         to: `/categories/${categoryId}`,
         isActive: false,
       });

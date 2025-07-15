@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { IoSearchOutline } from 'react-icons/io5';
@@ -21,7 +21,7 @@ export default function SearchFieldBar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const allProducts = useSelector(selectSearchResults);
+  const results = useSelector(selectSearchResults);
   const searchHistory = useSelector(selectSearchHistory);
 
   useEffect(() => {
@@ -31,58 +31,29 @@ export default function SearchFieldBar() {
     }
   }, [query, dispatch]);
 
-  const filteredResults = useMemo(() => {
-    const trimmedQuery = query.trim().toLowerCase();
-    if (trimmedQuery.length < 4) return [];
-    return allProducts.filter((product) =>
-      product.title.toLowerCase().includes(trimmedQuery)
-    );
-  }, [query, allProducts]);
+  useEffect(() => {
+    setShowModal(results.length > 0);
+  }, [results]);
 
-  const addToSearchHistory = (term) => {
-    dispatch(addSearchHistory(term));
+  const handleInputChange = (e) => {
+    setQuery(e.target.value);
   };
 
-  useEffect(() => {
-    setShowModal(filteredResults.length > 0);
-  }, [filteredResults]);
-
-  const handleInputChange = (e) => setQuery(e.target.value);
-
   const handleSearch = () => {
-    const trimmedQuery = query.trim();
-    if (!trimmedQuery) return;
+    const trimmed = query.trim();
+    if (!trimmed) return;
 
-    const lowerQuery = trimmedQuery.toLowerCase();
+    const exact = results.find((r) => r.type === 'product' && r.exact_match);
 
-    const exactMatch = allProducts.find(
-      (product) => product.title.toLowerCase() === lowerQuery
-    );
-
-    if (exactMatch) {
-      dispatch(
-        addSearchHistory({
-          id: exactMatch.id,
-          title: exactMatch.title,
-          category_id: exactMatch.category_id,
-        })
-      );
-      navigate(`/${exactMatch.id}`, { state: { from: 'search' } });
+    if (exact) {
+      dispatch(addSearchHistory(exact));
+      navigate(`/products/${exact.product_id}`, { state: { from: 'search' } });
       closeModal();
       return;
     }
 
-    dispatch(addSearchHistory(trimmedQuery));
-
-    if (filteredResults.length > 0) {
-      navigate('/empty-search');
-      closeModal();
-    } else {
-      navigate('/empty-search');
-      closeModal();
-    }
-
-    setQuery('');
+    navigate(`/search?q=${encodeURIComponent(trimmed)}`);
+    closeModal();
   };
 
   const handleKeyPress = (e) => {
@@ -112,10 +83,10 @@ export default function SearchFieldBar() {
       {showModal && (
         <div className={css.modalBackdrop}>
           <SearchModal
-            results={filteredResults}
+            results={results}
             searchHistory={searchHistory}
             onClose={closeModal}
-            addToSearchHistory={addToSearchHistory}
+            addToSearchHistory={(r) => dispatch(addSearchHistory(r))}
           />
         </div>
       )}

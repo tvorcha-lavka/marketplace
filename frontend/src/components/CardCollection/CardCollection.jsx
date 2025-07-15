@@ -52,7 +52,7 @@ export default function CardCollection({ item, categoryId, from }) {
         )}
       </button>
       <Link
-        to={`/${id}`}
+        to={`/categories/${categoryId}/${id}`}
         state={{ from, prevFrom: location.state?.from || null, categoryId }}
         className={css.link}
       >

@@ -107,7 +107,10 @@ export default function App() {
           <Route path="/cart" element={<CartPage />} />
           <Route path="/categories" element={<AllCategoriesPage />} />
           <Route path="/categories/:categoryId" element={<CategoryPage />} />
-          <Route path="/:cardId" element={<CardDetailsPage />} />
+          <Route
+            path="/categories/:categoryId/:cardId"
+            element={<CardDetailsPage />}
+          />
 
           {/* USER PRIVATE ROUTE */}
           <Route

@@ -10,19 +10,32 @@ import Sort from '../Sort/Sort';
 import Breadcrumbs from '../../Breadcrumbs/Breadcrumbs';
 
 import { getCategoryById } from '../../../redux/categories/categoriesOperations';
-import { selectCategoryById } from '../../../redux/categories/categoriesSelectors';
-import { selectSearchCategories } from '../../../redux/searchProducts/selectors';
+import {
+  selectCategoryById,
+  selectCatalogFlat,
+} from '../../../redux/categories/categoriesSelectors';
+import { findCategoriesFromFullPath } from '../../../utils/breadcrumbs';
 
 import css from './Category.module.css';
 
 export default function Category() {
   const { categoryId } = useParams();
-  const dispatch = useDispatch();
   const location = useLocation();
-  const isFromSearch = location.state?.from === 'search';
+  const dispatch = useDispatch();
 
   const category = useSelector(selectCategoryById);
-  const fullSearchCategoryPath = useSelector(selectSearchCategories);
+  const categoryFlat = useSelector(selectCatalogFlat);
+
+  const isFromSearch = location.state?.from === 'search';
+  const fullPath = location.state?.full_path || [];
+  const matchedCategories = findCategoriesFromFullPath(fullPath, categoryFlat);
+
+  const filterIds =
+    new URLSearchParams(location.search)
+      .get('filters')
+      ?.split(',')
+      .map((id) => parseInt(id, 10))
+      .filter(Boolean) || [];
 
   useEffect(() => {
     if (categoryId) {
@@ -31,9 +44,9 @@ export default function Category() {
   }, [categoryId, dispatch]);
 
   // BREADCRUMBS LINKS
-  const breadcrumbsLinksDefault = [
-    { label: 'Головна', to: '/', isActive: false },
-    { label: 'Всі категорії', to: '/categories', isActive: false },
+  const defaultBreadcrumbs = [
+    { label: 'Головна', to: '/' },
+    { label: 'Всі категорії', to: '/categories' },
     {
       label: category?.title || 'Категорія',
       to: `/categories/${categoryId}`,
@@ -41,39 +54,24 @@ export default function Category() {
     },
   ];
 
-  let breadcrumbsLinksFromSearch = [
-    { label: 'Головна', to: '/', isActive: false },
-    { label: 'Всі категорії', to: '/categories', isActive: false },
+  const searchBreadcrumbs = [
+    { label: 'Головна', to: '/' },
+    { label: 'Всі категорії', to: '/categories' },
+    ...matchedCategories.map((path, index) => ({
+      label: path.title,
+      to: `/categories/${path.id}`,
+      isActive: index === matchedCategories.length - 1,
+    })),
   ];
-
-  if (fullSearchCategoryPath.length > 0) {
-    const searchCat = fullSearchCategoryPath[0];
-    const pathTitles = searchCat.full_path || [];
-    let currentPath = '/categories';
-
-    const dynamicCrumbs = pathTitles.map((title, index) => {
-      currentPath += `/${searchCat.slug}`;
-      return {
-        label: title,
-        to: currentPath,
-        isActive: index === pathTitles.length - 1,
-      };
-    });
-
-    breadcrumbsLinksFromSearch = [
-      ...breadcrumbsLinksFromSearch,
-      ...dynamicCrumbs,
-    ];
-  }
 
   return (
     <div className="container">
       <div className="section">
         <Breadcrumbs
           links={
-            isFromSearch && fullSearchCategoryPath.length > 0
-              ? breadcrumbsLinksFromSearch
-              : breadcrumbsLinksDefault
+            isFromSearch && fullPath.length
+              ? searchBreadcrumbs
+              : defaultBreadcrumbs
           }
         />
 
@@ -83,7 +81,7 @@ export default function Category() {
 
         <div className={css.wrapper}>
           <div className={css.filter}>
-            <FilterBar categoryId={categoryId} />
+            <FilterBar categoryId={categoryId} initialSelected={filterIds} />
           </div>
           <section className={css.productViewSort}>
             <div className={css.stickyBlock}>
