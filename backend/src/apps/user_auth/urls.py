@@ -3,13 +3,13 @@ from drf_spectacular.utils import extend_schema
 
 from .jwt import urls as jwt_auth
 from .social import urls as social_auth
-from .views import ResetPasswordAPIView, VerifyCodeAPIView
+from .views import PasswordRecoveryAPIView, VerifyCodeAPIView
 
 SchemaTag = "Verification"
 VerifyCodeAPIViewExtended = extend_schema(tags=[SchemaTag])(VerifyCodeAPIView)
 
-SchemaTag = "Reset Password"
-ResetPasswordAPIViewExtended = extend_schema(tags=[SchemaTag])(ResetPasswordAPIView)
+SchemaTag = "Password Recovery"
+PasswordRecoveryAPIViewExtended = extend_schema(tags=[SchemaTag])(PasswordRecoveryAPIView)
 
 urlpatterns = [
     path("", include(jwt_auth), name="jwt-auth"),
@@ -17,5 +17,5 @@ urlpatterns = [
     # --------------------------------------------------------------------
     path("verify-code/", VerifyCodeAPIViewExtended.as_view(), name="verify-code"),
     # -----------------------------------------------------------------------------
-    path("reset/password/", ResetPasswordAPIViewExtended.as_view(), name="reset-password"),
+    path("password/recovery/", PasswordRecoveryAPIViewExtended.as_view(), name="password-recovery"),
 ]

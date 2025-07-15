@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-11 17:56+0300\n"
+"POT-Creation-Date: 2025-06-15 04:20+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,106 +16,59 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
-"%100>=11 && n%100<=14)? 2 : 3);\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: .\src\apps\email\choices.py:6
-msgid "Email Verification"
-msgstr "Подтверждение электронной почты"
-
-#: .\src\apps\email\choices.py:7
-msgid "Reset Password"
-msgstr "Сброс пароля"
-
-#: .\src\apps\email\tasks.py:20
-#: .\src\apps\email\templates\email_verification.html:7
 msgid "Email verification"
 msgstr "Подтверждение электронной почты"
 
-#: .\src\apps\email\tasks.py:21
-#, python-format
-msgid ""
-"Hi!\n"
-"Your confirmation code: %(code)s"
-msgstr ""
-"Здравствуйте!\n"
-"Ваш код подтверждения: %(code)s"
+msgid "Password recovery"
+msgstr "Восстановление пароля"
 
-#: .\src\apps\email\tasks.py:22
+msgid "Hi! Your email verification code: <VERIFICATION_CODE>"
+msgstr "Приветствую! Ваш код подтверждения электронной почты: <VERIFICATION_CODE>"
+
 msgid "Please check your email to verify your account."
-msgstr ""
-"Пожалуйста, проверьте свою электронную почту для подтверждения аккаунта."
+msgstr "Пожалуйста, проверьте свою электронную почту для подтверждения аккаунта."
 
-#: .\src\apps\email\tasks.py:37
-#: .\src\apps\email\templates\reset_password.html:7
-msgid "Password change confirmation"
-msgstr "Подтверждение изменения пароля"
-
-#: .\src\apps\email\tasks.py:38
-#, python-format
-msgid ""
-"Hi %(username)s!\n"
-"Your password change confirmation code: %(code)s"
-msgstr ""
-"Здравствуйте, %(username)s!\n"
-"Ваш код подтверждения изменения пароля: %(code)s"
-
-#: .\src\apps\email\tasks.py:43
-msgid "A password reset email has been sent to your email address."
-msgstr "Письмо для сброса пароля было отправлено на вашу электронную почту."
-
-#: .\src\apps\email\tasks.py:90
 msgid "Welcome to Tvorcha Lavka!"
 msgstr "Добро пожаловать в Tvorcha Lavka!"
 
-#: .\src\apps\email\tasks.py:91
-#, python-format
-msgid "Hi, %(username)s. Thank you for registering Tvorcha Lavka!"
-msgstr "Здравствуйте, %(username)s. Спасибо за регистрацию на Tvorcha Lavka!"
+msgid "Hi! Thank you for registering on Tvorcha Lavka!"
+msgstr "Приветствую! Спасибо за регистрацию на Tvorcha Lavka!"
 
-#: .\src\apps\email\templates\email_verification.html:12
-msgid "Hi!"
-msgstr "Здравствуйте!"
+msgid "Hi! Your password recovery code: <VERIFICATION_CODE>"
+msgstr "Приветствую! Ваш код восстановления пароля: <VERIFICATION_CODE>"
 
-#: .\src\apps\email\templates\email_verification.html:15
+msgid "A password recovery email has been sent to your email address."
+msgstr "Письмо для восстановления пароля было отправлено на вашу электронную почту."
+
 msgid "Your confirmation code:"
 msgstr "Ваш код подтверждения:"
 
-#: .\src\apps\email\templates\email_verification.html:19
-#: .\src\apps\email\templates\reset_password.html:19
 #, python-format
 msgid "Code is valid for %(expire_in)s minutes."
 msgstr "Срок действия кода - %(expire_in)s мин."
 
-#: .\src\apps\email\templates\email_verification.html:20
 msgid "Please enter this code on the website to confirm your email address."
-msgstr ""
-"Пожалуйста, введите этот код на сайте, чтобы подтвердить свою электронную "
-"почту."
+msgstr "Пожалуйста, введите этот код на сайте, чтобы подтвердить свою электронную почту."
 
-#: .\src\apps\email\templates\email_verification.html:23
-msgid "If you have not requested this verification, please ignore this email."
-msgstr ""
-"Если вы не запрашивали эту проверку, пожалуйста, игнорируйте это письмо."
+msgid "If you have not requested this registration, please ignore this email."
+msgstr "Если вы не запрашивали эту регистрацию, пожалуйста, проигнорируйте это письмо."
 
-#: .\src\apps\email\templates\reset_password.html:12
-msgid "Hi, "
-msgstr "Приветствую, "
+msgid "You have successfully registered for Tvorcha Lavka. We are glad to see you among our users!"
+msgstr "Вы успешно зарегистрировались на Tvorcha Lavka. Мы рады видеть вас среди наших пользователей!"
 
-#: .\src\apps\email\templates\reset_password.html:15
-msgid "Your password change confirmation code:"
-msgstr "Ваш код подтверждения изменения пароля:"
+msgid "Thank you for choosing us!"
+msgstr "Спасибо, что выбрали нас!"
 
-#: .\src\apps\email\templates\reset_password.html:20
-msgid "Please enter this code on the website to confirm the password change."
-msgstr ""
-"Пожалуйста, введите этот код на сайте, чтобы подтвердить изменение пароля."
+msgid "Go to shop"
+msgstr "Перейти в магазин"
 
-#: .\src\apps\email\templates\reset_password.html:23
-msgid "If you have not requested a password change, please ignore this email."
-msgstr "Если вы не запрашивали изменение пароля, игнорируйте это письмо."
+msgid "Please enter this code on the website to confirm your password recovery."
+msgstr "Пожалуйста, введите этот код на сайте, чтобы подтвердить восстановление пароля."
 
-#: .\src\apps\email\views.py:30
+msgid "If you have not requested a password recovery, please ignore this email."
+msgstr "Если вы не запрашивали восстановление пароля, пожалуйста, игнорируйте это письмо."
+
 msgid "Email already verified."
 msgstr "Электронная почта уже подтверждена."

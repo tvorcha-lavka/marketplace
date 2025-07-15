@@ -20,7 +20,10 @@ class Migration(migrations.Migration):
                 (
                     "email_type",
                     models.CharField(
-                        choices=[("email_verification", "Email Verification"), ("reset_password", "Reset Password")],
+                        choices=[
+                            ("email_verification", "Email verification"),
+                            ("password_recovery", "Password recovery"),
+                        ],
                         max_length=20,
                         verbose_name="email type",
                     ),

@@ -11,7 +11,7 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.serializers import TokenObtainSerializer
 from rest_framework_simplejwt.views import TokenViewBase
 
-from apps.email.tasks import send_verify_email
+from apps.email.notifications import notify_user_successful_registration, notify_user_verify_email
 from apps.user.models import User
 from apps.user.serializers import UserSerializer
 from apps.user_auth.serializers import UserAuthSerializer, VerifyCodeSerializer
@@ -55,10 +55,10 @@ class SignupAPIView(GenericAPIView[Any]):
         email = serializer.validated_data["email"]
 
         if temporary_signup_data_is_exists(email):
-            message = str(_("A verification code was recently sent to user email."))
+            message = _("A verification code was recently sent to user email.")
             return Response({"message": message}, status=status.HTTP_307_TEMPORARY_REDIRECT)
 
-        result, message = send_verify_email(email)
+        message = notify_user_verify_email(email)
         save_temporary_signup_data(email, serializer.validated_data)
 
         return Response({"email": email, "message": message}, status=status.HTTP_200_OK)
@@ -79,9 +79,10 @@ class SignupCompleteAPIView(GenericAPIView[Any], TokenMixin):
         email = serializer.validated_data["email"]
 
         if not (signup_data := get_temporary_signup_data(email)):
-            raise ValidationError(str(_("Something went wrong. Please try again.")))
+            raise ValidationError({"detail": _("Something went wrong. Please try again.")})
 
         user = User.objects.create(**signup_data, is_email_verified=True)
+        notify_user_successful_registration(user.email)
 
         code_obj = serializer.validated_data["code_obj"]
         code_obj.delete()
