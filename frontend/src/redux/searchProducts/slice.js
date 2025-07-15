@@ -1,34 +1,41 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { searchProducts } from './operations';
 
+const initialState = {
+  query: '',
+  results: [],
+  loading: false,
+  error: false,
+  searchHistory: [],
+  full_path: [],
+  full_path_ids: [],
+};
+
 const searchSlice = createSlice({
   name: 'search',
-  initialState: {
-    query: '',
-    searchResults: [],
-    categories: [],
-    searchHistory: [],
-    loading: false,
-    error: false,
-  },
+  initialState,
   reducers: {
     clearSearch: (state) => {
       state.query = '';
-      state.searchResults = [];
-      state.categories = [];
+      state.results = [];
+    },
+    addSearchHistory: (state, action) => {
+      const newItem = action.payload;
+
+      const exists = state.searchHistory.find(
+        (item) => item.id === newItem.id && item.type === newItem.type
+      );
+
+      if (!exists) {
+        state.searchHistory = [newItem, ...state.searchHistory].slice(0, 3);
+      }
     },
     clearSearchHistory: (state) => {
       state.searchHistory = [];
     },
-    addSearchHistory: (state, action) => {
-      const newItem = action.payload;
-      if (!newItem?.id || !newItem?.title?.trim()) return;
-
-      const filtered = state.searchHistory.filter(
-        (item) => item.id !== newItem.id
-      );
-
-      state.searchHistory = [newItem, ...filtered].slice(0, 3);
+    saveFullPath: (state, action) => {
+      state.full_path = action.payload.full_path;
+      state.full_path_ids = action.payload.full_path_ids;
     },
   },
   extraReducers: (builder) => {
@@ -39,8 +46,7 @@ const searchSlice = createSlice({
       })
       .addCase(searchProducts.fulfilled, (state, action) => {
         state.query = action.payload.query;
-        state.searchResults = action.payload.products;
-        state.categories = action.payload.categories;
+        state.results = action.payload.results;
         state.loading = false;
       })
       .addCase(searchProducts.rejected, (state, action) => {
@@ -50,7 +56,11 @@ const searchSlice = createSlice({
   },
 });
 
-export const { clearSearch, clearSearchHistory, addSearchHistory } =
-  searchSlice.actions;
+export const {
+  clearSearch,
+  addSearchHistory,
+  clearSearchHistory,
+  saveFullPath,
+} = searchSlice.actions;
 
 export const searchReducer = searchSlice.reducer;

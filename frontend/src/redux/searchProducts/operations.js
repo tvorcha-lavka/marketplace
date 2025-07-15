@@ -4,7 +4,7 @@ import axios from 'axios';
 import { baseApiUrl } from '../axiosConfig.js';
 
 export const searchProducts = createAsyncThunk(
-  'product/searchProducts',
+  'search/searchProducts',
   async (query, thunkAPI) => {
     try {
       const res = await axios.get(`${baseApiUrl}/search/`, {
@@ -13,8 +13,7 @@ export const searchProducts = createAsyncThunk(
 
       return res.data;
     } catch (e) {
-      console.error('Error searching products:', e);
-      return thunkAPI.rejectWithValue(e.message);
+      return thunkAPI.rejectWithValue(e.message || 'Search error');
     }
   }
 );
