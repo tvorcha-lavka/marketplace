@@ -45,6 +45,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: var(--border-radius);
 }
 
 .iconCamera {
@@ -67,4 +68,28 @@
 
 .fotoItem:hover .textFoto {
   color: var(--default-black);
+}
+
+.previewWrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.deleteBtn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background-color: var(--background-small-backdrop);
+  border-radius: var(--border-radius-circle);
+  width: var(--icon-size-large);
+  height: var(--icon-size-large);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+}
+
+.deleteIcon {
+  color: var(--default-white);
 }

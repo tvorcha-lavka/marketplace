@@ -1,8 +1,9 @@
 import { useRef, useState } from 'react';
 import { FiCamera } from 'react-icons/fi';
-import { GoAlert } from 'react-icons/go';
-import { toast } from 'react-hot-toast';
 import { Oval } from 'react-loader-spinner';
+
+import ModalBtnCross from '../../ButtonElements/ModalBtnCross/ModalBtnCross';
+import showToast from '../../Toasts/showToast';
 
 import { useImageUploader } from '../../../hooks/useImageUploader';
 
@@ -11,11 +12,12 @@ import css from './BrowseImage.module.css';
 export default function BrowseImage() {
   const [selectedFiles, setSelectedFiles] = useState(() => {
     const saved = sessionStorage.getItem('ad_selectedFiles');
-    return saved ? JSON.parse(saved) : [];
+    const parsed = saved ? JSON.parse(saved) : [];
+    return Array.from({ length: 10 }, (_, i) => parsed[i] || undefined);
   });
   const [loadingStates, setLoadingStates] = useState(Array(10).fill(false));
 
-  const { uploadFile } = useImageUploader();
+  const { uploadFile, deleteFile } = useImageUploader();
   const maxFiles = 10;
   const fileInputsRef = useRef([]);
 
@@ -31,57 +33,43 @@ export default function BrowseImage() {
     const fileArray = Array.from(files);
     const validFiles = fileArray.filter((file) => file.size <= 5 * 1024 * 1024);
 
+    if (validFiles.length >= maxFiles) {
+      showToast('Перевищено ліміт завантажень!', 'error');
+      return;
+    }
+
     if (validFiles.length !== fileArray.length) {
-      toast.custom(() => (
-        <div
-          style={{
-            backgroundColor: 'var(--error-red)',
-            color: 'var(--default-white)',
-            width: '450px',
-            height: '70px',
-            padding: '15px',
-            borderRadius: '8px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '16px',
-            fontSize: 'var(--font-size-tiny)',
-            fontWeight: 'var(--font-weight-bold)',
-            borderLeft:
-              'var(--border-width-biggest) var(--border-style) var(--primary-yellow)',
-            boxShadow: 'var(--cart-shadow)',
-          }}
-        >
-          <GoAlert
-            style={{
-              width: 'var(--icon-size-large)',
-              height: 'var(--icon-size-large)',
-              fontSize: '32px',
-              color: 'var(--default-white)',
-            }}
-          />
-          Файл перевищує 5 МБ!
-        </div>
-      ));
+      showToast('Файл перевищує 5 МБ!', 'error');
+      return;
     }
 
     const selectedFile = validFiles[0];
     if (!selectedFile) return;
 
-    const updatedFiles = [...selectedFiles];
-    const base64Image = await fileToBase64(selectedFile);
-
-    updatedFiles[slotIndex] = base64Image;
-
     const updatedLoading = [...loadingStates];
     updatedLoading[slotIndex] = true;
     setLoadingStates(updatedLoading);
 
-    setSelectedFiles(updatedFiles);
-    sessionStorage.setItem('ad_selectedFiles', JSON.stringify(updatedFiles));
-
     try {
       await uploadFile(selectedFile, slotIndex);
-    } finally {
+
+      const base64Image = await fileToBase64(selectedFile);
+
+      setTimeout(() => {
+        const updatedFiles = [...selectedFiles];
+        updatedFiles[slotIndex] = base64Image;
+        setSelectedFiles(updatedFiles);
+        sessionStorage.setItem(
+          'ad_selectedFiles',
+          JSON.stringify(updatedFiles)
+        );
+
+        updatedLoading[slotIndex] = false;
+        setLoadingStates([...updatedLoading]);
+
+        showToast('Зображення завантажено!', 'success');
+      }, 1000);
+    } catch (error) {
       updatedLoading[slotIndex] = false;
       setLoadingStates([...updatedLoading]);
     }
@@ -89,6 +77,15 @@ export default function BrowseImage() {
 
   const handleClick = (index) => {
     fileInputsRef.current[index]?.click();
+  };
+
+  const handleDelete = (index) => {
+    deleteFile(index, () => {
+      const updatedFiles = [...selectedFiles];
+      updatedFiles[index] = undefined; 
+      setSelectedFiles(updatedFiles);
+      sessionStorage.setItem('ad_selectedFiles', JSON.stringify(updatedFiles));
+    });
   };
 
   return (
@@ -121,11 +118,21 @@ export default function BrowseImage() {
                   ariaLabel="oval-loading"
                 />
               ) : isFilled ? (
-                <img
-                  src={base64}
-                  alt={`Зображення ${index + 1}`}
-                  className={css.previewImage}
-                />
+                <div className={css.previewWrapper}>
+                  <ModalBtnCross
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDelete(index);
+                    }}
+                    className={css.deleteBtn}
+                    iconClassName={css.deleteIcon}
+                  />
+                  <img
+                    src={base64}
+                    alt={`Зображення ${index + 1}`}
+                    className={css.previewImage}
+                  />
+                </div>
               ) : (
                 <>
                   <FiCamera className={css.iconCamera} />
