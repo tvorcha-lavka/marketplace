@@ -25,7 +25,7 @@ export default function AllCategories() {
 
   return (
     <section className="container">
-      <div className="section">
+      <div className={`${css.wrap} section`}>
         <Breadcrumbs
           links={[
             { label: 'Головна', to: '/', isActive: false },

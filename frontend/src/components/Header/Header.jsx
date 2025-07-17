@@ -16,15 +16,38 @@ import css from './Header.module.css';
 
 export default function Header() {
   const [isOpenPopup, setIsOpenPopup] = useState(false);
-  const { openModal } = useModal();
+  const [isAtTop, setIsAtTop] = useState(true);
   const [isFocused, setIsFocused] = useState(false);
+  const [showStickyHeader, setShowStickyHeader] = useState(true);
 
   const isLoggedIn = useSelector(selectLoggedIn);
+
+  const lastScrollY = useRef(0);
+  const { openModal } = useModal();
   const modalRef = useRef(null);
   const buttonRef = useRef(null);
   const userPopupRef = useRef(null);
   const popupBtnRef = useRef(null);
   const closeTimeout = useRef(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      setIsAtTop(currentScrollY === 0);
+
+      if (currentScrollY < lastScrollY.current) {
+        setShowStickyHeader(true);
+      } else if (currentScrollY > lastScrollY.current) {
+        setShowStickyHeader(false);
+      }
+
+      lastScrollY.current = currentScrollY;
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -75,7 +98,9 @@ export default function Header() {
   };
 
   return (
-    <header>
+    <header
+      className={`${css.header} ${showStickyHeader ? css.visible : css.hidden}`}
+    >
       <div className="container">
         <div className={css.wrapper}>
           <div className={css.leftPart}>
@@ -115,18 +140,17 @@ export default function Header() {
           </ul>
 
           {isOpenPopup && (
-            <div className={css.modalBackdrop}>
-              <div className={css.modal} ref={userPopupRef}>
-                <HeaderUserPopup
-                  isOpenPopup={isOpenPopup}
-                  onClose={() => setIsOpenPopup(false)}
-                />
-              </div>
+            <div className={css.popupWrapper} ref={userPopupRef}>
+              <HeaderUserPopup
+                isOpenPopup={isOpenPopup}
+                onClose={() => setIsOpenPopup(false)}
+              />
             </div>
           )}
         </div>
       </div>
-      <HeaderDown />
+
+      {isAtTop && <HeaderDown />}
     </header>
   );
 }

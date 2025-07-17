@@ -1,3 +1,7 @@
+.wrap {
+  padding-top: 148px;
+}
+
 .categoryTitle {
   margin-bottom: 24px;
   font-size: var(--font-size-medium);

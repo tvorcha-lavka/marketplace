@@ -1,3 +1,7 @@
+.wrap {
+  padding-top: 128px;
+}
+
 .title {
   margin-bottom: 24px;
   font-weight: var(--font-weight-bold);

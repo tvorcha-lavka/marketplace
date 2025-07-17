@@ -66,7 +66,7 @@ export default function Category() {
 
   return (
     <div className="container">
-      <div className="section">
+      <div className={`${css.wrap} section`}>
         <Breadcrumbs
           links={
             isFromSearch && fullPath.length
