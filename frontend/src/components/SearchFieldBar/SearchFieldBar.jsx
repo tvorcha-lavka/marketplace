@@ -32,8 +32,13 @@ export default function SearchFieldBar() {
   }, [query, dispatch]);
 
   useEffect(() => {
-    setShowModal(results.length > 0);
-  }, [results]);
+    const trimmed = query.trim();
+    if (trimmed.length >= 4 && results.length > 0) {
+      setShowModal(true);
+    } else {
+      setShowModal(false);
+    }
+  }, [results, query]);
 
   const handleInputChange = (e) => {
     setQuery(e.target.value);
