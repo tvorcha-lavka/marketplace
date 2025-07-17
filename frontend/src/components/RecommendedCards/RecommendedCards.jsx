@@ -19,6 +19,7 @@ export default function RecommendedCards({
   const dispatch = useDispatch();
 
   const productsData = useSelector(selectProducts);
+
   const isLoading = useSelector(selectLoading);
   const delayedLoading = useDelayedLoading(isLoading);
 

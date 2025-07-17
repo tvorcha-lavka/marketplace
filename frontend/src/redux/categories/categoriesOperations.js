@@ -59,8 +59,11 @@ export const getCatalog = createAsyncThunk(
       const res = await axios.get(`${baseApiUrl}/categories/catalog/`);
       const tree = res.data;
       const categoryTrees = buildCategoryTree(tree);
-      const catalog = categoryTrees[0].children;
-      return catalog;
+
+      return {
+        tree: categoryTrees,
+        flat: tree,
+      };
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }

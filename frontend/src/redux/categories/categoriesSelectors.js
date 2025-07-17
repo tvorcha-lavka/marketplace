@@ -10,5 +10,7 @@ export const selectPopCategories = (state) => state.categories.popular;
 
 export const selectCategoryById = (state) => state.categories.categoryById;
 
+export const selectCatalogFlat = (state) => state.categories.catalogFlat;
+
 export const selectSelectedCategoryId = (state) =>
   state.categories.selectedCategoryId;

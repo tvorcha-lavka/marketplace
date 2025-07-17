@@ -1,10 +1,14 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { IoSearchOutline } from 'react-icons/io5';
 
-import { getProducts } from '../../redux/products/operations';
-import { selectProducts } from '../../redux/products/selectors';
+import { searchProducts } from '../../redux/searchProducts/operations';
+import {
+  selectSearchHistory,
+  selectSearchResults,
+} from '../../redux/searchProducts/selectors';
+import { addSearchHistory } from '../../redux/searchProducts/slice';
 
 import SearchModal from './SearchModal';
 
@@ -13,69 +17,43 @@ import css from './SearchFieldBar.module.css';
 export default function SearchFieldBar() {
   const [query, setQuery] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const [searchHistory, setSearchHistory] = useState(() => {
-    try {
-      const saved = localStorage.getItem('searchHistory');
-      return saved ? JSON.parse(saved) : [];
-    } catch {
-      return [];
-    }
-  });
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const allProducts = useSelector(selectProducts)?.results || [];
+  const results = useSelector(selectSearchResults);
+  const searchHistory = useSelector(selectSearchHistory);
 
   useEffect(() => {
-    if (allProducts.length === 0) {
-      dispatch(getProducts());
+    const trimmedQuery = query.trim();
+    if (trimmedQuery.length >= 4) {
+      dispatch(searchProducts(trimmedQuery));
     }
-  }, [dispatch, allProducts.length]);
+  }, [query, dispatch]);
 
-  const filteredResults = useMemo(() => {
-    const trimmedQuery = query.trim().toLowerCase();
-    if (trimmedQuery.length < 2) return [];
-    return allProducts.filter((product) =>
-      product.title.toLowerCase().includes(trimmedQuery)
-    );
-  }, [query, allProducts]);
+  useEffect(() => {
+    setShowModal(results.length > 0);
+  }, [results]);
 
-  const addToSearchHistory = (term) => {
-    const trimmedTerm = term.trim();
-    if (!trimmedTerm) return;
-
-    setSearchHistory((prev) => {
-      const newHistory = [
-        trimmedTerm,
-        ...prev.filter((q) => q !== trimmedTerm),
-      ];
-      localStorage.setItem(
-        'searchHistory',
-        JSON.stringify(newHistory.slice(0, 10))
-      );
-      return newHistory.slice(0, 10);
-    });
+  const handleInputChange = (e) => {
+    setQuery(e.target.value);
   };
 
-  useEffect(() => {
-    setShowModal(filteredResults.length > 0);
-  }, [filteredResults]);
-
-  const handleInputChange = (e) => setQuery(e.target.value);
-
   const handleSearch = () => {
-    const trimmedQuery = query.trim();
-    if (!trimmedQuery) return;
+    const trimmed = query.trim();
+    if (!trimmed) return;
 
-    if (filteredResults.length > 0) {
-      navigate(`/search?query=${encodeURIComponent(trimmedQuery)}`);
-    } else {
-      navigate('/empty-search');
+    const exact = results.find((r) => r.type === 'product' && r.exact_match);
+
+    if (exact) {
+      dispatch(addSearchHistory(exact));
+      navigate(`/products/${exact.product_id}`, { state: { from: 'search' } });
+      closeModal();
+      return;
     }
 
-    setQuery('');
-    setShowModal(false);
+    navigate(`/search?q=${encodeURIComponent(trimmed)}`);
+    closeModal();
   };
 
   const handleKeyPress = (e) => {
@@ -99,15 +77,16 @@ export default function SearchFieldBar() {
         onChange={handleInputChange}
         onKeyDown={handleKeyPress}
       />
-      <IoSearchOutline className={css.icon} onClick={handleSearch} />
-
+      <button type="button" className={css.iconButton} onClick={handleSearch}>
+        <IoSearchOutline className={css.icon} />
+      </button>
       {showModal && (
         <div className={css.modalBackdrop}>
           <SearchModal
-            results={filteredResults}
+            results={results}
             searchHistory={searchHistory}
             onClose={closeModal}
-            addToSearchHistory={addToSearchHistory}
+            addToSearchHistory={(r) => dispatch(addSearchHistory(r))}
           />
         </div>
       )}

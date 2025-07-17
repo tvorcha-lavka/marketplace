@@ -4,6 +4,7 @@ import storage from 'redux-persist/lib/storage';
 import { authReducer } from './auth/slice';
 import { categoriesReducer } from './categories/categoriesSlice';
 import { productReducer } from './products/slice';
+import { searchReducer } from './searchProducts/slice';
 import { filtersReducer } from './filters/filtersSlice';
 import { basketReducer } from './basket/slice';
 import { advertReducer } from './addAdverts/slice';
@@ -46,6 +47,15 @@ const persistedProductsReducer = persistReducer(
     whitelist: ['products'],
   },
   productReducer
+);
+
+const persistedSearchReducer = persistReducer(
+  {
+    key: 'search',
+    storage,
+    whitelist: ['searchResults', 'query', 'searchHistory'],
+  },
+  searchReducer
 );
 
 const persistedAdvertReducer = persistReducer(
@@ -110,6 +120,7 @@ export const store = configureStore({
     filters: filtersReducer,
     users: persistedUsersReducer,
     payment: persistedPaymentReducer,
+    search: persistedSearchReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

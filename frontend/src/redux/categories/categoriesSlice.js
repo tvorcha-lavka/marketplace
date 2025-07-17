@@ -6,12 +6,12 @@ import {
 } from './categoriesOperations';
 
 const handlePending = (state) => {
-  state.isLoading = true;
+  state.loading = true;
   state.error = false;
 };
 
 const handleRejected = (state, action) => {
-  state.isLoading = false;
+  state.loading = false;
   state.error = action.payload;
 };
 
@@ -20,6 +20,7 @@ const categoriesSlice = createSlice({
   initialState: {
     items: [],
     catalog: [],
+    catalogFlat: [],
     popular: [],
     categoryById: {},
     selectedCategoryId: null,
@@ -49,9 +50,11 @@ const categoriesSlice = createSlice({
         state.error = null;
       })
       .addCase(getCategoryById.rejected, handleRejected)
+
       .addCase(getCatalog.pending, handlePending)
       .addCase(getCatalog.fulfilled, (state, action) => {
-        state.catalog = action.payload;
+        state.catalog = action.payload.tree[0].children; 
+        state.catalogFlat = action.payload.flat; 
         state.loading = false;
         state.error = null;
       })
