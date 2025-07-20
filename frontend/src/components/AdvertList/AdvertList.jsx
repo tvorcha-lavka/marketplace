@@ -6,6 +6,7 @@ import AdvertListSkeleton from './AdvertListSkeleton';
 
 import { getProducts } from '../../redux/products/operations';
 import { selectProducts, selectLoading } from '../../redux/products/selectors';
+import { selectCategoryById } from '../../redux/categories/categoriesSelectors';
 import useDelayedLoading from '../../hooks/useDelayedLoading';
 
 import css from './AdvertList.module.css';
@@ -15,6 +16,7 @@ export default function AdvertList() {
 
   const dispatch = useDispatch();
   const allProducts = useSelector(selectProducts)?.results || [];
+  const categoryId = useSelector(selectCategoryById);
 
   const isLoading = useSelector(selectLoading);
   const delayedLoading = useDelayedLoading(isLoading);
@@ -42,7 +44,11 @@ export default function AdvertList() {
               onBlur={handleCardBlur}
               key={item.id}
             >
-              <CardCollection item={item} categoryId={item.id} from="main" />
+              <CardCollection
+                item={item}
+                categoryId={categoryId.id}
+                from="main"
+              />
             </li>
           ))}
         </ul>
