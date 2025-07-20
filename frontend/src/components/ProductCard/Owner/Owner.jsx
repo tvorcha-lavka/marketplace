@@ -7,6 +7,8 @@ import { formatJoinDate, formatTime } from '../../../utils/formatDate';
 import css from './Owner.module.css';
 
 export default function Owner({ product }) {
+  if (!product) return null;
+
   return (
     <>
       <img

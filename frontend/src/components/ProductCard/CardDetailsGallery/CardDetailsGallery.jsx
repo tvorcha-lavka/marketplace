@@ -38,6 +38,8 @@ export default function CardDetailsGallery({ product }) {
     }
   };
 
+  if (!product) return null;
+
   return (
     <div className={css.gallery}>
       {hasSmallImages && (

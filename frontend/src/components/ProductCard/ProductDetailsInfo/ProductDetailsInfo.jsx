@@ -56,6 +56,8 @@ export default function ProductDetailsInfo({ product }) {
 
   const modalRef = useClickEsc(closeModalDetails);
 
+  if (!product) return null;
+
   return (
     <div className={css.orderInfo}>
       <p className={css.publicDate}>
