@@ -7,6 +7,7 @@ import RecommendedCardsSkeleton from './RecommendedCardsSkeleton';
 
 import { getProducts } from '../../redux/products/operations';
 import { selectProducts, selectLoading } from '../../redux/products/selectors';
+import { selectCategoryById } from '../../redux/categories/categoriesSelectors';
 import useDelayedLoading from '../../hooks/useDelayedLoading';
 
 import css from './RecommendedCards.module.css';
@@ -19,6 +20,7 @@ export default function RecommendedCards({
   const dispatch = useDispatch();
 
   const productsData = useSelector(selectProducts);
+  const categoryId = useSelector(selectCategoryById);
 
   const isLoading = useSelector(selectLoading);
   const delayedLoading = useDelayedLoading(isLoading);
@@ -50,7 +52,7 @@ export default function RecommendedCards({
           >
             <CardCollection
               item={item}
-              categoryId={item.id}
+              categoryId={categoryId?.id}
               from="recommended"
             />
           </div>

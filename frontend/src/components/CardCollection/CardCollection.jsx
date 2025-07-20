@@ -4,6 +4,7 @@ import { FaRegHeart } from 'react-icons/fa';
 import { FaHeart } from 'react-icons/fa6';
 
 import { media } from '../../utils/mediaConfig';
+import { formatPublishedDate } from '../../utils/formatDate';
 
 import css from './CardCollection.module.css';
 
@@ -63,7 +64,9 @@ export default function CardCollection({ item, categoryId, from }) {
             alt={title}
           />
         </div>
-        <p className={css.publicDate}>Опубліковано&nbsp;{date_published}</p>
+        <p className={css.publicDate}>
+          Опубліковано&nbsp;{formatPublishedDate(date_published)}
+        </p>
 
         <h2
           ref={titleRef}

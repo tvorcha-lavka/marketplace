@@ -182,7 +182,15 @@ export default function AddAdvert() {
     <div>
       <h2 className={css.advertTitle}>Додати оголошення</h2>
 
-      <form className={css.form} onSubmit={handleSubmit}>
+      <form
+        className={css.form}
+        onSubmit={handleSubmit}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+          }
+        }}
+      >
         <CategorySelectSection
           selectedCategory={selectedCategory}
           setSelectedCategory={(value) =>

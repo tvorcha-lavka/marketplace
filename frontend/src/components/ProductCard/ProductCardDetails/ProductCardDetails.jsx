@@ -17,12 +17,12 @@ import {
   selectProductDetails,
   selectLoading,
 } from '../../../redux/products/selectors';
-import {
-  selectCategoryById,
-  selectCatalogFlat,
-} from '../../../redux/categories/categoriesSelectors';
+import { selectCatalogFlat } from '../../../redux/categories/categoriesSelectors';
 import useDelayedLoading from '../../../hooks/useDelayedLoading';
-import { findCategoriesFromFullPath } from '../../../utils/breadcrumbs';
+import {
+  findCategoriesFromFullPath,
+  buildFullCategoryPathFromId,
+} from '../../../utils/breadcrumbs';
 
 import css from './ProductCardDetails.module.css';
 
@@ -37,7 +37,6 @@ export default function ProductCardDetails() {
   const fullPath = location.state?.full_path || [];
 
   const product = useSelector(selectProductDetails);
-  const categoryById = useSelector(selectCategoryById);
   const categoryFlat = useSelector(selectCatalogFlat);
 
   const isLoading = useSelector(selectLoading);
@@ -49,21 +48,25 @@ export default function ProductCardDetails() {
     }
   }, [dispatch, cardId]);
 
-  // BREADCRUMBS FOR PRODUCT DETAILS CARD
+  //* BREADCRUMBS FOR PRODUCT DETAILS CARD
   const links = [];
 
-  if (from === 'main') {
-    links.push({ label: 'Головна', to: '/', isActive: false });
-  }
-
-  if (from === 'categories') {
-    links.push({
-      label: categoryById?.title || 'Категорія',
-      to: `/categories/${categoryId}`,
-      isActive: false,
+  // FROM CATEGORIES TO PRODUCT CARD DETAILS PAGE
+  if (from === 'categories' && categoryId) {
+    const matchedCategories = buildFullCategoryPathFromId(
+      categoryId,
+      categoryFlat
+    );
+    matchedCategories.forEach((cat) => {
+      links.push({
+        label: cat.title,
+        to: `/categories/${cat.id}`,
+        isActive: false,
+      });
     });
   }
 
+  // FROM SEARCH LINE
   if (from === 'search' && fullPath.length > 0) {
     const matchedCategories = findCategoriesFromFullPath(
       fullPath,
@@ -79,29 +82,20 @@ export default function ProductCardDetails() {
     });
   }
 
-  if (from === 'recommended') {
-    if (prevFrom === 'main') {
-      links.push({ label: 'Головна', to: '/', isActive: false });
-    }
+  // FROM SECOND OPENED RECOMMENDED CARDS
+  if (prevFrom === 'recommended') {
+    links.push({
+      label: 'Повернутись назад',
+      to: '',
+      isActive: false,
+      isButton: true,
+      onClick: () => navigate(-1),
+    });
+  }
 
-    if (prevFrom === 'categories') {
-      links.push({
-        label: categoryById?.title || 'Категорія',
-        to: `/categories/${categoryId}`,
-        isActive: false,
-      });
-    }
-
-    if (prevFrom === 'recommended') {
-      links.push({ label: 'Головна', to: '/', isActive: false });
-      links.push({
-        label: 'Повернутись назад',
-        to: '',
-        isActive: false,
-        isButton: true,
-        onClick: () => navigate(-1),
-      });
-    }
+  // RECOMMENDED CARDS FROM HOME PAGE
+  if (from === 'main') {
+    links.push({ label: 'Головна', to: '/', isActive: false });
   }
 
   links.push({
@@ -109,6 +103,8 @@ export default function ProductCardDetails() {
     to: `/${cardId}`,
     isActive: true,
   });
+
+  if (!product) return null;
 
   return (
     <section>

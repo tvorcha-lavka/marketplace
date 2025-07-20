@@ -1,7 +1,6 @@
 import { useId } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Form } from 'formik';
-import toast from 'react-hot-toast';
 
 import Loader from '../Loader/Loader';
 import FormImgComponent from '../FormImgComponent/FormImgComponent';
@@ -9,6 +8,7 @@ import SocialAuthComponent from '../SocialAuthComponent/SocialAuthComponent';
 import CustomButton from '../../components/ButtonElements/CustomButton/CustomButton';
 import EmailField from '../../components/FormElements/EmailField/EmailField';
 import PasswordField from '../../components/FormElements/PasswordField/PasswordField';
+import showToast from '../../components/Toasts/showToast';
 
 import { useModal } from '../../hooks/useModal';
 import { selectLoading } from '../../redux/auth/selectors';
@@ -40,7 +40,10 @@ export default function RegisterForm() {
           actions.resetForm();
           openModal('verification-register');
         } else {
-          toast('Користувач з такою поштою вже зареєстрований');
+          showToast(
+            'Спробуйте зареєструватись з іншою електронною адресою',
+            'error'
+          );
         }
       });
   };

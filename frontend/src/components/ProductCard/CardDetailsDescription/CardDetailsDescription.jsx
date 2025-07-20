@@ -22,6 +22,8 @@ export default function CardDetailsDescription({ product }) {
     ? `${css.description} ${css.expanded}`
     : css.description;
 
+  if (!product) return null;
+
   return (
     <div className={descriptionClass} ref={descriptionRef}>
       <h2 className={css.descriptionTitle}>Характеристики та опис</h2>

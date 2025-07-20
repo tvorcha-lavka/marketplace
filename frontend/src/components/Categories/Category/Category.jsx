@@ -14,7 +14,10 @@ import {
   selectCategoryById,
   selectCatalogFlat,
 } from '../../../redux/categories/categoriesSelectors';
-import { findCategoriesFromFullPath } from '../../../utils/breadcrumbs';
+import {
+  findCategoriesFromFullPath,
+  buildFullCategoryPathFromId,
+} from '../../../utils/breadcrumbs';
 
 import css from './Category.module.css';
 
@@ -44,19 +47,24 @@ export default function Category() {
   }, [categoryId, dispatch]);
 
   // BREADCRUMBS LINKS
-  const defaultBreadcrumbs = [
+  const baseBreadcrumbs = [
     { label: 'Головна', to: '/' },
     { label: 'Всі категорії', to: '/categories' },
-    {
-      label: category?.title || 'Категорія',
-      to: `/categories/${categoryId}`,
-      isActive: true,
-    },
+  ];
+
+  const matchedFullPath = buildFullCategoryPathFromId(categoryId, categoryFlat);
+
+  const defaultBreadcrumbs = [
+    ...baseBreadcrumbs,
+    ...matchedFullPath.map((cat, index) => ({
+      label: cat.title,
+      to: `/categories/${cat.id}`,
+      isActive: index === matchedFullPath.length - 1,
+    })),
   ];
 
   const searchBreadcrumbs = [
-    { label: 'Головна', to: '/' },
-    { label: 'Всі категорії', to: '/categories' },
+    ...baseBreadcrumbs,
     ...matchedCategories.map((path, index) => ({
       label: path.title,
       to: `/categories/${path.id}`,
@@ -66,7 +74,7 @@ export default function Category() {
 
   return (
     <div className="container">
-      <div className="section">
+      <div className={`${css.wrap} section`}>
         <Breadcrumbs
           links={
             isFromSearch && fullPath.length

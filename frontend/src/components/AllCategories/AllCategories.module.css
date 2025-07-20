@@ -1,3 +1,7 @@
+.wrap {
+  padding-top: 148px;
+}
+
 .title {
   margin-block-end: 32px;
   font-size: var(--font-size-large-medium);

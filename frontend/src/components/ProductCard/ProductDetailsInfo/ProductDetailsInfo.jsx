@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-hot-toast';
-import { FiCheckCircle } from 'react-icons/fi';
 
 import CustomButton from '../../ButtonElements/CustomButton/CustomButton';
 import ModalBtnCross from '../../ButtonElements/ModalBtnCross/ModalBtnCross';
 import BasketDetailsModal from '../BasketDetailsModal/BasketDetailsModal';
+import showToast from '../../Toasts/showToast';
 
 import { addToBasket } from '../../../redux/basket/slice';
 import { selectBasketItems } from '../../../redux/basket/selectors';
@@ -26,32 +25,6 @@ export default function ProductDetailsInfo({ product }) {
     navigate('/cart');
   };
 
-  const handleContinueShopping = () => {
-    toast.custom(() => (
-      <div
-        style={{
-          backgroundColor: 'var(--primary-yellow-lighter)',
-          color: 'var(--default-black)',
-          width: '279px',
-          height: '64px',
-          padding: '20px',
-          borderRadius: '8px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '16px',
-          fontSize: 'var(--font-size-tiny)',
-          fontWeight: 'var(--font-weight-bold)',
-          borderLeft:
-            'var(--border-width-biggest) var(--border-style) var(--primary-yellow)',
-          boxShadow: 'var(--cart-shadow)',
-        }}
-      >
-        <FiCheckCircle style={{ fontSize: '24px' }} />
-        Товар додано до кошика
-      </div>
-    ));
-  };
-
   const basketItems = useSelector(selectBasketItems);
 
   const isProductInBasket = basketItems.some((item) => item.id === product.id);
@@ -69,7 +42,7 @@ export default function ProductDetailsInfo({ product }) {
   const handleClick = () => {
     if (!isAdded) {
       handleAddToCart();
-      handleContinueShopping();
+      showToast('Товар додано до кошика!', 'success');
     } else {
       setIsOpenBasketDetailsModal(true);
     }
@@ -82,6 +55,8 @@ export default function ProductDetailsInfo({ product }) {
   useNoScroll(isOpenBasketDetailsModal);
 
   const modalRef = useClickEsc(closeModalDetails);
+
+  if (!product) return null;
 
   return (
     <div className={css.orderInfo}>

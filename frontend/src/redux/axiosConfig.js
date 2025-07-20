@@ -14,11 +14,11 @@ export const setAuthHeader = (token) => {
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 };
 
-export const validateTokensOnPageReload = () => {
+export const validateTokensOnPageReload = async () => {
   const savedAccessToken = localStorage.getItem('accessToken');
   const savedRefreshToken = localStorage.getItem('refreshToken');
 
-  if (savedAccessToken) {
+  if (savedAccessToken && savedRefreshToken) {
     setAuthHeader(savedAccessToken);
 
     store.dispatch(
@@ -27,6 +27,8 @@ export const validateTokensOnPageReload = () => {
         refreshToken: savedRefreshToken,
       })
     );
+
+    await store.dispatch(refreshUser());
   }
 };
 

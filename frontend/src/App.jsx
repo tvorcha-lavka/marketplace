@@ -1,14 +1,24 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { useEffect, lazy } from 'react';
+import { useDispatch } from 'react-redux';
+
+import { getCatalog } from './redux/categories/categoriesOperations';
 import { validateTokensOnPageReload } from './redux/axiosConfig';
 
 //import RestrictedRoute from './components/RestrictedRoute/RestrictedRoute';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import SharedLayout from './components/SharedLayout/SharedLayout';
+import ScrollToTop from './components/ScrollToTop/ScrollToTop';
 import ModalParentComponent from './authModalComponents/ModalParentComponent/ModalParentComponent';
 import SocialAuthHandler from './authModalComponents/SocialAuthHandler/SocialAuthHandler';
 import SessionExpiredModal from './authModalComponents/SessionExpiredModal/SessionExpiredModal';
+
+const SupportPage = lazy(() => import('./pages/SupportPage/SupportPage'));
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage/NotFoundPage'));
+const ComingSoonPage = lazy(
+  () => import('./pages/ComingSoonPage/ComingSoonPage')
+);
 
 const HomePage = lazy(() => import('./pages/HomePage/HomePage'));
 const AllCategoriesPage = lazy(
@@ -51,12 +61,6 @@ const PaymentDeliveryHeaderPage = lazy(
   () => import('./pages/PaymentDeliveryHeaderPage/PaymentDeliveryHeaderPage')
 );
 
-const SupportPage = lazy(() => import('./pages/SupportPage/SupportPage'));
-const NotFoundPage = lazy(() => import('./pages/NotFoundPage/NotFoundPage'));
-const ComingSoonPage = lazy(
-  () => import('./pages/ComingSoonPage/ComingSoonPage')
-);
-
 /*USER PROFILE SETTING PAGES*/
 const ProfileSettingsPage = lazy(
   () => import('./pages/ProfileSettingsPage/ProfileSettingsPage')
@@ -76,12 +80,20 @@ const UserProfileNotificationPage = lazy(
 );
 
 export default function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getCatalog());
+  }, [dispatch]);
+
   useEffect(() => {
     validateTokensOnPageReload();
   }, []);
 
   return (
     <>
+      <ScrollToTop />
+
       <Routes>
         <Route path="/" element={<SharedLayout />}>
           <Route index element={<HomePage />} />

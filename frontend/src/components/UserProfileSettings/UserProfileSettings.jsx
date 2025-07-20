@@ -12,7 +12,7 @@ export default function UserProfileSettings() {
   const delayedLoading = useDelayedLoading();
 
   return (
-    <div>
+    <div className={css.wrap}>
       <Breadcrumbs
         links={[
           { label: 'Головна', to: '/', isActive: false },
