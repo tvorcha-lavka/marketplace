@@ -1,6 +1,9 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { useEffect, lazy } from 'react';
+import { useDispatch } from 'react-redux';
+
+import { getCatalog } from './redux/categories/categoriesOperations';
 import { validateTokensOnPageReload } from './redux/axiosConfig';
 
 //import RestrictedRoute from './components/RestrictedRoute/RestrictedRoute';
@@ -77,6 +80,12 @@ const UserProfileNotificationPage = lazy(
 );
 
 export default function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getCatalog());
+  }, [dispatch]);
+
   useEffect(() => {
     validateTokensOnPageReload();
   }, []);

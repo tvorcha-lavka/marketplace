@@ -13,3 +13,16 @@ export const findCategoriesFromFullPath = (titles, categories) => {
 
   return result;
 };
+
+export function buildFullCategoryPathFromId(categoryId, categoriesFlat) {
+  const path = [];
+
+  let current = categoriesFlat.find((cat) => cat.id === Number(categoryId));
+
+  while (current) {
+    path.unshift(current);
+    current = categoriesFlat.find((cat) => cat.id === current.parent_id);
+  }
+
+  return path;
+}
